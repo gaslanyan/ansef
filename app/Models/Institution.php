@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Institution extends Model
+{
+    protected $table = 'institutions';
+    protected $fillable = [
+        'address_id', 'content'
+    ];
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    function institution()
+    {
+        return $this->hasMany(InstitutionPerson::class,'id');
+    }
+    function institutions()
+    {
+        return $this->belongsToMany(Person::class, 'institutions_persons');
+    }
+
+}

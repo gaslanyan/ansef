@@ -1,0 +1,2 @@
+[26-Mar-2019 13:18:54 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Base/EmailController.php on line 12
+[26-Mar-2019 13:32:35 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Base/EmailController.php on line 12
