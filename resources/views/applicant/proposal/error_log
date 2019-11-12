@@ -1,0 +1,9 @@
+[31-Aug-2019 18:57:57 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getScoreTypeValues() in /home/eregion/public_html/resources/views/applicant/proposal/edit.blade.php:301
+Stack trace:
+#0 {main}
+  thrown in /home/eregion/public_html/resources/views/applicant/proposal/edit.blade.php on line 301
+[01-Sep-2019 13:00:21 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home/eregion/public_html/resources/views/applicant/proposal/edit.blade.php on line 129
+[01-Sep-2019 13:00:21 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getScoreTypeValues() in /home/eregion/public_html/resources/views/applicant/proposal/edit.blade.php:306
+Stack trace:
+#0 {main}
+  thrown in /home/eregion/public_html/resources/views/applicant/proposal/edit.blade.php on line 306

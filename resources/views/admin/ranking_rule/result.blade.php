@@ -1,0 +1,124 @@
+@extends('layouts.master')
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="offset-md-2 col-md-10">
+                <div class="card">
+                    <div class="card-header">Result of execution
+
+                        <a href="{{action('Admin\RankingRuleController@create')}}"
+                           class="display float-lg-right btn-primary px-2">Add a ranking rule</a>
+                        <a href="{{action('Admin\RankingRuleController@execute')}}"
+                           class="display float-lg-right btn-primary mx-2 px-2">Execute ranking rules</a>
+                    </div>
+                    <div class="card-body card_body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (\Session::has('success'))
+                            <div class="alert alert-success">
+                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
+                            </div><br/>
+                        @endif
+                        @if (\Session::has('error'))
+                            <div class="alert alert-danger">
+                                <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
+                            </div>
+                        @endif
+                        @if (\Session::has('delete'))
+                            <div class="alert alert-info">
+                                <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
+                            </div>
+                        @endif
+
+                        @if(!empty($tables))
+                            @foreach($tables as $index=> $t)
+                                <table class="table table-responsive-md table-sm table-bordered display"
+                                       style="width:20%; float: left; margin-right: 10px; background-color: yellow">
+                                    <caption>Summary</caption>
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Proposal ID
+                                        </th>
+                                        <th>Rank</th>
+                                    </tr>
+                                    </thead>
+                                    @php
+                                        $step =1;
+
+                                    @endphp
+
+                                    @foreach($t as $i=> $table)
+                                        @if(!empty($table))
+                                            <tbody>
+                                            <tr>
+                                                <td>{{$step}}</td>
+                                                <td>
+                                                    {{$table->id}}
+                                                </td>
+                                                <td>
+                                                    {{$table->rank}}
+
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                            @php
+                                                $step ++;
+                                            @endphp
+                                        @endif
+                                    @endforeach
+
+                                </table>
+                            @endforeach
+
+                        @endif
+                        @if(!empty($results))
+                            @foreach($results as $index=> $r)
+
+                                <table class="table table-responsive-md table-sm table-bordered display"
+                                       style="width:20%; float: left; margin-right: 10px">
+                                    <caption>{{$results[$index]['summary']}}</caption>
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>
+                                            Proposal ID
+                                        </th>
+                                        <th>Value</th>
+                                    </tr>
+                                    </thead>
+                                    @foreach($r['ids'] as $i=> $result)
+                                        <tbody>
+                                        <tr>
+                                            <td>{{$i +1}}</td>
+                                            <td>
+                                                {{$result}}
+                                            </td>
+                                            <td>
+                                                {{$r['value']}}
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    @endforeach
+
+                                </table>
+                            @endforeach
+
+                        @endif
+                    </div>
+                        <a href = "{{ action('Admin\RankingRuleController@index') }}" class="btn btn-secondary">Go back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@endsection

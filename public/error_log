@@ -1,0 +1,160 @@
+[12-Feb-2019 13:20:50 UTC] PHP Parse error:  syntax error, unexpected '.', expecting '&' or variable (T_VARIABLE) in /home/eregion/public_html/vendor/symfony/var-dumper/Resources/functions/dump.php on line 18
+[12-Feb-2019 13:21:41 UTC] PHP Parse error:  syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home/eregion/public_html/public/index.php on line 52
+[21-Feb-2019 13:11:16 UTC] PHP Parse error:  syntax error, unexpected '$userAccess' (T_VARIABLE) in /home/eregion/public_html/app/Helpers/helpers.php on line 13
+[23-Feb-2019 12:04:35 UTC] PHP Parse error:  syntax error, unexpected '.', expecting '&' or variable (T_VARIABLE) in /home/eregion/public_html/vendor/symfony/var-dumper/Resources/functions/dump.php on line 18
+[24-Feb-2019 20:50:48 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:50:53 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:53:25 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:54:16 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:54:18 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:55:16 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 56
+[24-Feb-2019 20:56:00 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:56:02 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:57:10 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:57:12 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:57:23 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:57:35 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:57:58 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:34 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:35 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:35 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:36 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:36 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:37 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 20:59:51 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 21:01:26 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 58
+[24-Feb-2019 21:03:42 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:05:04 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:05:06 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:06:50 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:06:51 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:08:39 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:09:21 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:14:13 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 57
+[24-Feb-2019 21:15:45 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 59
+[24-Feb-2019 21:16:49 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 59
+[24-Feb-2019 21:17:10 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 59
+[24-Feb-2019 21:17:22 UTC] PHP Fatal error:  Cannot redeclare setCookie() in /home/eregion/public_html/app/Helpers/helpers.php on line 59
+[05-Mar-2019 10:32:37 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 27279360 bytes) in /home/eregion/public_html/storage/framework/views/2e61c5f7eaa556f2fe60e99f346a5855b319ac6b.php on line 33
+[05-Mar-2019 10:32:40 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 27279360 bytes) in /home/eregion/public_html/storage/framework/views/2e61c5f7eaa556f2fe60e99f346a5855b319ac6b.php on line 33
+[12-Mar-2019 07:58:21 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 6307840 bytes) in /home/eregion/public_html/storage/framework/views/768a9ae76cb7ba633e4221013eeeb3da957e2400.php on line 33
+[12-Mar-2019 07:58:24 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 6307840 bytes) in /home/eregion/public_html/storage/framework/views/768a9ae76cb7ba633e4221013eeeb3da957e2400.php on line 33
+[12-Mar-2019 10:03:57 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 7028472 bytes) in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[12-Mar-2019 10:04:41 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 7515088 bytes) in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[12-Mar-2019 10:06:42 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 7515088 bytes) in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[12-Mar-2019 10:07:29 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 7515088 bytes) in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/View/Concerns/ManagesLayouts.php on line 94
+[12-Mar-2019 10:08:00 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 5782680 bytes) in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php on line 50
+[17-Mar-2019 20:48:17 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Viewer\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Viewer/BookController.php on line 7
+[17-Mar-2019 20:48:18 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Viewer\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Viewer/BookController.php on line 7
+[23-Mar-2019 19:19:56 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Base\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Base/MeetingController.php on line 7
+[23-Mar-2019 20:39:22 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/eregion/public_html/app/Http/Controllers/Base/MeetingController.php on line 59
+[24-Mar-2019 15:36:02 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Base\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Base/HonorsController.php on line 7
+[31-Mar-2019 17:47:11 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:47:16 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:47:23 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:47:35 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:47:39 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:47:54 UTC] PHP Parse error:  syntax error, unexpected ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 105
+[31-Mar-2019 17:49:14 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/eregion/public_html/app/Helpers/helpers.php on line 108
+[31-Mar-2019 17:49:15 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/eregion/public_html/app/Helpers/helpers.php on line 108
+[02-Apr-2019 09:19:06 UTC] PHP Fatal error:  Cannot use [] for reading in /home/eregion/public_html/storage/framework/views/fa5ca6253fcc3803a13bfd93bdf5cb03a71720b6.php on line 49
+[13-Apr-2019 08:14:52 UTC] PHP Fatal error:  Trait 'App\Notifiable' not found in /home/eregion/public_html/app/Person_groups.php on line 9
+[13-Apr-2019 08:15:27 UTC] PHP Fatal error:  Trait 'App\Notifiableble' not found in /home/eregion/public_html/app/Person_groups.php on line 10
+[13-Apr-2019 08:15:32 UTC] PHP Fatal error:  Trait 'App\Notifiableble' not found in /home/eregion/public_html/app/Person_groups.php on line 10
+[16-Apr-2019 22:40:05 UTC] PHP Fatal error:  Cannot use [] for reading in /home/eregion/public_html/app/Http/Controllers/Base/DegreePersonController.php on line 45
+[18-Apr-2019 20:27:07 UTC] PHP Parse error:  syntax error, unexpected '$details' (T_VARIABLE) in /home/eregion/public_html/app/Helpers/helpers.php on line 134
+[18-Apr-2019 20:27:09 UTC] PHP Parse error:  syntax error, unexpected '$details' (T_VARIABLE) in /home/eregion/public_html/app/Helpers/helpers.php on line 134
+[19-Apr-2019 09:32:15 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:15 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:20 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:20 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:34 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:34 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:47 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:32:47 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:33:29 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 09:33:29 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 10:22:10 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[19-Apr-2019 10:22:10 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-iconv/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[27-May-2019 19:56:39 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Applicant\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Applicant/ResearchBoardController.php on line 7
+[27-May-2019 19:57:03 UTC] PHP Fatal error:  Class 'App\Http\Controllers\Applicant\Controller' not found in /home/eregion/public_html/app/Http/Controllers/Applicant/ResearchBoardController.php on line 7
+[28-May-2019 19:30:44 UTC] PHP Fatal error:  Uncaught Error: Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:662
+Stack trace:
+#0 /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(594): Illuminate\Foundation\Application->resolveProvider('Barryvdh\\DomPDF...')
+#1 /home/eregion/public_html/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Barryvdh\\DomPDF...')
+#2 /home/eregion/public_html/public/index.php(38): require_once('/home/eregion/p...')
+#3 {main}
+  thrown in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 662
+[28-May-2019 19:30:46 UTC] PHP Fatal error:  Uncaught Error: Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:662
+Stack trace:
+#0 /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(594): Illuminate\Foundation\Application->resolveProvider('Barryvdh\\DomPDF...')
+#1 /home/eregion/public_html/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Barryvdh\\DomPDF...')
+#2 /home/eregion/public_html/public/index.php(38): require_once('/home/eregion/p...')
+#3 {main}
+  thrown in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 662
+[28-May-2019 19:30:47 UTC] PHP Fatal error:  Uncaught Error: Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:662
+Stack trace:
+#0 /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(594): Illuminate\Foundation\Application->resolveProvider('Barryvdh\\DomPDF...')
+#1 /home/eregion/public_html/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Barryvdh\\DomPDF...')
+#2 /home/eregion/public_html/public/index.php(38): require_once('/home/eregion/p...')
+#3 {main}
+  thrown in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 662
+[28-May-2019 19:38:26 UTC] PHP Fatal error:  Uncaught Error: Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:662
+Stack trace:
+#0 /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(594): Illuminate\Foundation\Application->resolveProvider('Barryvdh\\DomPDF...')
+#1 /home/eregion/public_html/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Barryvdh\\DomPDF...')
+#2 /home/eregion/public_html/public/index.php(38): require_once('/home/eregion/p...')
+#3 {main}
+  thrown in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 662
+[28-May-2019 19:42:04 UTC] PHP Fatal error:  Uncaught Error: Class 'Barryvdh\DomPDF\ServiceProvider' not found in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php:662
+Stack trace:
+#0 /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(594): Illuminate\Foundation\Application->resolveProvider('Barryvdh\\DomPDF...')
+#1 /home/eregion/public_html/bootstrap/app.php(43): Illuminate\Foundation\Application->register('Barryvdh\\DomPDF...')
+#2 /home/eregion/public_html/public/index.php(38): require_once('/home/eregion/p...')
+#3 {main}
+  thrown in /home/eregion/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php on line 662
+[18-Jun-2019 12:16:18 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 20480 bytes) in /home/eregion/public_html/vendor/dompdf/dompdf/src/Css/Style.php on line 843
+[18-Jun-2019 12:16:51 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 20480 bytes) in /home/eregion/public_html/vendor/dompdf/dompdf/src/Css/Style.php on line 843
+[18-Jun-2019 13:14:40 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 13:14:40 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 13:14:40 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 16:21:38 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 16:21:38 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 16:21:38 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:25 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:25 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:25 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:28 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:28 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:18:28 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:40:31 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:40:31 UTC] PHP Warning:  require(/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php): failed to open stream: No such file or directory in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[18-Jun-2019 18:40:31 UTC] PHP Fatal error:  require(): Failed opening required '/home/eregion/public_html/vendor/composer/../symfony/polyfill-mbstring/bootstrap.php' (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/eregion/public_html/vendor/composer/autoload_real.php on line 66
+[25-Jun-2019 16:44:49 UTC] PHP Fatal error:  Method Illuminate\View\View::__toString() must not throw an exception, caught ErrorException: Invalid argument supplied for foreach() (View: /home/eregion/public_html/resources/views/viewer/proposal/index.blade.php) in /home/eregion/public_html/app/Http/Controllers/Viewer/ProposalController.php on line 0
+[25-Jun-2019 16:53:46 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 25182208 bytes) in /home/eregion/public_html/storage/framework/views/bece8f8c5d234eee8749af5b12e155f3619127b3.php on line 35
+[25-Jun-2019 16:53:56 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 25182208 bytes) in /home/eregion/public_html/storage/framework/views/bece8f8c5d234eee8749af5b12e155f3619127b3.php on line 35
+[25-Jun-2019 16:54:49 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 25182208 bytes) in /home/eregion/public_html/storage/framework/views/bece8f8c5d234eee8749af5b12e155f3619127b3.php on line 35
+[25-Jun-2019 16:55:01 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 25182208 bytes) in /home/eregion/public_html/storage/framework/views/bece8f8c5d234eee8749af5b12e155f3619127b3.php on line 35
+[22-Jul-2019 13:39:23 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:39:29 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:39:36 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:39:41 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:39:56 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:41:06 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:42:18 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:42:40 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:43:13 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:43:28 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:43:55 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:44:13 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 13:44:31 UTC] PHP Parse error:  syntax error, unexpected 'er' (T_STRING), expecting ',' or ')' in /home/eregion/public_html/app/Helpers/helpers.php on line 423
+[22-Jul-2019 14:09:40 UTC] PHP Parse error:  syntax error, unexpected ''</p>' (T_ENCAPSED_AND_WHITESPACE) in /home/eregion/public_html/app/Helpers/helpers.php on line 298
+[30-Sep-2019 11:51:37 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 437
+[30-Sep-2019 11:51:40 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 437
+[30-Sep-2019 11:55:46 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 437
+[30-Sep-2019 11:55:49 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 437
+[02-Nov-2019 20:28:02 UTC] PHP Parse error:  syntax error, unexpected '{', expecting '(' in /home/eregion/public_html/app/Helpers/helpers.php on line 474
+[02-Nov-2019 20:28:03 UTC] PHP Parse error:  syntax error, unexpected '{', expecting '(' in /home/eregion/public_html/app/Helpers/helpers.php on line 474
+[02-Nov-2019 20:28:26 UTC] PHP Parse error:  syntax error, unexpected '{', expecting '(' in /home/eregion/public_html/app/Helpers/helpers.php on line 474
+[03-Nov-2019 03:00:59 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 479
+[03-Nov-2019 03:01:06 UTC] PHP Parse error:  syntax error, unexpected '}', expecting end of file in /home/eregion/public_html/app/Helpers/helpers.php on line 479

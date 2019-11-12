@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+class CreateAddressTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('address', function(Blueprint $table)
+		{
+			$table->integer('id', true);
+			$table->integer('country_id')->index('FK_COUNTRY');
+			$table->integer('city_id')->nullable()->index('FK_CITY');
+			$table->string('province', 191)->nullable();
+			$table->string('street', 191)->nullable();
+			$table->timestamps();
+		});
+	}
+
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('address');
+	}
+
+}

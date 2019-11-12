@@ -1,0 +1,89 @@
+@extends('layouts.master')
+
+@section('content')
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="offset-md-2 col-md-10">
+                <div class="card">
+                    <div class="card-header">Edit a ranking rule
+                        <br>
+                        <i class="fa fa-info text-blue all"> * {{Lang::get('messages.required_all')}}</i>
+                    </div>
+
+                    <div class="card-body card_body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (\Session::has('success'))
+                            <div class="alert alert-success">
+                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
+                            </div><br/>
+                        @endif
+                        @if (\Session::has('error'))
+                            <div class="alert alert-danger">
+                                <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
+                            </div>
+                        @endif
+
+                        <form method="post" class="row"
+                              action="{{action('Admin\RankingRuleController@update',
+                              $rank->id) }}">
+                            @csrf
+                            <div class="form-group col-lg-12">
+                                <input name="_method" type="hidden" value="PATCH">
+                                <label for="sql">SQL * :</label>
+                                <textarea class="form-control" name="sql" id="sql">{{$rank->sql}}</textarea>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="value">Value * :</label>
+                                <input type="number" class="form-control"
+                                       id="value" name="value" value="{{$rank->value}}">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="text">Competition title *:</label>
+                                <select id="text" class="form-control" name="competition_id"
+                                        id="competition">
+                                    <option value="">Select Competition * :</option>
+                                    <?php if(!empty($competition)):?>
+                                    <?php foreach($competition as $key=>$item):?>
+                                    <option class="text-capitalize"
+                                            <?php if ($key == $rank->competition_id):
+                                                echo "selected"; endif?>
+                                            value="{{$key}}">{{$item}}</option>
+                                    <?php endforeach;?>
+                                    <?php endif;?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label for="text" id="user">Owner (admin) * :</label>
+                                <select id="text" class="form-control" name="user_id"
+                                        id="user">
+                                    <option value="">Select an admin</option>
+                                    <?php if(!empty($competition)):?>
+                                    <?php foreach($users as $item):?>
+                                    <option class="text-capitalize"
+                                            <?php if ($item->user->id == $rank->user_id):
+                                                echo "selected"; endif?>
+                                            value="{{$item->user->id}}">{{$item->first_name." ".$item->last_name." ".$item->user->email}}</option>
+                                    <?php endforeach;?>
+                                    <?php endif;?>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href = "{{ action('Admin\RankingRuleController@index') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
