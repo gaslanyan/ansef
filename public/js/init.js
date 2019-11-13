@@ -1,5 +1,22 @@
 var CSRF_TOKEN = $('input[name="_token"]').val();
 $(document).ready(function () {
+// for sidebar menu entirely but not cover treeview
+    $('ul.sidebar-menu a').filter(function () {
+        return this.href == url;
+    }).parent().addClass('active');
+
+    $('ul.treeview-menu a').click(function () {
+        sessionStorage.setItem('url', $(this).attr('href'));
+    });
+// for treeview
+    $('ul.treeview-menu a').filter(function () {
+        var _url = sessionStorage.getItem('url');
+       if(_url === getSegmentUrl()){
+           $('[href ="'+ _url+'"]').parentsUntil().addClass('active');
+       }
+
+        return this.href == url
+    }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 
     $('.additional').css('display', 'none');
     $('.budgetitem').css('display', 'none');
@@ -586,7 +603,7 @@ $(document).ready(function () {
                         success: function (data) {
                             console.log(data.success);
                             if (data.success) {
-                                 alert("You cannot remove a category because it is used in competitions!");
+                                alert("You cannot remove a category because it is used in competitions!");
                                 // if ($conf2)
                                 //     this.element.parent().submit();
                             } else {
@@ -716,20 +733,60 @@ $(document).ready(function () {
             $('#nationality').removeAttr('disabled');
         }
     });
+    /*VIEWER AJAX REQUEST*/
+//get proposalsbycompetition id for viewer
+    $(document).on("change", '.statistic', function () {
+        statisticval = $(this).val();
+        var comp_y = ['number of proposals', 'average overall score', 'number of awards', 'total amount of funds given', 'average age of PI', 'number of female PIs'];
+        var pi_y = ['number of submitted proposal', 'number of awards received'];
+        $('.statistic_x').find('option').remove();
+        $('.statistic_y').find('option').remove();
+        $.ajax({
+            url: '/gclfs',
+            type: 'POST',
+            context: {element: $(this)},
+            data: {_token: CSRF_TOKEN, value: statisticval},
+            dataType: 'JSON',
+            success: function (data) {
+                console.log(data);
+                for (var i in data) {
+                    if (i == 'comp') {
+                        for (var j in data[i]) {
+                            if (data[i].hasOwnProperty(j)) {
+                                $('.statistic_x').append(' <option class="text-capitalize" value="' + data[i][j].id + ' " id = "' + data[i][j].title + '">' + data[i][j].title + '</option>');
+                                $('.statistic_y').find('option').remove();
+                                $('.statistic_y').append('<option class="text-capitalize"> Choose Y axis Value </option>');
+                                for (var c in comp_y) {
+                                    $('.statistic_y').append(' <option class="text-capitalize" value="' + comp_y[c].replace(/ /g, '') + '">' + comp_y[c] + '</option>')
+                                }
+                            }
+                        }
+                    } else if (i == 'pi') {
+                        for (var j in data[i]) {
+                            if (data[i].hasOwnProperty(j)) {
+                                $('.statistic_x').append(' <option class="text-capitalize" value="' + data[i][j].id + '">' + data[i][j].first_name + " " + data[i][j].last_name + '</option>');
+                                $('.statistic_y').find('option').remove();
+                                $('.statistic_y').append('<option class="text-capitalize"> Choose Y axis Value </option>');
+                                for (var p in pi_y) {
+                                    $('.statistic_y').append(' <option class="text-capitalize" value="' + pi_y[p].replace(/ /g, '') + '">' + pi_y[p] + '</option>')
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    });
 
 });
 
 var url = window.location;
 
-// for sidebar menu entirely but not cover treeview
-$('ul.sidebar-menu a').filter(function () {
-    return this.href == url;
-}).parent().addClass('active');
-
-// for treeview
-$('ul.treeview-menu a').filter(function () {
-    return this.href == url;
-}).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 
 function send_email(checkedIDss) {
 
@@ -789,53 +846,10 @@ function change_state(checkedIDss) {
 
 }
 
-/*VIEWER AJAX REQUEST*/
-//get proposalsbycompetition id for viewer
-$(document).on("change", '.statistic', function () {
-    statisticval = $(this).val();
-    var comp_y = ['number of proposals', 'average overall score', 'number of awards', 'total amount of funds given', 'average age of PI', 'number of female PIs'];
-    var pi_y = ['number of submitted proposal', 'number of awards received'];
-    $('.statistic_x').find('option').remove();
-    $('.statistic_y').find('option').remove();
-    $.ajax({
-        url: '/gclfs',
-        type: 'POST',
-        context: {element: $(this)},
-        data: {_token: CSRF_TOKEN, value: statisticval},
-        dataType: 'JSON',
-        success: function (data) {
-            console.log(data);
-            for (var i in data) {
-                if (i == 'comp') {
-                    for (var j in data[i]) {
-                        if (data[i].hasOwnProperty(j)) {
-                            $('.statistic_x').append(' <option class="text-capitalize" value="' + data[i][j].id + ' " id = "' + data[i][j].title + '">' + data[i][j].title + '</option>');
-                            $('.statistic_y').find('option').remove();
-                            $('.statistic_y').append('<option class="text-capitalize"> Choose Y axis Value </option>');
-                            for (var c in comp_y) {
-                                $('.statistic_y').append(' <option class="text-capitalize" value="' + comp_y[c].replace(/ /g, '') + '">' + comp_y[c] + '</option>')
-                            }
-                        }
-                    }
-                } else if (i == 'pi') {
-                    for (var j in data[i]) {
-                        if (data[i].hasOwnProperty(j)) {
-                            $('.statistic_x').append(' <option class="text-capitalize" value="' + data[i][j].id + '">' + data[i][j].first_name + " " + data[i][j].last_name + '</option>');
-                            $('.statistic_y').find('option').remove();
-                            $('.statistic_y').append('<option class="text-capitalize"> Choose Y axis Value </option>');
-                            for (var p in pi_y) {
-                                $('.statistic_y').append(' <option class="text-capitalize" value="' + pi_y[p].replace(/ /g, '') + '">' + pi_y[p] + '</option>')
-                            }
-                        }
-                    }
-                }
-            }
+function getSegmentUrl(_url) {
+    var segment = window.location.pathname.split('/');
+    var newURL = window.location.protocol + "//" + window.location.host + "/";
+    return newURL +segment[1]+ "/"+segment[2];
+}
 
-
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    });
-});
 
