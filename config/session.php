@@ -34,7 +34,7 @@ return [
     'lifetime' => env('SESSION_LIFETIME', 10),
 
     'expire_on_close' => true,
-    'session-redirect'=> url('auth/login'),
+    'session-redirect'=> env('LOGIN_URL', null),
 
     /*
     |--------------------------------------------------------------------------
