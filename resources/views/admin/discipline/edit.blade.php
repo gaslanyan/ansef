@@ -5,11 +5,11 @@
 
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Edit a discipline
                         <a href = "{{ action('Admin\DisciplineController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
                         <br>
-                        <i class="fa fa-info text-blue all"> * {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body">

@@ -4,7 +4,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Proposal
                          <a href="{{action('Viewer\ProposalController@generatePDF',$proposal['id'])}}"
                             title="Download"
@@ -49,7 +49,7 @@
                                         <p>{{$competitions->submission_start_date}}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Competition Title:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Competition Title:</strong>
                                         <p>{{$competitions->title}}</p>
                                     </div>
                                 </div>
@@ -60,11 +60,11 @@
                                 <div class="row">
 
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Category</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Category</strong>
                                         <p>{{$cat_parent->title}}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"></i> SubCategory:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i> SubCategory:</strong>
                                         <p>{{$cat_sub->title}}</p>
                                     </div>
                                 </div>
@@ -75,12 +75,12 @@
                                 <div class="row">
 
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Secondary Category:
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Secondary Category:
                                             date:</strong>
                                         <p>{{$cat_sec_parent->title}}</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Secondary SubCategory:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Secondary SubCategory:</strong>
                                         <p>{{$cat_sec_sub->title}}</p>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                 <div class="row">
 
                                     <div class="col-md-12">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Proposal Title:
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Proposal Title:
                                             date:</strong>
                                         <p>{{$proposal->title}}</p>
                                     </div>
@@ -102,7 +102,7 @@
                             <div class="box-body col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Proposal Abstract:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Proposal Abstract:</strong>
                                         <p>{{$proposal->abstract}}</p>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                             <div class="box-body col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Proposal Document:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Proposal Document:</strong>
                                         <p><a href="{{ url('/proposal/my.csv')  }}">{{$proposal->document}}</a></p>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                             <div class="box-body col-md-12">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong><i class="fa fa-info margin-r-5"></i>Proposal Reports:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"></i>Proposal Reports:</strong>
                                         @foreach($proposalreports as $prop_rep)
                                             <p><a href="">{{$prop_rep['document']}}</a></p>
                                         @endforeach

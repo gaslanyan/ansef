@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Edit Proposal
                         <a href="{{action('Applicant\ProposalController@generatePDF',$proposal->id)}}"
                            title="Download"
@@ -40,7 +40,7 @@
                             <input name="_method" type="hidden" value="PATCH">
                             @if(!empty($budget_message))
                             <div class="form-group col-lg-12">
-                                <i class="fa fa-info text-red all">{{$budget_message}}</i>
+                                <i class="fas fa-question-circle text-red all">{{$budget_message}}</i>
                             </div>
                             @endif
 
@@ -54,7 +54,7 @@
                             </div>
                             <div class="form-group col-lg-6" style="margin:0px">
                                 <b>Subcategory:</b>
-                                    {{$cat_sub != null ? $cat_sub->title : 'None'}}                            
+                                    {{$cat_sub != null ? $cat_sub->title : 'None'}}
                             </div>
                             <div class="form-group col-lg-6" style="margin:0px">
                                 <b>Secondary Category:</b>
@@ -85,7 +85,7 @@
                              @endif
                             </div>
 
-                            
+
                     <!--- Modal --->
                             <aside class="right-side">
                                 <section class="content">
@@ -110,7 +110,7 @@
                                                     </div>
                                                     <div class="modal-body" id="modal-bodyku">
                                                         <div class="form-group col-lg-12 sup">
-                                                            <label class="text-red"> <i class="fa fa-info"></i> For this
+                                                            <label class="text-red"> <i class="fas fa-question-circle"></i> For this
                                                                 competition please create or choose
                                                                 persons with support type *</label>
                                                         </div>
@@ -196,14 +196,14 @@
                                 </section><!-- /.content -->
                             </aside><!-- /.right-side -->
                             <!--- Modal --->
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
+
+
+
                             @if(empty($proposal->document))
                                 <div class=" form-group col-lg-12">
                                     <a href="{{action('Applicant\FileUploadController@index', $proposal->id)}}"
@@ -493,7 +493,7 @@
                         <br/>
                         <div class="row">
                             <div class="col-md-12">
-                                <i class="fa fa-info text-red"> For Deleting uploaded file please click Cancel
+                                <i class="fas fa-question-circle text-red"> For Deleting uploaded file please click Cancel
                                     button </i><br/>
                                 <a href="{{action('Applicant\FileUploadController@remove', $proposal->id)}}"
                                    class="btn btn-primary">Cancel</a>
@@ -579,13 +579,13 @@
 // 	  if(chars===0){words=0;}
 	  return words;
 	}
-        
-        jQuery('#title').on('keyup propertychange paste', function(){ 
+
+        jQuery('#title').on('keyup propertychange paste', function(){
 	        jQuery('#titlecharleft').html((25-count('#title'))+'');
         });
 
 
-        jQuery('#abstract').on('keyup propertychange paste', function(){ 
+        jQuery('#abstract').on('keyup propertychange paste', function(){
 	        jQuery('#abstractcharleft').html((250-count('#abstract'))+'');
         });
 

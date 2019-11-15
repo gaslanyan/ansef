@@ -27,10 +27,10 @@
                                 </ul>
                             </div><br/>
                         @endif
-                        
-                        <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person 
+
+                        <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person
                         who will server as either support to a project or a participant in a project.</span></p>
-                        <p><i class="fa fa-info text-blue all"> {{Lang::get('messages.required_all')}}</i></p>
+                        <p><i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i></p>
                         <form method="post" action="{{ action('Applicant\AccountController@store') }}" class="row">
                             {{ csrf_field() }}
                             <div class="form-group col-lg-6">
@@ -100,7 +100,7 @@
                                     @endif
                                 </select>
                             </div>
-                            
+
 
 
 

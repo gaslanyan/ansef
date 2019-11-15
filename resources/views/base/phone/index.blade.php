@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     @if (\Session::has('success'))
                         <div class="alert alert-success">
                             <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>

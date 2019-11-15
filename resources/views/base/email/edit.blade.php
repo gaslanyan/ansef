@@ -13,7 +13,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-8">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Edit the email</div>
 
                     <div class="card-body">

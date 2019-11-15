@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Create Proposal</div>
                     <div class="card-body card_body">
                         @if ($errors->any())

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Show Publications -  {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
                     </div>

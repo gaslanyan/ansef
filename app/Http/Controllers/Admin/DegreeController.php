@@ -101,25 +101,21 @@ class DegreeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.degree.edit');
-        else {
-            try {
-                $val = Validator::make($request->all(), [
-                    'text' => 'required|max:255|min:6',
-                ]);
-                if (!$val->fails()) {
-                    $degrees = Degree::find($id);
-                    $degrees->text = $request->text;
-                    $degrees->save();
-                    return redirect('admin/degree')->with('success', getMessage("update"));
-                } else
-                    return redirect()->back()->withErrors($val->errors())->withInput();
+        try {
+            $val = Validator::make($request->all(), [
+                'text' => 'required|max:255|min:6',
+            ]);
+            if (!$val->fails()) {
+                $degrees = Degree::find($id);
+                $degrees->text = $request->text;
+                $degrees->save();
+                return redirect('admin/degree')->with('success', getMessage("update"));
+            } else
+                return redirect()->back()->withErrors($val->errors())->withInput();
 
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect('admin/degree')->with('error', getMessage("wrong"));
-            }
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/degree')->with('error', getMessage("wrong"));
         }
     }
 

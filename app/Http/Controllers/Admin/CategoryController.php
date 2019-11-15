@@ -57,7 +57,6 @@ class CategoryController extends Controller
                 $v = Validator::make($request->all(), [
                     'title' => 'required|max:255',
                     'abbreviation' => 'required|max:255',
-                    'weight' => 'required|numeric',
                 ]);
                 if (!$v->fails()) {
                     $category = new Category();
@@ -67,7 +66,7 @@ class CategoryController extends Controller
                         $category->parent_id = $request->parent_id;
                     $category->abbreviation = $request->abbreviation;
                     $category->title = $request->title;
-                    $category->weight = $request->weight;
+                    $category->weight = 1.0;
                     $category->save();
                     return redirect('admin/category')->with('success', getMessage("success"));
                 } else

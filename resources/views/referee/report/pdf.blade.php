@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="offset-md-2 col-md-10">
-            <div class="card">
+             <div class="card" style="margin-top:20px;">
                 <div class="card-header">Report about proposal</div>
 
                 <div class="card-body card_body">
@@ -71,7 +71,7 @@
 
                                     @if(!empty($report->proposal->abstract))
                                         <div class="col-md-6">
-                                            <strong><i class="fa fa-info margin-r-5"></i> Proposal
+                                            <strong><i class="fas fa-question-circle margin-r-5"></i> Proposal
                                                 abstract:</strong>
                                             <p>{{$report->proposal->abstract}}</p>
                                         </div>
@@ -110,14 +110,14 @@
                                                     </div>
                                                     @if(!empty($report->public_comment))
                                                         <div class="col-md-6">
-                                                            <strong><i class="fa fa-info margin-r-5"></i> Proposal
+                                                            <strong><i class="fas fa-question-circle margin-r-5"></i> Proposal
                                                                 public comment:</strong>
                                                             <p>{{$report->public_comment}}</p>
                                                         </div>
                                                     @endif
                                                     @if(!empty($report->private_comment))
                                                         <div class="col-md-6">
-                                                            <strong><i class="fa fa-info margin-r-5"></i> Proposal
+                                                            <strong><i class="fas fa-question-circle margin-r-5"></i> Proposal
                                                                 private comment:</strong>
                                                             <p>{{$report->private_comment}}</p>
                                                         </div>

@@ -5,9 +5,9 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                <div class="card" style="margin-top:20px;">
                     <div class="card-header">Add a category
-                        <br><i class="fa fa-info text-blue all"> * {{Lang::get('messages.required_all')}}</i>
+                        <br><i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
                     <div class="card-body card_body">
                         @if ($errors->any())
@@ -39,11 +39,7 @@
                                 <label for="abbreviation">Category abbreviation *:</label>
                                 <input id="abbreviation" type="text" class="form-control" name="abbreviation" value="{{old('abbreviation')}}">
                             </div>
-                            <div class="form-group">
-                                <label for="weight">Category weight *:</label>
-                                <input id="weight" type="number" class="form-control" name="weight" value="{{old('weight')}}">
-                            </div>
-                            
+
                             <div class="form-group">
                                 <label for="parent">Parent Category:</label>
                                 @if(!empty($parents))

@@ -27,9 +27,9 @@
                                 <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
                             </div>
                         @endif
-                        <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person 
+                        <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person
                         who will server as either support to a project or a participant in a project.</span></p>
-                        <p><i class="fa fa-info text-blue all"> {{Lang::get('messages.required_all')}}</i></p>
+                        <p><i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i></p>
                         <form method="post" action="{{ action('Applicant\PersonController@update', $id) }}" class="row">
                             @csrf
                             <input name="_method" type="hidden" value="PATCH">
@@ -192,7 +192,7 @@
 
                             <!--    </div>-->
                             <!--</div>-->
-                            
+
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href = "{{ action('Applicant\AccountController@index') }}" class="btn btn-secondary">Cancel</a>

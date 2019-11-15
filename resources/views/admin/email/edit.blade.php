@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>

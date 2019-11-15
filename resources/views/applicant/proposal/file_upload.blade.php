@@ -10,7 +10,7 @@
 <div class="container">
        <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
-            <div class="card">
+             <div class="card" style="margin-top:20px;">
                 <div class="card-header">Upload Proposal Document
                     <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
                        class="display float-lg-right btn-box-tool"> Back</a>
@@ -45,7 +45,7 @@
             <br />
             <div class="row">
             <div class="col-md-12">
-                <i class="fa fa-info text-red"> For Deleting uploaded file please click Cancel button </i><br/>
+                <i class="fas fa-question-circle text-red"> For Deleting uploaded file please click Cancel button </i><br/>
                 <a href="{{action('Applicant\FileUploadController@remove', $id)}}" class="btn btn-primary">Cancel</a>
                 <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
                    class="btn btn-primary"> Next</a>

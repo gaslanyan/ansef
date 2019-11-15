@@ -4,10 +4,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
-                <div class="card">
+                <div class="card" style="margin-top:20px;">
                     <div class="card-header">Add a competition
                         <br>
-                        <i class="fa fa-info text-blue all"> * {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body">
@@ -33,7 +33,7 @@
                         <form method="post" action="{{ action('Admin\CompetitionController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-6">
-                                <label for="title">Competition Title *:</label>
+                                <label for="title">Competition Code *:</label>
                                 <input type="text" class="form-control" name="title" id="title" value="{{old("title")}}">
                             </div>
                             <div class="form-group col-lg-6">

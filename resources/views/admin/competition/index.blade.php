@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">List of competitions
                         @if(get_Cookie() === "superadmin")
                             <a href="{{action('Admin\CompetitionController@create')}}"
@@ -35,13 +35,12 @@
                                 <p>{{ Session::get('delete') }}</p>
                             </div>
                         @endif
-
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                style="width:100%">
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Competition title</th>
+                                <th>Competition</th>
                                 <th>Categories</th>
                                 <th>Announced</th>
                                 <th>Open date</th>

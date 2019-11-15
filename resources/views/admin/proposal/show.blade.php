@@ -4,7 +4,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Proposal
 
                         <a href="{{ \Illuminate\Support\Facades\URL::previous() }}"
@@ -70,7 +70,7 @@
                                         @endif
                                         @if(!empty($proposal['abstract']))
                                             <div class="col-md-6">
-                                                <strong><i class="fa fa-info margin-r-5"></i> Proposal
+                                                <strong><i class="fas fa-question-circle margin-r-5"></i> Proposal
                                                     abstract:</strong>
                                                 <p>{{$proposal['abstract']}}</p>
                                             </div>

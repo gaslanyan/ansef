@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">List of referee reports
                     </div>
                     <?php  $d = \Illuminate\Support\Facades\Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . 'object.txt'?>

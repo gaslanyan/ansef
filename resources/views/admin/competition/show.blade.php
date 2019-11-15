@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Competition</div>
 
                     <div class="card-body card_body">
@@ -41,7 +41,7 @@
                                         <p>@if(!empty($com['state'])){{$com['state']}}@endif</p>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-info margin-r-5"> </i>Description:</strong>
+                                        <strong><i class="fas fa-question-circle margin-r-5"> </i>Description:</strong>
                                         <p>@if(!empty($com['description'])){{$com['description']}}@endif</p>
                                     </div>
                                     <div class="col-md-6">

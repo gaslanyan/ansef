@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                <div class="card" style="margin-top:20px;">
                     <div class="card-header">List of categories
                         @if(get_Cookie() == 'superadmin')
                             <a href="{{action('Admin\CategoryController@create')}}"
@@ -59,9 +59,8 @@
                                                id="cat">
                                     </label>
                                 </th>
-                                <th>Abbreviation</th>
+                                <th width="100px">Abbreviation</th>
                                 <th>Title</th>
-                                <th width="20px">Weight</th>
                                 <th>Parent</th>
                                 <th style="width:100px">Actions</th>
                             </tr>
@@ -89,11 +88,6 @@
                                             class="title_field">
                                             <input type="text" class="form-control" name="title"
                                                    value="{{$category['title']}}" disabled>
-                                        </td>
-                                        <td data-order="{{$category['weight']}}" data-search="{{$category['weight']}}"
-                                            class="weight_field">
-                                            <input type="text" class="form-control" name="weight"
-                                                   value="{{$category['weight']}}" disabled>
                                         </td>
                                         @php $gsv = getSelectedValue($parents,$category['parent_id']);
                                         @endphp

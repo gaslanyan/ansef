@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Recommendation Letter </div>
 
                     <div class="card-body ">

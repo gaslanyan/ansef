@@ -1,19 +1,19 @@
 var CSRF_TOKEN = $('input[name="_token"]').val();
-$(document).ready(function () {
-// for sidebar menu entirely but not cover treeview
-    $('ul.sidebar-menu a').filter(function () {
+$(document).ready(function() {
+    // for sidebar menu entirely but not cover treeview
+    $('ul.sidebar-menu a').filter(function() {
         return this.href == url;
     }).parent().addClass('active');
 
-    $('ul.treeview-menu a').click(function () {
+    $('ul.treeview-menu a').click(function() {
         sessionStorage.setItem('url', $(this).attr('href'));
     });
-// for treeview
-    $('ul.treeview-menu a').filter(function () {
+    // for treeview
+    $('ul.treeview-menu a').filter(function() {
         var _url = sessionStorage.getItem('url');
-       if(_url === getSegmentUrl()){
-           $('[href ="'+ _url+'"]').parentsUntil().addClass('active');
-       }
+        if (_url === getSegmentUrl()) {
+            $('[href ="' + _url + '"]').parentsUntil().addClass('active');
+        }
 
         return this.href == url
     }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
@@ -23,8 +23,9 @@ $(document).ready(function () {
     $('.sup').css('display', 'none');
 
     //generate email or phone fields
-    var max_fields = 12, i = 1;
-    $(document).on('click', '.add', function (e) {
+    var max_fields = 12,
+        i = 1;
+    $(document).on('click', '.add', function(e) {
         e.preventDefault();
         $input = $(this).next();
         $counter = $(this).parent().children().length;
@@ -32,30 +33,30 @@ $(document).ready(function () {
             $(this).parent().append("<i class='fa fa-minus pull-right remove text-red' style='cursor:pointer;'></i><br>");
             $(this).parent().append($input.clone().val(" "));
             $child = $input.children().children('.form-control');
-            $child.each(function (e, index) {
+            $child.each(function(e, index) {
                 $name = $(this).prop('name');
                 $(this).attr('name', $name.replace(/\[[0-9]\]+/, '[' + i + ']'))
             })
         }
         i++;
     });
-    $(document).on('click', '.remove', function (e) {
+    $(document).on('click', '.remove', function(e) {
         e.preventDefault();
         $(this).prev().remove();
         $(this).next().remove();
         $(this).remove();
     });
     //get city
-    $(document).on("change", '.addr', function () {
+    $(document).on("change", '.addr', function() {
         $city_code = $(this).val();
 
         $.ajax({
             url: '/getcity',
             type: 'POST',
-            context: {number: $(this).attr('name').match(/\[[0-9]\]+/)},
-            data: {_token: CSRF_TOKEN, cc_fips: $city_code},
+            context: { number: $(this).attr('name').match(/\[[0-9]\]+/) },
+            data: { _token: CSRF_TOKEN, cc_fips: $city_code },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 $city = $('[name="city' + this.number[0] + '"]');
 
                 if ($city.find('option').length > 1)
@@ -72,16 +73,16 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.error(data);
             }
         });
     });
-    $(document).on("change", '#_city', function () {
+    $(document).on("change", '#_city', function() {
         $list = $(this).attr('list');
         $options = $('#' + $list).find('option');
         $dataValues = [];
-        $options.each(function (e, t) {
+        $options.each(function(e, t) {
             $dataValues[($(this).data('value'))] = t.value;
 
         });
@@ -90,8 +91,8 @@ $(document).ready(function () {
 
         $('#city_id').val($pos);
     });
-//create editable rows
-    $(document).on('click', '.edit', function () {
+    //create editable rows
+    $(document).on('click', '.edit', function() {
 
         $(this).parent().siblings('td').children().attr('disabled', false);
         $(this).nextAll().css('display', 'none');
@@ -103,13 +104,13 @@ $(document).ready(function () {
         $(this).siblings('.cancel').css('display', 'inline-block');
         $(this).css('display', 'none');
     });
-    $(document).on('click', '.save', function () {
+    $(document).on('click', '.save', function() {
         $id = $(this).siblings('.id').val();
         $url = $(this).siblings('.url').val();
         $form = {};
         $form.id = $id;
         $siblings = $(this).parent().siblings().children();
-        $siblings.each(function () {
+        $siblings.each(function() {
             var name = $(this).attr('name');
             if (name !== undefined)
                 $form[name] = $(this).val();
@@ -119,22 +120,22 @@ $(document).ready(function () {
         $.ajax({
             url: $url,
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, form: $form},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, form: $form },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 this.element.parent().siblings('td').children().attr('disabled', true);
                 this.element.siblings('').css('display', 'inline-block');
                 this.element.siblings('.cancel').css('display', 'none');
                 this.element.css('display', 'none');
                 location.reload();
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data)
             }
         });
     });
-    $(document).on('click', '.cancel', function () {
+    $(document).on('click', '.cancel', function() {
         $(this).parent().siblings('td').children().attr('disabled', true);
         $(this).siblings('').css('display', 'inline-block');
         $(this).siblings('.save').css('display', 'none');
@@ -145,12 +146,12 @@ $(document).ready(function () {
         $(this).css('display', 'none');
     });
     /*For applicant accounts */
-    $(document).on('click', '.save_app', function () {
+    $(document).on('click', '.save_app', function() {
         $id = $(this).siblings('.id').val();
         $form = {};
         $form.id = $id;
         $siblings = $(this).parent().siblings().children();
-        $siblings.each(function () {
+        $siblings.each(function() {
             var name = $(this).attr('name');
             $form[name] = $(this).val();
         });
@@ -158,28 +159,28 @@ $(document).ready(function () {
         $.ajax({
             url: '/updateAccount',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, form: $form},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, form: $form },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 this.element.parent().siblings('td').children().attr('disabled', true);
                 this.element.siblings('').css('display', 'inline-block');
                 this.element.siblings('.cancel').css('display', 'none');
                 this.element.css('display', 'none');
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data)
             }
         });
     });
 
     /*Change State of proposals*/
-    $('.save_prop').click(function () {
+    $('.save_prop').click(function() {
         $id = $(this).siblings('.id').val();
         $form = {};
         $form.id = $id;
         $siblings = $(this).parent().siblings().children();
-        $siblings.each(function () {
+        $siblings.each(function() {
             var name = $(this).attr('name');
             $form[name] = $(this).val();
         });
@@ -187,71 +188,71 @@ $(document).ready(function () {
         $.ajax({
             url: '/updateProposalState',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, form: $form},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, form: $form },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 this.element.parent().siblings('td').children().attr('disabled', true);
                 this.element.siblings('').css('display', 'inline-block');
                 this.element.siblings('.cancel').css('display', 'none');
                 this.element.css('display', 'none');
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data)
             }
         });
     });
 
     /*Change State of proposals*/
-    $('.sign-in').click(function () {
+    $('.sign-in').click(function() {
         $id = $(this).parent().next('.id').val();
 
         $url = '/' + $(this).parent().next('.id').attr('name');
         $.ajax({
             url: $url,
             type: 'GET',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $id},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $id },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 if (!isNaN(data)) {
                     window.open('http://' + window.location.hostname + $url);
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data)
             }
         });
     });
-    $('#off, #on').click(function (e) {
+    $('#off, #on').click(function(e) {
         e.preventDefault();
         $url = '/lock';
         $look = $(this).attr('id');
         $.ajax({
             url: $url,
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, lock: $look},
-            success: function (data) {
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, lock: $look },
+            success: function(data) {
                 this.element.siblings().css('display', 'inline-block');
                 this.element.css('display', 'none');
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data)
             }
         });
     });
-//get subcategories
-    $(document).on("change", '.cat', function () {
+    //get subcategories
+    $(document).on("change", '.cat', function() {
         $category = $(this).val();
 
         $.ajax({
             url: '/getsub',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $category},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $category },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 $sub = this.element.parent().next().children('select');
 
                 if ($sub.find('option').length > 1)
@@ -264,42 +265,42 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
     });
 
-    $(document).on("change", '#competition', function () {
+    $(document).on("change", '#competition', function() {
         $category = $(this).val();
 
         $.ajax({
             url: '/getSTypeCount',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $category},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $category },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 if (data.count >= 7) {
                     $('#add_score').attr('disabled', true)
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
     });
-//get ranging rule by competition
+    //get ranging rule by competition
 
-    $(document).on("change", '#rule_com', function () {
+    $(document).on("change", '#rule_com', function() {
         $id = $(this).val();
         $.ajax({
             url: '/getRR',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $id},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $id },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 var d = JSON.parse(data.rs);
                 $('#rule').find("option:gt(0)").remove();
                 if (d.length > 0) {
@@ -310,7 +311,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.error(data);
             }
         });
@@ -334,7 +335,7 @@ $(document).ready(function () {
     //     });
     // });
     //get proposal form competitions
-    $(document).on("change", '.comp_prop', function () {
+    $(document).on("change", '.comp_prop', function() {
         $comp_prop = $(this).val();
         $('#category0').find('option').remove();
         $('#category1').find('option').remove();
@@ -353,10 +354,10 @@ $(document).ready(function () {
         $.ajax({
             url: '/gccbi',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $comp_prop},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $comp_prop },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 for (var i in data) {
                     if (data.hasOwnProperty(i)) {
                         if (i === 'cats') {
@@ -405,7 +406,7 @@ $(document).ready(function () {
                                 $('.sup').css('display', 'block');
                             } else {
                                 var matches = 0;
-                                $(".tt").each(function (i, val) {
+                                $(".tt").each(function(i, val) {
                                     if ($(this).val() == 'support') {
                                         $('#choose_person_name' + matches).remove();
                                     }
@@ -417,10 +418,10 @@ $(document).ready(function () {
                         //Allow Foreign//
                         if (i === 'allowforeign') {
                             if (data[i] != 1) {
-                                $('#comp_container').append('<i class="fa fa-info text-red all"> Only registered in Armenia can take part in this competition </i> <input type="hidden" name="allowforegin" value="' + data[i] + '" class="all" id="allowforeign">');
+                                $('#comp_container').append('<i class="fas fa-question-circle text-red all"> Only registered in Armenia can take part in this competition </i> <input type="hidden" name="allowforegin" value="' + data[i] + '" class="all" id="allowforeign">');
                                 $('.domesticorforeign').val(data[i]);
                                 var matches = 0;
-                                $(".al").each(function (i, val) {
+                                $(".al").each(function(i, val) {
                                     if ($(this).val() != 'Armenia') {
                                         $('#choose_person_name' + matches).remove();
                                     }
@@ -447,51 +448,51 @@ $(document).ready(function () {
                 }
 
             },
-            error: function (data) {
+            error: function(data) {
                 console.error(data);
             }
         });
     });
 
 
-    $(document).on('click', '.check_all', function () {
+    $(document).on('click', '.check_all', function() {
         var checkedStatus = this.checked;
-        $('#example tr').find('.checkbox').each(function () {
+        $('#example tr').find('.checkbox').each(function() {
             $(this).prop('checked', checkedStatus);
         });
     });
 
-    $(document).on('click', '.check_all,.checkbox', function () {
+    $(document).on('click', '.check_all,.checkbox', function() {
         $('.btn_add').find('button').attr('disabled', false);
     });
 
-    $(document).on("click", ".approve", function () {
+    $(document).on("click", ".approve", function() {
         $id = $(this).prev().val();
         $approve = $(this).val();
 
         $.ajax({
             url: '/approve',
             type: 'POST',
-            context: {element: $(this)},
+            context: { element: $(this) },
             data: {
                 _token: CSRF_TOKEN,
                 id: $id,
                 approve: $approve
             },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
                 // if (data.success())
                 //     location.reload();
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
 
     });
 
-    $(document).on("click", ".delete", function () {
+    $(document).on("click", ".delete", function() {
         $conf = confirm("Are you sure?");
         $.ajaxSetup({
             headers: {
@@ -506,17 +507,17 @@ $(document).ready(function () {
                     $.ajax({
                         url: '/getProposal',
                         type: 'POST',
-                        context: {element: $(this)},
-                        data: {_token: CSRF_TOKEN, id: $_id},
+                        context: { element: $(this) },
+                        data: { _token: CSRF_TOKEN, id: $_id },
                         dataType: 'JSON',
-                        success: function (data) {
+                        success: function(data) {
                             if (data.success) {
                                 $conf2 = alert("Deletion is not possible. ");
                             } else {
                                 this.element.parent().submit();
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             console.log(data);
                         }
                     });
@@ -525,10 +526,10 @@ $(document).ready(function () {
                     $.ajax({
                         url: '/getProposalByApplicant',
                         type: 'POST',
-                        context: {element: $(this)},
-                        data: {_token: CSRF_TOKEN, id: $_id, type: $title},
+                        context: { element: $(this) },
+                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
                         dataType: 'JSON',
-                        success: function (data) {
+                        success: function(data) {
                             if (data.success) {
                                 $conf2 = confirm("Account has created proposals. Are you sure?");
                                 if ($conf)
@@ -537,7 +538,7 @@ $(document).ready(function () {
                                 this.element.parent().submit();
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             console.log(data);
                         }
                     });
@@ -546,10 +547,10 @@ $(document).ready(function () {
                     $.ajax({
                         url: '/getProposalByReferee',
                         type: 'POST',
-                        context: {element: $(this)},
-                        data: {_token: CSRF_TOKEN, id: $_id, type: $title},
+                        context: { element: $(this) },
+                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
                         dataType: 'JSON',
-                        success: function (data) {
+                        success: function(data) {
                             if (data.success) {
                                 $conf2 = confirm("Referee has created report. Are you sure?");
                                 if ($conf2)
@@ -558,7 +559,7 @@ $(document).ready(function () {
                                 this.element.parent().submit();
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             console.log(data);
                         }
                     });
@@ -567,10 +568,10 @@ $(document).ready(function () {
                     $.ajax({
                         url: '/getBudgetByCategory',
                         type: 'POST',
-                        context: {element: $(this)},
-                        data: {_token: CSRF_TOKEN, id: $_id, type: $title},
+                        context: { element: $(this) },
+                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
                         dataType: 'JSON',
-                        success: function (data) {
+                        success: function(data) {
                             if (data.success) {
                                 $conf2 = confirm("Budget has created by Category. Are you sure?");
                                 if ($conf2)
@@ -579,7 +580,7 @@ $(document).ready(function () {
                                 this.element.parent().submit();
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             console.log(data);
                         }
                     });
@@ -597,10 +598,10 @@ $(document).ready(function () {
                     $.ajax({
                         url: '/getProposalByCategory',
                         type: 'POST',
-                        context: {element: $(this)},
-                        data: {_token: CSRF_TOKEN, id: $_id, type: $title},
+                        context: { element: $(this) },
+                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
                         dataType: 'JSON',
-                        success: function (data) {
+                        success: function(data) {
                             console.log(data.success);
                             if (data.success) {
                                 alert("You cannot remove a category because it is used in competitions!");
@@ -610,7 +611,7 @@ $(document).ready(function () {
                                 this.element.parent().submit();
                             }
                         },
-                        error: function (data) {
+                        error: function(data) {
                             console.log(data);
                         }
                     });
@@ -633,16 +634,16 @@ $(document).ready(function () {
 
     });
     //get subcategories
-    $(document).on("change", '#create_budget_categories', function () {
+    $(document).on("change", '#create_budget_categories', function() {
         $category = $(this).val();
 
         $.ajax({
             url: '/getbudgetcategoriesamount',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $category},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $category },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 $sub = this.element.parent().next().children('select');
 
                 if ($sub.find('option').length > 1)
@@ -655,7 +656,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
@@ -663,68 +664,69 @@ $(document).ready(function () {
 
     $(document).on("click", '#deleteProposal,' +
         ' #deleteCats, #duplicateCats,' +
-        ' #deleteBudgets, #deleteScores, #deleteRule, #deleteReport', function () {
-        var checked = $('.checkbox:checked');
-        $url = $(this).attr('id');
-        if (checked.length > 0) {
-            $pattern = $url.match(/delete/);
-            if (!$pattern)
-                $pattern = 'duplicate';
-            if (confirm('Are you want ' + $pattern + " " + checked.length + ' categories?')) {
-                var checkedIDss = [];
-                $(checked).each(function () {
-                    checkedIDss.push($(this).val());
-                });
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/' + $url,
-                    type: 'POST',
-                    context: {element: $pattern},
-                    data: {
-                        token: CSRF_TOKEN,
-                        id: checkedIDss
-                    },
-                    dataType: 'JSON',
-                    success: function (data) {
-                        console.log(data);
-                        if (data.success === -1)
-                            alert('do not allow deletion of ' + $pattern +
-                                ' that are already assigned to any competition ');
-                        else
-                            location.reload();
-                    },
-                    error: function (data) {
-                        console.log('msg' + data);
-                    }
-                });
+        ' #deleteBudgets, #deleteScores, #deleteRule, #deleteReport',
+        function() {
+            var checked = $('.checkbox:checked');
+            $url = $(this).attr('id');
+            if (checked.length > 0) {
+                $pattern = $url.match(/delete/);
+                if (!$pattern)
+                    $pattern = 'duplicate';
+                if (confirm('Are you want ' + $pattern + " " + checked.length + ' categories?')) {
+                    var checkedIDss = [];
+                    $(checked).each(function() {
+                        checkedIDss.push($(this).val());
+                    });
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '/' + $url,
+                        type: 'POST',
+                        context: { element: $pattern },
+                        data: {
+                            token: CSRF_TOKEN,
+                            id: checkedIDss
+                        },
+                        dataType: 'JSON',
+                        success: function(data) {
+                            console.log(data);
+                            if (data.success === -1)
+                                alert('do not allow deletion of ' + $pattern +
+                                    ' that are already assigned to any competition ');
+                            else
+                                location.reload();
+                        },
+                        error: function(data) {
+                            console.log('msg' + data);
+                        }
+                    });
+                }
             }
-        }
-    });
+        });
 
     //get proposalsbycompetition id for viewer
-    $(document).on("change", '.comp_list', function () {
+    $(document).on("change", '.comp_list', function() {
         $compid = $(this).val();
 
         $.ajax({
             url: '/getProposalByCompByID',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, id: $compid},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, id: $compid },
             //dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 $(".prop").html(data);
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
     });
 
-    $(document).on("change", "#state", function () {
+    $(document).on("change", "#state", function() {
         if ($('#state').val() == 'domestic') {
             $('#nationality option[value="Armenia"]').attr('selected', 'selected');
             // $('#nationality').attr('readonly', 'readonly');
@@ -734,8 +736,8 @@ $(document).ready(function () {
         }
     });
     /*VIEWER AJAX REQUEST*/
-//get proposalsbycompetition id for viewer
-    $(document).on("change", '.statistic', function () {
+    //get proposalsbycompetition id for viewer
+    $(document).on("change", '.statistic', function() {
         statisticval = $(this).val();
         var comp_y = ['number of proposals', 'average overall score', 'number of awards', 'total amount of funds given', 'average age of PI', 'number of female PIs'];
         var pi_y = ['number of submitted proposal', 'number of awards received'];
@@ -744,10 +746,10 @@ $(document).ready(function () {
         $.ajax({
             url: '/gclfs',
             type: 'POST',
-            context: {element: $(this)},
-            data: {_token: CSRF_TOKEN, value: statisticval},
+            context: { element: $(this) },
+            data: { _token: CSRF_TOKEN, value: statisticval },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
                 for (var i in data) {
                     if (i == 'comp') {
@@ -777,7 +779,7 @@ $(document).ready(function () {
 
 
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
@@ -804,11 +806,11 @@ function send_email(checkedIDss) {
                 ids: JSON.stringify(checkedIDss)
             },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 console.log("d" + data);
                 location.reload();
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
@@ -833,11 +835,11 @@ function change_state(checkedIDss) {
                 ids: JSON.stringify(checkedIDss)
             },
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 console.log("d" + data);
                 location.reload();
             },
-            error: function (data) {
+            error: function(data) {
                 console.log(data);
             }
         });
@@ -849,7 +851,5 @@ function change_state(checkedIDss) {
 function getSegmentUrl(_url) {
     var segment = window.location.pathname.split('/');
     var newURL = window.location.protocol + "//" + window.location.host + "/";
-    return newURL +segment[1]+ "/"+segment[2];
+    return newURL + segment[1] + "/" + segment[2];
 }
-
-

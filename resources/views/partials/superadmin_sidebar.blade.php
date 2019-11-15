@@ -78,17 +78,17 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-
                     <?php if(checkUserId('superadmin') ): ?>
                     <li>
                         <a href=" {{action('Admin\PersonController@create')}}"><i class="fa fa-circle-o"></i>User
                             profile</a>
                     </li>
                     <?php else:?>
-                    <li>
-                        <a href="{{action('Admin\PersonController@edit', $u_id)}}"><i class="fa fa-circle-o"></i>Edit
+                        <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change
+                            your Password</a></li>
+                        <li><a href="{{action('Admin\PersonController@edit', $u_id)}}"><i class="fa fa-circle-o"></i>Edit
                             your Profile</a></li>
-                    <li class="treeview">
+                    <li class="treeview" style="margin-left:20px;">
                         <a href="#">
                             <span>Phone numbers/Emails</span>
                             <span class="pull-right-container">
@@ -102,15 +102,6 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                                     emails</a></li>
                         </ul>
                     </li>
-
-
-                    {{--                    <li><a href="{{action('Admin\PhoneController@create')}}"><i class="fa fa-circle-o"></i>Add--}}
-                    {{--                            a phone number</a></li>--}}
-                    {{--                   --}}
-                    {{--                    <li><a href="{{action('Admin\EmailController@create')}}"><i class="fa fa-circle-o"></i>Add--}}
-                    {{--                            an email</a></li>--}}
-                    <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change
-                            your Password</a></li>
                     <?php endif?>
                 </ul>
             </li>

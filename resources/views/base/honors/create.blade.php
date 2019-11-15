@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Show Honors&Grants
                         - {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}"

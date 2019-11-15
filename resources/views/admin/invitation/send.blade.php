@@ -3,10 +3,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Send emails
                         <br>
-                        <i class="fa fa-info text-blue all"> * {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body">

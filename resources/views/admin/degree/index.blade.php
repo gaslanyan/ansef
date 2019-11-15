@@ -4,7 +4,7 @@
     <div class="container">
              <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">List of possible degrees
                         <a href="{{action('Admin\DegreeController@create')}}"
                            class="display float-lg-right btn-primary px-2">Add a degree</a>
@@ -38,7 +38,7 @@
                         <table class="table table-responsive-md table-sm table-bordered display" id="example" >
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th hidden>#</th>
                                 <th>Degree name</th>
                                 <th>Action</th>
                             </tr>
@@ -46,7 +46,7 @@
                             <tbody>
                             @foreach($degrees as $degree)
                                 <tr>
-                                    <td></td>
+                                    <td hidden></td>
                                     <td>{{$degree['text']}}</td>
                                     <td style="width: 100px"><a href="{{action('Admin\DegreeController@edit', $degree['id'])}}" class="">
                                             <i class="fa fa-pencil-alt"></i></a>

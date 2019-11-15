@@ -145,7 +145,7 @@
                                                     </div>
                                                     <div class="modal-body" id="modal-bodyku">
                                                         <div class="form-group col-lg-12 sup">
-                                                            <label class="text-red"> <i class="fa fa-info"></i> For this
+                                                            <label class="text-red"> <i class="fas fa-question-circle"></i> For this
                                                                 competition please create or choose
                                                                 persons with support type *</label>
                                                         </div>
@@ -255,7 +255,7 @@
                             <!--        </div>-->
                             <!--    </div>-->
                             <!--</div>-->
-                            
+
                             <!--Additional Charge Budget-->
                             <!--<div class="col-lg-12 additional">-->
                             <!--    <h4>Additional Budget</h4>-->
@@ -379,7 +379,7 @@
                 var persontype = $(this).parent().parent().next().next().find('select').val();
 
                 if(persontype != "None")
-                jQuery('#prop_person').append('<p><input type="hidden"  value = "' + personname + '"  id = \'prop_person_name\' disabled class="form-control form-check-inline form-group col-lg-5" name="prop_person_name[]"><b>' + personname + ': </b>' + 
+                jQuery('#prop_person').append('<p><input type="hidden"  value = "' + personname + '"  id = \'prop_person_name\' disabled class="form-control form-check-inline form-group col-lg-5" name="prop_person_name[]"><b>' + personname + ': </b>' +
                     // '                          <input type="text"  value = "' + $(this).next().next().val() + '"  id = \'prop_person_type\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_type">' +
                     '                          <input type="hidden"  value = "' + persontype + '"  id = \'prop_person_stype\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_stype[]">' + persontype.charAt(0).toUpperCase() + persontype.slice(1) +
                     // '                          <a href="' + $g + '" title="Edit" class="btn-link full_edit" target="_blank"><i class="fa fa-edit"></i> </a> ' +
@@ -405,13 +405,13 @@
 // 	  if(chars===0){words=0;}
 	  return words;
 	}
-        
-        jQuery('#title').on('keyup propertychange paste', function(){ 
+
+        jQuery('#title').on('keyup propertychange paste', function(){
 	        jQuery('#titlecharleft').html((25-count('#title'))+'');
         });
 
 
-        jQuery('#abstract').on('keyup propertychange paste', function(){ 
+        jQuery('#abstract').on('keyup propertychange paste', function(){
 	        jQuery('#abstractcharleft').html((250-count('#abstract'))+'');
         });
 

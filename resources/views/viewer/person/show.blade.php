@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card">
+                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">About Account
                         <a href="{{ action('Viewer\ProposalController@index') }}"
                            class="display float-lg-right btn-box-tool"> Back</a>
