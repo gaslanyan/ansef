@@ -212,7 +212,7 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>Institution</span>
+                    <i class="fa fa-home"></i> <span>Institutions</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -231,14 +231,14 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu">
+                {{-- <ul class="treeview-menu">
                     <li><a href="{{action('Admin\DisciplineController@index')}}"><i class="fa fa-circle-o"></i>List of
                             disciplines</a>
                     </li>
                     <li><a href="{{action('Admin\DisciplineController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a discipline</a>
                     </li>
-                </ul>
+                </ul> --}}
             </li>
             <li class="treeview">
                 <a href="#">

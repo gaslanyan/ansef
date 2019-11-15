@@ -39,7 +39,7 @@
                             <div class="form-group col-lg-6">
                                 <label for="name">Budget Name *:</label>
                                 <input type="text" class="form-control"
-                                       id="name" name="name">
+                                       id="name" name="name" value="{{old('name')}}">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="competition">Competition Name *:</label>
@@ -47,8 +47,11 @@
                                         id="competition">
                                     <option >Select Competition</option>
                                     <?php if(!empty($competition)):?>
+                                    @php
+                                        $compindex = old('competition_id');
+                                    @endphp
                                     <?php foreach($competition as $key=>$item):?>
-                                    <option class="text-capitalize" value="{{$key}}">
+                                    <option class="text-capitalize" value="{{$key}}" {{$compindex == $key ? 'selected' : ''}}>
                                         {{$item}}</option>
                                     <?php endforeach;?>
                                     <?php endif;?>
@@ -57,17 +60,17 @@
                             <div class="form-group col-lg-4">
                                 <label for="min">Budget Min value *:</label>
                                 <input type="number" class="form-control"
-                                       id="min" name="min">
+                                       id="min" name="min" value="{{old('min')}}">
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="max">Budget Max value *:</label>
                                 <input type="number" class="form-control"
-                                       id="max" name="max">
+                                       id="max" name="max" value="{{old('max')}}">
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="weight">Budget Weight value *:</label>
                                 <input type="number" class="form-control"
-                                       id="weight" name="weight">
+                                       id="weight" name="weight" value="{{old('weight')}}">
                             </div>
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>

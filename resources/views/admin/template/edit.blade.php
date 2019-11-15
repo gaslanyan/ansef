@@ -43,8 +43,8 @@
                                 <label for="text">Template Text *:</label>
                                 <textarea class="form-control" name="text" id="text">{{$template->text}}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Template</button>
-                         <a href = "{{ action('Admin\TemplateController@index') }}" class="btn btn-secondary"> Cancel</a>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                         <a href = "{{ action('Admin\TemplateController@index') }}" class="btn btn-secondary">Cancel</a>
                        </form>
                     </div>
                 </div>

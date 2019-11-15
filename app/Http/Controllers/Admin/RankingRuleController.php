@@ -63,27 +63,23 @@ class RankingRuleController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.ranking_rule.create');
-        else {
-            try {
-                $v = Validator::make($request->all(), [
-                    'sql' => 'required|max:1024',
-                    'competition_id' => 'required|numeric',
-                    'user_id' => 'required|numeric',
-                    'value' => 'required|numeric',
-                ]);
-                if (!$v->fails()) {
-                    RankingRule::create($request->all());
+        try {
+            $v = Validator::make($request->all(), [
+                'sql' => 'required|max:1024',
+                'competition_id' => 'required|numeric',
+                'user_id' => 'required|numeric',
+                'value' => 'required|numeric',
+            ]);
+            if (!$v->fails()) {
+                RankingRule::create($request->all());
 
-                    return redirect('admin/rank')->with('success', getMessage("success"));
-                } else
-                    return redirect()->back()->withErrors($v->errors())->withInput();
-            } catch (\Exception $exception) {
+                return redirect('admin/rank')->with('success', getMessage("success"));
+            } else
+                return redirect()->back()->withErrors($v->errors())->withInput();
+        } catch (\Exception $exception) {
 
-                logger()->error($exception);
-                return redirect('admin/rank')->with('errors', getMessage("wrong"));
-            }
+            logger()->error($exception);
+            return redirect('admin/rank')->with('errors', getMessage("wrong"));
         }
     }
 
@@ -130,9 +126,6 @@ class RankingRuleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.ranking_rule.edit');
-        else {
             try {
                 $v = Validator::make($request->all(), [
                     'sql' => 'required|max:1024',
@@ -150,7 +143,6 @@ class RankingRuleController extends Controller
                 logger()->error($exception);
                 return redirect('admin/rank')->with('error', getMessage("wrong"));
             }
-        }
     }
 
 

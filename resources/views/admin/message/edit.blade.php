@@ -37,7 +37,7 @@
                                 <label for="text">Message Text *:</label>
                                 <textarea class="form-control" name="text" id="text">{{$message->text}}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary">Edit Message</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         <a href="{{ action('Admin\MessageController@index') }}" class="btn btn-secondary"> Cancel</a>
                         </form>
                     </div>

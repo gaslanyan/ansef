@@ -47,9 +47,7 @@ class TemplateController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.template.create');
-        else {
+
             try {
                 $val = Validator::make($request->all(), [
                     'name' => 'required|max:255|min:3',
@@ -61,17 +59,15 @@ class TemplateController extends Controller
                     $templates->text = $request->text;
                     $templates->save();
                     return redirect('admin/template')->with('success', getMessage("success"));
-                } else
-                    return redirect()->back()->withErrors($val->errors());
+                }
+                else return redirect()->back()->withErrors($val->errors())->withInput();
 
             } catch (\Exception $exception) {
                 logger()->error($exception);
                 return redirect('admin/template')->with('error', getMessage("wrong"));;
 
             }
-//        return redirect()->to('/home');
 
-        }
     }
 
     /**
@@ -102,45 +98,26 @@ class TemplateController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Template $template
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.template.edit');
-        else {
-            try {
-                $val = Validator::make($request->all(), [
-                    'name' => 'required|max:255|min:3',
-                    'text' => 'required|max:511|min:6',
-                ]);
-                if (!$val->fails()) {
-                    $templates = Template::find($id);
-                    $templates->name = $request->name;
-                    $templates->text = htmlentities($request->text, ENT_QUOTES);
-                    $templates->save();
-                    return redirect('admin/template')->with('success', getMessage("update"));
-                } else
-                    return redirect()->back()->withErrors($val->errors());
-
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return getMessage("wrong");
-            }
+        try {
+            $val = Validator::make($request->all(), [
+                'name' => 'required|max:255|min:3',
+                'text' => 'required|max:511|min:6',
+            ]);
+            if (!$val->fails()) {
+                $templates = Template::find($id);
+                $templates->name = $request->name;
+                $templates->text = htmlentities($request->text, ENT_QUOTES);
+                $templates->save();
+                return redirect('admin/template')->with('success', getMessage("update"));
+            } else return redirect()->back()->withErrors($val->errors())->withInput();
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return getMessage("wrong");
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Template $template
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {

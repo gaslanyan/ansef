@@ -40,26 +40,14 @@
                                 <label>Addresses:</label>
 
                                 <div class="row addresses">
-                                    <div class="form-group col-lg-6">
-                                        <label for="addr">Country *:</label>
-                                        <select id="addr" class="addr form-control" name="countries[0]">
-                                            <option value="0">Select country</option>
-                                            @if(!empty($countries))
-                                                @foreach($countries as $val=>$item)
-                                                    @if($address['cc_fips'] == $val)
-                                                        <option class="text-capitalize" value="{{$val}}"
-                                                                selected>{{$item}}</option>
-                                                    @else
-                                                        <option class="text-capitalize"
-                                                                value="{{$val}}">{{$item}}</option>
-                                                    @endif
-                                                @endforeach
 
-                                            @endif
-                                        </select>
+                                    <div class="form-group col-lg-6">
+                                        <label for="street">Street:</label>
+                                        <input type="text" class="form-control" name="street[0]" id="street"
+                                               value="@if(!empty($institution->address->street)) {{$institution->address->street}} @endif">
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="provence">Provence *:</label>
+                                        <label for="provence">Municipality/State:</label>
                                         <input type="text" class="form-control" name="provence[0]" id="provence"
                                                value="@if(!empty($institution->address->province)) {{$institution->address->province}} @endif">
                                     </div>
@@ -90,48 +78,29 @@
                                                id="city_id">
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="street">Street *:</label>
-                                        <input type="text" class="form-control" name="street[0]" id="street"
-                                               value="@if(!empty($institution->address->street)) {{$institution->address->street}} @endif">
+                                        <label for="addr">Country *:</label>
+                                        <select id="addr" class="addr form-control" name="countries[0]">
+                                            <option value="0">Select country</option>
+                                            @if(!empty($countries))
+                                                @foreach($countries as $val=>$item)
+                                                    @if($address['cc_fips'] == $val)
+                                                        <option class="text-capitalize" value="{{$val}}"
+                                                                selected>{{$item}}</option>
+                                                    @else
+                                                        <option class="text-capitalize"
+                                                                value="{{$val}}">{{$item}}</option>
+                                                    @endif
+                                                @endforeach
+
+                                            @endif
+                                        </select>
                                     </div>
 
                                 </div>
-
-
-                                {{--                                    <div class="row addresses">--}}
-                                {{--                                        <div class="form-group col-lg-6">--}}
-                                {{--                                            <label for="addr">Country:</label>--}}
-                                {{--                                            <select id="addr" class="addr form-control" name="countries[0]">--}}
-                                {{--                                                <option value="0">Select country</option>--}}
-                                {{--                                                @if(!empty($countries))--}}
-                                {{--                                                    @foreach($countries as $val=>$item)--}}
-                                {{--                                                        <option class="text-capitalize"--}}
-                                {{--                                                                value="{{$val}}">{{$item}}</option>--}}
-                                {{--                                                    @endforeach--}}
-                                {{--                                                @endif--}}
-                                {{--                                            </select>--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="form-group col-lg-6">--}}
-                                {{--                                            <label for="provence">Provence *:</label>--}}
-                                {{--                                            <input type="text" class="form-control" name="provence[0]" id="provence">--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="form-group col-lg-6">--}}
-                                {{--                                            <label for="city">City *:</label>--}}
-                                {{--                                            <select id="city" class="city form-control" name="city[0]">--}}
-                                {{--                                                <option value="0">Select city</option>--}}
-
-                                {{--                                            </select>--}}
-                                {{--                                        </div>--}}
-                                {{--                                        <div class="form-group col-lg-6">--}}
-                                {{--                                            <label for="street">Street *:</label>--}}
-                                {{--                                            <input type="text" class="form-control" name="street[0]" id="street">--}}
-                                {{--                                        </div>--}}
-
-                                {{--                                    </div>--}}
-                                {{--                                @endif--}}
                             </div>
                             <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary">Edit Institution</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="{{ action('Admin\InstitutionController@index') }}" class="btn btn-secondary"> Cancel</a>
                             </div>
                         </form>
                     </div>

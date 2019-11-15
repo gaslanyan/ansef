@@ -43,7 +43,6 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>City</th>
-                                <th>Municipality</th>
                                 <th>Country</th>
                                 <th>Actions</th>
                             </tr>
@@ -67,10 +66,6 @@
                                     <td data-order="@if(!empty($item->address)) {{$c_id}} @endif"
                                         data-search="@if(!empty($item->address)){{$c_id}} @endif">
                                         @if(!empty($item->address)) {{$c_id}}@endif
-                                    </td>
-                                    <td data-order="@if(!empty($item->address)) {{$item->address->province}} @endif"
-                                        data-search="@if(!empty($item->address)) {{$item->address->province}}  @endif">
-                                        @if(!empty($item->address)) {{$item->address->province}}@endif
                                     </td>
                                     <td data-order="@if(!empty($item->address)) {{$id->country_name}} @endif"
                                         data-search="@if(!empty($item->address)) {{$id->country_name}} @endif">

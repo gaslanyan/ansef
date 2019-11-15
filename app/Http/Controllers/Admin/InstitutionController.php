@@ -63,17 +63,14 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.institution.create');
-        else {
+        // if (!$request->isMethod('post'))
+        //     return view('admin.institution.create');
+        // else {
             DB::beginTransaction();
 
             $v = Validator::make($request->all(), [
-                'name' => 'required|max:255',
                 'countries' => 'required|max:255',
                 'city' => 'required|max:255',
-                'provence' => 'required|max:255',
-                'street' => 'required|max:255',
             ]);
             if (!$v->fails()) {
 //            try {
@@ -86,28 +83,13 @@ class InstitutionController extends Controller
                     $city->save();
                     $city_id = $city->id;
                     $address->city_id = $city_id;
-                } else
-                    $address->city_id = (int)$request->city_id;
+                }
+                // else $address->city_id = (int)$request->city_id;
                 $address->country_id = (int)$country->id;
-//                $address->city_id = (int)$request->city[$key];
                 $address->province = $request->provence;
                 $address->street = $request->street;
                 $address->save();
                 $id = $address->id;
-//            } catch
-//            (ValidationException $e) {
-//                // Rollback and then redirect
-//                // back to form with errors
-//                DB::rollback();
-//                return Redirect::to('/form')
-//                    ->withErrors($e->getErrors())
-//                    ->withInput();
-//            } catch (\Exception $exception) {
-//                DB::rollBack();
-//                logger()->error($exception);
-//                return redirect('admin/institution')->with('error', getMessage("wrong"));
-//            }
-//            try {
                 $institutions = new Institution();
                 $institutions->content = $request->name;
                 $institutions->address_id = (int)$id;
@@ -128,8 +110,8 @@ class InstitutionController extends Controller
                 DB::commit();
                 return redirect('admin/institution')->with('success', getMessage("success"));
             } else
-                return redirect()->back()->withErrors($v->errors());
-        }
+                return redirect()->back()->withErrors($v->errors())->withInput();
+        // }
     }
 
     /**
@@ -183,16 +165,11 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.institution.edit');
-        else {
         try {
             $v = Validator::make($request->all(), [
                 'name' => 'required|max:255',
                 'countries.*' => 'required|max:255',
                 'city.*' => 'required|max:255',
-                'provence.*' => 'required|max:255',
-                'street.*' => 'required|max:255',
             ]);
             if (!$v->fails()) {
 
@@ -222,14 +199,13 @@ class InstitutionController extends Controller
                 $institutions->save();
                 return redirect('admin/institution')->with('success', getMessage("update"));
             } else
-                return redirect()->back()->withErrors($v->errors());
+                return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
 //            throw $exception;
             return redirect('admin/institution')->with('error', getMessage("wrong"));
 
-        }
         }
     }
 

@@ -41,7 +41,6 @@ class BudgetCategoryController extends Controller
 
             return view('admin.budget.create', compact('competition', 'budgets'));
         } catch (\Exception $exception) {
-            dd($exception);
             logger()->error($exception);
 //            return redirect('admin/budget')->with('message', 'Unable to create new user.');
         }
@@ -70,7 +69,7 @@ class BudgetCategoryController extends Controller
                     BudgetCategory::create($request->all());
                     return redirect('admin/budget')->with('success', getMessage("success"));
                 } else
-                    return redirect()->back()->withErrors($v->errors());
+                    return redirect()->back()->withErrors($v->errors())->withInput();
 
             } catch (\Exception $exception) {
                 dd($exception);
@@ -105,7 +104,6 @@ class BudgetCategoryController extends Controller
             $competition = Competition::all()->pluck('title', 'id');
             return view('admin.budget.edit', compact('budget', 'competition'));
 
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/budget')->with('message', 'Unable to create new user.');
@@ -121,9 +119,6 @@ class BudgetCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.budget.edit');
-        else {
         try {
             $v = Validator::make($request->all(), [
                 'name' => 'required|max:255',
@@ -141,7 +136,6 @@ class BudgetCategoryController extends Controller
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/budget')->with('errors', getMessage("wrong"));
-        }
         }
     }
 

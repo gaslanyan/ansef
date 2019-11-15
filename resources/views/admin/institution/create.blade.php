@@ -36,9 +36,14 @@
                                 <label>Address:</label>
 
                                 <div class="row addresses">
-                                     <div class="form-group col-lg-12">
-                                        <label for="street">Street *:</label>
+                                     <div class="form-group col-lg-6">
+                                        <label for="street">Street:</label>
                                         <input type="text" class="form-control" name="street" id="street" value="{{old('street')}}">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="provence">Municipality/State:</label>
+                                        <input type="text" class="form-control"
+                                               name="provence" id="provence" value="{{old('provence')}}">
                                     </div>
                                    <div class="form-group col-lg-6">
                                         <label for="city">City *:</label>
@@ -48,14 +53,9 @@
 
                                         </datalist>
                                         <input list="city" name="city" class="form-control"
-                                               value="" id="_city">
+                                    value="{{old('city')}}" id="_city">
                                         <input type="hidden" name="city_id" value=""
                                                id="city_id">
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="provence">Municipality/State *:</label>
-                                        <input type="text" class="form-control"
-                                               name="provence" id="provence" value="{{old('provence')}}">
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="addr">Country *:</label>

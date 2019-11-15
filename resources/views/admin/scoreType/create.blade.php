@@ -34,15 +34,7 @@
                             @csrf
                             <div class="form-group col-lg-6">
                                 <label for="name">Score Type Name *:</label>
-                                {{--@php $gstns = getScoreTypeNames();--}}
-                                {{--@endphp--}}
-                                {{--<select class="form-control" name="name" id="name">--}}
-                                    {{--<option value="0">Select Score Type Name</option>--}}
-                                    {{--@foreach($gstns as $gstn)--}}
-                                        {{--<option value="{{$gstn}}">{{$gstn}}</option>--}}
-                                    {{--@endforeach--}}
-                                {{--</select>--}}
-                                <input type="text" class="form-control" name="name" id="name">
+                            <input type="text" class="form-control" name="name" id="name" value="{{old('name')}}">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="competition">Competition Name *:</label>
@@ -50,8 +42,11 @@
                                         id="competition">
                                     <option >Select Competition</option>
                                     <?php if(!empty($competition)):?>
+                                    @php
+                                        $compindex = old('competition_id');
+                                    @endphp
                                     <?php foreach($competition as $key=>$item):?>
-                                    <option class="text-capitalize" value="{{$key}}">
+                                    <option class="text-capitalize" value="{{$key}}" {{$compindex == $key ? 'selected' : ''}}>
                                         {{$item}}</option>
                                     <?php endforeach;?>
                                     <?php endif;?>
@@ -59,22 +54,22 @@
                             </div>
                             <div class="form-group col-lg-12">
                                 <label for="description">Description *:</label>
-                                <textarea class="col-lg-12" id="description" name="description"></textarea>
+                                <textarea class="col-lg-12" id="description" name="description">{{old('description')}}</textarea>
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="min">Score Type Min value *:</label>
                                 <input type="number" class="form-control"
-                                       id="min" name="min">
+                                       id="min" name="min" value="{{old('min')}}">
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="max">Score Type Max value *:</label>
                                 <input type="number" class="form-control"
-                                       id="max" name="max">
+                                       id="max" name="max" value="{{old('max')}}">
                             </div>
                             <div class="form-group col-lg-4">
                                 <label for="weight">Score Type Weight value *:</label>
                                 <input type="number" class="form-control"
-                                       id="weight" name="weight">
+                                       id="weight" name="weight" value="{{old('weight')}}">
                             </div>
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary" id="add_score">Save</button>

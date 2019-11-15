@@ -82,7 +82,7 @@
                                     <td data-order="{{$scoreType->description}}"
                                         data-search="{{$scoreType->description}}"
                                         class="name_field">
-                                        {{$scoreType->description}}
+                                        {{truncate($scoreType->description,50)}}
                                     </td>
                                     <td data-order="{{$scoreType->min}}" data-search="{{$scoreType->min}}"
                                         class="min_field">

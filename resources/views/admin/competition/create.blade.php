@@ -156,22 +156,20 @@
                                     @endif
                                 </select>
                             </div>
-                            <div class="form-group col-lg-5">
+                            <div class="form-group col-lg-4">
                                 <label for="first_report">First Report Date *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="first_report" id="first_report" value="{{old('first_report')}}">
                             </div>
-                            <div class="form-group col-lg-5">
+                            <div class="form-group col-lg-4">
                                 <label for="second_report">Second Report Date *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="second_report" id="second_report" value="{{old('second_report')}}">
                             </div>
-                            <div class="form-group col-lg-2">
-                                <label for="recommendations" class="label">Require recommendations?
-                                    <input type="checkbox" class="form-control" name="recommendations"
-                                           id="recommendations" value="{{old('recommendations')}}">
-                                    <span class="checkmark"></span>
-                                </label>
+                            <div class="form-group col-lg-4">
+                                <label for="recommendations" class="label">Min. recommendations:</label>
+                                    <input type="number" class="form-control" name="recommendations"
+                                       id="recommendations" value="{{old('recommendations')}}">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label for="additional_charge_name">Additional Charge Name:</label>

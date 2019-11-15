@@ -75,7 +75,7 @@ class ScoreTypeController extends Controller
                         return redirect('admin/score')->with('error', getMessage("score_count"));
                     }
                 } else
-                    return redirect()->back()->withErrors($v->errors());
+                    return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
                 return redirect('admin/score')->with('errors', getMessage("wrong"));
@@ -112,29 +112,25 @@ class ScoreTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.scoreType.edit');
-        else {
-            try {
-                $v = Validator::make($request->all(), [
-                    'name' => 'required|max:255',
-                    'competition_id' => 'required|numeric',
-                    'description' => 'required|max:1024',
-                    'min' => 'required|numeric',
-                    'max' => 'required|numeric|max:min',
-                    'weight' => 'required|numeric',
-                ]);
-                if (!$v->fails()) {
-                    $scoreType = ScoreType::findOrFail($id);
-                    $scoreType->fill($request->all())->save();
-                    return redirect('admin/score')->with('success', getMessage("update"));
-                } else
-                    return redirect()->back()->withErrors($v->errors())->withInput();
-            } catch (\Exception $exception) {
+        try {
+            $v = Validator::make($request->all(), [
+                'name' => 'required|max:255',
+                'competition_id' => 'required|numeric',
+                'description' => 'required|max:1024',
+                'min' => 'required|numeric',
+                'max' => 'required|numeric|max:min',
+                'weight' => 'required|numeric',
+            ]);
+            if (!$v->fails()) {
+                $scoreType = ScoreType::findOrFail($id);
+                $scoreType->fill($request->all())->save();
+                return redirect('admin/score')->with('success', getMessage("update"));
+            } else
+                return redirect()->back()->withErrors($v->errors())->withInput();
+        } catch (\Exception $exception) {
 
-                logger()->error($exception);
-                return redirect()->back()->with('errors', getMessage("wrong"));
-            }
+            logger()->error($exception);
+            return redirect()->back()->with('errors', getMessage("wrong"));
         }
     }
 

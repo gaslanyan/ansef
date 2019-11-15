@@ -39,24 +39,24 @@
                             <div class="form-group col-lg-6">
                                 <input name="_method" type="hidden" value="PATCH">
                                 <label for="name">Score Type Name *:</label>
-                                {{--@php $gstns = getScoreTypeNames();--}}
-                                {{--@endphp--}}
-                                {{--<select class="form-control" name="name" id="name">--}}
-                                {{--<option value="0">Select Score Type Name</option>--}}
-                                {{--@foreach($gstns as $gstn)--}}
-                                {{--<option value="{{$gstn}}"--}}
-                                {{--@if($scoreType->name == $gstn) {{ 'selected' }}@endif>{{$gstn}}</option>--}}
-                                {{--@endforeach--}}
-                                {{--</select>--}}
                                 <input type="text" class="form-control" name="name" id="name"
                                        value="{{$scoreType->name }}">
 
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="text">Competition title:</label>
-                                {{--<select id="text" class="form-control" name="competition_id"--}}
-                                {{--id="competition">--}}
-
+                                <select id="text" class="form-control" name="competition_id"
+                                        id="competition">
+                                    <option value="0">Select Competition</option>
+                                    <?php if(!empty($competition)):?>
+                                    <?php foreach($competition as $key=>$item):?>
+                                    <option class="text-capitalize"
+                                            <?php if ($key == $scoreType->competition_id):
+                                                echo "selected"; endif?>
+                                            value="{{$key}}">{{$item}}</option>
+                                    <?php endforeach;?>
+                                    <?php endif;?>
+                                </select>
                             </div>
                             <div class="form-group col-lg-12">
                                 <label for="description">Description:</label>

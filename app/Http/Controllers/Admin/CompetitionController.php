@@ -94,11 +94,8 @@ class CompetitionController extends Controller
                     $additional['additional_percentage_name'] = $request->additional_percentage_name;
                     $additional['additional_percentage'] = $request->additional_percentage;
                     $allow_foreign = '0';
-                    $recommendations_id = 0;
-                    if (isset($request->allow_foreign))
-                        $allow_foreign = '1';
-                    if (isset($request->recommendations_id)) $recommendations_id = 1;
-                        $c = Competition::create([
+                    if (isset($request->allow_foreign)) $allow_foreign = '1';
+                    $c = Competition::create([
                         'title' => $request->title,
                         'description' => $request->description,
                         'submission_start_date' => $request->submission_start_date,
@@ -117,7 +114,7 @@ class CompetitionController extends Controller
                         'first_report' => $request->first_report,
                         'second_report' => $request->second_report,
                         'state' => $request->state,
-                        'recommendations_id' => $recommendations_id,
+                        'recommendations_id' => $request->recommendations,
                         'categories' => json_encode($request->category),
                         'additional' => json_encode($additional)
                     ]);

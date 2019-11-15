@@ -309,13 +309,13 @@ function printUser($user, $accounts)
 
     $add = getAddressByPivot($user['id']);
     $email = \App\Models\User::select('email')->where('id', '=', $accounts->person_pi_id)->first();
-    return ' 
+    return '
             <div class="col-md-12">
                 <strong><i class="fa fa-user-check margin-r-5"></i>'
         . $user["type"] . ':</strong>
-        
+
                 <div class="col-md-12">
-                    <div class="row">              
+                    <div class="row">
                         <div class="col-4">
                             <div class="col-md-12">
                                 <strong>Name:</strong>
@@ -329,12 +329,12 @@ function printUser($user, $accounts)
                                 <strong>Address:</strong>
                             </div>
                             <div class="col-md-12">
-                           
+
                                 <p>' . $add["province"] . "," . $add["street"] . '</p>
                             </div>
                         </div>
                         <div class="col-4">
-        
+
                             <div class="col-md-12">
                                 <strong>Phone:</strong>
                             </div>
@@ -504,4 +504,13 @@ function formatDate($str)
     $time = strtotime($str);
     $newformat = date('Y-m-d', $time);
     return $newformat;
+}
+
+function truncate($string, $length)
+{
+    if (strlen($string) > $length) {
+        $string = substr($string, 0, $length) . '...';
+    }
+
+    return $string;
 }

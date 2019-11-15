@@ -44,9 +44,6 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.message.create');
-        else {
         try {
             $val = Validator::make($request->all(), [
                 'text' => 'required|max:511|min:6',
@@ -56,12 +53,11 @@ class MessageController extends Controller
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', getMessage("success"));
-            } else
-                return redirect()->back()->withErrors($val->errors())->withInput();
+            }
+            else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/message')->with('error', getMessage("wrong"));
-        }
         }
     }
 
@@ -102,9 +98,6 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.message.edit');
-        else {
         try {
             $val = Validator::make($request->all(), [
                 'text' => 'required|max:511|min:6',
@@ -115,12 +108,11 @@ class MessageController extends Controller
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', getMessage("update"));
-            } else
-                return redirect()->back()->withErrors($val->errors());
+            }
+            else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/message')->with('error', getMessage("wrong"));
-        }
         }
     }
 

@@ -4,7 +4,9 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" style="margin-top:20px;">
-                    <div class="card-header">Competition</div>
+                    <div class="card-header"><b>Competition:</b> @if(!empty($com['title'])){{$com['title']}}@endif
+                        @if(!empty($com['state']))({{$com['state'] == 'enable' ? 'Enabled' : 'Disabled'}})@endif
+                    </div>
 
                     <div class="card-body card_body">
                         @if ($errors->any())
@@ -28,18 +30,10 @@
                         @endif
                         <div class="box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Competition information</h3>
+                                <h3 class="box-title">Competition parameters</h3>
                             </div>
                             <div class="box-body col-md-12">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <strong><i class="fa fa-heading margin-r-5"></i> Competition title:</strong>
-                                        <p>@if(!empty($com['title'])){{$com['title']}}@endif</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong><i class="fa fa-bookmark margin-r-5"></i> State:</strong>
-                                        <p>@if(!empty($com['state'])){{$com['state']}}@endif</p>
-                                    </div>
                                     <div class="col-md-6">
                                         <strong><i class="fas fa-question-circle margin-r-5"> </i>Description:</strong>
                                         <p>@if(!empty($com['description'])){{$com['description']}}@endif</p>
@@ -80,7 +74,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <strong class="col-md-12"><i class="fa fa-list-ol margin-r-5"></i>Categories:</strong>
+                                            <strong class="col-md-12"><i class="fa fa-list-ol margin-r-5"></i>Allowed categories:</strong><br/><br/>
                                             <?php if (!empty($cats)): ?>
                                             <ol class="col-md-6">
                                                 <?php foreach ($cats as $index => $cat) : ?>
@@ -99,30 +93,30 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <strong><i class="fa fa-calendar margin-r-4"></i>Duration:</strong>
-                                        <p>@if(!empty($com['duration'])){{$com['duration'].' months'}}@endif</p>
+                                        <span>@if(!empty($com['duration'])){{$com['duration'].' months'}}@endif</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <strong><i class="fa fa-money margin-r-4"></i>Min budget:</strong>
-                                        <p>@if(!empty($com['min_budget'])){{$com['min_budget'].'$'}} @endif</p>
+                                        <strong><i class="fa fa-money margin-r-4"></i>Min budget limit:</strong>
+                                        <span>@if($com['min_budget'] == 0) {{'None'}} @else {{'$'.$com['min_budget']}} @endif</span>
                                     </div>
                                     <div class="col-md-4">
-                                        <strong><i class="fa fa-money margin-r-4"></i>Max budget:</strong>
-                                        <p>@if(!empty($com['max_budget'])){{$com['max_budget'].'$'}}@endif</p>
+                                        <strong><i class="fa fa-money margin-r-4"></i>Max budget limit:</strong>
+                                        <span>@if($com['max_budget'] == 0) {{'None'}} @else {{'$'.$com['max_budget']}} @endif</span>
                                     </div>
 
                                     <div class="col-md-4">
                                         <strong><i class="fa fa-birthday-cake margin-r-4"></i>Min
-                                            age:</strong>
-                                        <p>@if(!empty($com['min_age'])){{$com['min_age'].' years'}}  @endif</p>
+                                            age limit:</strong>
+                                        <span>@if($com['min_age'] == 0){{'None'}} @else {{$com['min_age'].' years'}}  @endif</span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong><i class="fa fa-birthday-cake margin-r-4"></i>Max
-                                            age:</strong>
-                                        <p>@if(!empty($com['min_age'])){{$com['max_age'].' years'}} @endif</p>
+                                            age limit:</strong>
+                                        <span>@if($com['max_age'] == 100){{'None'}} @else {{$com['max_age'].' years'}} @endif</spanp>
                                     </div>
                                     <div class="col-md-4">
-                                        <strong><i class="fa fa-bookmark margin-r-4"></i> Allow foreign:</strong>
-                                        <p>@if($com['allow_foreign'] == 0){{'false'}}@else {{'true'}}@endif</p>
+                                        <strong><i class="fa fa-bookmark margin-r-4"></i> Allow foreign PI:</strong>
+                                        <span>@if($com['allow_foreign'] == 0){{'No'}}@else {{'Yes'}}@endif</span>
                                     </div>
                                 </div>
                                 <hr>
@@ -131,14 +125,14 @@
                             <div class="box-body col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-graduation-cap margin-r-5"></i> Min Level
+                                        <strong><i class="fa fa-graduation-cap margin-r-5"></i> Min
                                             Degree:</strong>
-                                        <p>@if(!empty($com['min_degree'])){{$com['min_degree']['text']}} @endif</p>
+                                        <span>@if($com['min_degree']['text'] == 'No degree'){{'Any'}} @else {{$com['min_degree']['text']}} @endif</span>
                                     </div>
                                     <div class="col-md-6">
-                                        <strong><i class="fa fa-graduation-cap margin-r-5"></i> Max Level
+                                        <strong><i class="fa fa-graduation-cap margin-r-5"></i> Max
                                             Degree:</strong>
-                                        <p>@if(!empty($com->max_degree['text'])){{$com->max_degree['text']}} @endif</p>
+                                        <span>@if($com['max_degree']['text'] == 'No degree'){{'Any'}} @else {{$com['max_degree']['text']}} @endif</span>
                                     </div>
                                 </div>
                                 <hr>
@@ -156,8 +150,8 @@
                                         <p>@if(!empty($com->second_report)){{$com->second_report}} @endif</p>
                                     </div>
                                     <div class="col-md-4">
-                                        <strong><i class="fa fa-bookmark margin-r-5"></i>Recommendations:</strong>
-                                        <p>@if($com->recommendations_id == 0){{'No'}}@else {{'Yes'}}@endif</p>
+                                        <strong><i class="fa fa-bookmark margin-r-5"></i>Min. recommendations:</strong>
+                                        <p>@if($com->recommendations_id == 0){{'None'}}@else {{$com->recommendations_id}}@endif</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -170,7 +164,7 @@
                                             <div class="col-md-6">
                                                 <strong><i class="fa fa-calendar margin-r-5"></i>{{str_replace_first('_', " ",str_replace_first("_", " ", $index))}}
                                                     :</strong>
-                                                <p>{{$item}} </p>
+                                                <p>{{$item.'' == '0' || $item.'' == '' ? 'None' : $item}} </p>
                                             </div>
                                         @endforeach
                                     @endif
@@ -182,73 +176,66 @@
                                     <div class="row">
 
                                         <div class="col-md-12 border-bottom mb-3">
-                                            <strong><i class="fa fa-heading margin-r-5"></i>Competition Score
-                                                Type:</strong>
+                                            <strong><i class="fas fa-star margin-r-5"></i>Score
+                                                Types:</strong>
                                         </div>
                                         @foreach($st as $key=>$value)
                                             {{--                                           @php dd($value);@endphp--}}
 
                                             <div class="col-md-6">
-                                                <strong><i class="fa fa-heading margin-r-5"></i>Name:</strong>
-                                                <p>@if(!empty($value->name)){{$value->name}} @endif</p>
+                                                <strong><i class="fas fa-tag margin-r-5"></i>Name:</strong>
+                                                <span>@if(!empty($value->name)){{$value->name}} @endif</span>
                                             </div>
                                             <div class="col-md-6">
-                                                <strong><i class="fa fa-text-width margin-r-5"></i>Description:</strong>
+                                                <strong>Description:</strong>
                                                 <p>@if(!empty($value->description)){{$value->description}} @endif</p>
                                             </div>
                                             <div class="col-md-4">
-                                                <strong><i class="fa fa-window-minimize margin-r-5"></i>Min
-                                                    value:</strong>
-                                                <p>@if(!empty($value->min)){{$value->min.' $'}} @endif</p>
+                                                <strong>Min:</strong>
+                                                <span>{{$value->min}}</span>
                                             </div>
                                             <div class="col-md-4">
-                                                <strong><i class="fa fa-window-maximize margin-r-5"></i>Max
-                                                    value:</strong>
-                                                <p>@if(!empty($value->max)){{$value->max.' $'}} @endif</p>
+                                                <strong>Max:</strong>
+                                                <span>{{$value->max}}</span>
                                             </div>
                                             <div class="col-md-4">
-                                                <strong><i class="fa fa-weight margin-r-5"></i>Weight value:</strong>
-                                                <p>@if(!empty($value->weight)){{$value->weight}} @endif</p>
-                                            </div>
+                                                <strong>Weight value:</strong>
+                                                <span>@if(!empty($value->weight)){{$value->weight}} @endif</span>
+                                            </div><br/><br/>
                                         @endforeach
 
                                     </div>
-                                    <hr>
                                 </div>
                             @endif
                             @if(!empty($bc->all()))
                             <div class="box-body col-md-12">
                                 <div class="row">
                                         <div class="col-md-12 border-bottom mb-3">
-                                            <strong><i class="fa fa-heading margin-r-5"></i>Competition Budget
+                                            <strong><i class="fas fa-dollar-sign margin-r-5"></i>Budget
                                                 Categories:</strong>
                                         </div>
                                         @foreach($bc as $key=>$value)
                                             {{--                                           @php dd($value);@endphp--}}
 
                                             <div class="col-md-3">
-                                                <strong><i class="fa fa-heading margin-r-5"></i>Name:</strong>
+                                                <strong><i class="fas fa-tag margin-r-5"></i>Name:</strong>
                                                 <p>@if(!empty($value->name)){{$value->name}} @endif</p>
                                             </div>
                                             <div class="col-md-3">
-                                                <strong><i class="fa fa-window-minimize margin-r-5"></i>Min
-                                                    value:</strong>
-                                                <p>@if(!empty($value->min)){{$value->min.' $'}}
-                                                    @endif</p>
+                                                <strong>Min value:</strong>
+                                                <p>{{'$'.$value->min}}</p>
                                             </div>
                                             <div class="col-md-3">
-                                                <strong><i class="fa fa-window-maximize margin-r-5"></i>Max
-                                                    value:</strong>
-                                                <p>@if(!empty($value->max)){{$value->max.' $'}} @endif</p>
+                                                <strong>Max value:</strong>
+                                                <p>{{'$'.$value->max}}</p>
                                             </div>
                                             <div class="col-md-3">
-                                                <strong><i class="fa fa-weight margin-r-5"></i>Weight value:</strong>
-                                                <p>@if(!empty($value->weight)){{$value->weight}} @endif</p>
+                                                <strong>Weight value:</strong>
+                                                <p>{{$value->weight}}</p>
                                             </div>
                                         @endforeach
 
                                 </div>
-                                <hr>
                             </div>
                             @endif
                             @if(!empty($rr->all()))
@@ -256,19 +243,19 @@
                                 <div class="row">
 
                                         <div class="col-md-12 border-bottom mb-3">
-                                            <strong><i class="fa fa-heading margin-r-5"></i>Competition Ranking
+                                            <strong><i class="fas fa-ruler-vertical margin-r-5"></i>Ranking
                                                 Roles:</strong>
 
                                         </div>
                                         @foreach($rr as $key=>$value)
                                             {{--                                                                                       @php dd($value);@endphp--}}
 
-                                            <div class="col-md-4">
-                                                <strong><i class="fa fa-heading margin-r-5"></i>Sql:</strong>
+                                            <div class="col-md-10">
+                                                <strong><i class="fas fa-tag margin-r-5"></i>Sql:</strong>
                                                 <p>@if(!empty($value->sql)){{$value->sql}} @endif</p>
                                             </div>
-                                            <div class="col-md-4">
-                                                <strong><i class="fa fa-money margin-r-5"></i>
+                                            <div class="col-md-2">
+                                                <strong>
                                                     Value:</strong>
                                                 <p>@if(!empty($value->value)){{$value->value}} @endif</p>
                                             </div>
