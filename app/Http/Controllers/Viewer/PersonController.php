@@ -406,7 +406,7 @@ class PersonController extends Controller
         $user_id = chooseUser();
         $this->validate($request, [
             'oldpassword' => 'required',
-            'newpassword' => 'required|min:6',
+            'newpassword' => 'required|min:8',
             'confirmpassword' => 'required|same:newpassword',
         ]);
         $data = $request->all();

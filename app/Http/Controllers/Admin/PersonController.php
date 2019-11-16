@@ -449,7 +449,7 @@ class PersonController extends Controller
 
             $v = Validator::make($request->all(), [
                 'oldpassword' => 'required',
-                'newpassword' => 'required|min:6',
+                'newpassword' => 'required|min:8',
                 'confirmpassword' => 'required|same:newpassword',
             ]);
             if (!$v->fails()) {

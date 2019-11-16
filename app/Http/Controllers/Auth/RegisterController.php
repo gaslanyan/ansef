@@ -62,7 +62,7 @@ class RegisterController extends Controller
         $get_role = Role::where('name', '=', $role)->first();
         $validatedData = $request->validate([
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         try {

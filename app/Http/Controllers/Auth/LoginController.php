@@ -78,7 +78,7 @@ class LoginController extends Controller
         $get_role = Role::where('name', '=', $role)->first();
         $this->validate($request, [
             'email' => 'required|email',
-            'password' => 'required|min:6'
+            'password' => 'required|min:8'
         ]);
 
         if (Auth::guard($role)->attempt(['email' => $request->email, 'state' => 'active',

@@ -195,7 +195,7 @@ class PersonController extends Controller
             $meetings = $person->meetings;
             $publications = $person->publications;
             $disciplines = $person->disciplines;
-            
+
             return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications'));
         }
         // $person = Person::where('id', $pid)
@@ -204,7 +204,7 @@ class PersonController extends Controller
         //                 ->first();
 
     }
-    
+
     public function download(Person $person)
     {
         $person = null;
@@ -398,7 +398,7 @@ class PersonController extends Controller
         $user_id = chooseUser();
         $this->validate($request, [
             'oldpassword' => 'required',
-            'newpassword' => 'required|min:6',
+            'newpassword' => 'required|min:8',
             'confirmpassword' => 'required|same:newpassword',
         ]);
         $data = $request->all();

@@ -314,14 +314,14 @@ class PersonController extends Controller
         try {
             $v = Validator::make($request->all(), [
                 'oldpassword' => 'required',
-                'newpassword' => 'required|min:6',
+                'newpassword' => 'required|8',
                 'confirmpassword' => 'required|same:newpassword',
             ]);
             if (!$v->fails()) {
                 $user_id = \Auth::guard('referee')->user()->id;
                 $this->validate($request, [
                     'oldpassword' => 'required',
-                    'newpassword' => 'required|min:6',
+                    'newpassword' => 'required|min:8',
                     'confirmpassword' => 'required|same:newpassword',
                 ]);
                 $data = $request->all();
