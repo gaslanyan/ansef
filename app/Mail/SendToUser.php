@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendToAdmin extends Mailable
+class SendToUser extends Mailable
 {
     use Queueable, SerializesModels;
     public $sendtoadmin;
@@ -29,7 +29,7 @@ class SendToAdmin extends Mailable
     public function build()
     {
         return $this->from('dopplerthepom@gmail.com')
-                    ->view('mails.sendtoadmin')
+                    ->view('mails.sendtouser')
                     ->attach(public_path('/images') . '/logos/send_logo.png',
                         [
                             'as' => 'logo.png',

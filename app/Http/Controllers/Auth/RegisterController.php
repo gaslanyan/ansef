@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Person;
 use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -59,8 +60,6 @@ class RegisterController extends Controller
             $role = "applicant";
 
         $get_role = Role::where('name', '=', $role)->first();
-
-        /** @var User $user */
         $validatedData = $request->validate([
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
@@ -72,7 +71,6 @@ class RegisterController extends Controller
             $validatedData['password_salt'] = "10";//harce
             $validatedData['requested_role_id'] = $get_role->id;
             $validatedData['state'] = "inactive";//harce
-
             $user = app(User::class)->create($validatedData);
 
         } catch (\Exception $exception) {
@@ -89,14 +87,25 @@ class RegisterController extends Controller
      * @param string $activationCode
      * @return string
      */
-    public function activateUser(string $activationCode)
+    public function activateUser(string $useremail, string $activationCode)
     {
-
         try {
-            $user = app(User::class)->where('confirmation', $activationCode)->first();
-            $role = Role::where('id', '=', $user->requested_role_id)->first();
+            $user = app(User::class)->where('email', $useremail)->first();
             if (!$user) {
-                return redirect()->route('register.' . $role->name)->with('status',"The code does not exist for any user in our system.");
+                return redirect()->route('register.' . $role->name)->with('status',"Email not registered yet.");
+            }
+            $role = Role::where('id', '=', $user->requested_role_id)->first();
+            if($user->state === "active") {
+                $role = Role::where('id', '=', $user->role_id)->first();
+                return redirect()->route('login.' . $role->name)->with('status',"Your account is active. You may now log in.");
+            }
+            if($user->state === "waiting") {
+                $role = Role::where('id', '=', $user->role_id)->first();
+                return redirect()->route('login.' . $role->name)->with('status',"You account is awaiting activation by the portal administrator. Try again later, or contact admin@ansef.org.");
+            }
+
+            if ($user->confirmation != $activationCode) {
+                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact dopplerthepom@gmail.com.");
             }
 
             if ($user->state === "inactive") {
@@ -105,26 +114,34 @@ class RegisterController extends Controller
                 else {
                     $user->state = "active";
                 }
-                    $user->confirmation = 1;
-                    $user->role_id = $user->requested_role_id;
-                    $user->requested_role_id = 0;
-                    $user->save();
+                $user->confirmation = 1;
+                $user->role_id = $user->requested_role_id;
+                $user->requested_role_id = 0;
+                $user->save();
+
+                $person = new Person;
+                $person->user_id = $user->id;
+                $person->first_name = "";
+                $person->last_name = "";
+                $person->save();
 
                 if($role->name === "applicant")
+                {
                     return redirect()->route('login.' . $role->name)->with('success',getMessage('send_applicant'));
-
+                }
                 else{
                     $objSend = new \stdClass();
-                    $objSend->message = "message";
-                    $objSend->sender = 'Ansef';
-                    $objSend->receiver = 'collages';
+                    $objSend->message = "A person with email " . $user->email . " has requested access in the role of " . $role->name . ". Please log into the ANSEF portal to enable the account.";
+                    $objSend->sender = 'dopplerthepom@gmail.com';
+                    $objSend->receiver = 'dopplerthepom@gmail.com';
 
-                   Mail::to("webmaster@ansef.org")->send(new \App\Mail\SendToAdmin($objSend));
+                    Mail::to('dopplerthepom@gmail.com')->send(new \App\Mail\SendToAdmin($objSend));
+
                     return redirect()->route('login.' . $role->name)->with('success',getMessage('email_other'));
                 }
-            } else {
-                return redirect()->route('login.' . $role->name)->with('',"You are active " . $role->name . ".");
-
+            }
+            else {
+                return redirect()->route('login.' . $role->name)->with('',"Your account is active. You may now log in.");
             }
         } catch (\Exception $exception) {
             logger()->error($exception);

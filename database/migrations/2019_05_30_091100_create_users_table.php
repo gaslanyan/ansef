@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->boolean('role_id')->nullable()->default(1)->index('FK_ROLE');
 			$table->boolean('requested_role_id')->nullable()->default(0);
 			$table->string('confirmation', 191)->nullable();
-			$table->enum('state', array('active','inactive','disabled'))->nullable()->default('inactive');
+			$table->enum('state', array('active','inactive','disabled','waiting'))->nullable()->default('inactive');
 			$table->timestamps();
 		});
 	}

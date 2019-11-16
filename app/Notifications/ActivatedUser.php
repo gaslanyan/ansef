@@ -56,7 +56,7 @@ class ActivatedUser extends Notification
         return (new MailMessage)
             ->from(env('MAIL_USERNAME'))
             ->subject($template['activate_account'])
-            ->greeting(sprintf('Hello %s', $role->name))
+            ->greeting(sprintf('Hello %s,', $role->name))
             ->line($template['successfully_activated'])
             ->line(sprintf($message))
             ->line($template['thank']);}

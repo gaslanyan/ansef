@@ -130,27 +130,27 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 3600,
+            'expire' => 180,
         ],
         'admins' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 3600,
+            'expire' => 180,
         ],
         'viewers' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 3600,
+            'expire' => 180,
         ],
         'applicants' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 3600,
+            'expire' => 180,
         ],
         'referees' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 3600,
+            'expire' => 180,
         ],
     ],
 

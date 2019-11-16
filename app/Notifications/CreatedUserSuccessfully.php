@@ -49,14 +49,13 @@ class CreatedUserSuccessfully extends Notification
         $user = $this->user;
         $role = Role::where('id', '=', $user->requested_role_id)->first();
         $message = "Your password: $this->password";
-
-                  return (new MailMessage)
-                ->from(env('MAIL_USERNAME'))
+        return (new MailMessage)
+                ->from('dopplerthepom@gmail.com')
                 ->subject($template->new_account)
-                ->greeting(sprintf('Hello %s', $role->name))
+                ->greeting(sprintf('Hello %s,', $role->name))
                 ->line($template->registered_by_admin)
                 ->line(sprintf($message))
-                ->action('Click Here', route('activate.user', $user->confirmation))
+                ->action('Click here to activate your account', route('activate.user', $user->email, $user->confirmation))
                 ->line($template->thank);
 
     }

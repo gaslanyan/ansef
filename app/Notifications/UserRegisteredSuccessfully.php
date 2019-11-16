@@ -54,25 +54,14 @@ class UserRegisteredSuccessfully extends Notification
         $role = Role::where('id', '=', $user->requested_role_id)->first();
         $message = "";
 
-        if ($role->name !== "applicant")
-            return (new MailMessage)
-                ->from(env('MAIL_USERNAME'))
-                ->cc(env('MAIL_USERNAME'))
-                ->subject($template['new_account'])
-                ->greeting(sprintf('Hello %s', $role->name))
-                ->line($template['successfully_registered'])
-                ->line(sprintf($message))
-                ->action('Click Here', route('activate.user', $user->confirmation))
-                ->line($template['thank']);
-        else
-            return (new MailMessage)
-                ->from(env('MAIL_USERNAME'))
-                ->subject($template['new_account'])
-                ->greeting(sprintf('Hello %s', $role->name))
-                ->line($template['successfully_registered'])
-                ->line(sprintf($message))
-                ->action('Click Here', route('activate.user', $user->confirmation))
-                ->line($template['thank']);
+        return (new MailMessage)->from('dopplerthepom@gmail.com')
+                                ->cc('dopplerthepom@gmail.com')
+                                ->subject($template['new_account'])
+                                ->greeting(sprintf('Dear ANSEF %s,', $role->name))
+                                ->line($template['successfully_registered'])
+                                ->line(sprintf($message))
+                                ->action('Click here to activate your account', route('activate.user', ['email'=>$user->email, 'code'=>$user->confirmation]))
+                                ->line($template['thank']);
 
     }
 

@@ -153,12 +153,22 @@
                                                 @endif
                                                 {{--@endif--}}
                                                 @if($type =="referee" )
-
-
                                                     @if(isset($p['user']['id']))
                                                         <a target="_blank" href="{{action(ucfirst($type).'\\'.ucfirst($type).'Controller@index',
                                                           $p['user']['id'])}}"
                                                            class="login" title="Login"><i class="fa fa-sign-in-alt"></i>
+                                                        </a>
+                                                        <a href="{{action('Admin\AccountController@mailreferee', ['id'=>$p['user']['id']])}}"
+                                                           class="mail" title="Mail"><i class="fas fa-envelope"></i>
+                                                        </a>
+                                                        <input type="hidden" class="id" name="{{$type}}"
+                                                               value="@if(!empty($p['user']['id'])){{$p['user']['id']}} @else {{$p['id']}} @endif">
+                                                    @endif
+                                                @endif
+                                                @if($type =="viewer" )
+                                                    @if(isset($p['user']['id']))
+                                                        <a href="{{action('Admin\AccountController@mailviewer', ['id'=>$p['user']['id']])}}"
+                                                           class="mail" title="Mail"><i class="fas fa-envelope"></i>
                                                         </a>
                                                         <input type="hidden" class="id" name="{{$type}}"
                                                                value="@if(!empty($p['user']['id'])){{$p['user']['id']}} @else {{$p['id']}} @endif">

@@ -14,8 +14,8 @@ return [
     */
 
     'password' => 'Passwords must be at least six characters and match.',
-    'reset' => 'Your password has been reset.',
-    'sent' => 'We have e-mailed you a link to reset your password.',
+    'reset' => 'Your password has been reset. You may now log in.',
+    'sent' => 'We just e-mailed you a link to reset your password. Please check your mailbox.',
     'token' => 'Password reset token is invalid.',
     'user' => "No user with that e-mail address.",
 

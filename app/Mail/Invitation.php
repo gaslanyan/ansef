@@ -28,7 +28,7 @@ class Invitation extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_USERNAME'))
+        return $this->from('dopplerthepom@gmail.com')
             ->view('mails.invitation')
             ->text('mails.invitation_plain')
             ->with(

@@ -1,4 +1,4 @@
-Dear Administrator (<i>{{ $sendtoadmin->receiver }}</i>),
+Dear ANSEF portal user,
 <div>
     <p>{{ $sendtoadmin->message }}</p>
 </div>

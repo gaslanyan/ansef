@@ -45,7 +45,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
 
-Route::get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
+Route::get('/verify-user/{email}/code/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
 
 //permission
 //
@@ -139,6 +139,8 @@ Route::post('/admin/backup', 'Admin\SettingsController@backup');
 
 Route::resource('/admin/person', 'Admin\PersonController');
 Route::delete('/admin/person/{id}/{type}', 'Admin\PersonController@destroy');
+Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
+Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
 Route::resource('/admin/account', 'Admin\AccountController');
 
 //Route::group(['middleware'=>'auth'], function () {
@@ -225,7 +227,7 @@ Route::get('/applicant/honors/delete/{id}', 'Base\HonorsController@destroy');
 
 Route::get('/applicant/download/{id}', 'Applicant\PersonController@download');
 
-/*File Upload routs*/
+/*File Upload routes*/
 Route::get('file-upload/{id}', 'Applicant\FileUploadController@index');
 Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
 Route::post('file-upload/uploadreport', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');

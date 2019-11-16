@@ -24,6 +24,7 @@ use App\Notifications\GeneratePasswordSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class AccountController extends Controller
 {
@@ -285,17 +286,32 @@ class AccountController extends Controller
         //
     }
 
-//    public function __construct()
-//    {
+    public function mailreferee($id)
+    {
+        $user = User::where('id', '=', $id)->first();
+        $objSend = new \stdClass();
+        $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
+        $objSend->sender = 'dopplerthepom@gmail.com';
+        $objSend->receiver = 'dopplerthepom@gmail.com';
 
-//        $this->middleware('sign_in')->except('logout');
-//        $this->middleware('guest')->except('logout');
-//        $this->middleware('guest:applicant')->except('logout');
-//        $this->middleware('guest:admin')->except('logout');
-//        $this->middleware('guest:viewer')->except('logout');
-//        $this->middleware('guest:referee')->except('logout');
+        Mail::to($user->email)->send(new \App\Mail\SendToUser($objSend));
 
-//    }
+        return redirect()->back()->with('status', 'Mail sent to referee');
+    }
+
+    public function mailviewer($id)
+    {
+        $user = User::where('id', '=', $id)->first();
+        $objSend = new \stdClass();
+        $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
+        $objSend->sender = 'dopplerthepom@gmail.com';
+        $objSend->receiver = 'dopplerthepom@gmail.com';
+
+        Mail::to($user->email)->send(new \App\Mail\SendToUser($objSend));
+
+        return redirect()->back()->with('status', 'Mail sent to referee');
+    }
+
     public function __construct()
     {
 //        $this->middleware('auth');

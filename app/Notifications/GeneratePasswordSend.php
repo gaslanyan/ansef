@@ -58,14 +58,14 @@ class GeneratePasswordSend extends Notification
         $message = '';
         if (!empty(Auth::guard('superadmin')->user()) ||
             !empty(Auth::guard('admin')->user()))
-            $message = 'Your password: ' . $this->password;
+            $message = 'Password: ' . $this->password;
         return (new MailMessage)
             ->from(env('MAIL_USERNAME'))
             ->subject('Successfully created new password')
-            ->greeting(sprintf('Hello %s', $name))
-            ->line('You have the new generated password. Please login again.')
+            ->greeting(sprintf('Hello %s,', $name))
+            ->line('Your new password is:')
             ->line($message)
-            ->line('Thank you for using our application!');
+            ->line('Try to log in to the ANSEF portal again.');
     }
 
     /**
