@@ -59,6 +59,7 @@
                                                         @endforeach
                                                     @endif
                                                 </select>
+                                                <input type="text" id="institutionname" class="form-control" name="institutionname[]" value="{{$ins['content']}}" placeholder="If your institution is not in the list, type instead the name here">
                                             </div>
                                             <div class="form-group col-lg-2">
                                                 <label for="i_title">Title:</label>
@@ -128,6 +129,7 @@
                                                 @endforeach
                                             @endif
                                         </select>
+                                        <input type="text" id="institutionname" class="form-control" name="institutionname[]" value="{{$item['content']}}" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
                                     <div class="form-group col-lg-2">
                                         <label for="title">Title:</label>

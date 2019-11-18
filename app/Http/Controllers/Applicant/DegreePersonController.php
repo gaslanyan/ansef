@@ -6,6 +6,7 @@ use App\Models\Degree;
 use App\Models\DegreePerson;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
+use App\Models\Institution;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -39,12 +40,10 @@ class DegreePersonController extends Controller
     public function create($id)
     {
         $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
-        $degreesperson = \DB::table('degrees_persons')
-            ->select('degrees_persons.year', 'degrees.text', 'degrees_persons.id')
-            ->join('degrees', 'degrees_persons.degree_id', '=', 'degrees.id')
-            ->where('degrees_persons.person_id', '=', $id)->get()->toArray();
+        $degreesperson = DegreePerson::where('person_id','=',$id)->get();
         $degrees_list = Degree::all();
-        return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name'));
+        $institutions = Institution::all()->pluck('content', 'id')->toArray();
+        return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name', 'institutions'));
     }
 
     /**

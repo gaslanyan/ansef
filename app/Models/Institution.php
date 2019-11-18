@@ -24,5 +24,9 @@ class Institution extends Model
     {
         return $this->belongsToMany(Person::class, 'institutions_persons');
     }
+    function proposals()
+    {
+        return $this->belongsToMany(Proposal::class, 'proposal_institutions', 'institution_id', 'proposal_id')->withPivot('institutionname');
+    }
 
 }

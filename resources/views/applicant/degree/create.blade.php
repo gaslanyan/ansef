@@ -36,15 +36,12 @@
                         @endif
                         @if(!empty($degreesperson))
                             <form method="post" action="{{ action('Applicant\DegreePersonController@update', $id) }}" class="row">
-                                <div class="form-group">
                                     @csrf
-
                                 <label for="email"><b>Current degrees:</b></label>
                                 @foreach($degreesperson  as $degree)
-                                <div class="form-group col-lg-12">
-                                    <div class="row">
+                                <div class="row col-12">
                                     <input name="_method" type="hidden" value="PATCH">
-                                    <div class="form-group col-lg-6">
+                                    <div class="form-group col-lg-4">
                                         <label for="description">Degree:</label>
                                         @if(!empty($degrees_list))
                                         <select class="form-control" name="description[]" id="description">
@@ -58,20 +55,33 @@
                                                id="title">
                                         @endif
                                     </div>
-                                    <div class="form-group col-lg-4">
-                                        <label for="year">Degree Year:</label>
+                                    <div class="form-group col-lg-2">
+                                        <label for="year">Year:</label>
                                         <input type="text" class="form-control" name="year[]" id="year" value="{{$degree->year}}">
                                     </div>
-                                    <div class="form-group col-lg-2 align-self-center">
+
+                                    <div class="col-lg-4">
+                                    <label for="inst"></label>
+                                    <select id="inst" class="form-control" name="institution_id">
+                                        <option value="0">Select institution</option>
+                                        @if(!empty($institutions))
+                                            @foreach($institutions as $val=>$item)
+                                                <option class="text-capitalize" value="{{$val}}" <?php $val == $degree->institution_id ? 'selected' : '' ?>>{{$item}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <input type="text" id="institution" class="form-control" name="institution" value="{{$degree->institution}}" placeholder="If your institution is not in the list, type instead the name here">
+                                    </div>
+
+                                    <div class="col-lg-2 align-self-center">
                                         <a href="{{action('Applicant\DegreePersonController@destroy', $degree->id)}}"
                                         class="btn-link col-lg-2">
                                         <i class="fa fa-trash"></i>
                                         </a>
                                     </div>
-                                <input type="hidden" class="form-check-inline" name="degree_hidden_id[]"
+                                    <input type="hidden" class="form-check-inline" name="degree_hidden_id[]"
                                             value="{{$degree->id}}"
                                             id="title">
-                                    </div>
                                 </div>
                                 @endforeach
                                 <div class="form-group col-lg-6">
@@ -102,12 +112,24 @@
                                 @endif
                                 </div>
                                 <div class="form-group col-4">
-                                <label for="year">Degree Year:</label>
+                                <label for="year">Year:</label>
                                 <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="inst"></label>
+                                    <select id="inst" class="form-control" name="institution_id">
+                                        <option value="0">Select Institution</option>
+                                        @if(!empty($institutions))
+                                            @foreach($institutions as $val=>$item)
+                                                <option class="text-capitalize" value="{{$val}}" <?php $val == old('institution_id') ? 'selected' : '' ?>>{{$item}}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <input type="text" id="insttext" class="form-control" name="institution" value="{{old('institution')}}" placeholder="If your institution is not in the list, type instead the name here">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="margin-top:20px;">
                         <button type="submit" class="btn btn-primary">Add Degree</button>
                         </div>
                     </form>

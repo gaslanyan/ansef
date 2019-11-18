@@ -52,4 +52,9 @@ class Proposal extends Model
     {
         return $this->belongsToMany(Person::class , 'person_types', 'proposal_id', 'person_id')->withPivot('subtype');
     }
+
+    function institutions()
+    {
+        return $this->belongsToMany(Institution::class, 'proposal_institutions', 'proposal_id', 'institution_id')->withPivot('institutionname');
+    }
 }

@@ -19,6 +19,6 @@ class ProposalInstitution extends Model
      * @var array
      */
     protected $fillable = [
-        'institution_id', 'proposal_id'
+        'proposal_id', 'institution_id', 'institutionname'
     ];
 }

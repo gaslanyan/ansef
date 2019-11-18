@@ -48,14 +48,14 @@
                             </div>
 
                             <div class="form-group col-lg-6">
-                                <label for="category0">Category:</label>
+                                <label for="category0">Category *:</label>
                                 <select class="form-control cat" name="category[]" id="category0">
                                     <option value="0">Select Category</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="sub_category0">Subcategory:</label>
+                                <label for="sub_category0">Subcategory *:</label>
                                 <select type="text" class="form-control" name="sub_category[]" id="sub_category0">
                                     <option value="0">Select Sub Category</option>
                                 </select>
@@ -74,50 +74,30 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-12">
-                                <label for="title">Proposal Title (<span id="titlecharleft">25</span> words left):</label>
+                                <label for="title">Proposal Title * (<span id="titlecharleft">25</span> words left):</label>
                                 <input type="text" class="form-control" name="title" value="{{ old('title') }}" id="title">
                             </div>
                             <div class="form-group col-lg-12">
-                                <label for="abstract">Abstract (<span id="abstractcharleft">250</span> words left):</label>
+                                <label for="abstract">Abstract * (<span id="abstractcharleft">250</span> words left):</label>
                                 <textarea rows="4" class="form-control" name="abstract" id="abstract">{{ old('abstract') }}</textarea>
                             </div>
                             <hr>
 
                             <div class="col-lg-12">
-                                <h4>Project Institutions (if any):</h4>
-                                <i class="fa fa-plus pull-right add text-blue"
-                                   style="cursor: pointer"></i>
+                                <h4>Primary Institution for Proposal (if any):</h4>
                                 <div class="row institution">
-                                    <div class="form-group col-lg-4">
+                                    <div class="form-group col-lg-12">
                                         <label for="inst"></label>
-                                        <select id="inst" class="form-control" name="institution[]">
+                                        <select id="inst" class="form-control" name="institution">
                                             <option value="0">Select institution</option>
                                             @if(!empty($institutions))
                                                 @foreach($institutions as $val=>$item)
-                                                    <option class="text-capitalize" value="{{$val}}">{{$item}}</option>
+                                                    <option class="text-capitalize" value="{{$val}}" <?php $val == old('institution') ? 'selected' : '' ?>>{{$item}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <input type="text" id="insttext" class="form-control" name="institutionname[]">
-                                        </input>
+                                    <input type="text" id="insttext" class="form-control" name="institutionname" value="{{old('institutionname')}}" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
-
-                                    {{--<div class="form-group col-lg-2">--}}
-                                    {{--<label for="i_type">Institution type:</label>--}}
-                                    {{--<select id="i_type" class="form-control" name="i_type[]">--}}
-                                    {{--<option value="0">Select type</option>--}}
-                                    {{--<option value="affiliation">Affiliation</option>--}}
-                                    {{--<option value="employment">Employment</option>--}}
-                                    {{--</select>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group col-lg-2">--}}
-                                    {{--<label for="start">Start:</label>--}}
-                                    {{--<input type="date" class="form-control" name="start[]" id="start">--}}
-                                    {{--</div>--}}
-                                    {{--<div class="form-group col-lg-2">--}}
-                                    {{--<label for="end">End:</label>--}}
-                                    {{--<input type="date" class="form-control" name="end[]" id="end">--}}
-                                    {{--</div>--}}
                                 </div>
                             </div>
                             <hr>

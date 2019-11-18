@@ -16,7 +16,8 @@ class CreateProposalInstitutionsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->integer('institution_id')->nullable();
-			$table->integer('proposal_id')->nullable();
+            $table->integer('proposal_id')->nullable();
+            $table->string('institutionname')->nullable();
 			$table->timestamps();
 		});
 	}

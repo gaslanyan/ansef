@@ -206,7 +206,7 @@
                             @endif
 
 
-                            @if(count($proposalreports) == 2)
+                            {{-- @if(count($proposalreports) == 2)
                                 @foreach($proposalreports as $pr)
                                     <div class="form-group col-lg-12">
                                         <label>Proposal First Report:</label>
@@ -252,81 +252,13 @@
                                         @endif
                                     @endif
                                 @endif
-                            @endif
+                            @endif --}}
 
 
 
-                            @if(!empty($budget_item))
-                                <!--<div class="col-lg-12 ">-->
-                                <!--    <h4>Budget Items</h4>-->
-                                    @for($i = 0; $i < count($budget_item); $i++)
-                                        <!--<div class="row institution">-->
-                                        <!--    <div class="form-group col-lg-4">-->
-                                        <!--        <label for="inst">Budget Categories:</label>-->
-                                        <!--        <select class="form-control" name="budget_categories[]"-->
-                                        <!--                id="budget_categories" <?php if ($proposal->state == 'awarded' || $proposal->state == 'complete' || $proposal->state == 'unsuccessfull' || $proposal->state == 'disqualified') echo "disabled";?>>-->
-
-                                                    @if($budget_categories[$i]['id'] == $budget_item[$i]['budget_cat_id'])
-                                                        <!--<option value="{{$budget_item[$i]['budget_cat_id']}}"-->
-                                                        <!--        selected>{{$budget_categories[$i]['name']}}</option>-->
-                                                    @else
-                                                        <!--<option value="{{$budget_item[$i]['budget_cat_id']}}">{{$budget_categories[$i]['name']}}</option>-->
-                                                    @endif
-                                                <!--</select>-->
 
 
-                                        <!--    </div>-->
-                                        <!--    <div class="form-group col-lg-6">-->
-                                        <!--        <label for="title">Budget Categories Description:</label>-->
-                                        <!--        <input type="text" class="form-control"-->
-                                        <!--               name="budget_categories_description[]"-->
-                                        <!--               id="budget_categories_description"-->
-                                        <!--               value="{{$budget_item[$i]['description']}}" <?php if ($proposal->state == 'awarded' || $proposal->state == 'complete' || $proposal->state == 'unsuccessfull' || $proposal->state == 'disqualified') echo "disabled";?>>-->
-                                        <!--    </div>-->
-
-                                        <!--    <div class="form-group col-lg-2">-->
-                                        <!--        <label for="start">Amount:</label>-->
-                                        <!--        <input type="number" class="form-control" name="amount[]"-->
-                                        <!--               id="amount" value="{{$budget_item[$i]['amount']}}"-->
-                                        <!--               <?php if ($proposal->state == 'awarded' || $proposal->state == 'complete' || $proposal->state == 'unsuccessfull' || $proposal->state == 'disqualified') echo "disabled";?> min="{{$budget_categories[$i]['min']}}"-->
-                                        <!--               max="{{$budget_categories[$i]['max']}}">-->
-                                        <!--    </div>-->
-
-
-                                        <!--</div>-->
-                                    @endfor
-                                <!--</div>-->
-                            @endif
-                            @if(!empty($additional))
-                                <!--<div class="col-lg-12 ">-->
-                                <!--    <h4>Additional Budget</h4>-->
-                                <!--    <div class="row">-->
-                                <!--        <div class="form-group col-lg-3" id="additional_charge_name">-->
-                                <!--            <label for="inst">Additional Charge Name:</label>-->
-                                <!--            <input type="text" value="{{$additional->additional_charge_name}}"-->
-                                <!--                   disabled/>-->
-                                <!--        </div>-->
-                                <!--        <div class="form-group col-lg-3" id="additional_charge">-->
-                                <!--            <label for="title">Additional Charge:</label>-->
-                                <!--            <input type="text" value="{{$additional->additional_charge}}" disabled/>-->
-
-                                <!--        </div>-->
-                                <!--        <div class="form-group col-lg-3" id="additional_persentage_name">-->
-                                <!--            <label for="start">Additional Persentage Name</label>-->
-                                <!--            <input type="text" value="{{$additional->additional_percentage_name}}"-->
-                                <!--                   disabled/>-->
-
-                                <!--        </div>-->
-                                <!--        <div class="form-group col-lg-3" id="additional_persentage">-->
-                                <!--            <label for="start">Additional Persentage</label>-->
-                                <!--            <input type="text" value="{{$additional->additional_percentage}}" disabled/>-->
-
-                                <!--        </div>-->
-                                <!--    </div>-->
-                                <!--</div>-->
-                            @endif
-
-                            @if($proposal->state == 'awarded' || $proposal->state == 'approved 1' || $proposal->state == 'approved 2' || $proposal->state == 'in-review' )
+                            {{-- @if($proposal->state == 'awarded' || $proposal->state == 'approved 1' || $proposal->state == 'approved 2' || $proposal->state == 'in-review' )
                                 @if(!empty($refereereport))
                                     <div class="form-group col-lg-12">
                                         <label>Referee reports</label>
@@ -369,9 +301,9 @@
                                         @endforeach
                                     </div>
                                 @endif
-                            @endif
+                            @endif --}}
 
-                            @if(!empty($recom))
+                            {{-- @if(!empty($recom))
                                 @foreach($recom  as $r)
                                     <div class="form-group col-lg-12">
                                         <label for="recommendations">Recommendations:</label>
@@ -381,19 +313,20 @@
 
                                     </div>
                                 @endforeach
-                            @endif
+                            @endif --}}
 
                             @if(!empty($ins))
-                                <label>Institution:</label>
-                                      <div class="form-group col-lg-6">
+                                      <div class="form-group col-lg-12">
+                                        <h4>Primary Institution for Proposal (if any):</h4>
                                         <select id="inst" class="form-control" name="institution[]">
                                             <option value="0">Select institution</option>
                                             @if(!empty($institutions))
                                                 @foreach($institutions as $val=>$item)
-                                                    <option class="text-capitalize" value="{{$val}}"  <?php if($item == $ins->content) echo 'selected'; ?> >{{$item}}</option>
+                                                    <option class="text-capitalize" value="{{$val}}"  <?php if($val == $ins['id']) echo 'selected'; ?> >{{$item}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
+                                    <input type="text" id="insttext" class="form-control" name="institutionname" value="{{$ins['name']}}" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
                             @endif
 
