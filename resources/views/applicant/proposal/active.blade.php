@@ -1,5 +1,22 @@
 @extends('layouts.master')
 
+<style>
+.myButton {
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    padding: 4px;
+    margin: 2px;
+    border: 1px solid rgb(150, 150, 150);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-image: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(245, 245, 245) 100%);
+    box-shadow: rgba(0, 0, 0, 0.25) 1px 2px 2px 0px;
+}
+.myButton:hover {
+    background: #FFaa00; }
+</style>
 @section('content')
     <div class="container">
 
@@ -63,29 +80,29 @@
                                         <td>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
                                             <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
-                                                <span class="fa fa-eye" style="font-size:15px;color:#555;">View</span>
+                                                <span class="fa fa-eye myButton">View</span>
                                             </a>
 
                                             <a href="{{action('Applicant\ProposalController@edit', $ap['id'])}}"
-                                               title="Edit"><span class="fa fa-edit" style="font-size:15px;color:#555;"></span>Edit
+                                               title="Edit"><span class="fa fa-edit myButton">Edit</span>
                                             </a>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
 
 
                                             <a href="{{action('Applicant\ProposalController@destroy', $ap['id'])}}"
-                                               title="Delete"><i class="fa fa-trash"></i>Delete
+                                               title="Delete"><span class="fa fa-trash myButton">Delete</span>
                                             </a><br/>
 
-                                            <a><i class="fas fa-file-invoice-dollar"></i></a>
+                                            <a><span class="fas fa-file-invoice-dollar myButton">Budget</span></a>
 
                                             <a href="{{action('Applicant\FileUploadController@index', $ap['id'])}}"
                                                title="Delete">
                                                <?php if($ap['document'] == null){
-                                                echo " <i class='fas fa-file-pdf' style='color:#dd4b39 !important;'></i>";
+                                                echo " <span class='fas fa-file-pdf myButton' style='color:#dd4b39 !important;'>Document</span>";
                                                 }
                                                 else{
-                                                echo " <i class='fas fa-file-pdf'></i>";
-                                                }?>Document|
+                                                echo " <span class='fas fa-file-pdf myButton'>Document</span>";
+                                                }?>
                                             </a>
 
                                             {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$ap['id'])}}"
@@ -93,7 +110,7 @@
                                                class="add_honors"><i class="fa fa-download"></i>
                                             </a> --}}
 
-                                            <a><i class="fas fa-check-square"></i></a>Check
+                                            <a><span class="fas fa-check-square myButton">Check</span></a>
 
                                         </td>
 

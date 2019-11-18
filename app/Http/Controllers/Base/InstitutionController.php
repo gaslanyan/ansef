@@ -66,6 +66,12 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'institution' => 'required',
+            'i_title' => 'required',
+            'i_type' => 'required',
+            'start' => 'required',
+        ]);
 
         try {
             foreach ($request->institution as $key => $val) {
@@ -187,46 +193,66 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($id);
+        $this->validate($request, [
+            'institution.*' => 'required',
+            'i_title.*' => 'required',
+            'i_type.*' => 'required',
+            'start.*' => 'required',
+        ]);
+
         try {
-            $this->validate($request, [
-                'content' => 'required|min:3',
-            ]);
 
-            $institutions = Institution::find($id);
+            $count = count($request->inst_hidden_id);
+            for ($i = 0; $i < $count; $i++) {
+                $inspers = InstitutionPerson::find(($request->inst_hidden_id)[$i]);
+                $inspers->institution_id = ($request->institution)[$i];
+                $inspers->title = ($request->i_title)[$i];
+                $inspers->start = ($request->start)[$i];
+                $inspers->end = ($request->end)[$i];
+                $inspers->type = ($request->i_type)[$i];
 
-            foreach ($request->institution as $key => $val) {
-                $institution = new InstitutionPerson();
-                $institution->person_id = $request->institution_creare_hidden;
-                $institution->institution_id = (int)$request->institution[$key];;
-                $institution->title = $request->i_title[$key];
-                $institution->type = $request->i_type[$key];
-                $institution->start = $request->start[$key];
-                $institution->end = $request->end[$key];
-                $institution->save();
+                $inspers->save();
             }
 
-//            $address = Address::find($institutions['address_id']);
-////            $country = Country::where('cc_fips', '=', $request->countries[0])->first();
-////
-////            $address->country_id = $country->id;
-////            $address->city_id = $request->city[0];
-////            $address->province = $request->provence[0];
-////            $address->street = $request->street[0];
-////            $address->save();
-////
-////           // $institutions->content = $request->content;
-////            $institutions->save();
-            return redirect('admin/institution')->with('success', getMessage("update"));
+            return \Redirect::back()->with('success', getMessage("success"));
 
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-//            throw $exception;
-            return redirect('admin/institution')->with('error', getMessage("wrong"))->withInput();
+            //            throw $exception;
+            return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
 
         }
     }
+
+    // public function update(Request $request, $id)
+    // {
+    //     try {
+    //         $this->validate($request, [
+    //             'content' => 'required|min:3',
+    //         ]);
+
+    //         $institutions = Institution::find($id);
+
+    //         foreach ($request->institution as $key => $val) {
+    //             $institution = new InstitutionPerson();
+    //             $institution->person_id = $request->institution_creare_hidden;
+    //             $institution->institution_id = (int) $request->institution[$key];;
+    //             $institution->title = $request->i_title[$key];
+    //             $institution->type = $request->i_type[$key];
+    //             $institution->start = $request->start[$key];
+    //             $institution->end = $request->end[$key];
+    //             $institution->save();
+    //         }
+
+    //         return \Redirect::back()->with('success', getMessage("success"));
+    //     } catch (\Exception $exception) {
+    //         DB::rollBack();
+    //         logger()->error($exception);
+    //         //            throw $exception;
+    //         return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.

@@ -41,7 +41,7 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="birthdate">Birth date:</label>
-                                <input type="date" class="form-control " name="birthdate" id="birthdate" value="{{ old('birthdate') }}">
+                                <input type="date" class="form-control" name="birthdate" id="birthdate" value="{{ old('birthdate') }}">
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="birthplace">Birth Place:</label>

@@ -7,7 +7,7 @@
                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Update phone numbers for {{$persons_name['first_name']}} {{$persons_name['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}"
-                           class="display float-lg-right btn-box-tool"> Back</a>
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body card_body">
@@ -41,6 +41,7 @@
                                 <input name="_method" type="hidden" value="PATCH">
                                 <div class="col-lg-12 ">
                                     <div class="row">
+                                        <label for="email"><b>Current phone numbers:</b></label>
                                         @foreach($phone_list as $phl)
                                             <div class="form-group col-lg-12 phones">
                                                 <div class="col-lg-12">
@@ -65,13 +66,16 @@
                                             </div>
                                         @endforeach
                                         <div class="form-group col-lg-12">
-                                            <button type="submit" class="btn btn-primary">Edit number</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
                         @endif
-
+                    </div>
+                    <hr>
+                    <div class="card-body card_body">
+                        <p><b>Add New Phone Number</b></p>
                         <form method="post" action="{{ action('Applicant\PhoneController@store') }}">
                             @csrf
                             <div class="col-lg-12 ">
@@ -96,11 +100,12 @@
                                                name="phone_create_hidden"
                                                value="{{$id}}"
                                                id="email">
-                                        <button type="submit" class="btn btn-primary">Add Phone</button>
+                                        <button type="submit" class="btn btn-primary">Add Phone Number(s)</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
+                    </div>
                     </div>
                 </div>
             </div>

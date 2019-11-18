@@ -40,7 +40,7 @@
                                     @csrf
                                     <input name="_method" type="hidden" value="PATCH">
 
-                                    <label for="email">Current emails:</label>
+                                    <label for="email"><b>Current emails:</b></label>
                                     @foreach($email_list as $el)
                                         <div class="form-group col-lg-12 emails">
                                             <div class="row">
@@ -64,6 +64,7 @@
                     </div>
                     <hr>
                     <div class="card-body card_body">
+                        <p><b>Add New Email</b></p>
                         <form method="post" action="{{action('Applicant\EmailController@store') }}">
                             @csrf
                             <div class="form-group">
@@ -71,7 +72,7 @@
                                     <div class="form-group col-lg-10 emails">
                                         <label for="email">Email <span style="color:#777;">(click plus icon to add several at a time)</span>:</label>
                                         <i class="fa fa-plus pull-right add  text-blue"
-                                           style="cursor: pointer"></i> 
+                                           style="cursor: pointer"></i>
                                         <input type="text" class="form-control email" name="email[]"
                                                id="email">
                                     </div>

@@ -5,10 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
                  <div class="card" style="margin-top:20px;">
-                    <div class="card-header">Institution
-                        - {{$person[0]['first_name']." ".$person[0]['last_name']}}
+                    <div class="card-header">Employment history
+                        for {{$person[0]['first_name']." ".$person[0]['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}"
-                           class="display float-lg-right btn-box-tool"> Back</a>
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body card_body">
@@ -42,13 +42,13 @@
                                 @csrf
                                 <input name="_method" type="hidden" value="PATCH">
                                 <div class="col-lg-12 ">
-                                    <label>Affiliations / Employments:</label>
+                                    <label><b>Current employment history:</b></label>
                                     <div class="row institution">
                                         @foreach($institution_person as $ins)
                                             <div class="form-group col-lg-4">
-                                                <label for="inst">Institution:</label>
-
-                                                <select id="inst" class="form-control" name="institution[]">
+                                                <input name="_method" type="hidden" value="PATCH">
+                                                <label for="institution">Institution:</label>
+                                                <select id="institution" class="form-control" name="institution[]">
                                                     <option value="0">Select institution</option>
                                                     @if(!empty($institutions_list))
                                                         @foreach($institutions_list as $val => $item)
@@ -61,8 +61,8 @@
                                                 </select>
                                             </div>
                                             <div class="form-group col-lg-2">
-                                                <label for="title">Title:</label>
-                                                <input type="text" class="form-control" name="i_title[]" id="title"
+                                                <label for="i_title">Title:</label>
+                                                <input type="text" class="form-control" name="i_title[]" id="i_title"
                                                        value="{{$ins['title']}}">
                                             </div>
                                             <div class="form-group col-lg-2">
@@ -81,14 +81,17 @@
                                             </div>
                                             <div class="form-group col-lg-2">
                                                 <label for="start">Start:</label>
-                                                <input type="date" class="form-control" name="start[]" id="start"
+                                                <input type="date" class="form-control date datepicker" name="start[]" id="start"
                                                        value="{{$ins['start']}}">
                                             </div>
                                             <div class="form-group col-lg-2">
                                                 <label for="end">End:</label>
-                                                <input type="date" class="form-control" name="end[]" id="end"
+                                                <input type="date" class="form-control date datepicker" name="end[]" id="end"
                                                        value="{{$ins['end']}}">
                                             </div>
+                                        <input type="hidden" class="form-check-inline" name="inst_hidden_id[]"
+                                               value="{{$id}}"
+                                               id="inst_hidden_id">
                                         @endforeach
                                     </div>
                                 </div>
@@ -98,15 +101,19 @@
                                        id="institution">
                                 <div class="form-group col-lg-12">
 
-                                    <button type="submit" class="btn btn-primary">Edit Institution</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
                         @endif
+                        </div>
+                        <hr>
+                        <div class="card-body card_body">
+                        <p><b>Add New Employment</b></p>
 
                         <form method="post" action="{{ action('Base\InstitutionController@store')}}" class="row">
                             @csrf
                             <div class="col-lg-12 ">
-                                <label>Affiliations / Employments:</label>
+
                                 <i class="fa fa-plus pull-right add text-blue"
                                    style="cursor: pointer"></i>
                                 <div class="row institution">
@@ -127,7 +134,7 @@
                                         <input type="text" class="form-control" name="i_title[]" id="title">
                                     </div>
                                     <div class="form-group col-lg-2">
-                                        <label for="i_type">Institution type:</label>
+                                        <label for="i_type">Type:</label>
                                         <select id="i_type" class="form-control" name="i_type[]">
                                             <option value="0">Select type</option>
                                             <option value="affiliation">Affiliation</option>
@@ -136,11 +143,11 @@
                                     </div>
                                     <div class="form-group col-lg-2">
                                         <label for="start">Start:</label>
-                                        <input type="date" class="form-control" name="start[]" id="start">
+                                        <input type="date" class="form-control date datepicker" name="start[]" id="start">
                                     </div>
                                     <div class="form-group col-lg-2">
                                         <label for="end">End:</label>
-                                        <input type="date" class="form-control" name="end[]" id="end">
+                                        <input type="date" class="form-control date datepicker" name="end[]" id="end">
                                     </div>
 
                                 </div>
@@ -149,16 +156,12 @@
                                    value="{{$id}}"
                                    id="institution">
                             <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary">Add Institution</button>
+                                <button type="submit" class="btn btn-primary">Add Employment</button>
                             </div>
                         </form>
-                        <div class="form-group col-lg-12">
-                            <label>Request to admin for adding new Institution</label>
-                            <a href="{{action('Applicant\ResearchBoardController@index','admin')}}"
-                               class="btn btn-primary">Request To admin</a>
-                        </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>

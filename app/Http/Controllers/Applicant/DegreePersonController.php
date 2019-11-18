@@ -38,13 +38,13 @@ class DegreePersonController extends Controller
      */
     public function create($id)
     {
-
+        $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
         $degreesperson = \DB::table('degrees_persons')
-                        ->select('degrees_persons.year','degrees.text','degrees_persons.id')
-                        ->join('degrees','degrees_persons.degree_id','=','degrees.id')
-                        ->where('degrees_persons.person_id','=',$id)->get()->toArray();
+            ->select('degrees_persons.year', 'degrees.text', 'degrees_persons.id')
+            ->join('degrees', 'degrees_persons.degree_id', '=', 'degrees.id')
+            ->where('degrees_persons.person_id', '=', $id)->get()->toArray();
         $degrees_list = Degree::all();
-        return view('applicant.degree.create',compact('id','degrees_list','degreesperson'));
+        return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name'));
     }
 
     /**
@@ -56,23 +56,18 @@ class DegreePersonController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'description' => 'required',
-           'year' => 'required|date_format:Y'
+            'description' => 'required|numeric|min:0|not_in:0',
+            'year' => 'required|numeric|min:1900|max:2030'
         ]);
 
         try {
-            $user_id = \Auth::guard(get_Cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i(ka te chka) stugum???*/
-          /*  $person_id = Person::where('user_id', $user_id)->get()->toArray();
-            $p_id = $person_id[0]['id'];*/
             $p_id = $request->degrees_add_hidden_id;
             $degrees = new DegreePerson;
             $degrees->person_id = $p_id;
             $degrees->degree_id = $request->description;
-            //dd(date('Y', strtotime($request->year)));
-            $degrees->year =date('Y', strtotime($request->year));
+            $degrees->year = $request->year;
             $degrees->save();
             return Redirect::back()->with('success', getMessage("success"));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
@@ -87,10 +82,9 @@ class DegreePersonController extends Controller
      */
     public function show($id)
     {
-       /* $person_id = Person::where('user_id', $id)->get()->toArray();
+        /* $person_id = Person::where('user_id', $id)->get()->toArray();
         $dp = DegreePerson::with('degree')->find($person_id['id']);
-        dd($dp);*/
-    }
+        dd($dp);*/ }
 
     /**
      * Show the form for editing the specified resource.
@@ -113,21 +107,23 @@ class DegreePersonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
-        $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        $p_id = $person_id[0]['id'];
+        // $user_id = \Auth::guard(get_Cookie())->user()->id;
+        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
+        // $p_id = $person_id[0]['id'];
 
         $validatedData = $request->validate([
-            'description' => 'required|min:3',
-            'year' => 'required',
+            'description' => 'required|numeric|min:0|not_in:0',
+            'year' => 'required|numeric|min:1900|max:2030'
         ]);
         try {
-            $degree = DegreePerson::find($id);
-            $degree->description = $request->description;
-            $degree->year = $request->year;
-            $degree->save();
-            return \Redirect::back()->with('success', getMessage("success"));
+            for ($i = 0; $i <= count($request->year) - 1; $i++) {
+                $degreeperson = DegreePerson::find($request->degree_hidden_id[$i]);
+                $degreeperson->year = ($request->year)[$i];
+                $degreeperson->degree_id = ($request->description)[$i];
+                $degreeperson->save();
+            }
 
+            return \Redirect::back()->with('success', getMessage("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();

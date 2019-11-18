@@ -93,6 +93,7 @@ class PersonController extends Controller
             $person->sex = $request->sex;
             $person->state = $request->state;
             $person->type = $request->type;
+            $person->specialization = $request->specialization;
             $person->user_id = $user->id;
             $person->save();
             $person_id = $person->id;
@@ -193,7 +194,7 @@ class PersonController extends Controller
             $honors = $person->honors;
             $books = $person->books;
             $meetings = $person->meetings;
-            $publications = $person->publications;
+            $publications = $person->publications->sortBy('year');
             $disciplines = $person->disciplines;
 
             return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications'));
@@ -280,6 +281,7 @@ class PersonController extends Controller
             $person->sex = $request->sex;
             $person->state = $request->state;
             $person->user_id = $user_id;
+            $person->specialization = $request->specialization;
             $person->save();
             $person_id = $person->id;
             if (!empty($request->countries)) {

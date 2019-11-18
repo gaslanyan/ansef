@@ -34,9 +34,7 @@ class PhoneController extends Controller
      */
     public function create($id)
     {
-
-        $user_id = chooseUser();
-        $persons_name = Person::where('user_id', $user_id)->get()->toArray();
+        $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
         $phone_list = Phone::where('person_id', '=', $id)->get()->toArray();
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
     }
@@ -60,17 +58,15 @@ class PhoneController extends Controller
             $person = Person::where('user_id', '=', $user_id)->first();
             foreach ($request->phone as $key => $item) {
                 $phone = new Phone();
-                $phone->person_id =$request->phone_create_hidden;
+                $phone->person_id = $request->phone_create_hidden;
                 $phone->country_code = ($request->country_code)[$key];
                 $phone->number = $item;
                 $phone->save();
             }
             return Redirect::back()->with('success', getMessage("success"));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-
         }
     }
 
@@ -106,7 +102,7 @@ class PhoneController extends Controller
      */
     public function update(Request $request, $id)
     {
-          $validatedData = $request->validate([
+        $validatedData = $request->validate([
             'country_code.*' => 'required|max:4',
             'phone.*' => 'required'
 
@@ -122,11 +118,9 @@ class PhoneController extends Controller
             }
 
             return Redirect::back()->with('success', getMessage("success"));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-
         }
     }
 
@@ -143,7 +137,6 @@ class PhoneController extends Controller
             $phone = Phone::find($id);
             $phone->delete();
             return Redirect::back()->with('delete', getMessage("deleted"));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"));

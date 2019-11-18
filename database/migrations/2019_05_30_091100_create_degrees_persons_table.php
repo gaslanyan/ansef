@@ -17,7 +17,9 @@ class CreateDegreesPersonsTable extends Migration {
 			$table->increments('id');
 			$table->integer('person_id')->unsigned()->nullable()->index('PK_DEGREES');
 			$table->integer('degree_id')->nullable();
-			$table->date('year')->nullable();
+            $table->integer('year')->nullable();
+            $table->integer('institution_id')->nullable();
+            $table->string('institution', 255)->nullable();
 			$table->timestamps();
 		});
 	}

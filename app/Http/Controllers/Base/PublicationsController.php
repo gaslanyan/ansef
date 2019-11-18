@@ -35,7 +35,7 @@ class PublicationsController extends Controller
     public function create($id)
     {
         $person_id = Person::where('id', $id)->get()->toArray();
-        $publications = Publications::where('person_id', '=', $id)->get()->toArray();
+        $publications = Publications::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.publications.create', compact('id', 'publications','person_id'));
     }
 
@@ -49,7 +49,6 @@ class PublicationsController extends Controller
     {
         $validatedData = $request->validate([
             'title' => 'required|min:3',
-            'journal' => 'required|min:3',
             'year' => 'required|date_format:Y',
             /* 'ansef' => 'accepted'*/
             /*'domestic' => 'accepted'*/
@@ -65,7 +64,7 @@ class PublicationsController extends Controller
             $publication->person_id = $p_id;
             $publication->title = $request->title;
             $publication->journal = $request->journal;
-            $publication->year = date('Y', strtotime($request->year));
+            $publication->year = $request->year;
             if ($request->has('ansef_add') == true) {
                 $publication->ansef_supported = '1';
             } else {
@@ -122,7 +121,6 @@ class PublicationsController extends Controller
         $p_id  = $person_id[0]['id'];*/
         $validatedData = $request->validate([
             'title.*' => 'required|min:3',
-            'journal.*' => 'required|min:3',
             'year.*' => 'required|date_format:Y',
             /* 'ansef' => 'accepted'*/
             /*'domestic' => 'accepted'*/
@@ -147,7 +145,7 @@ class PublicationsController extends Controller
 
                 $publication->ansef_supported = $ansef_supported;
                 $publication->domestic = $domestic;
-               
+
                 $publication->save();
             }
             return \Redirect::back()->with('success', getMessage("success"));

@@ -18,7 +18,7 @@ class CreatePublicationsTable extends Migration {
 			$table->integer('person_id')->unsigned()->nullable()->index('FK_PUBLICATIONS');
 			$table->string('journal', 191)->nullable();
 			$table->text('title', 65535)->nullable();
-			$table->date('year')->nullable();
+			$table->integer('year')->nullable();
 			$table->enum('domestic', array('0','1'))->nullable();
 			$table->enum('ansef_supported', array('0','1'))->nullable();
 			$table->timestamps();

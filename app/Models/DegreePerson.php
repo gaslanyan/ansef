@@ -11,6 +11,7 @@ class DegreePerson extends Model
     protected $fillable = [
         'degree_id', 'year','person_id'
     ];
+
     public function degree()
     {
         return $this->belongsTo(Degree::class);

@@ -5,8 +5,8 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" style="margin-top:20px;">
-                    <div class="card-header">Show Books - {{$person[0]['first_name']." ".$person[0]['last_name']}}
-                        <a href = "{{ action('Applicant\InfoController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
+                    <div class="card-header">Update Books for {{$person[0]['first_name']." ".$person[0]['last_name']}}
+                        <a href = "{{ action('Applicant\InfoController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
                         @if ($errors->any())
@@ -36,6 +36,7 @@
                             @if(!empty($books))
                             <form method="post" action="{{ action('Base\BookController@update', $id) }}" class="row">
                                 @csrf
+                                <p class="col-12"><b>Book titles:</b></p><br/>
                                 @foreach($books as $book)
                                 <div class="form-group col-lg-4">
                                     <input name="_method" type="hidden" value="PATCH">
@@ -54,7 +55,7 @@
                                            id="title">
                                 </div>
                                     <div class="form-group col-lg-2">
-                                        <label>Remove Book
+                                        <label>
                                             <a href="{{action('Base\BookController@destroy', $book['id'])}}"
                                                class="btn-link col-lg-2">
                                                 <i class="fa fa-trash"></i>
@@ -66,13 +67,15 @@
                                     </div>
                                 @endforeach
                                 <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary">Edit Book</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
                             @endif
+                    </div>
 
-
-
+                    <hr>
+                    <div class="card-body card_body">
+                        <p><b>Add New Book</b></p>
                         <form method="post" action="{{ action('Base\BookController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-4">

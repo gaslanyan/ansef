@@ -1,4 +1,21 @@
 @extends('layouts.master')
+<style>
+    .myButton {
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+        padding: 4px;
+        margin: 2px;
+        border: 1px solid rgb(150, 150, 150);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        background-image: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(245, 245, 245) 100%);
+        box-shadow: rgba(0, 0, 0, 0.25) 1px 2px 2px 0px;
+    }
+    .myButton:hover {
+        background: #FFaa00; }
+</style>
 
 @section('content')
     <div class="container">
@@ -68,47 +85,44 @@
                                             <!-- VVS -->
                                             {{-- <a href="{{action('Applicant\PersonController@addresses', $person['id'])}}" title="Show Addresses" class="add_address">  --}}
                                                 <a><?php if(empty(getAddressesByPersonID($person['id']))){
-                                                    echo " <i class='fas fa-address-card' style='color:#dd4b39 !important;'></i>&nbsp;<span style='color:#dd4b39 !important;'>Addresses</span>";
+                                                    echo " <span class='fas fa-address-card myButton' style='color:#dd4b39 !important;'>Addresses</span>";
                                                 }
                                                 else{
-                                                    echo " <i class='fas fa-address-card'></i>&nbsp;Addresses";
-                                                }?></a>&nbsp;|
+                                                    echo " <span class='fas fa-address-card myButton'>Addresses</span>";
+                                                }?></a>
                                             <!--</a><br>-->
 
                                             <a href="{{action('Applicant\EmailController@create', $person['id'])}}" title="Show Emails" class="add_email">
                                                 <?php if(empty(getEmailByPersonID($person['id']))){
-                                                    echo " <i class='fa fa-envelope-open' style='color:#dd4b39 !important;'></i>&nbsp;<span style='color:#dd4b39 !important;'>Emails</span>";
+                                                    echo " <span class='fa fa-envelope-open myButton' style='color:#dd4b39 !important;'>Emails</span>";
                                                 }
                                                 else{
-                                                    echo " <i class='fa fa-envelope-open'></i>&nbsp;Emails";
+                                                    echo " <span class='fa fa-envelope-open myButton'>Emails</span>";
                                                 }?>
-                                            </a>&nbsp;|
-                                            <a href="{{action('Applicant\PhoneController@create', $person['id'])}}" title="Show Phones" class="add_phone"><i class="fa fa-phone"></i>
-                                            Phone numbers</a>&nbsp;|
+                                            </a>
+                                            <a href="{{action('Applicant\PhoneController@create', $person['id'])}}" title="Show Phones" class="add_phone"><span class="fa fa-phone myButton">Phone numbers</span>
+                                            </a>
                                             <a href="{{action('Base\InstitutionController@create', $person['id'])}}" title="Show Institutions"
-                                               class="add_institutions"><i class="fa fa-university"></i>
-                                            Employment</a><br/>
-                                            <a href="{{action('Applicant\DegreePersonController@create', $person['id'])}}" title="Show Degrees"
-                                               class="add_degrees"><i class="fa fa-graduation-cap"></i>
-                                            Education</a>&nbsp;|
-                                            <a href="{{action('Applicant\DisciplineController@create', $person['id'])}}" title="Show Disciplines"
-                                               class="add_disciplines"><i class="fas fa-wrench"></i>
-                                            Specialties</a><br/>
+                                               class="add_institutions"><span class="fa fa-university myButton">Employment</span>
+                                            </a><br/>
 
                                             @if($person['type']=='participant')
+                                            <a href="{{action('Applicant\DegreePersonController@create', $person['id'])}}" title="Show Degrees"
+                                               class="add_degrees"><span class="fa fa-graduation-cap myButton">Education</span>
+                                            </a>
                                                 <a href="{{action('Base\BookController@create', $person['id'])}}" title="Show Books"
-                                                   class="add_institutions"><i class="fa fa-book"></i>
-                                                Books</a>&nbsp;|
+                                                   class="add_institutions"><span class="fa fa-book myButton">Books</span>
+                                                </a>
                                                 <a href="{{action('Base\MeetingController@create', $person['id'])}}" title="Show Meetings"
-                                                   class="add_meetings"><i class="fa fa-user-friends"></i>
-                                                Meetings
-                                                </a>&nbsp;|
+                                                   class="add_meetings"><span class="fa fa-user-friends myButton">Meetings</span>
+
+                                                </a>
                                                 <a href="{{action('Base\PublicationsController@create', $person['id'])}}" title="Show Publications"
-                                                   class="add_publications"><i class="fas fa-sticky-note"></i>
-                                                Publications</a>&nbsp;|
+                                                   class="add_publications"><span class="fas fa-sticky-note myButton">Publications</span>
+                                                </a>
                                                 <a href="{{action('Base\HonorsController@create', $person['id'])}}" title="Show Honors&Grants"
-                                                   class="add_honors"><i class="fa fa-trophy"></i>
-                                                Honors</a>
+                                                   class="add_honors"><span class="fa fa-trophy myButton">Honors</span>
+                                                </a>
                                             @endif
                                             {{--<form action="{{action('Applicant\EmailController@destroy', $person['id'])}}" method="post">--}}
                                             {{--@csrf--}}

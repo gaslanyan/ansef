@@ -17,7 +17,7 @@ class CreateMeetingsTable extends Migration {
 			$table->increments('id');
 			$table->integer('person_id')->unsigned()->nullable()->index('PK_MEETINGS');
 			$table->string('description', 191)->nullable();
-			$table->date('year')->nullable();
+			$table->integer('year')->nullable();
 			$table->enum('ansef_supported', array('0','1'))->nullable();
 			$table->enum('domestic', array('0','1'))->nullable();
 			$table->timestamps();

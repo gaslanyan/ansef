@@ -53,6 +53,10 @@
                                 <input type="text" class="form-control" name="birthplace" id="birthplace"
                                        value="<?php if(!empty($person['birthplace'])) echo $person['birthplace']; ?>">
                             </div>
+                            <div class="form-group col-lg-12">
+                                <label for="specialization">Specializations:</label>
+                                <input type="text" class="form-control" name="specialization" id="specialization" value="{{ $person['specialization'] }}">
+                            </div>
 
                             <div class="form-group col-lg-6">
                                 <label for="state">* Is person based in Armenia?:</label>

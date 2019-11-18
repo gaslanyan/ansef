@@ -23,6 +23,7 @@ class CreatePersonsTable extends Migration {
 			$table->string('last_name', 191);
 			$table->string('nationality', 191)->nullable();
 			$table->enum('type', array('admin','referee','viewer','applicant','participant','support'))->nullable();
+            $table->string('specialization', 191);
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->timestamps();
 		});

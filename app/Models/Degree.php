@@ -15,8 +15,8 @@ class Degree extends Model
     function degreePerson() {
         return $this->hasOne(DegreePerson::class);
     }
-    
+
     function persons() {
-        return $this->belongsToMany(Person::class, 'degrees_persons');
+        return $this->belongsToMany(Person::class, 'degrees_persons')->withPivot('year');
     }
 }
