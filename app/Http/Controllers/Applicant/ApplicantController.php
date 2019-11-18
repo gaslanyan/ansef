@@ -22,8 +22,9 @@ class ApplicantController extends Controller
 
         //$activeproposal = Proposal::whereIn('state', ['in-progress', 'awarded', 'approved 1'])->get();
           $competitonlist = Competition::where('submission_end_date','>=',date('Y-m-d'))
-                                    ->where('state', 'enable')
-                                    ->get();
+                                ->where('submission_start_date','<=',date('Y-m-d'))
+                                ->where('state', 'enable')
+                                ->get();
 
       //  dd(date('Y-m-d') > $competitonlist[0]->submission_end_date);
         return view("applicant.dashboard", compact('competitonlist', 'id'));

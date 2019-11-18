@@ -46,7 +46,7 @@
                                         <td data-order="{{$person['type']}}" data-search="{{$person['type']}}"
                                             class="email_field">
                                             <input type="text" class="form-control" name="email"
-                                                   value="{{$person['type'] == 'contributor' ? 'Participant' : 'Support'}}" disabled>
+                                                   value="{{ucfirst($person['type'])}}" disabled>
                                         </td>
                                         <td style="color:#777;">
                                             <input type="hidden" class="id" value="{{$person['id']}}">
@@ -64,7 +64,7 @@
                                             {{--title="full_edit"--}}
                                             {{--class="full_edit"><i class="fa fa-edit"></i>--}}
                                             {{--</a>--}}
-                                            
+
                                             <!-- VVS -->
                                             {{-- <a href="{{action('Applicant\PersonController@addresses', $person['id'])}}" title="Show Addresses" class="add_address">  --}}
                                                 <a><?php if(empty(getAddressesByPersonID($person['id']))){
@@ -74,7 +74,7 @@
                                                     echo " <i class='fas fa-address-card'></i>&nbsp;Addresses";
                                                 }?></a>&nbsp;|
                                             <!--</a><br>-->
-                                            
+
                                             <a href="{{action('Applicant\EmailController@create', $person['id'])}}" title="Show Emails" class="add_email">
                                                 <?php if(empty(getEmailByPersonID($person['id']))){
                                                     echo " <i class='fa fa-envelope-open' style='color:#dd4b39 !important;'></i>&nbsp;<span style='color:#dd4b39 !important;'>Emails</span>";
@@ -95,7 +95,7 @@
                                                class="add_disciplines"><i class="fas fa-wrench"></i>
                                             Specialties</a><br/>
 
-                                            @if($person['type']=='contributor')
+                                            @if($person['type']=='participant')
                                                 <a href="{{action('Base\BookController@create', $person['id'])}}" title="Show Books"
                                                    class="add_institutions"><i class="fa fa-book"></i>
                                                 Books</a>&nbsp;|
@@ -125,10 +125,10 @@
                             </table>
                         @else
                             <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">No persons have been
-                            added to your account. 
+                            added to your account.
                             Before you add any proposal, you need to add at least one person in the role of a project participant.</p>
                             <p style="color:#777;">
-                            Once you add a person in a participant role, you can come to this section to add additional CV data about 
+                            Once you add a person in a participant role, you can come to this section to add additional CV data about
                             the person, such as publications, educational background, etc...
                              </span>
                              </p>

@@ -61,14 +61,14 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="category1">Secondary Category(optional):</label>
+                                <label for="category1">Secondary Category (optional):</label>
                                 <select class="form-control cat" name="sec_category[]" id="category1">
                                     <option value="0">Select Secondary Category</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="sub_category1"> Secondary Subcategory(optional):</label>
+                                <label for="sub_category1"> Secondary Subcategory (optional):</label>
                                 <select class="form-control" name="sec_sub_category[]" id="sub_category1">
                                     <option value="0">Select Sub Category</option>
                                 </select>
@@ -144,11 +144,6 @@
                                                         <h4 class="modal-title" id="myModalLabel"></h4>
                                                     </div>
                                                     <div class="modal-body" id="modal-bodyku">
-                                                        <div class="form-group col-lg-12 sup">
-                                                            <label class="text-red"> <i class="fas fa-question-circle"></i> For this
-                                                                competition please create or choose
-                                                                persons with support type *</label>
-                                                        </div>
                                                             <div class="row">
                                                                 <div class="form-group col-lg-1">
                                                                 </div>
@@ -185,12 +180,13 @@
                                                                     <select class="form-control form-check-inline type tt" name="choose_person_ttype[]"
                                                                             id="choose_person_type{{$i}}">
                                                                         <option value = 'None'>Choose role for person</option>
-                                                                    @if($person['type'] == 'contributor')
+                                                                    @if($person['type'] == 'participant')
                                                                             <option value = 'PI'>PI</option>
                                                                             <option value = 'collaborator'>Collaborator</option>
                                                                     @else
-                                                                            <option value = 'director'>Director</option>
-                                                                            <option value = 'support'>Support</option>
+                                                                            <option value = 'director'>Director of institute</option>
+                                                                            <option value = 'supportletter'>Provides support letter</option>
+                                                                            <option value = 'consultant'>Consultant</option>
                                                                     @endif
                                                                     </select>
                                                                 </div>
@@ -233,88 +229,16 @@
                             <!--- Modal --->
 
 
-                            <!--Additional Charge Budget-->
-                            <!--<div class="col-lg-12 budgetitem">-->
-                                <!--<h4>Budget Items</h4>-->
-                                {{--<i class="fa fa-plus pull-right add text-blue"--}}
-                                {{--style="cursor: pointer"></i>--}}
 
-                                <!--<div class="row institution">-->
-                                    <!--<div class="form-group col-lg-3" id="budget_categories">-->
-                                        <!--<label for="inst">Budget Categories:</label>-->
-                                        {{--<select class="form-control" name="budget_item_categories[]"--}}
-                                        {{--id="budget_categories">--}}
-                                        {{--<option value="00">Select Budget Categories:</option>--}}
-                                        {{--</select>--}}
-                                    <!--</div>-->
-                                    <!--<div class="form-group col-lg-5" id="budget_categories_description">-->
-                                        <!--<label for="title">Budget Categories Description:</label>-->
-                                    <!--</div>-->
-                            <!--        <div class="form-group col-lg-4" id="amount">-->
-                            <!--            <label for="start">Amount:(Choose Between)</label>-->
-                            <!--        </div>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-
-                            <!--Additional Charge Budget-->
-                            <!--<div class="col-lg-12 additional">-->
-                            <!--    <h4>Additional Budget</h4>-->
-                            <!--    <div class="row">-->
-                            <!--        <div class="form-group col-lg-3" id="additional_charge_name">-->
-                            <!--            <label for="inst">Additional Charge Name:</label>-->
-                            <!--        </div>-->
-                            <!--        <div class="form-group col-lg-3" id="additional_charge">-->
-                            <!--            <label for="title">Additional Charge:</label>-->
-                            <!--        </div>-->
-                            <!--        <div class="form-group col-lg-3" id="additional_persentage_name">-->
-                            <!--            <label for="start">Additional Persentage Name</label>-->
-                            <!--        </div>-->
-                            <!--        <div class="form-group col-lg-3" id="additional_persentage">-->
-                            <!--            <label for="start">Additional Persentage</label>-->
-                            <!--        </div>-->
-                            <!--    </div>-->
-                            <!--</div>-->
-
-                            {{--<div class="form-group col-lg-8">--}}
-                            {{--<div class="col-xs-8">--}}
-                            {{--<div class="box">--}}
-                            {{--<div class="box-header">--}}
-                            {{--<h3 class="box-title">Score Type</h3>--}}
-                            {{--<!-- /.box-header -->--}}
-                            {{--<div class="box-body table-responsive no-padding">--}}
-                            {{--<table class="table table-hover" id="score_type" >--}}
-                            {{--<tbody><tr>--}}
-                            {{--<th>Category</th>--}}
-                            {{--<th>Score</th>--}}
-                            {{--</tr>--}}
-                            {{--</tbody></table>--}}
-                            {{--</div>--}}
-                            {{--<!-- /.box-body -->--}}
-                            {{--</div>--}}
-                            {{--<!-- /.box -->--}}
-                            {{--</div>--}}
-
-                            {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="form-group col-lg-6">--}}
-                            {{--<label for="ref1">Referee #1 comments:</label>--}}
-                            {{--<textarea rows="4" class="form-control" id="ref1"></textarea>--}}
-                            {{--</div>--}}
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary"> Cancel</a>
                             </div>
                             </div>
 
 
                         </form>
 
-                        <!--<div class="form-group col-lg-12">-->
-                        <!--    <label>Request to admin for adding new Institution</label>-->
-                        <!--    <a href="{{action('Applicant\ResearchBoardController@index','admin')}}"-->
-                        <!--       class="btn btn-primary">Request To admin</a>-->
-                        <!--</div>-->
 
                     </div>
                 </div>

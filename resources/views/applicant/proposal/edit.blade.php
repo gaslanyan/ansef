@@ -7,10 +7,10 @@
             <div class="offset-2 col-md-10">
                  <div class="card" style="margin-top:20px;">
                     <div class="card-header">Edit Proposal
-                        <a href="{{action('Applicant\ProposalController@generatePDF',$proposal->id)}}"
+                        {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$proposal->id)}}"
                            title="Download"
                            class="add_honors"><i class="fa fa-download"></i>
-                        </a>
+                        </a> --}}
 
                     </div>
 
@@ -77,9 +77,10 @@
                             <div class="form-group col-lg-12">
                              @if(!empty($person_account))
                                 @for($i = 0; $i<count($person_account);$i++)
-                                   <p> <b>{{$person_account[$i]->first_name . " " .$person_account[$i]->last_name}} </b>
-                                    <b>{{$person_account[$i]->subtype}} </b>
-                                       <span title="Delete" class="btn-link unchecked" id ={{$person_account[$i]->id}} ><i class="fa fa-trash"></i></span>
+                                   <p>
+                                        <span class="col-5" align="left"><b>{{$person_account[$i]->first_name . " " .$person_account[$i]->last_name}} </b>
+                                        ({{$person_account[$i]->subtype == "supportletter" ? "Letter of support" : ucfirst($person_account[$i]->subtype)}}) </span>
+                                        <span title="Delete" class="btn-link unchecked" id ={{$person_account[$i]->id}} ><i class="fa fa-trash"></i></span>
                                    </p>
                                 @endfor
                              @endif
@@ -109,11 +110,6 @@
                                                         <h4 class="modal-title" id="myModalLabel"></h4>
                                                     </div>
                                                     <div class="modal-body" id="modal-bodyku">
-                                                        <div class="form-group col-lg-12 sup">
-                                                            <label class="text-red"> <i class="fas fa-question-circle"></i> For this
-                                                                competition please create or choose
-                                                                persons with support type *</label>
-                                                        </div>
                                                             <div class="row">
                                                                 <div class="form-group col-lg-1">
                                                                 </div>
@@ -150,12 +146,13 @@
                                                                     <select class="form-control form-check-inline type tt" name="choose_person_ttype[]"
                                                                             id="choose_person_type{{$i}}">
                                                                         <option value = 'None'>Choose role for person</option>
-                                                                    @if($person['type'] == 'contributor')
+                                                                    @if($person['type'] == 'participant')
                                                                             <option value = 'PI'>PI</option>
                                                                             <option value = 'collaborator'>Collaborator</option>
                                                                     @else
-                                                                            <option value = 'director'>Director</option>
-                                                                            <option value = 'support'>Support</option>
+                                                                            <option value = 'director'>Director of institute</option>
+                                                                            <option value = 'supportletter'>Provides support letter</option>
+                                                                            <option value = 'consultant'>Consultant</option>
                                                                     @endif
                                                                     </select>
                                                                 </div>
@@ -197,25 +194,9 @@
                             </aside><!-- /.right-side -->
                             <!--- Modal --->
 
-
-
-
-
-
-
-
-                            @if(empty($proposal->document))
-                                <div class=" form-group col-lg-12">
-                                    <a href="{{action('Applicant\FileUploadController@index', $proposal->id)}}"
-                                       class="btn btn-primary" target="_blank">
-                                        Upload Proposal Description as a PDF or Word document </a>
-                                </div>
-                            @else
+                            @if(!empty($proposal->document))
                                 <div class="form-group col-lg-12">
-                                    <label>Proposal Description:</label>
-                                    <a href="\storage\proposal\prop-{{$proposal->id}}\{{$proposal->document}}"
-                                       class="btn-link col-lg-2" target="_blank">
-                                        {{$proposal->document}} <i class="fa fa-download"></i> </a>
+                                    <label>Proposal Document:</label>
                                     @if($proposal->state != 'awarded')
                                         <a href="{{action('Applicant\FileUploadController@remove', $proposal->id)}}"
                                            class="btn-link col-lg-2">
@@ -389,6 +370,7 @@
                                     </div>
                                 @endif
                             @endif
+
                             @if(!empty($recom))
                                 @foreach($recom  as $r)
                                     <div class="form-group col-lg-12">
@@ -400,6 +382,7 @@
                                     </div>
                                 @endforeach
                             @endif
+
                             @if(!empty($ins))
                                 <label>Institution:</label>
                                       <div class="form-group col-lg-6">
@@ -416,7 +399,7 @@
 
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                                <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary"> Cancel</a>
                             </div>
                         </form>
 

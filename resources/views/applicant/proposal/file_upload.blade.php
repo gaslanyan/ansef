@@ -11,28 +11,44 @@
        <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
              <div class="card" style="margin-top:20px;">
-                <div class="card-header">Upload Proposal Document
-                    <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
-                       class="display float-lg-right btn-box-tool"> Back</a>
+                <div class="card-header">Proposal Document
                 </div>
 
         <div class="card-body card_body">
             <br />
+            <p>Click <b>'Choose File'</b> and select a PDF document that describes your proposal. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
+            to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.<br/>
+            If you prefer to upload the document later, click <b>Upload later</b> below.</p>
+            <p>If you want to find out what to include in the proposal document, click here.</p><br/>
+
+            <div id="oldmessage" class="col-12">
+            @if(!empty($document))
+                You currently have an uploaded document. You can:<br/><br/>
+                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank">
+                        <i class="fa fa-download"></i>&nbsp; Download uploaded document
+                </a><br/><br/>
+                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@remove', $id)}}">
+                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
+                </a>
+            @else
+                There are currently no uploaded documents
+            @endif
+            </div><br/><br/>
+
             <form method="post" action="{{ route('upload') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-md-4" align="right"><h4>Select Document(.pdf)</h4></div>
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <input type="file" name="file" id="file" />
                         <input type="hidden" name="prop_id_file"  value="{{$id}}" />
                     </div>
-                    <div class="col-md-3">
-                        <input type="submit" name="upload" value="Upload&Save" class="btn btn-success" />
+                    <div class="col-md-6" align="right">
+                        <input type="submit" name="upload" value="{{!empty($document) ? 'Replace' : 'Upload'}}" class="btn btn-success" />
                     </div>
                 </div>
             </form>
             <br />
-            <div class="progress">upload
+            <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow=""
                      aria-valuemin="0" aria-valuemax="100" style="width: 0%">
                     0%
@@ -40,18 +56,22 @@
             </div>
             <br />
             <div id="success">
-
+            </div>
+            <div id="newmessage">
+                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank">
+                        <i class="fa fa-download"></i>&nbsp; Download and verify uploaded document
+                </a><br/><br/>
+                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@remove', $id)}}">
+                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
+                </a>
             </div>
             <br />
             <div class="row">
-            <div class="col-md-12">
-                <i class="fas fa-question-circle text-red"> For Deleting uploaded file please click Cancel button </i><br/>
-                <a href="{{action('Applicant\FileUploadController@remove', $id)}}" class="btn btn-primary">Cancel</a>
-                <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
-                   class="btn btn-primary"> Next</a>
+                <div class="col-md-12">
+                    <div id="uploadlater"><a href="{{action('Applicant\ProposalController@activeProposal', $id)}}" class="btn btn-primary">Upload later</a></div>
+                    <div id="uploaddone"><a href="{{action('Applicant\ProposalController@activeProposal', $id)}}" class="btn btn-primary">Go back</a></div>
                 </div>
              </div>
-
         </div>
             </div>
 </div>
@@ -59,6 +79,8 @@
 </div>
     <script>
     $(document).ready(function(){
+        $('#uploaddone').hide();
+        $('#newmessage').hide();
 
         $('form').ajaxForm({
             beforeSend:function(){
@@ -71,18 +93,23 @@
             },
             success:function(data)
             {
+                console.log(data);
                 if(data.errors)
                 {
                     $('.progress-bar').text('0%');
                     $('.progress-bar').css('width', '0%');
                     $('#success').html('<span class="text-danger"><b>'+data.errors+'</b></span>');
+                    $('#oldmessage').hide();
                 }
                 if(data.success)
                 {
                     $('.progress-bar').text('Uploaded');
                     $('.progress-bar').css('width', '100%');
                     $('#success').html('<span class="text-success"><b>'+data.success+'</b></span><br /><br />');
-                    $('#success').append(data.pdf);
+                    $('#oldmessage').hide();
+                    $('#uploadlater').hide();
+                    $('#newmessage').show();
+                    $('#uploaddone').show();
                 }
             }
         });

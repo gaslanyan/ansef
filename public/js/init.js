@@ -362,10 +362,12 @@ $(document).ready(function() {
                     if (data.hasOwnProperty(i)) {
                         if (i === 'cats') {
                             $step = 0;
+                            $('#category0').append("<option>Select Category</option>");
+                            $('#category1').append("<option>Select Secondary Category</option>");
                             for (var j in data[i]) {
                                 if (data[i].hasOwnProperty(j)) {
-                                    $('#category0').append("<option>Select Category</option><option value='" + j + "'>" + data[i][j].parent + "</option>");
-                                    $('#category1').append("<option>Select Secondary Category</option><option value='" + j + "'>" + data[i][j].parent + "</option>");
+                                    $('#category0').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
+                                    $('#category1').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
                                     if (data[i][j].parent.length > 0)
                                         $('#sub_category' + $step).val(data[i][j].sub);
                                     $step++;
@@ -418,7 +420,7 @@ $(document).ready(function() {
                         //Allow Foreign//
                         if (i === 'allowforeign') {
                             if (data[i] != 1) {
-                                $('#comp_container').append('<i class="fas fa-question-circle text-red all"> Only registered in Armenia can take part in this competition </i> <input type="hidden" name="allowforegin" value="' + data[i] + '" class="all" id="allowforeign">');
+                                $('#comp_container').append('<i class="fas fa-question-circle text-red all"> This competition requires that the PI resides in Armenia </i> <input type="hidden" name="allowforegin" value="' + data[i] + '" class="all" id="allowforeign">');
                                 $('.domesticorforeign').val(data[i]);
                                 var matches = 0;
                                 $(".al").each(function(i, val) {

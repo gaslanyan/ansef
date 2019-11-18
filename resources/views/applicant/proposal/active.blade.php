@@ -28,7 +28,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Proposal Name</th>
+                                    <th>Proposal Title</th>
                                     <th>Proposal State</th>
                                     {{--<th>Email</th>--}}
                                     <th colspan="2">Action</th>
@@ -40,13 +40,10 @@
                                         <td></td>
                                         <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}"
                                             class="email_field">
-                                            <input type="text" class="form-control" name="email"
-                                                   value="{{$ap['title']}}" disabled>
+                                            {{truncate($ap['title'],55)}}
                                         </td>
                                         <td data-order="{{$ap['state']}}" data-search="{{$ap['state']}}"
                                             class="email_field">
-                                            {{--<input type="text" class="form-control" name="email"--}}
-                                                   {{--value="{{$ap['state']}}" disabled>--}}
 
                                             <select id="type" class="form-control" name="type" disabled>
                                                 <?php $enum = getEnumValues('proposals', 'state');?>
@@ -63,64 +60,40 @@
                                             </select>
 
                                         </td>
-                                        {{--<td data-order="{{$email->email}}" data-search="{{$email->email}}"--}}
-                                            {{--class="email_field">--}}
-                                            {{--<input type="text" class="form-control" name="email"--}}
-                                                   {{--value="{{$email->email}}" disabled>--}}
-                                        {{--</td>--}}
                                         <td>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
-                                            {{--<button title="Edit"--}}
-                                            {{--class="edit btn-link"><i class="fa fa-pencil-alt"></i>--}}
-                                            {{--</button>--}}
-                                            {{--<button title="Cancel"--}}
-                                            {{--class="cancel editable btn-link"><i class="fa fa-ban"></i>--}}
-                                            {{--</button>--}}
-                                            <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}"
-                                            class="view" title="View"><i class="fa fa-eye"></i>
+                                            <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
+                                                <span class="fa fa-eye" style="font-size:15px;color:#555;">View</span>
                                             </a>
 
-                                            {{--<a href="{{action('Applicant\EmailController@edit', $email->id)}}"--}}
-                                                    {{--title="full_edit"--}}
-                                                    {{--class="full_edit"><i class="fa fa-edit"></i>--}}
-                                            {{--</a>--}}
                                             <a href="{{action('Applicant\ProposalController@edit', $ap['id'])}}"
-                                               title="Edit"
-                                               class=""><i class="fa fa-edit"></i>
+                                               title="Edit"><span class="fa fa-edit" style="font-size:15px;color:#555;"></span>Edit
                                             </a>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
-                                            <!--<button title="Edit"-->
-                                            <!--        class="edit btn-link"><i class="fa fa-pencil-alt"></i>-->
-                                            <!--</button>-->
-                                            <!--<button title="Save"-->
-                                            <!--        class="save_prop editable btn-link"><i class="fa fa-save"></i>-->
-                                            <!--</button>-->
-                                            <!--<button title="Cancel"-->
-                                            <!--        class="cancel editable btn-link"><i class="fa fa-ban"></i>-->
-                                            <!--</button>-->
-                                            {{-- <a href="{{action('Applicant\BudgetController@edit', $ap['id'])}}" title="Budget" class="add_budgets"> --}}
-                                                <a><i class="fas fa-file-invoice-dollar"></i></a>
-                                            {{-- </a> --}}
+
 
                                             <a href="{{action('Applicant\ProposalController@destroy', $ap['id'])}}"
-                                               title="Delete"
-                                               class="add_honors"><i class="fa fa-trash"></i>
+                                               title="Delete"><i class="fa fa-trash"></i>Delete
+                                            </a><br/>
+
+                                            <a><i class="fas fa-file-invoice-dollar"></i></a>
+
+                                            <a href="{{action('Applicant\FileUploadController@index', $ap['id'])}}"
+                                               title="Delete">
+                                               <?php if($ap['document'] == null){
+                                                echo " <i class='fas fa-file-pdf' style='color:#dd4b39 !important;'></i>";
+                                                }
+                                                else{
+                                                echo " <i class='fas fa-file-pdf'></i>";
+                                                }?>Document|
                                             </a>
 
-                                            <a href="{{action('Applicant\ProposalController@generatePDF',$ap['id'])}}"
+                                            {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$ap['id'])}}"
                                                title="Download"
                                                class="add_honors"><i class="fa fa-download"></i>
-                                            </a>
-                                            {{-- <a href="{{action('Applicant\ProposalController@validate', $ap['id'])}}" title="Validate" class="validate"> --}}
-                                                <a><i class="fas fa-check-square"></i></a>
-                                            {{-- </a> --}}
+                                            </a> --}}
 
-                                            {{--<form action="{{action('Applicant\EmailController@destroy', $person['id'])}}" method="post">--}}
-                                                {{--@csrf--}}
-                                                {{--<input name="_method" type="hidden" value="DELETE">--}}
-                                                {{--<button type="submit" class=" btn-link"><i class="fa fa-trash"></i></button>--}}
-                                            {{--</form>--}}
-
+                                            <a><i class="fas fa-check-square"></i></a>Check
 
                                         </td>
 

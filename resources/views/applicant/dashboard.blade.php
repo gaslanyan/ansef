@@ -25,6 +25,7 @@
                                    style="width:100%"  valign="middle">
                                 <thead>
                                 <tr>
+                                    <th hidden></th>
                                     <th width="100px">Identifier</th>
                                     <th>Title</th>
                                     <th width="150px">Deadline</th>
@@ -34,16 +35,14 @@
                                 <tbody>
                                 @foreach($competitonlist as $comp)
                                     <tr>
-                                        <td data-order="{{$comp['title']}}" data-search="{{$comp['title']}}"
-                                            class="email_field">
+                                        <td hidden></td>
+                                        <td data-order="{{$comp['title']}}" data-search="{{$comp['title']}}">
                                             {{$comp['title']}}
                                         </td>
-                                        <td data-order="{{$comp['description']}}" data-search="{{$comp['description']}}"
-                                            class="email_field">
+                                        <td data-order="{{$comp['description']}}" data-search="{{$comp['description']}}">
                                             {{getTitleOfCompetition($comp['description'])}}
                                         </td>
-                                        <td data-order="{{$comp['submission_end_date']}}" data-search="{{$comp['submission_end_date']}}"
-                                            class="email_field">
+                                        <td data-order="{{$comp['submission_end_date']}}" data-search="{{$comp['submission_end_date']}}">
                                             <b>{{$comp['submission_end_date']}}</b>
                                         </td>
                                         <td>
@@ -63,7 +62,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- end of modal ------------------------------>                        
+                                        <!-- end of modal ------------------------------>
                                         </td>
                                     </tr>
                                 @endforeach

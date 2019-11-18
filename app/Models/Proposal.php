@@ -27,7 +27,7 @@ class Proposal extends Model
     {
         return $this->belongsTo(Competition::class , 'competition_id', 'id');
     }
-    
+
     function report()
     {
         return $this->hasOne('App\Models\RefereeReport');
@@ -37,14 +37,19 @@ class Proposal extends Model
     {
         return $this->hasOne(ProposalReports::class);
     }
-    
+
     function proposalReports()
     {
         return $this->hasMany(ProposalReports::class);
     }
-    
+
     function reports()
     {
         return $this->hasMany('App\Models\RefereeReport');
+    }
+
+    function persons()
+    {
+        return $this->belongsToMany(Person::class , 'person_types', 'proposal_id', 'person_id')->withPivot('subtype');
     }
 }

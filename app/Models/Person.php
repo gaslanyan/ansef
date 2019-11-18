@@ -30,7 +30,7 @@ class Person extends Model
     {
         return $this->hasOne('App\Models\RefereeReport');
     }
-    
+
     public function emails()
     {
         return $this->hasMany('App\Models\Email');
@@ -67,6 +67,10 @@ class Person extends Model
     public function publications()
     {
         return $this->hasMany('App\Models\Publications');
+    }
+    function proposals()
+    {
+        return $this->belongsToMany(Proposal::class , 'person_types', 'person_id', 'proposal_id')->withPivot('subtype');
     }
 
 }

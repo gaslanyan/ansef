@@ -13,16 +13,15 @@ class FileUploadController extends Controller
 {
     function index($id)
     {
+        $document = Proposal::find($id)->first()->document;
 
-
-        return view('applicant.proposal.file_upload',compact('id'));
+        return view('applicant.proposal.file_upload',compact('id', 'document'));
     }
 
     function upload(Request $request)
     {
-
-       $rules = array(
-            'file'  => 'required|mimes:pdf|max:12048'
+        $rules = array(
+            'file'  => 'required|mimes:pdf|max:20480'
         );
 
         $error = Validator::make($request->all(), $rules);
@@ -34,10 +33,9 @@ class FileUploadController extends Controller
 
         $image = $request->file('file');
 
-//      $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $new_name =$image->getClientOriginalName();
+        // $new_name =$image->getClientOriginalName();
+        $new_name ='document.pdf';
         $path = storage_path('/proposal/prop-' . $request->prop_id_file . '/');
-        //$image->move(public_path('images'), $new_name);
         $image->move($path, $new_name);
 
         $proposal = Proposal::find($request->prop_id_file);
@@ -45,7 +43,6 @@ class FileUploadController extends Controller
         $proposal->save();
         $output = array(
             'success' => 'Document uploaded successfully',
-//          'image'  => '<img src="/images/'.$new_name.'" class="img-thumbnail" />'
             'pdf' => $new_name
         );
 

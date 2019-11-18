@@ -63,7 +63,7 @@
                                         </select>
                                     </td-->
                                     <td data-order="{{$applicant_person->type}}" data-search="{{$applicant_person->type}}" class="email_field">
-                                        <?php {{echo($applicant_person->type == 'external_support' ? 'Support person' : 'Project participant');}}?>
+                                        <?php {{echo($applicant_person->type == 'support' ? 'Support person' : 'Project participant');}}?>
                                         </input>
                                     </td>
                                     <td>
@@ -114,12 +114,12 @@
                         </table>
                             @else
                             <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">No persons have been
-                            added to your account. 
+                            added to your account.
                             Before you add any proposal, you need to add at least one person in the role of a project participant.</p>
                             <p style="color:#777;">
                             In this ANSEF portal account, you can maintain a list of persons in one of two roles:<br/>
                             <li style="color:#777;">
-                                a <b>participant</b> who can be either a principal investigator that heads a project, 
+                                a <b>participant</b> who can be either a principal investigator that heads a project,
                                 or a collaborator/consultant who can participate in the project in a secondary role;
                             </li>
                             <li style="color:#777;">
@@ -128,8 +128,8 @@
                             </li>
                              </p>
                             <p style="color:#777;">
-                            When you create a project proposal, you will be able to choose from this list of persons. 
-                            Note that a support person cannot be added to any proposal as a participant; 
+                            When you create a project proposal, you will be able to choose from this list of persons.
+                            Note that a support person cannot be added to any proposal as a participant;
                             and a participant cannot be added to any proposal as a support person. So, make sure you choose the role for each person
                             here accordingly. You can add as many persons to your account as needed. A person can be attached to several proposals; and a proposal can have some or all the persons listed here.
                             The list of persons in your account will be stored on the ANSEF portal for use again for future proposals you might submit.

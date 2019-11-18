@@ -54,15 +54,22 @@ class ProposalController extends Controller
 
         $user_id = chooseUser();
         $signed_person_id = signUser()->pid;
-        $competitions = Competition::where('submission_end_date','>',date('Y-m-d'))->get();
+        $competitions = Competition::where('submission_end_date','>=',date('Y-m-d'))
+        ->where('submission_start_date','<=',date('Y-m-d'))
+        ->where('state', 'enable')
+        ->get();
+
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
 
         $persons = Person::where('user_id', $user_id)->where(function($query) {
-                $query->where('type', 'contributor');
-                $query->orWhere('type', 'external_support');
+                $query->where('type', 'participant');
+                $query->orWhere('type', 'support');
             })->get()->toArray();
-        if (count($persons) > 1) {
+        $pipersons = Person::where('user_id', $user_id)->where(function($query) {
+                $query->where('type', 'participant');
+            })->get()->toArray();
+        if (count($pipersons[0]) > 1) {
             return view('applicant.proposal.create', compact('persons', 'competitions', 'countries', 'institutions'));
 
         }
@@ -169,125 +176,48 @@ class ProposalController extends Controller
         $proposal->save();
         $proposal_id = $proposal->id;
 
-
         if (!empty($request->choose_person)) {
             for ($i = 0; $i < count($request->choose_person); $i++) {
                 $id_type = explode("_", $request->choose_person[$i]);
+                if(count($id_type) != 2)
+                {
+                    dd($id_type);
+                    return redirect()->action('Applicant\ProposalController@create');
+                }
+
                 $persontype = new PersonType();
                 $persontype->person_id = $id_type[0];
                 $persontype->proposal_id = $proposal_id;
                 $persontype->subtype = $id_type[1];
                 $persontype->save();
-                // dd($request->choose_person_id[$i]);
-                /*  if ($request->choose_person_t[$i] == "PI") {
-                      $prop_members['person_pi_id'] = $request->choose_person_id[$i];
-
-                  }
-                  if ($request->choose_person_t[$i] == "director") {
-                      $prop_members['person_director_id'] = $request->choose_person_id[$i];
-
-                  }
-
-                  if ($request->choose_person_t[$i] == "collaborator") {
-                      $prop_members['person_collaborator_id'] = $request->choose_person_id[$i];
-                  */
             }
         }
 
-        $totalbudgetamount = 0;
-        if (!empty($request->budget_item_categories)) {
-            foreach ($request->budget_item_categories as $key => $val) {
-                $budget_item = new BudgetItem();
-                $budget_item->budget_cat_id = $request->budget_item_categories_hidden[$key];
-                $budget_item->description = $request->budget_categories_description[$key];
-                $budget_item->amount = $request->amount[$key];
-                $totalbudgetamount += $request->amount[$key];
-                $budget_item->proposal_id = $proposal_id;
-                $budget_item->save();
-            }
-        }
+        // if (!empty($request->institution)) {
+        //     foreach ($request->institution as $key => $val) {
+        //         $institution = new ProposalInstitution();
+        //         $institution->proposal_id = $proposal_id;
+        //         $institution->institution_id = (int)$request->institution[$key];;
+        //         $institution->save();
+        //     }
+        // }
+        // if (!empty($request->institutionname)) {
+        //     for($i = 0; $i<count($request->institutionname); $i++) {
+        //         dd($request->institutionname);
+        //         $institutions = new Institution();
+        //         $institutions->content = $request->institutionname[$i];
+        //         $institutions->address_id = 130;
+        //         $institutions->save();
+        //         $ins_id = $institutions->id;
 
-        if (!empty($request->institution)) {
-            foreach ($request->institution as $key => $val) {
-                $institution = new ProposalInstitution();
-                $institution->proposal_id = $proposal_id;
-                $institution->institution_id = (int)$request->institution[$key];;
-                $institution->save();
-            }
-        }
-        if (!empty($request->institutionname)) {
-            for($i = 0; $i<count($request->institutionname); $i++) {
-                $institutions = new Institution();
-                $institutions->content = $request->institutionname[$i];
-                $institutions->address_id = 130;
-                $institutions->save();
-                $ins_id = $institutions->id;
-
-                $prop_institution = new ProposalInstitution();
-                $prop_institution->proposal_id = $proposal_id;
-                $prop_institution->institution_id = $ins_id;
-                $prop_institution->save();
-            }
-        }
+        //         $prop_institution = new ProposalInstitution();
+        //         $prop_institution->proposal_id = $proposal_id;
+        //         $prop_institution->institution_id = $ins_id;
+        //         $prop_institution->save();
+        //     }
+        // }
         return redirect()->action('Applicant\FileUploadController@index', $proposal_id);
-       /* if (!empty($prop_members['person_pi_id'])) {
-            $personid_recom = [];
-            $bool_support = false;
 
-            for ($i = 0; $i < count($request->choose_person); $i++) {
-                if ($request->choose_person_t[$i] == "support") {
-                    if (!empty(getEmailByPersonID($request->choose_person_id[$i]))) {
-                        array_push($personid_recom, $request->choose_person_id[$i]);
-                        $bool_support = true;
-                    } else {
-                        $bool_support = false;
-                        break;
-                        //TODO   Wrong message chi berum
-                        //return Redirect::back()->with('wrong', getMessage("wrong"));
-                    }
-                    // $prop_members['person_support_id'] = $request->choose_person_id[$i];
-                }
-
-            }
-
-
-              if ($bool_support == true) {
-                  $proposal->save();
-                  $proposal_id = $proposal->id;
-
-                  //dd($personid_recom);
-                  if ($request->recommendation == 1) {
-                      for ($i = 0; $i < count($personid_recom); $i++) {
-                          $recommendations = new Recommendations();
-                          $recommendations->person_id = $personid_recom[$i];
-                          $recommendations->proposal_id = $proposal_id;
-                          $recommendations->save();
-                          $objSend = new \stdClass();
-                          $objSend->message = $personid_recom[$i] . " Click here to write recommendation http://ansef.gitc.am/support/" . $proposal_id . "/" . $personid_recom[$i];
-                          $objSend->sender = 'Ansef';
-                          $objSend->receiver = 'Recomedations';
-
-                          // TODO add emails  -  ov vo piti stana namaky
-                          Mail::to('krist68@mail.ru')->send(new \App\Mail\SupportPerson($objSend));
-
-                      }
-                  }
-
-
-                  return redirect()->action('Applicant\FileUploadController@index', $proposal_id);
-              } else {
-                  return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-              }
-          } //TODO write wrong message text
-          else {
-              return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-          }
-
-
-  //        } catch (\Exception $exception) {
-  //            return Redirect::back()->with('wrong', getMessage("wrong"));
-  //
-  //        }*/
 
         }
 
@@ -356,9 +286,9 @@ class ProposalController extends Controller
         $competitions = Competition::all();
         $recom = Recommendations::where('proposal_id', $id)->get()->toArray();
         $persons = Person::where('user_id', $user_id)->where(function($query) {
-                $query->where('type', 'contributor');
-                $query->orWhere('type', 'external_support');
-            })->get()->toArray();
+            $query->where('type', 'participant');
+            $query->orWhere('type', 'support');
+        })->get()->toArray();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
         $additional = json_decode($competition_name->additional);
         $categories = json_decode($proposal->categories);
@@ -408,9 +338,12 @@ class ProposalController extends Controller
         if (!empty($propsalinstitution->institution_id)) {
             $ins = Institution::find($propsalinstitution->institution_id);
         }
+        else {
+            $ins = [];
+        }
 
-        return view('applicant.proposal.edit', compact('person_collaborator', 'institutions', 'ins', 'budget_categories', 'budget_item', 'competition_name', 'competitions', 'proposal', 'cat_parent', 'cat_sub',
-            'cat_sec_parent', 'cat_sec_sub', 'persons', 'budget_message', 'person_account', 'proposalreports', 'competition_name->max_budget', 'person_acc', 'additional', 'refereereport', 'recom', 'scoreTypes'));
+        return view('applicant.proposal.edit', compact('institutions', 'ins', 'budget_categories', 'budget_item', 'competition_name', 'competitions', 'proposal', 'cat_parent', 'cat_sub',
+            'cat_sec_parent', 'cat_sec_sub', 'persons', 'budget_message', 'person_account', 'proposalreports', 'person_acc', 'additional', 'refereereport', 'recom', 'scoreTypes'));
     }
 
     /**
@@ -433,7 +366,7 @@ class ProposalController extends Controller
              "first_report" => "required|mimes:pdf|max:10000"*/
 
         ]);
-        
+
         // VVS
         // try {
         //     $proposal->title = $request->title;

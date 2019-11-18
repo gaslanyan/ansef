@@ -51,8 +51,8 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="state">* Is person based in Armenia?:</label>
+                                <?php $enum = getEnumValues('persons', 'state'); ?>
                                 <select id="state" class="form-control" name="state">
-                                    <?php $enum = getEnumValues('persons', 'state');?>
                                     <option>Select location</option>
                                     @if(!empty($enum))
                                         @foreach($enum as $val => $item)
@@ -68,8 +68,8 @@
                                     <option>Select person's role</option-->
                                     @if(!empty($enum))
                                         @foreach($enum as $val=>$item)
-                                            @if($item != "admin" && $item != "referee" && $item != "viewer")
-                                                <option class="text-capitalize" <?php if(old('type') == $val) echo 'selected'; ?> value="{{$item}}">{{$item == 'contributor' ? 'Will participate' : 'Will support only'}}</option>
+                                            @if($item != "admin" && $item != "referee" && $item != "viewer" && $item != "applicant")
+                                                <option class="text-capitalize" <?php if(old('type') == $val) echo 'selected'; ?> value="{{$item}}">{{$item == 'participant' ? 'Will participate' : 'Will support only'}}</option>
                                             @endif
                                         @endforeach
                                     @endif
