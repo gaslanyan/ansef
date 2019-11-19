@@ -200,6 +200,7 @@ Route::resource('/applicant/info', 'Applicant\InfoController');
 Route::resource('/applicant/phone', 'Applicant\PhoneController');
 Route::resource('/applicant/publication', 'Base\PublicationsController');
 Route::resource('/applicant/degree', 'Applicant\DegreePersonController');
+Route::get('/applicant/institution/destroyemployment/{id}', 'Base\InstitutionController@destroyemployment');
 Route::resource('/applicant/institution', 'Base\InstitutionController');
 Route::resource('/applicant/account', 'Applicant\AccountController');
 

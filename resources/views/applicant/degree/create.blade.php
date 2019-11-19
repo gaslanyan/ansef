@@ -47,7 +47,7 @@
                                         <select class="form-control" name="description[]" id="description">
                                             <option value="0">Select Degree</option>
                                             @foreach($degrees_list as $dl)
-                                                <option <?php if($degree->text == $dl->text) echo 'selected'; ?> value="{{$dl->id}}">{{$dl->text}}</option>
+                                                <option <?php if($degree->degree_id == $dl->id) echo 'selected'; ?> value="{{$dl->id}}">{{$dl->text}}</option>
                                             @endforeach
                                         </select>
                                         <input type="hidden" class="form-check-inline" name="degrees_add_hidden_id[]"
@@ -62,15 +62,15 @@
 
                                     <div class="col-lg-4">
                                     <label for="inst"></label>
-                                    <select id="inst" class="form-control" name="institution_id">
+                                    <select id="inst" class="form-control" name="institution_id[]">
                                         <option value="0">Select institution</option>
                                         @if(!empty($institutions))
                                             @foreach($institutions as $val=>$item)
-                                                <option class="text-capitalize" value="{{$val}}" <?php $val == $degree->institution_id ? 'selected' : '' ?>>{{$item}}</option>
+                                                <option class="text-capitalize" value="{{$val}}" {{$val == $degree->institution_id ? 'selected' : ''}}>{{$item}}</option>
                                             @endforeach
                                         @endif
                                     </select>
-                                    <input type="text" id="institution" class="form-control" name="institution" value="{{$degree->institution}}" placeholder="If your institution is not in the list, type instead the name here">
+                                    <input type="text" id="institution" class="form-control" name="institution[]" value="{{$degree->institution}}" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
 
                                     <div class="col-lg-2 align-self-center">

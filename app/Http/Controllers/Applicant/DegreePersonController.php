@@ -65,6 +65,16 @@ class DegreePersonController extends Controller
             $degrees->person_id = $p_id;
             $degrees->degree_id = $request->description;
             $degrees->year = $request->year;
+
+            if (!empty($request->institution)) {
+                $degrees->institution = $request->institution;
+            } elseif (!empty($request->institution_id)) {
+                $degrees->institution_id = (int) $request->institution_id;
+            } else {
+                $degrees->institution = '';
+                $degrees->institution_id = 0;
+            }
+
             $degrees->save();
             return Redirect::back()->with('success', getMessage("success"));
         } catch (\Exception $exception) {
@@ -106,19 +116,29 @@ class DegreePersonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $user_id = \Auth::guard(get_Cookie())->user()->id;
-        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        // $p_id = $person_id[0]['id'];
-
         $validatedData = $request->validate([
-            'description' => 'required|numeric|min:0|not_in:0',
-            'year' => 'required|numeric|min:1900|max:2030'
+            'description.*' => 'required|numeric|min:0|not_in:0',
+            'year.*' => 'required|numeric|min:1900|max:2030'
         ]);
+
         try {
             for ($i = 0; $i <= count($request->year) - 1; $i++) {
                 $degreeperson = DegreePerson::find($request->degree_hidden_id[$i]);
                 $degreeperson->year = ($request->year)[$i];
                 $degreeperson->degree_id = ($request->description)[$i];
+
+                if (!empty(($request->institution)[$i]) && ($request->institution)[$i] != "") {
+                    $degreeperson->institution = ($request->institution)[$i];
+                    $degreeperson->institution_id = 0;
+                }
+                elseif (!empty(($request->institution_id)[$i])) {
+                    $degreeperson->institution_id = (int) ($request->institution_id)[$i];
+                    $degreeperson->institution = "";
+                }
+                else {
+                    $degreeperson->institution = "";
+                }
+
                 $degreeperson->save();
             }
 

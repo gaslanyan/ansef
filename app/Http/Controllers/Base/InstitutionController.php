@@ -45,13 +45,9 @@ class InstitutionController extends Controller
      */
     public function create($id)
     {
-         $ins_array = [];
-         $institutions_list = Institution::all()->toArray();
-        //dd($institutions_list);
-         $institution_person = InstitutionPerson::select('*')
-             ->join('institutions', 'institutions.id','=','institutions_persons.institution_id')
-             ->where('institutions_persons.person_id','=',$id)->get()->toArray();
-
+        $ins_array = [];
+        $institutions_list = Institution::all()->toArray();
+        $institution_person = InstitutionPerson::where('person_id','=', $id)->get()->sortBy('end');
 
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
         $person = Person::where('id',$id )->get()->toArray();
@@ -67,23 +63,29 @@ class InstitutionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'institution' => 'required',
             'i_title' => 'required',
             'i_type' => 'required',
             'start' => 'required',
         ]);
 
         try {
-            foreach ($request->institution as $key => $val) {
-                $institution = new InstitutionPerson();
-                $institution->person_id = $request->institution_creare_hidden;
-                $institution->institution_id = (int)$request->institution[$key];;
-                $institution->title = $request->i_title[$key];
-                $institution->type = $request->i_type[$key];
-                $institution->start = $request->start[$key];
-                $institution->end = $request->end[$key];
-                $institution->save();
+            $institution = new InstitutionPerson();
+            $institution->person_id = $request->institution_create_hidden;
+            $institution->title = $request->i_title;
+            $institution->type = $request->i_type;
+            $institution->start = $request->start;
+            $institution->end = $request->end;
+
+            if (!empty($request->institution)) {
+                $institution->institution = $request->institution;
+            } elseif (!empty($request->institution_id)) {
+                $institution->institution_id = (int) $request->institution_id;
+            } else {
+                $institution->institution = '';
+                $institution->institution_id = 0;
             }
+
+            $institution->save();
             return Redirect::back()->with('success', getMessage("success"));
         } catch (ValidationException $e) {
             // Rollback and then redirect
@@ -194,7 +196,6 @@ class InstitutionController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'institution.*' => 'required',
             'i_title.*' => 'required',
             'i_type.*' => 'required',
             'start.*' => 'required',
@@ -205,11 +206,21 @@ class InstitutionController extends Controller
             $count = count($request->inst_hidden_id);
             for ($i = 0; $i < $count; $i++) {
                 $inspers = InstitutionPerson::find(($request->inst_hidden_id)[$i]);
-                $inspers->institution_id = ($request->institution)[$i];
                 $inspers->title = ($request->i_title)[$i];
                 $inspers->start = ($request->start)[$i];
                 $inspers->end = ($request->end)[$i];
                 $inspers->type = ($request->i_type)[$i];
+
+                if (!empty(($request->institution)[$i]) && ($request->institution)[$i] != "") {
+                    $inspers->institution = ($request->institution)[$i];
+                    $inspers->institution_id = 0;
+                } elseif (!empty(($request->institution_id)[$i])) {
+                    $inspers->institution_id = (int) ($request->institution_id)[$i];
+                    $inspers->institution = "";
+                } else {
+                    $inspers->institution = "";
+                    $inspers->institution_id = 0;
+                }
 
                 $inspers->save();
             }
@@ -271,4 +282,17 @@ class InstitutionController extends Controller
             return getMessage("wrong");
         }
     }
+
+    public function destroyemployment($id)
+    {
+        try {
+            $degree = InstitutionPerson::find($id);
+            if(!empty($degree)) $degree->delete();
+            return Redirect::back()->with('delete', getMessage("deleted"));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return getMessage("wrong");
+        }
+    }
+
 }

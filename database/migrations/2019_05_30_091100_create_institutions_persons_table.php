@@ -16,7 +16,8 @@ class CreateInstitutionsPersonsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('person_id')->unsigned()->nullable()->index('FK_INSTITUTIONS');
-			$table->integer('institution_id')->nullable();
+            $table->integer('institution_id')->nullable();
+            $table->string('institution', 255)->nullable();
 			$table->string('title');
 			$table->date('start')->nullable();
 			$table->date('end')->nullable();
