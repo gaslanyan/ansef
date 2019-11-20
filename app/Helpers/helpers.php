@@ -91,7 +91,7 @@ function checkUserId($role)
 {
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;
-        $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
+        $table = \App\Models\Person::where('user_id', $user_id)->where('type', null)->first();
 
         if (!empty($table)) {
             return true;
@@ -513,4 +513,15 @@ function truncate($string, $length)
     }
 
     return $string;
+}
+
+function createperson($user_id) {
+    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=',null)->first();
+
+    if(empty($person)) {
+        \App\Models\Person::create(['user_id' => $user_id, 
+                        'first_name' => '', 
+                        'last_name' => '', 
+                        'specialization' => '']);
+    }
 }

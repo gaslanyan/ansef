@@ -17,9 +17,12 @@ class ViewerController extends Controller
      */
     public function index()
     {
-        $user_id = Auth::guard('viewer')->user()->id;
+        $user_id = \Auth::guard('viewer')->user()->id;
         $person = Person::where('user_id', '=', $user_id)->first();
         $competitonlist = Competition::all();
+        
+        createperson($user_id);
+
         return view("viewer.dashboard", compact('competitonlist'));
     }
 

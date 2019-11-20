@@ -49,7 +49,10 @@ class InitializationSeeder extends Seeder
 
         App\Models\Person::create([
             'user_id' => 1,
-            'type' => null
+            'type' => null,
+            'specialization' => '',
+            'first_name' => '',
+            'last_name' => ''
         ]);
     }
 }

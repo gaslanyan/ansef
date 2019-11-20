@@ -16,8 +16,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AA',
             'cc_iso' => 'AW',
             'tld' => '.aw',
-            'App\Models\Country_name' => 'Aruba',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Aruba',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -27,8 +27,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AC',
             'cc_iso' => 'AG',
             'tld' => '.ag',
-            'App\Models\Country_name' => 'Antigua and Barbuda',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Antigua and Barbuda',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -38,8 +38,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AE',
             'cc_iso' => 'AE',
             'tld' => '.ae',
-            'App\Models\Country_name' => 'United Arab Emirates',
-            'App\Models\Country_phone_code' => 784
+            'country_name' => 'United Arab Emirates',
+            'country_phone_code' => 784
         ]);
 
 
@@ -49,8 +49,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AF',
             'cc_iso' => 'AF',
             'tld' => '.af',
-            'App\Models\Country_name' => 'Afghanistan',
-            'App\Models\Country_phone_code' => 4
+            'country_name' => 'Afghanistan',
+            'country_phone_code' => 4
         ]);
 
 
@@ -60,8 +60,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AG',
             'cc_iso' => 'DZ',
             'tld' => '.dz',
-            'App\Models\Country_name' => 'Algeria',
-            'App\Models\Country_phone_code' => 28
+            'country_name' => 'Algeria',
+            'country_phone_code' => 28
         ]);
 
 
@@ -71,8 +71,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AJ',
             'cc_iso' => 'AZ',
             'tld' => '.az',
-            'App\Models\Country_name' => 'Azerbaijan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Azerbaijan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -82,8 +82,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AL',
             'cc_iso' => 'AL',
             'tld' => '.al',
-            'App\Models\Country_name' => 'Albania',
-            'App\Models\Country_phone_code' => 8
+            'country_name' => 'Albania',
+            'country_phone_code' => 8
         ]);
 
 
@@ -93,8 +93,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AM',
             'cc_iso' => 'AM',
             'tld' => '.am',
-            'App\Models\Country_name' => 'Armenia',
-            'App\Models\Country_phone_code' => 51
+            'country_name' => 'Armenia',
+            'country_phone_code' => 51
         ]);
 
 
@@ -104,8 +104,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AN',
             'cc_iso' => 'AD',
             'tld' => '.ad',
-            'App\Models\Country_name' => 'Andorra',
-            'App\Models\Country_phone_code' => 530
+            'country_name' => 'Andorra',
+            'country_phone_code' => 530
         ]);
 
 
@@ -115,8 +115,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AO',
             'cc_iso' => 'AO',
             'tld' => '.ao',
-            'App\Models\Country_name' => 'Angola',
-            'App\Models\Country_phone_code' => 24
+            'country_name' => 'Angola',
+            'country_phone_code' => 24
         ]);
 
 
@@ -126,8 +126,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AQ',
             'cc_iso' => 'AS',
             'tld' => '.as',
-            'App\Models\Country_name' => 'American Samoa',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'American Samoa',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -137,8 +137,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AR',
             'cc_iso' => 'AR',
             'tld' => '.ar',
-            'App\Models\Country_name' => 'Argentina',
-            'App\Models\Country_phone_code' => 32
+            'country_name' => 'Argentina',
+            'country_phone_code' => 32
         ]);
 
 
@@ -148,8 +148,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AS',
             'cc_iso' => 'AU',
             'tld' => '.au',
-            'App\Models\Country_name' => 'Australia',
-            'App\Models\Country_phone_code' => 16
+            'country_name' => 'Australia',
+            'country_phone_code' => 16
         ]);
 
 
@@ -159,8 +159,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AT',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Ashmore and Cartier Islands',
-            'App\Models\Country_phone_code' => 40
+            'country_name' => 'Ashmore and Cartier Islands',
+            'country_phone_code' => 40
         ]);
 
 
@@ -170,8 +170,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AU',
             'cc_iso' => 'AT',
             'tld' => '.at',
-            'App\Models\Country_name' => 'Austria',
-            'App\Models\Country_phone_code' => 36
+            'country_name' => 'Austria',
+            'country_phone_code' => 36
         ]);
 
 
@@ -181,8 +181,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AV',
             'cc_iso' => 'AI',
             'tld' => '.ai',
-            'App\Models\Country_name' => 'Anguilla',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Anguilla',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -192,8 +192,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => '-',
             'cc_iso' => 'AX',
             'tld' => '.ax',
-            'App\Models\Country_name' => 'Åland Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Åland Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -203,8 +203,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'AY',
             'cc_iso' => 'AQ',
             'tld' => '.aq',
-            'App\Models\Country_name' => 'Antarctica',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Antarctica',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -214,8 +214,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BA',
             'cc_iso' => 'BH',
             'tld' => '.bh',
-            'App\Models\Country_name' => 'Bahrain',
-            'App\Models\Country_phone_code' => 70
+            'country_name' => 'Bahrain',
+            'country_phone_code' => 70
         ]);
 
 
@@ -225,8 +225,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BB',
             'cc_iso' => 'BB',
             'tld' => '.bb',
-            'App\Models\Country_name' => 'Barbados',
-            'App\Models\Country_phone_code' => 52
+            'country_name' => 'Barbados',
+            'country_phone_code' => 52
         ]);
 
 
@@ -236,8 +236,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BC',
             'cc_iso' => 'BW',
             'tld' => '.bw',
-            'App\Models\Country_name' => 'Botswana',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Botswana',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -247,8 +247,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BD',
             'cc_iso' => 'BM',
             'tld' => '.bm',
-            'App\Models\Country_name' => 'Bermuda',
-            'App\Models\Country_phone_code' => 50
+            'country_name' => 'Bermuda',
+            'country_phone_code' => 50
         ]);
 
 
@@ -258,8 +258,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BE',
             'cc_iso' => 'BE',
             'tld' => '.be',
-            'App\Models\Country_name' => 'Belgium',
-            'App\Models\Country_phone_code' => 56
+            'country_name' => 'Belgium',
+            'country_phone_code' => 56
         ]);
 
 
@@ -269,8 +269,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BF',
             'cc_iso' => 'BS',
             'tld' => '.bs',
-            'App\Models\Country_name' => 'Bahamas, The',
-            'App\Models\Country_phone_code' => 854
+            'country_name' => 'Bahamas, The',
+            'country_phone_code' => 854
         ]);
 
 
@@ -280,8 +280,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BG',
             'cc_iso' => 'BD',
             'tld' => '.bd',
-            'App\Models\Country_name' => 'Bangladesh',
-            'App\Models\Country_phone_code' => 100
+            'country_name' => 'Bangladesh',
+            'country_phone_code' => 100
         ]);
 
 
@@ -291,8 +291,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BH',
             'cc_iso' => 'BZ',
             'tld' => '.bz',
-            'App\Models\Country_name' => 'Belize',
-            'App\Models\Country_phone_code' => 48
+            'country_name' => 'Belize',
+            'country_phone_code' => 48
         ]);
 
 
@@ -302,8 +302,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BK',
             'cc_iso' => 'BA',
             'tld' => '.ba',
-            'App\Models\Country_name' => 'Bosnia and Herzegovina',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Bosnia and Herzegovina',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -313,8 +313,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BL',
             'cc_iso' => 'BO',
             'tld' => '.bo',
-            'App\Models\Country_name' => 'Bolivia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Bolivia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -324,8 +324,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TB',
             'cc_iso' => 'BL',
             'tld' => '.bl',
-            'App\Models\Country_name' => 'Saint Barthelemy',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Saint Barthelemy',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -335,8 +335,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BM',
             'cc_iso' => 'MM',
             'tld' => '.mm',
-            'App\Models\Country_name' => 'Myanmar',
-            'App\Models\Country_phone_code' => 60
+            'country_name' => 'Myanmar',
+            'country_phone_code' => 60
         ]);
 
 
@@ -346,8 +346,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BN',
             'cc_iso' => 'BJ',
             'tld' => '.bj',
-            'App\Models\Country_name' => 'Benin',
-            'App\Models\Country_phone_code' => 96
+            'country_name' => 'Benin',
+            'country_phone_code' => 96
         ]);
 
 
@@ -357,8 +357,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BO',
             'cc_iso' => 'BY',
             'tld' => '.by',
-            'App\Models\Country_name' => 'Belarus',
-            'App\Models\Country_phone_code' => 68
+            'country_name' => 'Belarus',
+            'country_phone_code' => 68
         ]);
 
 
@@ -368,8 +368,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BP',
             'cc_iso' => 'SB',
             'tld' => '.sb',
-            'App\Models\Country_name' => 'Solomon Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Solomon Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -379,8 +379,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BQ',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Navassa Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Navassa Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -390,8 +390,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BR',
             'cc_iso' => 'BR',
             'tld' => '.br',
-            'App\Models\Country_name' => 'Brazil',
-            'App\Models\Country_phone_code' => 76
+            'country_name' => 'Brazil',
+            'country_phone_code' => 76
         ]);
 
 
@@ -401,8 +401,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BS',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Bassas da India',
-            'App\Models\Country_phone_code' => 44
+            'country_name' => 'Bassas da India',
+            'country_phone_code' => 44
         ]);
 
 
@@ -412,8 +412,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BT',
             'cc_iso' => 'BT',
             'tld' => '.bt',
-            'App\Models\Country_name' => 'Bhutan',
-            'App\Models\Country_phone_code' => 64
+            'country_name' => 'Bhutan',
+            'country_phone_code' => 64
         ]);
 
 
@@ -423,8 +423,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BU',
             'cc_iso' => 'BG',
             'tld' => '.bg',
-            'App\Models\Country_name' => 'Bulgaria',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Bulgaria',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -434,8 +434,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BV',
             'cc_iso' => 'BV',
             'tld' => '.bv',
-            'App\Models\Country_name' => 'Bouvet Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Bouvet Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -445,8 +445,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BX',
             'cc_iso' => 'BN',
             'tld' => '.bn',
-            'App\Models\Country_name' => 'Brunei',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Brunei',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -456,8 +456,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'BY',
             'cc_iso' => 'BI',
             'tld' => '.bi',
-            'App\Models\Country_name' => 'Burundi',
-            'App\Models\Country_phone_code' => 112
+            'country_name' => 'Burundi',
+            'country_phone_code' => 112
         ]);
 
 
@@ -467,8 +467,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CA',
             'cc_iso' => 'CA',
             'tld' => '.ca',
-            'App\Models\Country_name' => 'Canada',
-            'App\Models\Country_phone_code' => 124
+            'country_name' => 'Canada',
+            'country_phone_code' => 124
         ]);
 
 
@@ -478,8 +478,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CB',
             'cc_iso' => 'KH',
             'tld' => '.kh',
-            'App\Models\Country_name' => 'Cambodia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Cambodia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -489,8 +489,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CD',
             'cc_iso' => 'TD',
             'tld' => '.td',
-            'App\Models\Country_name' => 'Chad',
-            'App\Models\Country_phone_code' => 180
+            'country_name' => 'Chad',
+            'country_phone_code' => 180
         ]);
 
 
@@ -500,8 +500,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CE',
             'cc_iso' => 'LK',
             'tld' => '.lk',
-            'App\Models\Country_name' => 'Sri Lanka',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Sri Lanka',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -511,8 +511,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CF',
             'cc_iso' => 'CG',
             'tld' => '.cg',
-            'App\Models\Country_name' => 'Congo, Republic of the',
-            'App\Models\Country_phone_code' => 140
+            'country_name' => 'Congo, Republic of the',
+            'country_phone_code' => 140
         ]);
 
 
@@ -522,8 +522,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CG',
             'cc_iso' => 'CD',
             'tld' => '.cd',
-            'App\Models\Country_name' => 'Congo, Democratic Republic of the',
-            'App\Models\Country_phone_code' => 178
+            'country_name' => 'Congo, Democratic Republic of the',
+            'country_phone_code' => 178
         ]);
 
 
@@ -533,8 +533,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CH',
             'cc_iso' => 'CN',
             'tld' => '.cn',
-            'App\Models\Country_name' => 'China',
-            'App\Models\Country_phone_code' => 756
+            'country_name' => 'China',
+            'country_phone_code' => 756
         ]);
 
 
@@ -544,8 +544,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CI',
             'cc_iso' => 'CL',
             'tld' => '.cl',
-            'App\Models\Country_name' => 'Chile',
-            'App\Models\Country_phone_code' => 384
+            'country_name' => 'Chile',
+            'country_phone_code' => 384
         ]);
 
 
@@ -555,8 +555,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CJ',
             'cc_iso' => 'KY',
             'tld' => '.ky',
-            'App\Models\Country_name' => 'Cayman Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Cayman Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -566,8 +566,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CK',
             'cc_iso' => 'CC',
             'tld' => '.cc',
-            'App\Models\Country_name' => 'Cocos (Keeling) Islands',
-            'App\Models\Country_phone_code' => 184
+            'country_name' => 'Cocos (Keeling) Islands',
+            'country_phone_code' => 184
         ]);
 
 
@@ -577,8 +577,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CM',
             'cc_iso' => 'CM',
             'tld' => '.cm',
-            'App\Models\Country_name' => 'Cameroon',
-            'App\Models\Country_phone_code' => 120
+            'country_name' => 'Cameroon',
+            'country_phone_code' => 120
         ]);
 
 
@@ -588,8 +588,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CN',
             'cc_iso' => 'KM',
             'tld' => '.km',
-            'App\Models\Country_name' => 'Comoros',
-            'App\Models\Country_phone_code' => 156
+            'country_name' => 'Comoros',
+            'country_phone_code' => 156
         ]);
 
 
@@ -599,8 +599,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CO',
             'cc_iso' => 'CO',
             'tld' => '.co',
-            'App\Models\Country_name' => 'Colombia',
-            'App\Models\Country_phone_code' => 170
+            'country_name' => 'Colombia',
+            'country_phone_code' => 170
         ]);
 
 
@@ -610,8 +610,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CQ',
             'cc_iso' => 'MP',
             'tld' => '.mp',
-            'App\Models\Country_name' => 'Northern Mariana Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Northern Mariana Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -621,8 +621,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CR',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Coral Sea Islands',
-            'App\Models\Country_phone_code' => 188
+            'country_name' => 'Coral Sea Islands',
+            'country_phone_code' => 188
         ]);
 
 
@@ -632,8 +632,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CS',
             'cc_iso' => 'CR',
             'tld' => '.cr',
-            'App\Models\Country_name' => 'Costa Rica',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Costa Rica',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -643,8 +643,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CT',
             'cc_iso' => 'CF',
             'tld' => '.cf',
-            'App\Models\Country_name' => 'Central African Republic',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Central African Republic',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -654,8 +654,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CU',
             'cc_iso' => 'CU',
             'tld' => '.cu',
-            'App\Models\Country_name' => 'Cuba',
-            'App\Models\Country_phone_code' => 192
+            'country_name' => 'Cuba',
+            'country_phone_code' => 192
         ]);
 
 
@@ -665,8 +665,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CV',
             'cc_iso' => 'CV',
             'tld' => '.cv',
-            'App\Models\Country_name' => 'Cape Verde',
-            'App\Models\Country_phone_code' => 132
+            'country_name' => 'Cape Verde',
+            'country_phone_code' => 132
         ]);
 
 
@@ -676,8 +676,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CW',
             'cc_iso' => 'CK',
             'tld' => '.ck',
-            'App\Models\Country_name' => 'Cook Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Cook Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -687,8 +687,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'CY',
             'cc_iso' => 'CY',
             'tld' => '.cy',
-            'App\Models\Country_name' => 'Cyprus',
-            'App\Models\Country_phone_code' => 196
+            'country_name' => 'Cyprus',
+            'country_phone_code' => 196
         ]);
 
 
@@ -698,8 +698,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'DA',
             'cc_iso' => 'DK',
             'tld' => '.dk',
-            'App\Models\Country_name' => 'Denmark',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Denmark',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -709,8 +709,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'DJ',
             'cc_iso' => 'DJ',
             'tld' => '.dj',
-            'App\Models\Country_name' => 'Djibouti',
-            'App\Models\Country_phone_code' => 262
+            'country_name' => 'Djibouti',
+            'country_phone_code' => 262
         ]);
 
 
@@ -720,8 +720,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'DO',
             'cc_iso' => 'DM',
             'tld' => '.dm',
-            'App\Models\Country_name' => 'Dominica',
-            'App\Models\Country_phone_code' => 214
+            'country_name' => 'Dominica',
+            'country_phone_code' => 214
         ]);
 
 
@@ -731,8 +731,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'DR',
             'cc_iso' => 'DO',
             'tld' => '.do',
-            'App\Models\Country_name' => 'Dominican Republic',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Dominican Republic',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -742,8 +742,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'DX',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Dhekelia Sovereign Base Area',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Dhekelia Sovereign Base Area',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -753,8 +753,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EC',
             'cc_iso' => 'EC',
             'tld' => '.ec',
-            'App\Models\Country_name' => 'Ecuador',
-            'App\Models\Country_phone_code' => 218
+            'country_name' => 'Ecuador',
+            'country_phone_code' => 218
         ]);
 
 
@@ -764,8 +764,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EG',
             'cc_iso' => 'EG',
             'tld' => '.eg',
-            'App\Models\Country_name' => 'Egypt',
-            'App\Models\Country_phone_code' => 818
+            'country_name' => 'Egypt',
+            'country_phone_code' => 818
         ]);
 
 
@@ -775,8 +775,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EI',
             'cc_iso' => 'IE',
             'tld' => '.ie',
-            'App\Models\Country_name' => 'Ireland',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Ireland',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -786,8 +786,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EK',
             'cc_iso' => 'GQ',
             'tld' => '.gq',
-            'App\Models\Country_name' => 'Equatorial Guinea',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Equatorial Guinea',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -797,8 +797,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EN',
             'cc_iso' => 'EE',
             'tld' => '.ee',
-            'App\Models\Country_name' => 'Estonia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Estonia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -808,8 +808,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ER',
             'cc_iso' => 'ER',
             'tld' => '.er',
-            'App\Models\Country_name' => 'Eritrea',
-            'App\Models\Country_phone_code' => 232
+            'country_name' => 'Eritrea',
+            'country_phone_code' => 232
         ]);
 
 
@@ -819,8 +819,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ES',
             'cc_iso' => 'SV',
             'tld' => '.sv',
-            'App\Models\Country_name' => 'El Salvador',
-            'App\Models\Country_phone_code' => 724
+            'country_name' => 'El Salvador',
+            'country_phone_code' => 724
         ]);
 
 
@@ -830,8 +830,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ET',
             'cc_iso' => 'ET',
             'tld' => '.et',
-            'App\Models\Country_name' => 'Ethiopia',
-            'App\Models\Country_phone_code' => 231
+            'country_name' => 'Ethiopia',
+            'country_phone_code' => 231
         ]);
 
 
@@ -841,8 +841,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EU',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Europa Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Europa Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -852,8 +852,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'EZ',
             'cc_iso' => 'CZ',
             'tld' => '.cz',
-            'App\Models\Country_name' => 'Czech Republic',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Czech Republic',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -863,8 +863,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FG',
             'cc_iso' => 'GF',
             'tld' => '.gf',
-            'App\Models\Country_name' => 'French Guiana',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'French Guiana',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -874,8 +874,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FI',
             'cc_iso' => 'FI',
             'tld' => '.fi',
-            'App\Models\Country_name' => 'Finland',
-            'App\Models\Country_phone_code' => 246
+            'country_name' => 'Finland',
+            'country_phone_code' => 246
         ]);
 
 
@@ -885,8 +885,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FJ',
             'cc_iso' => 'FJ',
             'tld' => '.fj',
-            'App\Models\Country_name' => 'Fiji',
-            'App\Models\Country_phone_code' => 242
+            'country_name' => 'Fiji',
+            'country_phone_code' => 242
         ]);
 
 
@@ -896,8 +896,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FK',
             'cc_iso' => 'FK',
             'tld' => '.fk',
-            'App\Models\Country_name' => 'Falkland Islands (Islas Malvinas)',
-            'App\Models\Country_phone_code' => 238
+            'country_name' => 'Falkland Islands (Islas Malvinas)',
+            'country_phone_code' => 238
         ]);
 
 
@@ -907,8 +907,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FM',
             'cc_iso' => 'FM',
             'tld' => '.fm',
-            'App\Models\Country_name' => 'Micronesia, Federated States of',
-            'App\Models\Country_phone_code' => 583
+            'country_name' => 'Micronesia, Federated States of',
+            'country_phone_code' => 583
         ]);
 
 
@@ -918,8 +918,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FO',
             'cc_iso' => 'FO',
             'tld' => '.fo',
-            'App\Models\Country_name' => 'Faroe Islands',
-            'App\Models\Country_phone_code' => 234
+            'country_name' => 'Faroe Islands',
+            'country_phone_code' => 234
         ]);
 
 
@@ -929,8 +929,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FP',
             'cc_iso' => 'PF',
             'tld' => '.pf',
-            'App\Models\Country_name' => 'French Polynesia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'French Polynesia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -940,8 +940,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FR',
             'cc_iso' => 'FR',
             'tld' => '.fr',
-            'App\Models\Country_name' => 'France',
-            'App\Models\Country_phone_code' => 250
+            'country_name' => 'France',
+            'country_phone_code' => 250
         ]);
 
 
@@ -951,8 +951,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'FS',
             'cc_iso' => 'TF',
             'tld' => '.tf',
-            'App\Models\Country_name' => 'French Southern and Antarctic Lands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'French Southern and Antarctic Lands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -962,8 +962,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GA',
             'cc_iso' => 'GM',
             'tld' => '.gm',
-            'App\Models\Country_name' => 'Gambia, The',
-            'App\Models\Country_phone_code' => 266
+            'country_name' => 'Gambia, The',
+            'country_phone_code' => 266
         ]);
 
 
@@ -973,8 +973,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GB',
             'cc_iso' => 'GA',
             'tld' => '.ga',
-            'App\Models\Country_name' => 'Gabon',
-            'App\Models\Country_phone_code' => 826
+            'country_name' => 'Gabon',
+            'country_phone_code' => 826
         ]);
 
 
@@ -984,8 +984,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GG',
             'cc_iso' => 'GE',
             'tld' => '.ge',
-            'App\Models\Country_name' => 'Georgia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Georgia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -995,8 +995,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GH',
             'cc_iso' => 'GH',
             'tld' => '.gh',
-            'App\Models\Country_name' => 'Ghana',
-            'App\Models\Country_phone_code' => 288
+            'country_name' => 'Ghana',
+            'country_phone_code' => 288
         ]);
 
 
@@ -1006,8 +1006,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GI',
             'cc_iso' => 'GI',
             'tld' => '.gi',
-            'App\Models\Country_name' => 'Gibraltar',
-            'App\Models\Country_phone_code' => 292
+            'country_name' => 'Gibraltar',
+            'country_phone_code' => 292
         ]);
 
 
@@ -1017,8 +1017,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GJ',
             'cc_iso' => 'GD',
             'tld' => '.gd',
-            'App\Models\Country_name' => 'Grenada',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Grenada',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1028,8 +1028,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GK',
             'cc_iso' => 'GG',
             'tld' => '.gg',
-            'App\Models\Country_name' => 'Guernsey',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Guernsey',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1039,8 +1039,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GL',
             'cc_iso' => 'GL',
             'tld' => '.gl',
-            'App\Models\Country_name' => 'Greenland',
-            'App\Models\Country_phone_code' => 304
+            'country_name' => 'Greenland',
+            'country_phone_code' => 304
         ]);
 
 
@@ -1050,8 +1050,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GM',
             'cc_iso' => 'DE',
             'tld' => '.de',
-            'App\Models\Country_name' => 'Germany',
-            'App\Models\Country_phone_code' => 270
+            'country_name' => 'Germany',
+            'country_phone_code' => 270
         ]);
 
 
@@ -1061,8 +1061,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GO',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Glorioso Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Glorioso Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1072,8 +1072,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GP',
             'cc_iso' => 'GP',
             'tld' => '.gp',
-            'App\Models\Country_name' => 'Guadeloupe',
-            'App\Models\Country_phone_code' => 312
+            'country_name' => 'Guadeloupe',
+            'country_phone_code' => 312
         ]);
 
 
@@ -1083,8 +1083,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GQ',
             'cc_iso' => 'GU',
             'tld' => '.gu',
-            'App\Models\Country_name' => 'Guam',
-            'App\Models\Country_phone_code' => 226
+            'country_name' => 'Guam',
+            'country_phone_code' => 226
         ]);
 
 
@@ -1094,8 +1094,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GR',
             'cc_iso' => 'GR',
             'tld' => '.gr',
-            'App\Models\Country_name' => 'Greece',
-            'App\Models\Country_phone_code' => 300
+            'country_name' => 'Greece',
+            'country_phone_code' => 300
         ]);
 
 
@@ -1105,8 +1105,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GT',
             'cc_iso' => 'GT',
             'tld' => '.gt',
-            'App\Models\Country_name' => 'Guatemala',
-            'App\Models\Country_phone_code' => 320
+            'country_name' => 'Guatemala',
+            'country_phone_code' => 320
         ]);
 
 
@@ -1116,8 +1116,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GV',
             'cc_iso' => 'GN',
             'tld' => '.gn',
-            'App\Models\Country_name' => 'Guinea',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Guinea',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1127,8 +1127,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GY',
             'cc_iso' => 'GY',
             'tld' => '.gy',
-            'App\Models\Country_name' => 'Guyana',
-            'App\Models\Country_phone_code' => 328
+            'country_name' => 'Guyana',
+            'country_phone_code' => 328
         ]);
 
 
@@ -1138,8 +1138,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'GZ',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Gaza Strip',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Gaza Strip',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1149,8 +1149,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HA',
             'cc_iso' => 'HT',
             'tld' => '.ht',
-            'App\Models\Country_name' => 'Haiti',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Haiti',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1160,8 +1160,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HK',
             'cc_iso' => 'HK',
             'tld' => '.hk',
-            'App\Models\Country_name' => 'Hong Kong',
-            'App\Models\Country_phone_code' => 344
+            'country_name' => 'Hong Kong',
+            'country_phone_code' => 344
         ]);
 
 
@@ -1171,8 +1171,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HM',
             'cc_iso' => 'HM',
             'tld' => '.hm',
-            'App\Models\Country_name' => 'Heard Island and McDonald Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Heard Island and McDonald Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1182,8 +1182,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HO',
             'cc_iso' => 'HN',
             'tld' => '.hn',
-            'App\Models\Country_name' => 'Honduras',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Honduras',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1193,8 +1193,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HR',
             'cc_iso' => 'HR',
             'tld' => '.hr',
-            'App\Models\Country_name' => 'Croatia',
-            'App\Models\Country_phone_code' => 191
+            'country_name' => 'Croatia',
+            'country_phone_code' => 191
         ]);
 
 
@@ -1204,8 +1204,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'HU',
             'cc_iso' => 'HU',
             'tld' => '.hu',
-            'App\Models\Country_name' => 'Hungary',
-            'App\Models\Country_phone_code' => 348
+            'country_name' => 'Hungary',
+            'country_phone_code' => 348
         ]);
 
 
@@ -1215,8 +1215,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IC',
             'cc_iso' => 'IS',
             'tld' => '.is',
-            'App\Models\Country_name' => 'Iceland',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Iceland',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1226,8 +1226,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ID',
             'cc_iso' => 'ID',
             'tld' => '.id',
-            'App\Models\Country_name' => 'Indonesia',
-            'App\Models\Country_phone_code' => 360
+            'country_name' => 'Indonesia',
+            'country_phone_code' => 360
         ]);
 
 
@@ -1237,8 +1237,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IM',
             'cc_iso' => 'IM',
             'tld' => '.im',
-            'App\Models\Country_name' => 'Isle of Man',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Isle of Man',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1248,8 +1248,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IN',
             'cc_iso' => 'IN',
             'tld' => '.in',
-            'App\Models\Country_name' => 'India',
-            'App\Models\Country_phone_code' => 356
+            'country_name' => 'India',
+            'country_phone_code' => 356
         ]);
 
 
@@ -1259,8 +1259,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IO',
             'cc_iso' => 'IO',
             'tld' => '.io',
-            'App\Models\Country_name' => 'British Indian Ocean Territory',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'British Indian Ocean Territory',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1270,8 +1270,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IP',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Clipperton Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Clipperton Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1281,8 +1281,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IR',
             'cc_iso' => 'IR',
             'tld' => '.ir',
-            'App\Models\Country_name' => 'Iran',
-            'App\Models\Country_phone_code' => 364
+            'country_name' => 'Iran',
+            'country_phone_code' => 364
         ]);
 
 
@@ -1292,8 +1292,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IS',
             'cc_iso' => 'IL',
             'tld' => '.il',
-            'App\Models\Country_name' => 'Israel',
-            'App\Models\Country_phone_code' => 352
+            'country_name' => 'Israel',
+            'country_phone_code' => 352
         ]);
 
 
@@ -1303,8 +1303,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IT',
             'cc_iso' => 'IT',
             'tld' => '.it',
-            'App\Models\Country_name' => 'Italy',
-            'App\Models\Country_phone_code' => 380
+            'country_name' => 'Italy',
+            'country_phone_code' => 380
         ]);
 
 
@@ -1314,8 +1314,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IV',
             'cc_iso' => 'CI',
             'tld' => '.ci',
-            'App\Models\Country_name' => 'Cote d\'Ivoire',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Cote d\'Ivoire',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1325,8 +1325,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'IZ',
             'cc_iso' => 'IQ',
             'tld' => '.iq',
-            'App\Models\Country_name' => 'Iraq',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Iraq',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1336,8 +1336,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JA',
             'cc_iso' => 'JP',
             'tld' => '.jp',
-            'App\Models\Country_name' => 'Japan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Japan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1347,8 +1347,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JE',
             'cc_iso' => 'JE',
             'tld' => '.je',
-            'App\Models\Country_name' => 'Jersey',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Jersey',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1358,8 +1358,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JM',
             'cc_iso' => 'JM',
             'tld' => '.jm',
-            'App\Models\Country_name' => 'Jamaica',
-            'App\Models\Country_phone_code' => 388
+            'country_name' => 'Jamaica',
+            'country_phone_code' => 388
         ]);
 
 
@@ -1369,8 +1369,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JN',
             'cc_iso' => 'SJ',
             'tld' => '-',
-            'App\Models\Country_name' => 'Jan Mayen',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Jan Mayen',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1380,8 +1380,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JO',
             'cc_iso' => 'JO',
             'tld' => '.jo',
-            'App\Models\Country_name' => 'Jordan',
-            'App\Models\Country_phone_code' => 400
+            'country_name' => 'Jordan',
+            'country_phone_code' => 400
         ]);
 
 
@@ -1391,8 +1391,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'JU',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Juan de Nova Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Juan de Nova Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1402,8 +1402,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KE',
             'cc_iso' => 'KE',
             'tld' => '.ke',
-            'App\Models\Country_name' => 'Kenya',
-            'App\Models\Country_phone_code' => 404
+            'country_name' => 'Kenya',
+            'country_phone_code' => 404
         ]);
 
 
@@ -1413,8 +1413,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KG',
             'cc_iso' => 'KG',
             'tld' => '.kg',
-            'App\Models\Country_name' => 'Kyrgyzstan',
-            'App\Models\Country_phone_code' => 417
+            'country_name' => 'Kyrgyzstan',
+            'country_phone_code' => 417
         ]);
 
 
@@ -1424,8 +1424,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KN',
             'cc_iso' => 'KP',
             'tld' => '.kp',
-            'App\Models\Country_name' => 'Korea, North',
-            'App\Models\Country_phone_code' => 659
+            'country_name' => 'Korea, North',
+            'country_phone_code' => 659
         ]);
 
 
@@ -1435,8 +1435,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KR',
             'cc_iso' => 'KI',
             'tld' => '.ki',
-            'App\Models\Country_name' => 'Kiribati',
-            'App\Models\Country_phone_code' => 410
+            'country_name' => 'Kiribati',
+            'country_phone_code' => 410
         ]);
 
 
@@ -1446,8 +1446,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KS',
             'cc_iso' => 'KR',
             'tld' => '.kr',
-            'App\Models\Country_name' => 'Korea, South',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Korea, South',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1457,8 +1457,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KT',
             'cc_iso' => 'CX',
             'tld' => '.cx',
-            'App\Models\Country_name' => 'Christmas Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Christmas Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1468,8 +1468,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KU',
             'cc_iso' => 'KW',
             'tld' => '.kw',
-            'App\Models\Country_name' => 'Kuwait',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Kuwait',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1479,8 +1479,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KV',
             'cc_iso' => 'XK',
             'tld' => '-',
-            'App\Models\Country_name' => 'Kosovo',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Kosovo',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1490,8 +1490,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'KZ',
             'cc_iso' => 'KZ',
             'tld' => '.kz',
-            'App\Models\Country_name' => 'Kazakhstan',
-            'App\Models\Country_phone_code' => 398
+            'country_name' => 'Kazakhstan',
+            'country_phone_code' => 398
         ]);
 
 
@@ -1501,8 +1501,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LA',
             'cc_iso' => 'LA',
             'tld' => '.la',
-            'App\Models\Country_name' => 'Laos',
-            'App\Models\Country_phone_code' => 418
+            'country_name' => 'Laos',
+            'country_phone_code' => 418
         ]);
 
 
@@ -1512,8 +1512,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LE',
             'cc_iso' => 'LB',
             'tld' => '.lb',
-            'App\Models\Country_name' => 'Lebanon',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Lebanon',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1523,8 +1523,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LG',
             'cc_iso' => 'LV',
             'tld' => '.lv',
-            'App\Models\Country_name' => 'Latvia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Latvia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1534,8 +1534,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LH',
             'cc_iso' => 'LT',
             'tld' => '.lt',
-            'App\Models\Country_name' => 'Lithuania',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Lithuania',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1545,8 +1545,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LI',
             'cc_iso' => 'LR',
             'tld' => '.lr',
-            'App\Models\Country_name' => 'Liberia',
-            'App\Models\Country_phone_code' => 438
+            'country_name' => 'Liberia',
+            'country_phone_code' => 438
         ]);
 
 
@@ -1556,8 +1556,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LO',
             'cc_iso' => 'SK',
             'tld' => '.sk',
-            'App\Models\Country_name' => 'Slovakia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Slovakia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1567,8 +1567,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => '-',
             'cc_iso' => 'UM',
             'tld' => '.us',
-            'App\Models\Country_name' => 'United States Minor Outlying Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'United States Minor Outlying Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1578,8 +1578,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LS',
             'cc_iso' => 'LI',
             'tld' => '.li',
-            'App\Models\Country_name' => 'Liechtenstein',
-            'App\Models\Country_phone_code' => 426
+            'country_name' => 'Liechtenstein',
+            'country_phone_code' => 426
         ]);
 
 
@@ -1589,8 +1589,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LT',
             'cc_iso' => 'LS',
             'tld' => '.ls',
-            'App\Models\Country_name' => 'Lesotho',
-            'App\Models\Country_phone_code' => 440
+            'country_name' => 'Lesotho',
+            'country_phone_code' => 440
         ]);
 
 
@@ -1600,8 +1600,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LU',
             'cc_iso' => 'LU',
             'tld' => '.lu',
-            'App\Models\Country_name' => 'Luxembourg',
-            'App\Models\Country_phone_code' => 442
+            'country_name' => 'Luxembourg',
+            'country_phone_code' => 442
         ]);
 
 
@@ -1611,8 +1611,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'LY',
             'cc_iso' => 'LY',
             'tld' => '.ly',
-            'App\Models\Country_name' => 'Libya',
-            'App\Models\Country_phone_code' => 434
+            'country_name' => 'Libya',
+            'country_phone_code' => 434
         ]);
 
 
@@ -1622,8 +1622,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MA',
             'cc_iso' => 'MG',
             'tld' => '.mg',
-            'App\Models\Country_name' => 'Madagascar',
-            'App\Models\Country_phone_code' => 504
+            'country_name' => 'Madagascar',
+            'country_phone_code' => 504
         ]);
 
 
@@ -1633,8 +1633,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MB',
             'cc_iso' => 'MQ',
             'tld' => '.mq',
-            'App\Models\Country_name' => 'Martinique',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Martinique',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1644,8 +1644,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MC',
             'cc_iso' => 'MO',
             'tld' => '.mo',
-            'App\Models\Country_name' => 'Macau',
-            'App\Models\Country_phone_code' => 492
+            'country_name' => 'Macau',
+            'country_phone_code' => 492
         ]);
 
 
@@ -1655,8 +1655,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MD',
             'cc_iso' => 'MD',
             'tld' => '.md',
-            'App\Models\Country_name' => 'Moldova, Republic of',
-            'App\Models\Country_phone_code' => 498
+            'country_name' => 'Moldova, Republic of',
+            'country_phone_code' => 498
         ]);
 
 
@@ -1666,8 +1666,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MF',
             'cc_iso' => 'YT',
             'tld' => '.yt',
-            'App\Models\Country_name' => 'Mayotte',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Mayotte',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1677,8 +1677,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MG',
             'cc_iso' => 'MN',
             'tld' => '.mn',
-            'App\Models\Country_name' => 'Mongolia',
-            'App\Models\Country_phone_code' => 450
+            'country_name' => 'Mongolia',
+            'country_phone_code' => 450
         ]);
 
 
@@ -1688,8 +1688,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MH',
             'cc_iso' => 'MS',
             'tld' => '.ms',
-            'App\Models\Country_name' => 'Montserrat',
-            'App\Models\Country_phone_code' => 584
+            'country_name' => 'Montserrat',
+            'country_phone_code' => 584
         ]);
 
 
@@ -1699,8 +1699,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MI',
             'cc_iso' => 'MW',
             'tld' => '.mw',
-            'App\Models\Country_name' => 'Malawi',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Malawi',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1710,8 +1710,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MJ',
             'cc_iso' => 'ME',
             'tld' => '.me',
-            'App\Models\Country_name' => 'Montenegro',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Montenegro',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1721,8 +1721,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MK',
             'cc_iso' => 'MK',
             'tld' => '.mk',
-            'App\Models\Country_name' => 'The Former Yugoslav Republic of Macedonia',
-            'App\Models\Country_phone_code' => 807
+            'country_name' => 'The Former Yugoslav Republic of Macedonia',
+            'country_phone_code' => 807
         ]);
 
 
@@ -1732,8 +1732,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ML',
             'cc_iso' => 'ML',
             'tld' => '.ml',
-            'App\Models\Country_name' => 'Mali',
-            'App\Models\Country_phone_code' => 466
+            'country_name' => 'Mali',
+            'country_phone_code' => 466
         ]);
 
 
@@ -1743,8 +1743,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MN',
             'cc_iso' => 'MC',
             'tld' => '.mc',
-            'App\Models\Country_name' => 'Monaco',
-            'App\Models\Country_phone_code' => 496
+            'country_name' => 'Monaco',
+            'country_phone_code' => 496
         ]);
 
 
@@ -1754,8 +1754,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MO',
             'cc_iso' => 'MA',
             'tld' => '.ma',
-            'App\Models\Country_name' => 'Morocco',
-            'App\Models\Country_phone_code' => 446
+            'country_name' => 'Morocco',
+            'country_phone_code' => 446
         ]);
 
 
@@ -1765,8 +1765,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MP',
             'cc_iso' => 'MU',
             'tld' => '.mu',
-            'App\Models\Country_name' => 'Mauritius',
-            'App\Models\Country_phone_code' => 580
+            'country_name' => 'Mauritius',
+            'country_phone_code' => 580
         ]);
 
 
@@ -1776,8 +1776,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MR',
             'cc_iso' => 'MR',
             'tld' => '.mr',
-            'App\Models\Country_name' => 'Mauritania',
-            'App\Models\Country_phone_code' => 478
+            'country_name' => 'Mauritania',
+            'country_phone_code' => 478
         ]);
 
 
@@ -1787,8 +1787,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MT',
             'cc_iso' => 'MT',
             'tld' => '.mt',
-            'App\Models\Country_name' => 'Malta',
-            'App\Models\Country_phone_code' => 470
+            'country_name' => 'Malta',
+            'country_phone_code' => 470
         ]);
 
 
@@ -1798,8 +1798,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MU',
             'cc_iso' => 'OM',
             'tld' => '.om',
-            'App\Models\Country_name' => 'Oman',
-            'App\Models\Country_phone_code' => 480
+            'country_name' => 'Oman',
+            'country_phone_code' => 480
         ]);
 
 
@@ -1809,8 +1809,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MV',
             'cc_iso' => 'MV',
             'tld' => '.mv',
-            'App\Models\Country_name' => 'Maldives',
-            'App\Models\Country_phone_code' => 462
+            'country_name' => 'Maldives',
+            'country_phone_code' => 462
         ]);
 
 
@@ -1820,8 +1820,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MX',
             'cc_iso' => 'MX',
             'tld' => '.mx',
-            'App\Models\Country_name' => 'Mexico',
-            'App\Models\Country_phone_code' => 484
+            'country_name' => 'Mexico',
+            'country_phone_code' => 484
         ]);
 
 
@@ -1831,8 +1831,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MY',
             'cc_iso' => 'MY',
             'tld' => '.my',
-            'App\Models\Country_name' => 'Malaysia',
-            'App\Models\Country_phone_code' => 458
+            'country_name' => 'Malaysia',
+            'country_phone_code' => 458
         ]);
 
 
@@ -1842,8 +1842,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'MZ',
             'cc_iso' => 'MZ',
             'tld' => '.mz',
-            'App\Models\Country_name' => 'Mozambique',
-            'App\Models\Country_phone_code' => 508
+            'country_name' => 'Mozambique',
+            'country_phone_code' => 508
         ]);
 
 
@@ -1853,8 +1853,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NC',
             'cc_iso' => 'NC',
             'tld' => '.nc',
-            'App\Models\Country_name' => 'New Caledonia',
-            'App\Models\Country_phone_code' => 540
+            'country_name' => 'New Caledonia',
+            'country_phone_code' => 540
         ]);
 
 
@@ -1864,8 +1864,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NE',
             'cc_iso' => 'NU',
             'tld' => '.nu',
-            'App\Models\Country_name' => 'Niue',
-            'App\Models\Country_phone_code' => 562
+            'country_name' => 'Niue',
+            'country_phone_code' => 562
         ]);
 
 
@@ -1875,8 +1875,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NF',
             'cc_iso' => 'NF',
             'tld' => '.nf',
-            'App\Models\Country_name' => 'Norfolk Island',
-            'App\Models\Country_phone_code' => 574
+            'country_name' => 'Norfolk Island',
+            'country_phone_code' => 574
         ]);
 
 
@@ -1886,8 +1886,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NG',
             'cc_iso' => 'NE',
             'tld' => '.ne',
-            'App\Models\Country_name' => 'Niger',
-            'App\Models\Country_phone_code' => 566
+            'country_name' => 'Niger',
+            'country_phone_code' => 566
         ]);
 
 
@@ -1897,8 +1897,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NH',
             'cc_iso' => 'VU',
             'tld' => '.vu',
-            'App\Models\Country_name' => 'Vanuatu',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Vanuatu',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1908,8 +1908,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NI',
             'cc_iso' => 'NG',
             'tld' => '.ng',
-            'App\Models\Country_name' => 'Nigeria',
-            'App\Models\Country_phone_code' => 558
+            'country_name' => 'Nigeria',
+            'country_phone_code' => 558
         ]);
 
 
@@ -1919,8 +1919,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NL',
             'cc_iso' => 'NL',
             'tld' => '.nl',
-            'App\Models\Country_name' => 'Netherlands',
-            'App\Models\Country_phone_code' => 528
+            'country_name' => 'Netherlands',
+            'country_phone_code' => 528
         ]);
 
 
@@ -1930,8 +1930,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NM',
             'cc_iso' => '',
             'tld' => '',
-            'App\Models\Country_name' => 'No Man\'s Land',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'No Man\'s Land',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1941,8 +1941,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NO',
             'cc_iso' => 'NO',
             'tld' => '.no',
-            'App\Models\Country_name' => 'Norway',
-            'App\Models\Country_phone_code' => 578
+            'country_name' => 'Norway',
+            'country_phone_code' => 578
         ]);
 
 
@@ -1952,8 +1952,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NP',
             'cc_iso' => 'NP',
             'tld' => '.np',
-            'App\Models\Country_name' => 'Nepal',
-            'App\Models\Country_phone_code' => 524
+            'country_name' => 'Nepal',
+            'country_phone_code' => 524
         ]);
 
 
@@ -1963,8 +1963,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NR',
             'cc_iso' => 'NR',
             'tld' => '.nr',
-            'App\Models\Country_name' => 'Nauru',
-            'App\Models\Country_phone_code' => 520
+            'country_name' => 'Nauru',
+            'country_phone_code' => 520
         ]);
 
 
@@ -1974,8 +1974,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NS',
             'cc_iso' => 'SR',
             'tld' => '.sr',
-            'App\Models\Country_name' => 'Suriname',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Suriname',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1985,8 +1985,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => '-',
             'cc_iso' => 'BQ',
             'tld' => '.bq',
-            'App\Models\Country_name' => 'Bonaire, Sint Eustatius and Saba',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Bonaire, Sint Eustatius and Saba',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -1996,8 +1996,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NU',
             'cc_iso' => 'NI',
             'tld' => '.ni',
-            'App\Models\Country_name' => 'Nicaragua',
-            'App\Models\Country_phone_code' => 570
+            'country_name' => 'Nicaragua',
+            'country_phone_code' => 570
         ]);
 
 
@@ -2007,8 +2007,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NZ',
             'cc_iso' => 'NZ',
             'tld' => '.nz',
-            'App\Models\Country_name' => 'New Zealand',
-            'App\Models\Country_phone_code' => 554
+            'country_name' => 'New Zealand',
+            'country_phone_code' => 554
         ]);
 
 
@@ -2018,8 +2018,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PA',
             'cc_iso' => 'PY',
             'tld' => '.py',
-            'App\Models\Country_name' => 'Paraguay',
-            'App\Models\Country_phone_code' => 591
+            'country_name' => 'Paraguay',
+            'country_phone_code' => 591
         ]);
 
 
@@ -2029,8 +2029,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PC',
             'cc_iso' => 'PN',
             'tld' => '.pn',
-            'App\Models\Country_name' => 'Pitcairn Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Pitcairn Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2040,8 +2040,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PE',
             'cc_iso' => 'PE',
             'tld' => '.pe',
-            'App\Models\Country_name' => 'Peru',
-            'App\Models\Country_phone_code' => 604
+            'country_name' => 'Peru',
+            'country_phone_code' => 604
         ]);
 
 
@@ -2051,8 +2051,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PF',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Paracel Islands',
-            'App\Models\Country_phone_code' => 258
+            'country_name' => 'Paracel Islands',
+            'country_phone_code' => 258
         ]);
 
 
@@ -2062,8 +2062,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PG',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Spratly Islands',
-            'App\Models\Country_phone_code' => 598
+            'country_name' => 'Spratly Islands',
+            'country_phone_code' => 598
         ]);
 
 
@@ -2073,8 +2073,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PK',
             'cc_iso' => 'PK',
             'tld' => '.pk',
-            'App\Models\Country_name' => 'Pakistan',
-            'App\Models\Country_phone_code' => 586
+            'country_name' => 'Pakistan',
+            'country_phone_code' => 586
         ]);
 
 
@@ -2084,8 +2084,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PL',
             'cc_iso' => 'PL',
             'tld' => '.pl',
-            'App\Models\Country_name' => 'Poland',
-            'App\Models\Country_phone_code' => 616
+            'country_name' => 'Poland',
+            'country_phone_code' => 616
         ]);
 
 
@@ -2095,8 +2095,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PM',
             'cc_iso' => 'PA',
             'tld' => '.pa',
-            'App\Models\Country_name' => 'Panama',
-            'App\Models\Country_phone_code' => 666
+            'country_name' => 'Panama',
+            'country_phone_code' => 666
         ]);
 
 
@@ -2106,8 +2106,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PO',
             'cc_iso' => 'PT',
             'tld' => '.pt',
-            'App\Models\Country_name' => 'Portugal',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Portugal',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2117,8 +2117,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PP',
             'cc_iso' => 'PG',
             'tld' => '.pg',
-            'App\Models\Country_name' => 'Papua New Guinea',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Papua New Guinea',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2128,8 +2128,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PS',
             'cc_iso' => 'PW',
             'tld' => '.pw',
-            'App\Models\Country_name' => 'Palau',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Palau',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2139,8 +2139,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'PU',
             'cc_iso' => 'GW',
             'tld' => '.gw',
-            'App\Models\Country_name' => 'Guinea-Bissau',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Guinea-Bissau',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2150,8 +2150,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'QA',
             'cc_iso' => 'QA',
             'tld' => '.qa',
-            'App\Models\Country_name' => 'Qatar',
-            'App\Models\Country_phone_code' => 634
+            'country_name' => 'Qatar',
+            'country_phone_code' => 634
         ]);
 
 
@@ -2161,8 +2161,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RE',
             'cc_iso' => 'RE',
             'tld' => '.re',
-            'App\Models\Country_name' => 'Reunion',
-            'App\Models\Country_phone_code' => 638
+            'country_name' => 'Reunion',
+            'country_phone_code' => 638
         ]);
 
 
@@ -2172,8 +2172,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RI',
             'cc_iso' => 'RS',
             'tld' => '.rs',
-            'App\Models\Country_name' => 'Serbia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Serbia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2183,8 +2183,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RM',
             'cc_iso' => 'MH',
             'tld' => '.mh',
-            'App\Models\Country_name' => 'Marshall Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Marshall Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2194,8 +2194,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RN',
             'cc_iso' => 'MF',
             'tld' => '-',
-            'App\Models\Country_name' => 'Saint Martin',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Saint Martin',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2205,8 +2205,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RO',
             'cc_iso' => 'RO',
             'tld' => '.ro',
-            'App\Models\Country_name' => 'Romania',
-            'App\Models\Country_phone_code' => 642
+            'country_name' => 'Romania',
+            'country_phone_code' => 642
         ]);
 
 
@@ -2216,8 +2216,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RP',
             'cc_iso' => 'PH',
             'tld' => '.ph',
-            'App\Models\Country_name' => 'Philippines',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Philippines',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2227,8 +2227,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RQ',
             'cc_iso' => 'PR',
             'tld' => '.pr',
-            'App\Models\Country_name' => 'Puerto Rico',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Puerto Rico',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2238,8 +2238,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RS',
             'cc_iso' => 'RU',
             'tld' => '.ru',
-            'App\Models\Country_name' => 'Russia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Russia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2249,8 +2249,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'RW',
             'cc_iso' => 'RW',
             'tld' => '.rw',
-            'App\Models\Country_name' => 'Rwanda',
-            'App\Models\Country_phone_code' => 646
+            'country_name' => 'Rwanda',
+            'country_phone_code' => 646
         ]);
 
 
@@ -2260,8 +2260,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SA',
             'cc_iso' => 'SA',
             'tld' => '.sa',
-            'App\Models\Country_name' => 'Saudi Arabia',
-            'App\Models\Country_phone_code' => 682
+            'country_name' => 'Saudi Arabia',
+            'country_phone_code' => 682
         ]);
 
 
@@ -2271,8 +2271,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SB',
             'cc_iso' => 'PM',
             'tld' => '.pm',
-            'App\Models\Country_name' => 'Saint Pierre and Miquelon',
-            'App\Models\Country_phone_code' => 90
+            'country_name' => 'Saint Pierre and Miquelon',
+            'country_phone_code' => 90
         ]);
 
 
@@ -2282,8 +2282,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SC',
             'cc_iso' => 'KN',
             'tld' => '.kn',
-            'App\Models\Country_name' => 'Saint Kitts and Nevis',
-            'App\Models\Country_phone_code' => 690
+            'country_name' => 'Saint Kitts and Nevis',
+            'country_phone_code' => 690
         ]);
 
 
@@ -2293,8 +2293,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SE',
             'cc_iso' => 'SC',
             'tld' => '.sc',
-            'App\Models\Country_name' => 'Seychelles',
-            'App\Models\Country_phone_code' => 752
+            'country_name' => 'Seychelles',
+            'country_phone_code' => 752
         ]);
 
 
@@ -2304,8 +2304,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SF',
             'cc_iso' => 'ZA',
             'tld' => '.za',
-            'App\Models\Country_name' => 'South Africa',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'South Africa',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2315,8 +2315,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SG',
             'cc_iso' => 'SN',
             'tld' => '.sn',
-            'App\Models\Country_name' => 'Senegal',
-            'App\Models\Country_phone_code' => 702
+            'country_name' => 'Senegal',
+            'country_phone_code' => 702
         ]);
 
 
@@ -2326,8 +2326,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SH',
             'cc_iso' => 'SH',
             'tld' => '.sh',
-            'App\Models\Country_name' => 'Saint Helena',
-            'App\Models\Country_phone_code' => 654
+            'country_name' => 'Saint Helena',
+            'country_phone_code' => 654
         ]);
 
 
@@ -2337,8 +2337,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SI',
             'cc_iso' => 'SI',
             'tld' => '.si',
-            'App\Models\Country_name' => 'Slovenia',
-            'App\Models\Country_phone_code' => 705
+            'country_name' => 'Slovenia',
+            'country_phone_code' => 705
         ]);
 
 
@@ -2348,8 +2348,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SL',
             'cc_iso' => 'SL',
             'tld' => '.sl',
-            'App\Models\Country_name' => 'Sierra Leone',
-            'App\Models\Country_phone_code' => 694
+            'country_name' => 'Sierra Leone',
+            'country_phone_code' => 694
         ]);
 
 
@@ -2359,8 +2359,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SM',
             'cc_iso' => 'SM',
             'tld' => '.sm',
-            'App\Models\Country_name' => 'San Marino',
-            'App\Models\Country_phone_code' => 674
+            'country_name' => 'San Marino',
+            'country_phone_code' => 674
         ]);
 
 
@@ -2370,8 +2370,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SN',
             'cc_iso' => 'SG',
             'tld' => '.sg',
-            'App\Models\Country_name' => 'Singapore',
-            'App\Models\Country_phone_code' => 686
+            'country_name' => 'Singapore',
+            'country_phone_code' => 686
         ]);
 
 
@@ -2381,8 +2381,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SO',
             'cc_iso' => 'SO',
             'tld' => '.so',
-            'App\Models\Country_name' => 'Somalia',
-            'App\Models\Country_phone_code' => 706
+            'country_name' => 'Somalia',
+            'country_phone_code' => 706
         ]);
 
 
@@ -2392,8 +2392,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SP',
             'cc_iso' => 'ES',
             'tld' => '.es',
-            'App\Models\Country_name' => 'Spain',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Spain',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2403,8 +2403,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => '-',
             'cc_iso' => 'SS',
             'tld' => '.ss',
-            'App\Models\Country_name' => 'South Sudan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'South Sudan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2414,8 +2414,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ST',
             'cc_iso' => 'LC',
             'tld' => '.lc',
-            'App\Models\Country_name' => 'Saint Lucia',
-            'App\Models\Country_phone_code' => 678
+            'country_name' => 'Saint Lucia',
+            'country_phone_code' => 678
         ]);
 
 
@@ -2425,8 +2425,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SU',
             'cc_iso' => 'SD',
             'tld' => '.sd',
-            'App\Models\Country_name' => 'Sudan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Sudan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2436,8 +2436,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SV',
             'cc_iso' => 'SJ',
             'tld' => '.sj',
-            'App\Models\Country_name' => 'Svalbard',
-            'App\Models\Country_phone_code' => 222
+            'country_name' => 'Svalbard',
+            'country_phone_code' => 222
         ]);
 
 
@@ -2447,8 +2447,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SW',
             'cc_iso' => 'SE',
             'tld' => '.se',
-            'App\Models\Country_name' => 'Sweden',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Sweden',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2458,8 +2458,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SX',
             'cc_iso' => 'GS',
             'tld' => '.gs',
-            'App\Models\Country_name' => 'South Georgia and the Islands',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'South Georgia and the Islands',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2469,8 +2469,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'NN',
             'cc_iso' => 'SX',
             'tld' => '.sx',
-            'App\Models\Country_name' => 'Sint Maarten',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Sint Maarten',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2480,8 +2480,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SY',
             'cc_iso' => 'SY',
             'tld' => '.sy',
-            'App\Models\Country_name' => 'Syrian Arab Republic',
-            'App\Models\Country_phone_code' => 760
+            'country_name' => 'Syrian Arab Republic',
+            'country_phone_code' => 760
         ]);
 
 
@@ -2491,8 +2491,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'SZ',
             'cc_iso' => 'CH',
             'tld' => '.ch',
-            'App\Models\Country_name' => 'Switzerland',
-            'App\Models\Country_phone_code' => 748
+            'country_name' => 'Switzerland',
+            'country_phone_code' => 748
         ]);
 
 
@@ -2502,8 +2502,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TD',
             'cc_iso' => 'TT',
             'tld' => '.tt',
-            'App\Models\Country_name' => 'Trinidad and Tobago',
-            'App\Models\Country_phone_code' => 148
+            'country_name' => 'Trinidad and Tobago',
+            'country_phone_code' => 148
         ]);
 
 
@@ -2513,8 +2513,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TE',
             'cc_iso' => '-',
             'tld' => '-',
-            'App\Models\Country_name' => 'Tromelin Island',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Tromelin Island',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2524,8 +2524,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TH',
             'cc_iso' => 'TH',
             'tld' => '.th',
-            'App\Models\Country_name' => 'Thailand',
-            'App\Models\Country_phone_code' => 764
+            'country_name' => 'Thailand',
+            'country_phone_code' => 764
         ]);
 
 
@@ -2535,8 +2535,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TI',
             'cc_iso' => 'TJ',
             'tld' => '.tj',
-            'App\Models\Country_name' => 'Tajikistan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Tajikistan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2546,8 +2546,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TK',
             'cc_iso' => 'TC',
             'tld' => '.tc',
-            'App\Models\Country_name' => 'Turks and Caicos Islands',
-            'App\Models\Country_phone_code' => 772
+            'country_name' => 'Turks and Caicos Islands',
+            'country_phone_code' => 772
         ]);
 
 
@@ -2557,8 +2557,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TL',
             'cc_iso' => 'TK',
             'tld' => '.tk',
-            'App\Models\Country_name' => 'Tokelau',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Tokelau',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2568,8 +2568,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TN',
             'cc_iso' => 'TO',
             'tld' => '.to',
-            'App\Models\Country_name' => 'Tonga',
-            'App\Models\Country_phone_code' => 788
+            'country_name' => 'Tonga',
+            'country_phone_code' => 788
         ]);
 
 
@@ -2579,8 +2579,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TO',
             'cc_iso' => 'TG',
             'tld' => '.tg',
-            'App\Models\Country_name' => 'Togo',
-            'App\Models\Country_phone_code' => 776
+            'country_name' => 'Togo',
+            'country_phone_code' => 776
         ]);
 
 
@@ -2590,8 +2590,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TP',
             'cc_iso' => 'ST',
             'tld' => '.st',
-            'App\Models\Country_name' => 'Sao Tome and Principe',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Sao Tome and Principe',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2601,8 +2601,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TS',
             'cc_iso' => 'TN',
             'tld' => '.tn',
-            'App\Models\Country_name' => 'Tunisia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Tunisia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2612,8 +2612,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TT',
             'cc_iso' => 'TL',
             'tld' => '.tl',
-            'App\Models\Country_name' => 'East Timor',
-            'App\Models\Country_phone_code' => 780
+            'country_name' => 'East Timor',
+            'country_phone_code' => 780
         ]);
 
 
@@ -2623,8 +2623,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TU',
             'cc_iso' => 'TR',
             'tld' => '.tr',
-            'App\Models\Country_name' => 'Turkey',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Turkey',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2634,8 +2634,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TV',
             'cc_iso' => 'TV',
             'tld' => '.tv',
-            'App\Models\Country_name' => 'Tuvalu',
-            'App\Models\Country_phone_code' => 798
+            'country_name' => 'Tuvalu',
+            'country_phone_code' => 798
         ]);
 
 
@@ -2645,8 +2645,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TW',
             'cc_iso' => 'TW',
             'tld' => '.tw',
-            'App\Models\Country_name' => 'Taiwan',
-            'App\Models\Country_phone_code' => 158
+            'country_name' => 'Taiwan',
+            'country_phone_code' => 158
         ]);
 
 
@@ -2656,8 +2656,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TX',
             'cc_iso' => 'TM',
             'tld' => '.tm',
-            'App\Models\Country_name' => 'Turkmenistan',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Turkmenistan',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2667,8 +2667,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'TZ',
             'cc_iso' => 'TZ',
             'tld' => '.tz',
-            'App\Models\Country_name' => 'Tanzania, United Republic of',
-            'App\Models\Country_phone_code' => 834
+            'country_name' => 'Tanzania, United Republic of',
+            'country_phone_code' => 834
         ]);
 
 
@@ -2678,8 +2678,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UC',
             'cc_iso' => 'CW',
             'tld' => '.cw',
-            'App\Models\Country_name' => 'Curacao',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Curacao',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2689,8 +2689,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UG',
             'cc_iso' => 'UG',
             'tld' => '.ug',
-            'App\Models\Country_name' => 'Uganda',
-            'App\Models\Country_phone_code' => 800
+            'country_name' => 'Uganda',
+            'country_phone_code' => 800
         ]);
 
 
@@ -2700,8 +2700,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UK',
             'cc_iso' => 'GB',
             'tld' => '.uk',
-            'App\Models\Country_name' => 'United Kingdom',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'United Kingdom',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2711,8 +2711,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UP',
             'cc_iso' => 'UA',
             'tld' => '.ua',
-            'App\Models\Country_name' => 'Ukraine',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Ukraine',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2722,8 +2722,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'US',
             'cc_iso' => 'US',
             'tld' => '.us',
-            'App\Models\Country_name' => 'United States',
-            'App\Models\Country_phone_code' => 840
+            'country_name' => 'United States',
+            'country_phone_code' => 840
         ]);
 
 
@@ -2733,8 +2733,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UV',
             'cc_iso' => 'BF',
             'tld' => '.bf',
-            'App\Models\Country_name' => 'Burkina Faso',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Burkina Faso',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2744,8 +2744,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UY',
             'cc_iso' => 'UY',
             'tld' => '.uy',
-            'App\Models\Country_name' => 'Uruguay',
-            'App\Models\Country_phone_code' => 858
+            'country_name' => 'Uruguay',
+            'country_phone_code' => 858
         ]);
 
 
@@ -2755,8 +2755,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'UZ',
             'cc_iso' => 'UZ',
             'tld' => '.uz',
-            'App\Models\Country_name' => 'Uzbekistan',
-            'App\Models\Country_phone_code' => 860
+            'country_name' => 'Uzbekistan',
+            'country_phone_code' => 860
         ]);
 
 
@@ -2766,8 +2766,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VC',
             'cc_iso' => 'VC',
             'tld' => '.vc',
-            'App\Models\Country_name' => 'Saint Vincent and the Grenadines',
-            'App\Models\Country_phone_code' => 670
+            'country_name' => 'Saint Vincent and the Grenadines',
+            'country_phone_code' => 670
         ]);
 
 
@@ -2777,8 +2777,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VE',
             'cc_iso' => 'VE',
             'tld' => '.ve',
-            'App\Models\Country_name' => 'Venezuela',
-            'App\Models\Country_phone_code' => 862
+            'country_name' => 'Venezuela',
+            'country_phone_code' => 862
         ]);
 
 
@@ -2788,8 +2788,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VI',
             'cc_iso' => 'VG',
             'tld' => '.vg',
-            'App\Models\Country_name' => 'British Virgin Islands',
-            'App\Models\Country_phone_code' => 850
+            'country_name' => 'British Virgin Islands',
+            'country_phone_code' => 850
         ]);
 
 
@@ -2799,8 +2799,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VM',
             'cc_iso' => 'VN',
             'tld' => '.vn',
-            'App\Models\Country_name' => 'Vietnam',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Vietnam',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2810,8 +2810,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VQ',
             'cc_iso' => 'VI',
             'tld' => '.vi',
-            'App\Models\Country_name' => 'Virgin Islands (US)',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Virgin Islands (US)',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2821,8 +2821,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'VT',
             'cc_iso' => 'VA',
             'tld' => '.va',
-            'App\Models\Country_name' => 'Holy See (Vatican City)',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Holy See (Vatican City)',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2832,8 +2832,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WA',
             'cc_iso' => 'NA',
             'tld' => '.na',
-            'App\Models\Country_name' => 'Namibia',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Namibia',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2843,8 +2843,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WE',
             'cc_iso' => 'PS',
             'tld' => '.ps',
-            'App\Models\Country_name' => 'Palestine, State of',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Palestine, State of',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2854,8 +2854,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WF',
             'cc_iso' => 'WF',
             'tld' => '.wf',
-            'App\Models\Country_name' => 'Wallis and Futuna',
-            'App\Models\Country_phone_code' => 876
+            'country_name' => 'Wallis and Futuna',
+            'country_phone_code' => 876
         ]);
 
 
@@ -2865,8 +2865,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WI',
             'cc_iso' => 'EH',
             'tld' => '.eh',
-            'App\Models\Country_name' => 'Western Sahara',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Western Sahara',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2876,8 +2876,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WS',
             'cc_iso' => 'WS',
             'tld' => '.ws',
-            'App\Models\Country_name' => 'Samoa',
-            'App\Models\Country_phone_code' => 882
+            'country_name' => 'Samoa',
+            'country_phone_code' => 882
         ]);
 
 
@@ -2887,8 +2887,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'WZ',
             'cc_iso' => 'SZ',
             'tld' => '.sz',
-            'App\Models\Country_name' => 'Swaziland',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Swaziland',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2898,8 +2898,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'YI',
             'cc_iso' => 'CS',
             'tld' => '.yu',
-            'App\Models\Country_name' => 'Serbia and Montenegro',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Serbia and Montenegro',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2909,8 +2909,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'YM',
             'cc_iso' => 'YE',
             'tld' => '.ye',
-            'App\Models\Country_name' => 'Yemen',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Yemen',
+            'country_phone_code' => NULL
         ]);
 
 
@@ -2920,8 +2920,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ZA',
             'cc_iso' => 'ZM',
             'tld' => '.zm',
-            'App\Models\Country_name' => 'Zambia',
-            'App\Models\Country_phone_code' => 710
+            'country_name' => 'Zambia',
+            'country_phone_code' => 710
         ]);
 
 
@@ -2931,8 +2931,8 @@ class CountrySeeder extends Seeder
             'cc_fips' => 'ZI',
             'cc_iso' => 'ZW',
             'tld' => '.zw',
-            'App\Models\Country_name' => 'Zimbabwe',
-            'App\Models\Country_phone_code' => NULL
+            'country_name' => 'Zimbabwe',
+            'country_phone_code' => NULL
         ]);
     }
 }

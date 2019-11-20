@@ -21,7 +21,11 @@ class RefereeController extends Controller
             setcookie('sign_id', $id, 0, '/referee');
             redirect(\Illuminate\Support\Facades\Request::url());
         }
-        return view("referee.dashboard", compact(''));
+
+        $user_id = \Auth::guard('referee')->user()->id;
+        createperson($user_id);
+
+        return view("referee.dashboard", compact('user_id'));
     }
 
     /**

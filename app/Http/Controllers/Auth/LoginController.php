@@ -86,9 +86,7 @@ class LoginController extends Controller
             'role_id' => $get_role->id],
             $request->get('remember'))) {
 
-//           setcookie('c_user', $role, time()+31556926, '/');
             setcookie('c_user', $role, 0, '/');
-//            $success['token'] =  $user->createToken('App')->accessToken;
 
             $u = Auth::guard($role)->user();
             $session = Session::where('user_id', $u->id)->first();
