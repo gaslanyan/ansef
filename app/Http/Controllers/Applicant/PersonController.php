@@ -281,7 +281,7 @@ class PersonController extends Controller
             $person->sex = $request->sex;
             $person->state = $request->state;
             $person->user_id = $user_id;
-            $person->specialization = $request->specialization;
+            $person->specialization = '';
             $person->save();
             $person_id = $person->id;
             if (!empty($request->countries)) {
