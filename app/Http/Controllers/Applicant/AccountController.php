@@ -91,7 +91,7 @@ class AccountController extends Controller
         $person->sex = $request->sex;
         $person->state = $request->state;
         $person->type =$request->type;
-        $person->specialization = '';
+        $person->specialization = $request->specialization;
         $person->user_id = $user_id;
         $person->save();
         

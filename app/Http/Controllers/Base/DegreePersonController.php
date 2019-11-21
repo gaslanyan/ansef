@@ -6,6 +6,7 @@ use App\Models\Degree;
 use App\Models\DegreePerson;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
+use App\Models\DegreePerson;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -37,13 +38,9 @@ class DegreePersonController extends Controller
      */
     public function create($id)
     {
-
-        $degreesperson = \DB::table('degrees_persons')
-                        ->select('degrees_persons.year','degrees.text','degrees_persons.id')
-                        ->join('degrees','degrees_persons.degree_id','=','degrees.id')
-                        ->where('degrees_persons.person_id','=',$id)->get()->toArray();
-
-
+        $degreesperson = DegreePerson::where('degrees_persons.person_id','=',$id)
+                        ->orderBy('year', 'DESC')
+                        ->get()->toArray();
 
         return view('applicant.degree.create',compact('id','degreesperson'));
     }

@@ -40,7 +40,7 @@ class DegreePersonController extends Controller
     public function create($id)
     {
         $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
-        $degreesperson = DegreePerson::where('person_id','=',$id)->get();
+        $degreesperson = DegreePerson::where('person_id','=',$id)->orderBy('year', 'DESC')->get();
         $degrees_list = Degree::all();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name', 'institutions'));

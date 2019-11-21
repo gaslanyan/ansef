@@ -82,8 +82,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-12 phones">
                                         <label for="phone">Phones:</label>
-                                        <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue"
-                                           style="cursor: pointer"></i>
+                                        <!-- <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue" style="cursor: pointer"></i> -->
                                         <div class="col-12">
                                             <div class="row">
                                                 <input type="text" name="country_code[]"

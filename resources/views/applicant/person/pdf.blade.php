@@ -1,10 +1,10 @@
-@extends('layouts.master')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="offset-md-2 col-md-10">
-                <div class="card" style="margin-top:20px;">
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>{{$person->last_name}}</title>
+</head>
+<body class="container">
+<div class="card" style="margin-top:20px;">
                     <div class="card-header">Person details
                     </div>
 
@@ -299,18 +299,6 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="col-lg-12" style="margin-top:30px;">
-                            <a href="{{action('Applicant\PersonController@download', $person->id)}}" class="btn btn-primary">Download</a>
-                            <a href="{{action('Applicant\PersonController@index') }}" class="btn btn-secondary">Go Back</a>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function () {
-            });
-    </script>
-@endsection
+</body>

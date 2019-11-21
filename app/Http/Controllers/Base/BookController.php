@@ -35,7 +35,7 @@ class BookController extends Controller
     public function create($id)
     {
 
-        $books = Book::where('person_id','=',$id)->get()->toArray();
+        $books = Book::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id )->get()->toArray();
 
         return view('base.book.create',compact('id','books','person'));

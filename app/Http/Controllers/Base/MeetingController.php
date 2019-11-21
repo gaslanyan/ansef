@@ -34,7 +34,7 @@ class MeetingController extends Controller
      */
     public function create($id)
     {
-        $meetings = Meeting::where('person_id', '=', $id)->get()->toArray();
+        $meetings = Meeting::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id)->get()->toArray();
         return view('base.meeting.create', compact('id', 'meetings', 'person'));
     }

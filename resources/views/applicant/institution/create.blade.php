@@ -50,7 +50,7 @@
                                                 <label for="institution">Institution:</label>
                                                 <select id="institution_id" class="form-control" name="institution_id[]">
                                                     <option value="0">Select institution</option>
-                                                    @if(!empty($institutions_list))
+                                                    @if(!empty($institutions_list) && count($institutions_list)>0)
                                                         @foreach($institutions_list as $val => $item)
                                                             <option class="text-capitalize" value="{{$item['id']}}"
                                                             <?php if ($item['id'] == $ins->institution_id) { echo 'selected'; }?>>{{$item['content']}}</option>
@@ -128,15 +128,15 @@
                                         <label for="inst">Institution:</label>
                                         <select id="inst" class="form-control" name="institution_id">
                                             <option value="0">Select institution</option>
-                                            @if(!empty($institutions_list))
+                                            @if(!empty($institutions_list) && count($institutions_list))
                                                 @foreach($institutions_list as $val => $item)
                                                     <option class="text-capitalize"
-                                                            value="{{$item['id']}}" {{old('institution_id') == $item['id'] ? 'selected' : ''}}>
+                                                            value="{{$item['id']}}" <?php echo (old('institution_id') == $item['id'] ? 'selected' : '');?>>
                                                             {{$item['content']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <input type="text" id="institution" class="form-control" value="{{old('institution')}}" name="institution" value="{{$item['content']}}" placeholder="If your institution is not in the list, type instead the name here">
+                                        <input type="text" id="institution" class="form-control" value="{{old('institution')}}" name="institution" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
                                     <div class="form-group col-lg-2">
                                         <label for="title">Title:</label>

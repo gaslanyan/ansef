@@ -248,6 +248,7 @@ Route::get('/applicant/researchboard/{type}', 'Applicant\ResearchBoardController
 Route::post('/applicant/send', 'Applicant\ResearchBoardController@send');
 Route::post('/applicant/sendtoadmin', 'Applicant\ResearchBoardController@sendtoadmin');
 Route::get('/applicant/proposal/generatePDF/{id}', 'Applicant\ProposalController@generatePDF');
+Route::get('/applicant/person/download/{id}', 'Applicant\PersonController@download');
 
 Route::get('/support/{prop_id}/{person_id}', 'Applicant\SupportController@index');
 Route::post('/support/save/{person_id}', 'Applicant\SupportController@save');

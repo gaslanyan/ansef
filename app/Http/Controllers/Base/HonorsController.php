@@ -36,7 +36,7 @@ class HonorsController extends Controller
     public function create($id)
     {
         $person_id = Person::where('id',$id )->get()->toArray();
-        $honors = Honors::where('person_id','=',$id)->get()->toArray();
+        $honors = Honors::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.honors.create', compact('id','honors','person_id'));
     }
 
