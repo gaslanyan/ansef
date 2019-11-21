@@ -66,7 +66,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong>Emails:</strong>
                                             <?php $step = 0; ?>
                                             @foreach($emails as $email)
                                             <?php $step++; ?>
