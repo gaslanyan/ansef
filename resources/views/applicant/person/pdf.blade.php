@@ -2,6 +2,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>{{$person->last_name}}</title>
+    <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
 </head>
 <body class="container">
 <div class="card" style="margin-top:20px;">
