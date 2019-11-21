@@ -240,6 +240,7 @@ Route::get('file-upload/removereport/{id}', 'Applicant\FileUploadController@remo
 
 // Proposal
 Route::resource('/applicant/proposal', 'Applicant\ProposalController');
+Route::resource('/applicant/address', 'Applicant\AddressPersonController');
 Route::get('/applicant/activeProposal', 'Applicant\ProposalController@activeProposal');
 Route::get('/applicant/pastProposal', 'Applicant\ProposalController@pastProposal');
 Route::get('/applicant/downloadPDF', 'Applicant\ProposalController@downloadPDF');
