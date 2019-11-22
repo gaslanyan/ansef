@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">Edit Proposal
                         {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$proposal->id)}}"
                            title="Download"

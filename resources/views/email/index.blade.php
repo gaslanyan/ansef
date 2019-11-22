@@ -13,7 +13,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     @if (\Session::has('error'))
                         <div class="alert alert-danger">
                             <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>

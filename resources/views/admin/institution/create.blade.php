@@ -9,7 +9,7 @@
         @endif
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">Add an institution
                         <br>
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>

@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">Edit Competition <a href = "{{ action('Admin\CompetitionController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
                         <br>
                         <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>

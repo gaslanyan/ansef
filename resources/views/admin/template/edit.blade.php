@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">Edit a message
                         <br>
                         <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>

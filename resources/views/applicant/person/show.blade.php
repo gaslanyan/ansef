@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card" style="margin-top:20px;">
+                <div class="card" >
                     <div class="card-header">Person details
                     </div>
 
@@ -16,7 +16,7 @@
                             </div>
 
                             <div class="box-body col-md-12">
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Biographical</h4>
                                 </div>
                                 <div class="row">
@@ -61,7 +61,7 @@
                                 </div>
 
                                 @if(!empty($emails) && count($emails)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Emails</h4>
                                 </div>
                                 <div class="row">
@@ -77,13 +77,13 @@
                                     </div>
                                 </div>
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No emails provided</h6>
                                 </div>
                                 @endif
 
                                 @if(!empty($addresses) && count($addresses)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Addresses</h4>
                                 </div>
                                 @foreach($addresses as $address)
@@ -110,14 +110,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No addresses provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($institutions) && count($institutions)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Employment/Affiliations</h4>
                                 </div>
                                 @foreach($institutions as $institution)
@@ -143,14 +143,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No employment/affiliation history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($degrees) && count($degrees)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Education</h4>
                                 </div>
                                 @foreach($degrees as $degree)
@@ -171,14 +171,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No educational history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($honors) && count($honors)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Honors</h4>
                                 </div>
                                 @foreach($honors as $honor)
@@ -195,14 +195,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No honors provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($books) && count($books)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Books</h4>
                                 </div>
                                 @foreach($books as $book)
@@ -225,14 +225,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No books provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($meetings) && count($meetings)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Meetings</h4>
                                 </div>
                                 @foreach($meetings as $meeting)
@@ -259,14 +259,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No meeting attendance history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($publications) && count($publications)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Publications</h4>
                                 </div>
                                 @foreach($publications as $publication)
@@ -292,7 +292,7 @@
                                 </div>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No publications provided</h6>
                                 </div>
                                 @endif

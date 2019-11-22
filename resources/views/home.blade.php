@@ -11,7 +11,7 @@
                 if(!empty($content) && $content->lock == "off"):?>
                 <img src="{{asset('img/off.png')}}" class="off">
                 <?php else: ?>
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">Welcome to ANSEF!!</div>
 
                     <div class="card-body row">

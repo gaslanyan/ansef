@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card" style="margin-top:20px;">
+                <div class="card" >
                     <div class="card-header">Update Education for {{$persons_name->first_name}} {{$persons_name->last_name}}
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="margin-top:20px;">
+                        <div class="col-lg-12" >
                         <button type="submit" class="btn btn-primary">Add Degree</button>
                         </div>
                     </form>
