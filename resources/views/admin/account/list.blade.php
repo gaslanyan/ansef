@@ -131,7 +131,7 @@
                                                 <td ddata-order="@if(!empty($p['type'])){{$p['type']}} @endif"
                                                 data-search="@if(!empty($p['type'])){{$p['type']}} @endif"
                                                     class="state_field">
-                                                    <span style="color:#777;">{{$p['type'] == 'contributor' ? 'Participant' : 'Support'}}</span>
+                                                    <span style="color:#777;">{{$p['type'] == 'participant' ? 'Participant' : 'Support'}}</span>
                                                 </td>
                                             @endif
                                             <td>

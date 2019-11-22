@@ -51,11 +51,13 @@
 
                             @foreach($institutions as $item)
                                 @php
-
-                                    if(!empty($item->address)){
-                                        $id = $address[$item->address->country_id - 1];
-                                        $c_id = $cities[$item->address->city_id];
-                                }
+                                    $address = $item->addresses()->first();
+                                    $city = '';
+                                    $country = '';
+                                    if(!empty($address)){
+                                        $city = $address->city;
+                                        $country = $address->country->countryname;
+                                    }
                                 @endphp
 
                                 <tr>
@@ -63,13 +65,11 @@
                                     <td data-order="{{$item['content']}}"
                                         data-search="{{$item['content']}}">{{$item['content']}}
                                     </td>
-                                    <td data-order="@if(!empty($item->address)) {{$c_id}} @endif"
-                                        data-search="@if(!empty($item->address)){{$c_id}} @endif">
-                                        @if(!empty($item->address)) {{$c_id}}@endif
+                                    <td data-order="{{$city}}" data-search="{{$city}}">
+                                        {{$city}}
                                     </td>
-                                    <td data-order="@if(!empty($item->address)) {{$id->country_name}} @endif"
-                                        data-search="@if(!empty($item->address)) {{$id->country_name}} @endif">
-                                        @if(!empty($item->address)){{$id->country_name}}@endif
+                                    <td data-order="{{$country}}" data-search="{{$country}}">
+                                        {{$country}}
                                     </td>
                                     <td>
                                         <a href="{{action('Admin\InstitutionController@edit', $item['id'])}}"

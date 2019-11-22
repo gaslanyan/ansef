@@ -22,10 +22,7 @@ class Person extends Model
     {
         return $this->hasOne('App\Models\Phone');
     }
-    public function address()
-    {
-        return $this->belongsToMany('App\Models\Address', 'person_address');
-    }
+
     function report()
     {
         return $this->hasOne('App\Models\RefereeReport');

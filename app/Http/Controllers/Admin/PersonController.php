@@ -146,12 +146,7 @@ class PersonController extends Controller
         try {
             $person = Person::where('user_id', '=', $id)->first();
             $fulladddress = [];
-            $getaddress = \DB::table('person_address')
-                ->select('cities.id as cid', 'address.province', 'address.street', 'countries.country_name', 'cities.name')
-                ->join('address', 'address.id', '=', 'person_address.address_id')
-                ->join('countries', 'countries.id', '=', 'address.country_id')
-                ->where('person_address.person_id', '=', $person->id)
-                ->get()->toArray();
+            $getaddress = $person->addresses()->get()->toArray();
             $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
             foreach ($getaddress as $address_item) {
                 $adddress['country'] = $address_item->country_name;

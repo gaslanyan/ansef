@@ -34,9 +34,6 @@ class AccountController extends Controller
 
         $applicant_persons = \DB::table('persons')
             ->select('*')
-            //  ->join('person_address', 'person_address.person_id', '=', 'persons.id')
-            //  ->join('address', 'address.id', '=', 'person_address.address_id')
-            //  ->join('institutions_persons', 'institutions_persons.person_id', '=', 'persons.id')
             ->where('persons.user_id', '=', $user_id)
             ->where('persons.type', '!=', null)
             ->get()->toArray();

@@ -51,8 +51,8 @@ class AccountController extends Controller
                         ->where('persons.user_id', '=', $user['id'])
                         ->where(function ($query) use ($type) {
                             if ($type == 'applicant')
-                                $query->where('persons.type', 'contributor')
-                                    ->orWhere('persons.type', 'external_support');
+                                $query->where('persons.type', 'participant')
+                                    ->orWhere('persons.type', 'support');
                         })
                         ->get()->toArray();
 
@@ -74,8 +74,7 @@ class AccountController extends Controller
             }
 
             $institutions = Institution::all();
-            return view('admin.account.list',
-                compact('persons', 'type', 'ip', 'institutions'));
+            return view('admin.account.list', compact('persons', 'type', 'ip', 'institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/account')->with('error', getMessage('wrong'));

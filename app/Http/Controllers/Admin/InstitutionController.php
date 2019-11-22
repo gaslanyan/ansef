@@ -21,10 +21,8 @@ class InstitutionController extends Controller
     public function index()
     {
         try {
-            $institutions = Institution::with(['address'])->get();
-            $cities = [];
-            $address = Country::with('address')->get();
-            return view('admin.institution.index', compact('institutions', 'address'));
+            $institutions = Institution::all();
+            return view('admin.institution.index', compact('institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
