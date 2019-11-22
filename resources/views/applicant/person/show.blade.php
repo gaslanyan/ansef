@@ -59,7 +59,7 @@
                                             @endif
                                     </div>
                                 </div>
-
+                                <br/>
                                 @if(!empty($emails) && count($emails)>0)
                                 <div class="row" >
                                     <h4 style="color:#777;">Emails</h4>
@@ -81,7 +81,7 @@
                                     <h6 style="color:#777;">No emails provided</h6>
                                 </div>
                                 @endif
-
+                                <br/>
                                 @if(!empty($addresses) && count($addresses)>0)
                                 <div class="row" >
                                     <h4 style="color:#777;">Addresses</h4>
@@ -90,21 +90,21 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Street:</strong>
-                                            <span>street</span>
+                                            <span>{{$address->street}}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <strong>City:</strong>
-                                            <span>city</span>
+                                            <span>{{$address->city}}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Municipality/State:</strong>
-                                            <span>state</span>
+                                            <span>{{$address->province}}</span>
                                     </div>
                                     <div class="col-md-6">
                                         <strong>Country:</strong>
-                                            <span>country</span>
+                                            <span>{{$address->country->country_name}}</span>
                                     </div>
                                 </div>
                                 <hr>
@@ -115,6 +115,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($institutions) && count($institutions)>0)
                                 <div class="row" >
@@ -148,6 +149,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($degrees) && count($degrees)>0)
                                 <div class="row" >
@@ -176,6 +178,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($honors) && count($honors)>0)
                                 <div class="row" >
@@ -200,6 +203,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($books) && count($books)>0)
                                 <div class="row" >
@@ -230,6 +234,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($meetings) && count($meetings)>0)
                                 <div class="row" >
@@ -264,6 +269,7 @@
                                 </div>
                                 @endif
 
+                                <br/>
 
                                 @if(!empty($publications) && count($publications)>0)
                                 <div class="row" >

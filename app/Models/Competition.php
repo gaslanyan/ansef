@@ -49,12 +49,17 @@ class Competition extends Model
         return $this->hasMany(Proposal::class);
     }
 
+    public function budgetCategories() {
+        return $this->hasMany(BudgetCategory::class);
+    }
+
     public function proposalsCount()
     {
         return $this->proposals()
-            ->selectRaw('competition_id,
-             count(competition_id) as p_count')
+            ->selectRaw('competition_id, count(competition_id) as p_count')
             ->groupBy('competition_id');
     }
+
+
 
 }

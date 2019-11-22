@@ -93,7 +93,8 @@
                                                title="Delete"><span class="fa fa-trash myButton">Delete</span>
                                             </a><br/>
 
-                                            <a><span class="fas fa-file-invoice-dollar myButton">Budget</span></a>
+                                            <a href="{{action('Applicant\BudgetCategoriesController@create', $ap['id'])}}">
+                                                <span class="fas fa-file-invoice-dollar myButton">Budget</span></a>
 
                                             <a href="{{action('Applicant\FileUploadController@index', $ap['id'])}}"
                                                title="Delete">

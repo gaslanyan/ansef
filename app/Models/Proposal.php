@@ -43,6 +43,11 @@ class Proposal extends Model
         return $this->hasMany(ProposalReports::class);
     }
 
+    function budgetItems()
+    {
+        return $this->hasMany(BudgetItem::class);
+    }
+
     function reports()
     {
         return $this->hasMany('App\Models\RefereeReport');

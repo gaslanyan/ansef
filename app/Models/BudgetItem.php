@@ -14,4 +14,10 @@ class BudgetItem extends Model
      */
     protected $fillable = [
         'budget_cat_id', 'description', 'amount', 'proposal_id'];
+
+    public function proposal()
+    {
+        return $this->belongsTo('App\Models\Proposal');
+    }
+
 }

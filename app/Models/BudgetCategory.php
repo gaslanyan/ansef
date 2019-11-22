@@ -14,8 +14,9 @@ class BudgetCategory extends Model
      */
     protected $fillable = [
         'name', 'min', 'max', 'weight', 'competition_id'];
+
     public function competition()
     {
-        return $this->belongsTo('App\Models\Competition');
+        return $this->belongsTo('App\Models\Competition', 'competition_id');
     }
 }

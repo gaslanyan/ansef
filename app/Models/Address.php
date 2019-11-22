@@ -20,7 +20,7 @@ class Address extends Model
 
     public function country()
     {
-        $this->belongsTo('\App\Models\Country', 'COUNTRY');
+        return $this->belongsTo('\App\Models\Country');
     }
 
     public function addressable()
