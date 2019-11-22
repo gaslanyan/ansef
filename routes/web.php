@@ -198,6 +198,7 @@ Route::resource('/applicant/honors', 'Base\HonorsController');
 Route::resource('/applicant/email', 'Applicant\EmailController');
 Route::resource('/applicant/info', 'Applicant\InfoController');
 Route::resource('/applicant/phone', 'Applicant\PhoneController');
+Route::resource('/applicant/budgetcategories', 'Applicant\BudgetCategoriesController');
 Route::resource('/applicant/publication', 'Base\PublicationsController');
 Route::resource('/applicant/degree', 'Applicant\DegreePersonController');
 Route::get('/applicant/institution/destroyemployment/{id}', 'Base\InstitutionController@destroyemployment');
@@ -217,6 +218,10 @@ Route::get('/applicant/degree/create/{id}', 'Applicant\DegreePersonController@cr
 Route::get('/applicant/degree/delete/{id}', 'Applicant\DegreePersonController@destroy');
 Route::get('/applicant/discipline/create/{id}', 'Applicant\DisciplineController@create');
 Route::get('/applicant/discipline/delete/{id}', 'Applicant\DisciplineController@destroy');
+
+Route::get('/applicant/budgetcategories/create/{id}', 'Applicant\BudgetCategoriesController@create');
+Route::get('/applicant/budgetcategories/delete/{id}', 'Applicant\BudgetCategoriesController@destroy');
+
 Route::get('/applicant/book/create/{id}', 'Base\BookController@create');
 Route::get('/applicant/book/delete/{id}', 'Base\BookController@destroy');
 Route::get('/applicant/publications/create/{id}', 'Base\PublicationsController@create');
