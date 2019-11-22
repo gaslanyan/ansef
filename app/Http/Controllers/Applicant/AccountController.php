@@ -14,7 +14,6 @@ use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
 use App\Models\Person_groups;
-use App\Models\PersonAddress;
 use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -94,57 +93,6 @@ class AccountController extends Controller
         $person->user_id = $user_id;
         $person->save();
 
-        $person_group_id = $person->id;
-        if (!empty($person_group_id)) {
-            $person_groups = new Person_groups();
-            $person_groups->parent_person_id = $person_id;
-            $person_groups->group_person_id = $person_group_id;
-            $person_groups->save();
-        }
-
-        // // Add at least one address
-        // $address = new Address();
-        // $address->save();
-        // $address_id = $address->id;
-        //     if ($address_id) {
-        //         $pa = new PersonAddress();
-        //         $pa->person_id = $person_group_id;
-        //         $pa->address_id = $address_id;
-        //         $pa->save();
-        //     }
-
-
-        // foreach ($request->countries as $key => $val) {
-        //     if($val == 0) break;
-        //     $address = new Address();
-        //     $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-        //     $address->country_id = (int)$country->id;
-        //     $address->province = $request->provence[$key];
-        //     $address->street = $request->street[$key];
-        //     $address->save();
-        //     $address_id = $address->id;
-
-        //     if ($address_id) {
-        //         $pa = new PersonAddress();
-        //         $pa->person_id = $person_group_id;
-        //         $pa->address_id = $address_id;
-        //         $pa->save();
-        //     }
-        // }
-
-        // foreach ($request->institution as $key => $val) {
-        //     //$institution_name = Institution::where('id', '=', $val)->first();
-        //     $institution = new InstitutionPerson();
-        //     $institution->person_id = $person_group_id;
-        //     $institution->institution_id = (int)$request->institution[$key];;
-        //     $institution->title = $request->i_title[$key] ?? '';
-        //     $institution->start = formatDate($request->start[$key]);
-        //     $institution->end = formatDate($request->end[$key]);
-        //     // $institution->end = $request->end[$key];
-        //     $institution->type = $request->i_type[$key];
-        //     $institution->save();
-        // }
-
       return redirect()->action('Applicant\InfoController@index');
 
        // return redirect()->action('Applicant\EmailController@index');
@@ -167,15 +115,6 @@ class AccountController extends Controller
             $person_id = $id;//$person[0]['id'];
             $emails = Email::where('person_id', $person_id)->get();
             $phones = Phone::where('person_id', $person_id)->get()->toArray();
-            $addr = PersonAddress::where('person_id', $person_id)->get()->toArray();
-            $address_array = [];
-            foreach ($addr as $key => $value) {
-                $country = Country::with('address')->find($value['address_id'])->toArray();
-                $address = Address::find($value['address_id'])->toArray();
-                $address_array[$key]['country'] = $country['country_name'];
-                $address_array[$key]['province'] = $address['province'];
-                $address_array[$key]['street'] = $address['street'];
-            }
             $institution = [];
             $ip = InstitutionPerson::with('iperson')
                 ->select('title', 'start', 'end', 'type')
@@ -208,7 +147,7 @@ class AccountController extends Controller
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
             return view('applicant.account.show', compact('person',
-                'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
+                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
         } else {
             return back();
         }

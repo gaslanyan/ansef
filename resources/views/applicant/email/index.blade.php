@@ -62,7 +62,8 @@
                                 </td>
                                 <td style="color:#777;">
                                     <input type="hidden" class="id" value="{{$person['id']}}">
-                                    <a href="" title="Show Addresses" class="add_address"><?php if (empty(getAddressesByPersonID($person['id']))) {
+                                    <a href="{{action('Applicant\AddressController@create', $person['id'])}}" title="Show Addresses" class="add_address">
+                                        <?php if (empty(getAddressesByPersonID($person['id']))) {
                                             echo " <span class='fas fa-address-card myButton' style='color:#dd4b39 !important;'>Addresses</span>";
                                         } else {
                                             echo " <span class='fas fa-address-card myButton'>Addresses</span>";

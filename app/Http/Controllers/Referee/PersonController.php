@@ -7,7 +7,6 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\Institution;
 use App\Models\Person;
-use App\Models\PersonAddress;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,39 +111,6 @@ class PersonController extends Controller
                 return redirect()->back()->with('error', getMessage("wrong"));
             }
 
-            try {
-                foreach ($request->countries as $key => $val) {
-
-                    $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-                    $address = new Address();
-                    $address->country_id = (int)$country->id;
-                    $address->province = $request->provence[$key];
-                    $address->street = $request->street[$key];
-                    $address->save();
-                    $address_id = $address->id;
-                    if ($address_id) {
-                        $pa = new PersonAddress();
-                        $pa->person_id = $person_id;
-                        $pa->address_id = $address_id;
-                        $pa->save();
-                    }
-                }
-                DB::commit();
-                return redirect()->action(
-                    'Admin\AccountController@show', ['id' => $user->id]
-                );
-            } catch (ValidationException $e) {
-                // Rollback and then redirect
-                // back to form with errors
-                DB::rollback();
-                return Redirect::to('/form')
-                    ->withErrors($e->getErrors())
-                    ->withInput();
-            } catch (\Exception $exception) {
-                DB::rollBack();
-                logger()->error($exception);
-                return redirect()->back()->with('error', getMessage("wrong"));
-            }
         } else
             return redirect()->back()->withErrors($v->errors());
 
@@ -225,31 +191,7 @@ class PersonController extends Controller
             $person->sex = $request->sex;
             $person->save();
 
-            if (!empty($request->countries) && $request->countries[0] != '0') {
-                $address_ids = PersonAddress::where('person_id', '=', $user->id)->get()->toArray();
-                foreach ($address_ids as $index => $address) {
-                    Address::find($address['address_id'])->delete();
-                    PersonAddress::where('address_id', '=', $address['address_id'])->delete();
-                }
-                $country = null;
-                foreach ($request->countries as $key => $val) {
-                    $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-                    $address = new Address();
-                    $address->country_id = $country != null ? (int)$country->id : 0;
-                    $address->province = $request->provence[$key];
-                    $address->street = $request->street[$key];
 
-                    $address->save();
-                    $address_id = $address->id;
-                    if ($address_id) {
-                        $pa = new PersonAddress();
-                        $pa->person_id = $user->id;
-                        $pa->address_id = $address_id;
-                        $pa->save();
-                    }
-                }
-
-            }
             // return redirect('referee/person')->with('success', getMessage("success"));
             return redirect('referee/person/' . $id . '/edit')->with('success', getMessage("success"));
         } else

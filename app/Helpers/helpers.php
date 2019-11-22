@@ -256,7 +256,7 @@ function getEmailByPersonID($pid)
 // VVS
 function getAddressesByPersonID($pid)
 {
-    return null;
+    return \App\Models\Person::find($pid)->addresses()->first();
 }
 
 function is_dir_empty($dir)
@@ -519,9 +519,9 @@ function createperson($user_id) {
     $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=',null)->first();
 
     if(empty($person)) {
-        \App\Models\Person::create(['user_id' => $user_id, 
-                        'first_name' => '', 
-                        'last_name' => '', 
+        \App\Models\Person::create(['user_id' => $user_id,
+                        'first_name' => '',
+                        'last_name' => '',
                         'specialization' => '']);
     }
 }

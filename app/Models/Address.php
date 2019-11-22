@@ -14,18 +14,13 @@ class Address extends Model
      * @var array
      */
     protected $fillable = [
-        'country_id', 'city', 'provence', 'street', 'addressable_id', 'addressable_type'
+        'country_id', 'city', 'province', 'street', 'addressable_id', 'addressable_type'
     ];
 
 
     public function country()
     {
-        $this->belongsTo('\App\Models\Country', 'COUNTRY')->withPivot('country_name');
-    }
-
-    public function person()
-    {
-        return $this->belongsToMany('App\Models\Person', 'person_address');
+        $this->belongsTo('\App\Models\Country', 'COUNTRY');
     }
 
     public function addressable()

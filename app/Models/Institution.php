@@ -13,7 +13,7 @@ class Institution extends Model
 
     public function addresses()
     {
-        return $this->morphMany('App\Address', 'addressable');
+        return $this->morphMany('App\Models\Address', 'addressable');
     }
 
     function institution()

@@ -10,7 +10,7 @@ class Country extends Model
     public $timestamps = false;
 
 
-    public function address()
+    public function addresses()
     {
         return $this->hasMany(Address::class);
     }

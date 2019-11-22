@@ -100,56 +100,6 @@ class InstitutionController extends Controller
 
 
 
-       /* DB::beginTransaction();
-        try {
-            $country = Country::where('cc_fips', '=', $request->countries[0])->first();
-            $address = new Address();
-            $address->country_id = (int)$country->id;
-            $address->province = $request->provence[0];
-            $address->street = $request->street[0];
-            $address->save();
-            $addr_id = $address->id;
-        } catch (ValidationException $e) {
-            // Rollback and then redirect
-            // back to form with errors
-            DB::rollback();
-            return Redirect::to('/form')
-                ->withErrors($e->getErrors())
-                ->withInput();
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            logger()->error($exception);
-            return getMessage("wrong");
-        }
-        if (!empty($addr_id)) {
-            $pa = new PersonAddress();
-            $pa->person_id = $request->institution_creare_hidden;
-            $pa->address_id = $addr_id;
-            $pa->save();
-        }
-
-
-        try {
-            $institutions = new Institution();
-            $institutions->content = $request->name;
-            $institutions->address_id = (int)$addr_id;
-            $institutions->save();
-        } catch (ValidationException $e) {
-            DB::rollback();
-            return Redirect::to('/form')
-                ->withErrors($e->getErrors())
-                ->withInput();
-
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            logger()->error($exception);
-//            throw $exception;
-            return getMessage("wrong");
-        }
-
-        DB::commit();
-        return redirect('admin/institution')->with('success', getMessage("success"));*/
-
     }
 
     /**

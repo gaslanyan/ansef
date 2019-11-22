@@ -196,6 +196,7 @@ Route::resource('/applicant/book', 'Base\BookController');
 Route::resource('/applicant/meeting', 'Base\MeetingController');
 Route::resource('/applicant/honors', 'Base\HonorsController');
 Route::resource('/applicant/email', 'Applicant\EmailController');
+Route::resource('/applicant/address', 'Applicant\AddressController');
 Route::resource('/applicant/info', 'Applicant\InfoController');
 Route::resource('/applicant/phone', 'Applicant\PhoneController');
 Route::resource('/applicant/budgetcategories', 'Applicant\BudgetCategoriesController');
@@ -211,6 +212,8 @@ Route::get('/applicant/changePassword', 'Applicant\PersonController@changePasswo
 Route::get('/applicant/person/delete/{id}', 'Applicant\PersonController@destroy');
 Route::get('/applicant/email/create/{id}', 'Applicant\EmailController@create');
 Route::get('/applicant/phone/create/{id}', 'Applicant\PhoneController@create');
+Route::get('/applicant/address/create/{id}', 'Applicant\AddressController@create');
+Route::get('/applicant/address/delete/{id}', 'Applicant\AddressController@destroy');
 Route::get('/applicant/email/delete/{id}', 'Applicant\EmailController@destroy');
 Route::get('/applicant/phone/delete/{id}', 'Applicant\PhoneController@destroy');
 Route::get('/applicant/institution/create/{id}', 'Base\InstitutionController@create');

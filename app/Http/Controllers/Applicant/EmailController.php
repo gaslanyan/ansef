@@ -63,8 +63,6 @@ class EmailController extends Controller
 
         ]);
         try {
-            $user_id = chooseUser();
-            $person_id = Person::where('user_id', $user_id)->get()->toArray();
             foreach ($request->email as $item) {
                 $email = new Email;
                 $email->person_id = $request->email_creare_hidden;
@@ -142,10 +140,10 @@ class EmailController extends Controller
         try {
             $email = Email::find($id);
             $email->delete();
-            return \Redirect::back()->with('delete', getMessage("deleted"));
+            return Redirect::back()->with('delete', getMessage("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', getMessage("wrong"));
+            return Redirect::back()->with('wrong', getMessage("wrong"));
         }
     }
 }

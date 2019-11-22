@@ -9,7 +9,6 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Notifications\UserRegisteredSuccessfully;
 use App\Models\Person;
-use App\Models\PersonAddress;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Email;
@@ -105,33 +104,7 @@ class PersonController extends Controller
             return redirect('viewer/person')->with('wrong', getMessage("wrong"));
         }
 
-        try {
-            foreach ($request->countries as $key => $val) {
 
-                $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-                $address = new Address();
-                $address->country_id = (int)$country->id;
-                $address->province = $request->provence[$key];
-                $address->street = $request->street[$key];
-                $address->save();
-                $address_id = $address->id;
-                if ($address_id) {
-                    $pa = new PersonAddress();
-                    $pa->person_id = $person_id;
-                    $pa->address_id = $address_id;
-                    $pa->save();
-                }
-            }
-        } catch (ValidationException $e) {
-            // Rollback and then redirect
-            // back to form with errors
-            DB::rollback();
-            return redirect('viewer/person')->with('wrong', getMessage("wrong"));
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            logger()->error($exception);
-            return getMessage("wrong");
-        }
 
         try {
             foreach ($request->institution as $key => $val) {
@@ -176,26 +149,12 @@ class PersonController extends Controller
             $person_id = $id;//$person[0]['id'];
             $emails = Email::where('person_id', $person_id)->get();
             $phones = Phone::where('person_id', $person_id)->get()->toArray();
-            $addr = PersonAddress::where('person_id', $person_id)->get()->toArray();
-            $address_array = [];
-            foreach ($addr as $key => $value) {
-                $country = Country::with('address')->find($value['address_id'])->toArray();
-                $address = Address::find($value['address_id'])->toArray();
-                $address_array[$key]['country'] = $country['country_name'];
-                $address_array[$key]['province'] = $address['province'];
-                $address_array[$key]['street'] = $address['street'];
-            }
             $institution = [];
             $ip = InstitutionPerson::with('iperson')
                 ->select('title', 'start', 'end', 'type')
                 ->where('person_id', '=', $person_id)
                 ->get()->toArray();
             $institution['ip'] = $ip;
-            $ip_add = Address::where('address.id', 24)
-                ->
-                join('countries', 'countries.id', '=', 'address.country_id')
-                ->
-                ->get()->toArray();
             $institution['addr'] = $ip_add;
             $books = Book::select('title', 'publsher', 'year')->where('person_id', $person_id)->get()->toArray();
             $disciplines = \DB::table('disciplines_persons')
@@ -215,7 +174,7 @@ class PersonController extends Controller
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
             return view('viewer.person.show', compact('person',
-                'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
+                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
         } else {
             return back();
         }
@@ -291,53 +250,7 @@ class PersonController extends Controller
             $person->user_id = $user_id;
             $person->save();
             $person_id = $person->id;
-            if (!empty($request->countries)) {
-                $pa = PersonAddress::where('person_id', '=', $id)->get()->toArray();
-                foreach ($pa as $item) {
-                    $personAd = PersonAddress::find($item['id']);
-                    $addr = Address::where('id', '=', $item['address_id'])->get()->toArray();
-                    foreach ($addr as $i) {
-                        $a = Address::find($i['id']);
-                        $a->delete();
-                    }
-                    $personAd->delete();
 
-                }
-                foreach ($request->countries as $key => $val) {
-                    $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-                    $address = new Address();
-                    $address->country_id = (int)$country->id;
-                    $address->province = $request->provence[$key];
-                    $address->street = $request->street[$key];
-                    $address->save();
-                    $address_id = $address->id;
-                    if ($address_id) {
-                        $pa = new PersonAddress();
-                        $pa->person_id = $person_id;
-                        $pa->address_id = $address_id;
-                        $pa->save();
-                    }
-                }
-            }
-            /*
-                     foreach ($pa  as $item) {
-                         $address = Address::find($item['address_id']);
-                         foreach ($request->countries as $key => $val) {
-                             $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
-
-                             $address->country_id = (int)$country->id;
-                             $address->province = $request->provence[$key];
-                             $address->street = $request->street[$key];
-                             $address->save();
-                         }*/
-            /*$address_id = $address->id;
-            if ($address_id) {
-                $pa = new PersonAddress();
-                $pa->person_id = $person_id;
-                $pa->address_id = $address_id;
-                $pa->save();
-            }
-        }*/
         } catch (ValidationException $e) {
             // Rollback and then redirect
             // back to form with errors

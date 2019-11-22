@@ -14,7 +14,6 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
-use App\Models\PersonAddress;
 use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
@@ -179,7 +178,6 @@ class AccountController extends Controller
         $person_id = $person['id'];
         $emails = Email::where('person_id', $person_id)->get();
         $phones = Phone::where('person_id', $person_id)->get()->toArray();
-        $addr = PersonAddress::where('person_id', $person_id)->get()->toArray();
         $address_array = [];
 
         foreach ($addr as $key => $value) {
