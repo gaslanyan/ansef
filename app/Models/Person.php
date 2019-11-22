@@ -39,8 +39,9 @@ class Person extends Model
     {
         return $this->hasMany('App\Models\Phone');
     }
-    public function addresses() {
-        return $this->belongsToMany('App\Models\Address', 'person_address');
+    public function addresses()
+    {
+        return $this->morphMany('App\Address', 'addressable');
     }
     public function institutions()
     {

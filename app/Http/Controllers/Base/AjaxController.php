@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\BudgetCategory;
 use App\Models\BudgetItem;
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Email;
@@ -31,15 +30,6 @@ use Illuminate\Support\Facades\Response;
 
 class AjaxController extends Controller
 {
-    public function city(Request $request)
-    {
-        $resp = [];
-        $cites = City::where('cc_fips', '=', $request['cc_fips'])->pluck('name', 'id');
-        $code = Country::where('cc_fips', '=', $request['cc_fips'])->pluck('country_phone_code');
-        $resp[$code[0]] = json_encode($cites);
-        echo json_encode($resp);
-        exit;
-    }
 
     public function subcategories(Request $request)
     {

@@ -11,9 +11,9 @@ class Institution extends Model
         'address_id', 'content'
     ];
 
-    public function address()
+    public function addresses()
     {
-        return $this->belongsTo(Address::class);
+        return $this->morphMany('App\Address', 'addressable');
     }
 
     function institution()

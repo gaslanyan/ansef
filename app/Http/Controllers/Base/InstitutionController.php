@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Base;
 
 use App\Models\Address;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\InstitutionPerson;
 use App\Models\Person;
@@ -34,7 +33,6 @@ class InstitutionController extends Controller
 
         $institutions = Institution::with('address')->get();
         $address = Country::with('address')->get();
-        $cities = City::with('address')->get();
         return view('institution.index', compact('institutions', 'address', 'cities'));
     }
 
@@ -107,7 +105,6 @@ class InstitutionController extends Controller
             $country = Country::where('cc_fips', '=', $request->countries[0])->first();
             $address = new Address();
             $address->country_id = (int)$country->id;
-            $address->city_id = (int)$request->city[0];
             $address->province = $request->provence[0];
             $address->street = $request->street[0];
             $address->save();
@@ -165,9 +162,8 @@ class InstitutionController extends Controller
     {
         $institution = Institution::with('address')->find($id);
         $address = Country::with('address')->find($institution->address->country_id);
-        $city = City::with('address')->find($institution->address->city_id);
 
-        return view('institution.view', compact('institution', 'address', 'city'));
+        return view('institution.view', compact('institution', 'address'));
     }
 
     /**
@@ -180,10 +176,9 @@ class InstitutionController extends Controller
     {
         $institution = Institution::with('address')->find($id);
         $address = Country::with('address')->find($institution->address->country_id);
-        $city = City::with('address')->find($institution->address->city_id);
-        $cities = City::where('cc_fips', '=', $address->cc_fips)->get()->toArray();
+
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-        return view('institution.edit', compact('institution', 'address', 'city', 'countries', 'cities', 'id'));
+        return view('institution.edit', compact('institution', 'address', 'countries', 'id'));
     }
 
     /**

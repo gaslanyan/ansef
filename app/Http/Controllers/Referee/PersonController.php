@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Referee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\Institution;
 use App\Models\Person;
@@ -76,7 +75,6 @@ class PersonController extends Controller
             'nationality' => 'required|max:255',
             'sex' => 'required|max:15',
             'countries.*' => 'required|max:255',
-            'city.*' => 'required|max:255',
             'provence.*' => 'required|max:255',
             'street.*' => 'required|max:255',
         ]);
@@ -119,17 +117,7 @@ class PersonController extends Controller
 
                     $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
                     $address = new Address();
-                    if ((int)$request->city_id[$key] === -1) {
-                        $city = new City();
-                        $city->name = $request->city[$key];
-                        $city->cc_fips = $request->countries[$key];
-                        $city->save();
-                        $city_id = $city->id;
-                        $address->city_id = $city_id;
-                    } else
-                        $address->city_id = (int)$request->city_id[$key];
                     $address->country_id = (int)$country->id;
-//                $address->city_id = (int)$request->city[$key];
                     $address->province = $request->provence[$key];
                     $address->street = $request->street[$key];
                     $address->save();
@@ -142,7 +130,6 @@ class PersonController extends Controller
                     }
                 }
                 DB::commit();
-//        return redirect()->back()->with('success', getMessage("success"));
                 return redirect()->action(
                     'Admin\AccountController@show', ['id' => $user->id]
                 );
@@ -190,7 +177,6 @@ class PersonController extends Controller
             ->select('cities.id as cid', 'address.province', 'address.street', 'countries.country_name', 'cities.name')
             ->join('address', 'address.id', '=', 'person_address.address_id')
             ->join('countries', 'countries.id', '=', 'address.country_id')
-            ->join('cities', 'cities.id', '=', 'address.city_id')
             ->where('person_address.person_id', '=', $person->id)
             ->get()->toArray();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
@@ -199,8 +185,6 @@ class PersonController extends Controller
             $adddress['country'] = $address_item->country_name;
             $adddress['street'] = $address_item->street;
             $adddress['province'] = $address_item->province;
-            $adddress['city'] = $address_item->name;
-            $adddress['city_id'] = $address_item->cid;
             array_push($fulladddress, $adddress);
         }
 
@@ -228,7 +212,6 @@ class PersonController extends Controller
             'nationality' => 'required|max:255',
             'sex' => 'required|max:15',
             'countries.*' => 'required|max:255',
-            'city.*' => 'required|max:255',
             'provence.*' => 'required|max:255',
             'street.*' => 'required|max:255',
         ]);
@@ -253,21 +236,6 @@ class PersonController extends Controller
                     $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
                     $address = new Address();
                     $address->country_id = $country != null ? (int)$country->id : 0;
-                    if ($request->city_id[$key] == -1) {
-                        $cid = City::select('id')
-                            ->where('cc_fips', $request->countries[$key])
-                            ->where('name', $request->city[$key])->first();
-                        if (!empty($cid))
-                            $address->city_id = $cid->id;
-                        else {
-                            $city = new City();
-                            $city->name = $request->city[$key];
-                            $city->cc_fips = $request->countries[$key];
-                            $city->save();
-                            $address->city_id = $city->id;
-                        }
-                    } else
-                        $address->city_id = $request->city_id[$key];
                     $address->province = $request->provence[$key];
                     $address->street = $request->street[$key];
 

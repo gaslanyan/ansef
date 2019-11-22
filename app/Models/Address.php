@@ -14,32 +14,23 @@ class Address extends Model
      * @var array
      */
     protected $fillable = [
-        'country_id', 'city_id', 'provence', 'street'
+        'country_id', 'city', 'provence', 'street', 'addressable_id', 'addressable_type'
     ];
 
-    public function institutions()
-    {
-        return $this->hasMany('App\Models\Institution');
-    }
 
     public function country()
     {
         $this->belongsTo('\App\Models\Country', 'COUNTRY')->withPivot('country_name');
     }
-//    public function city()
-//    {
-//        $this->belongsToMany(City::class);
-//    }
-    public function city()
-    {
-        $this->belongsTo('\App\Models\City', 'city_id', 'id');
-    }
+
     public function person()
     {
-        return $this->belongsToMany('App\Models\Person','person_address');
+        return $this->belongsToMany('App\Models\Person', 'person_address');
     }
-    public function persons()
+
+    public function addressable()
     {
-        return $this->belongsTo('App\Models\Person','person_address');
+        return $this->morphTo();
     }
+
 }

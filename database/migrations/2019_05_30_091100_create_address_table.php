@@ -16,9 +16,11 @@ class CreateAddressTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->integer('country_id')->index('FK_COUNTRY');
-			$table->integer('city_id')->nullable()->index('FK_CITY');
 			$table->string('province', 191)->nullable();
 			$table->string('street', 191)->nullable();
+            $table->integer('addressable_id')->nullable();
+            $table->string('addressable_type', 255)->nullable();
+            $table->string('city', 255)->nullable();
 			$table->timestamps();
 		});
 	}

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\Institution;
 use Illuminate\Http\Request;
@@ -24,15 +23,8 @@ class InstitutionController extends Controller
         try {
             $institutions = Institution::with(['address'])->get();
             $cities = [];
-            foreach ($institutions as $index => $institution) {
-
-                if (!empty($institution->address)) {
-                    $city = City::where('id', $institution->address->city_id)->first();
-                    $cities[$city->id] = $city->name;
-                }
-            }
             $address = Country::with('address')->get();
-            return view('admin.institution.index', compact('institutions', 'address', 'cities'));
+            return view('admin.institution.index', compact('institutions', 'address'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
@@ -69,22 +61,12 @@ class InstitutionController extends Controller
             DB::beginTransaction();
 
             $v = Validator::make($request->all(), [
-                'countries' => 'required|max:255',
-                'city' => 'required|max:255',
+                'countries' => 'required|max:255'
             ]);
             if (!$v->fails()) {
 //            try {
                 $country = Country::where('cc_fips', '=', $request->countries)->first();
                 $address = new Address();
-                if ((int)$request->city_id === -1) {
-                    $city = new City();
-                    $city->name = $request->city;
-                    $city->cc_fips = $request->countries;
-                    $city->save();
-                    $city_id = $city->id;
-                    $address->city_id = $city_id;
-                }
-                // else $address->city_id = (int)$request->city_id;
                 $address->country_id = (int)$country->id;
                 $address->province = $request->provence;
                 $address->street = $request->street;
@@ -125,9 +107,8 @@ class InstitutionController extends Controller
         try {
             $institution = Institution::with('address')->find($id);
             $address = Country::with('address')->find($institution->address->country_id);
-            $city = City::with('address')->find($institution->address->city_id);
 
-            return view('admin.institution.view', compact('institution', 'address', 'city'));
+            return view('admin.institution.view', compact('institution', 'address'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
@@ -145,11 +126,9 @@ class InstitutionController extends Controller
         try{
         $institution = Institution::with('address')->find($id);
         $address = Country::with('address')->find($institution->address->country_id);
-        $city = City::with('address')->find($institution->address->city_id);
-        $cities = City::where('cc_fips', '=', $address->cc_fips)->get()->toArray();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
 //        dd($address);
-        return view('admin.institution.edit', compact('institution', 'address', 'city', 'countries', 'cities', 'id'));
+        return view('admin.institution.edit', compact('institution', 'address', 'countries', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
@@ -168,8 +147,7 @@ class InstitutionController extends Controller
         try {
             $v = Validator::make($request->all(), [
                 'name' => 'required|max:255',
-                'countries.*' => 'required|max:255',
-                'city.*' => 'required|max:255',
+                'countries.*' => 'required|max:255'
             ]);
             if (!$v->fails()) {
 
@@ -179,15 +157,6 @@ class InstitutionController extends Controller
 //                $address = new Address();
                 $address->country_id = (int)$country->id;
                 foreach ($request->countries as $key => $val) {
-                    if ((int)$request->city_id[$key] === -1) {
-                        $city = new City();
-                        $city->name = $request->city[$key];
-                        $city->cc_fips = $request->countries[$key];
-                        $city->save();
-                        $city_id = $city->id;
-                        $address->city_id = $city_id;
-                    } else
-                        $address->city_id = (int)$request->city_id[$key];
                     $address->province = $request->provence[$key];
                     $address->street = $request->street[$key];
                     $address->save();

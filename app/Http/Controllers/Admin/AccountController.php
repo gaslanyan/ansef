@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Book;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\DegreePerson;
 use App\Models\DisciplinePerson;
@@ -184,16 +183,14 @@ class AccountController extends Controller
         $address_array = [];
 
         foreach ($addr as $key => $value) {
-            $a = Address::select('country_id', 'city_id')
+            $a = Address::select('country_id')
                 ->where('id', $value['address_id'])->first();
 
             $country = Country::where('id', $a->country_id)->first();
-            $city = City::where('id', $a->city_id)->first();
 
             $address = Address::find($value['address_id'])->toArray();
             $address_array[$key]['country'] = $country['country_name'];
             $address_array[$key]['province'] = $address['province'];
-            $address_array[$key]['city'] = $city->name;
             $address_array[$key]['street'] = $address['street'];
         }
         $institution = [];
@@ -205,8 +202,6 @@ class AccountController extends Controller
         $ip_add = Address::where('address.id', 24)
             ->
             join('countries', 'countries.id', '=', 'address.country_id')
-            ->
-            join('cities', 'cities.id', '=', 'address.city_id')
             ->get()->toArray();
         $institution['addr'] = $ip_add;
         $books = Book::select('title', 'publsher', 'year')->where('person_id', $person_id)->get()->toArray();

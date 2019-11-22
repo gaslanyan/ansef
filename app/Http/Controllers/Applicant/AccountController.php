@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Applicant;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Book;
-use App\Models\City;
 use App\Models\Country;
 use App\Models\Discipline;
 use App\Models\Email;
@@ -94,7 +93,7 @@ class AccountController extends Controller
         $person->specialization = $request->specialization;
         $person->user_id = $user_id;
         $person->save();
-        
+
         $person_group_id = $person->id;
         if (!empty($person_group_id)) {
             $person_groups = new Person_groups();
@@ -102,7 +101,7 @@ class AccountController extends Controller
             $person_groups->group_person_id = $person_group_id;
             $person_groups->save();
         }
-        
+
         // // Add at least one address
         // $address = new Address();
         // $address->save();
@@ -120,15 +119,6 @@ class AccountController extends Controller
         //     $address = new Address();
         //     $country = Country::where('cc_fips', '=', $request->countries[$key])->first();
         //     $address->country_id = (int)$country->id;
-        //     if ((int)$request->city_id[$key] === -1) {
-        //         $city = new City();
-        //         $city->name = $request->city[$key];
-        //         $city->cc_fips = $request->countries[$key];
-        //         $city->save();
-        //         $city_id = $city->id;
-        //         $address->city_id = $city_id;
-        //     } else
-        //         $address->city_id = (int)$request->city_id[$key];
         //     $address->province = $request->provence[$key];
         //     $address->street = $request->street[$key];
         //     $address->save();
@@ -141,7 +131,7 @@ class AccountController extends Controller
         //         $pa->save();
         //     }
         // }
-        
+
         // foreach ($request->institution as $key => $val) {
         //     //$institution_name = Institution::where('id', '=', $val)->first();
         //     $institution = new InstitutionPerson();
@@ -184,7 +174,6 @@ class AccountController extends Controller
                 $address = Address::find($value['address_id'])->toArray();
                 $address_array[$key]['country'] = $country['country_name'];
                 $address_array[$key]['province'] = $address['province'];
-                $address_array[$key]['city'] = City::with('address')->find($country['cc_fips']);
                 $address_array[$key]['street'] = $address['street'];
             }
             $institution = [];
@@ -196,8 +185,6 @@ class AccountController extends Controller
             $ip_add = Address::where('address.id', 24)
                 ->
                 join('countries', 'countries.id', '=', 'address.country_id')
-                ->
-                join('cities', 'cities.id', '=', 'address.city_id')
                 ->get()->toArray();
             $institution['addr'] = $ip_add;
 
