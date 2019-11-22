@@ -5,7 +5,7 @@
 x.,c.x,c
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">List of all users
                         <a href="{{action('Admin\AccountController@create')}}"
                            class="display float-lg-right btn-primary px-2">Create user</a>

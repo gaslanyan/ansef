@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class PersonController extends Controller
 {
@@ -189,28 +190,47 @@ class PersonController extends Controller
         else {
             $emails = $person->emails;
             $addresses = $person->addresses;
-            $institutions = $person->institutions;
-            $degrees = $person->degrees;
-            $honors = $person->honors;
-            $books = $person->books;
-            $meetings = $person->meetings;
+            $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
+                            ->get()->sortBy('start');
+            $institutionslist = \App\Models\Institution::all()->keyBy('id');;
+            $degrees = \App\Models\DegreePerson::where('person_id','=',$person->id)
+                        ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
+            $honors = $person->honors->sortBy('year');
+            $books = $person->books->sortBy('year');
+            $meetings = $person->meetings->sortBy('year');
             $publications = $person->publications->sortBy('year');
             $disciplines = $person->disciplines;
 
-            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications'));
+            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications', 'institutionslist'));
         }
-        // $person = Person::where('id', $pid)
-        //                 ->where('user_id', $user_id)
-        //                 ->where('persons.type', '!=', null)
-        //                 ->first();
-
     }
 
-    public function download(Person $person)
-    {
-        $person = null;
-        return view('applicant.person.show', compact('person'));
-    }
+    public function download($id) {
+        $user_id = chooseUser();
+        $person = Person::find($id);
+
+        if($person->user_id != $user_id || $person->type == null) {
+            return redirect('applicant/account')->with('wrong', 'Permission denied');
+        }
+        else {
+            $emails = $person->emails;
+            $addresses = $person->addresses;
+            $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
+                            ->get()->sortBy('start');
+            $institutionslist = \App\Models\Institution::all()->keyBy('id');;
+            $degrees = \App\Models\DegreePerson::where('person_id','=',$person->id)
+                        ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
+            $honors = $person->honors->sortBy('year');
+            $books = $person->books->sortBy('year');
+            $meetings = $person->meetings->sortBy('year');
+            $publications = $person->publications->sortBy('year');
+            $disciplines = $person->disciplines;
+
+            $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications', 'institutionslist'));
+
+            return $pdf->stream('person-profile.pdf');
+        }
+    } 
 
     /**
      * Show the form for editing the specified resource.

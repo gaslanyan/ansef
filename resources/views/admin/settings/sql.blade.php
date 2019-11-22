@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
                     <div class="card-header">SQL query for backup
                         <br>
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>

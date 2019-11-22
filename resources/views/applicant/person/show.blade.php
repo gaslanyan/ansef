@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card" style="margin-top:20px;">
+                <div class="card" >
                     <div class="card-header">Person details
                     </div>
 
@@ -16,7 +16,7 @@
                             </div>
 
                             <div class="box-body col-md-12">
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Biographical</h4>
                                 </div>
                                 <div class="row">
@@ -61,12 +61,11 @@
                                 </div>
 
                                 @if(!empty($emails) && count($emails)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Emails</h4>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong>Emails:</strong>
                                             <?php $step = 0; ?>
                                             @foreach($emails as $email)
                                             <?php $step++; ?>
@@ -78,13 +77,13 @@
                                     </div>
                                 </div>
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No emails provided</h6>
                                 </div>
                                 @endif
 
                                 @if(!empty($addresses) && count($addresses)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Addresses</h4>
                                 </div>
                                 @foreach($addresses as $address)
@@ -111,57 +110,58 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No addresses provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($institutions) && count($institutions)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Employment/Affiliations</h4>
                                 </div>
                                 @foreach($institutions as $institution)
                                 <div class="row">
                                     <div class="col-md-4">
                                         <strong>Institution/Company:</strong>
-                                            <span>{{$institution->content}}</span>
+                                            <span>{{$institution->institution_id > 0 ? $institutionslist[$institution->institution_id]->content : $institution->institution}}
+                                            </span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong>Title:</strong>
-                                            <span>{{$institution->pivot->title}}</span> (<span>{{$institution->pivot->type}}</span>)
+                                            <span>{{$institution->title}}</span> (<span>{{$institution->type}}</span>)
                                     </div>
                                     <div class="col-md-2">
-                                        <strong>Start date:</strong>
-                                            <span>{{$institution->pivot->start}}</span>
+                                        <strong>Start date:</strong><br/>
+                                            <span>{{$institution->start}}</span>
                                     </div>
                                     <div class="col-md-2">
-                                        <strong>End date:</strong>
-                                            <span>{{$institution->pivot->end}}</span>
+                                        <strong>End date:</strong><br/>
+                                            <span>{{$institution->end}}</span>
                                     </div>
                                 </div>
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No employment/affiliation history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($degrees) && count($degrees)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Education</h4>
                                 </div>
                                 @foreach($degrees as $degree)
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Institution:</strong>
-                                            <span>{{$degree->institution}}</span>
+                                            <span>{{$degree->institution_id > 0 ? $institutionslist[$degree->institution_id]->content : $degree->institution}}</span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong>Degree:</strong>
-                                            <span>{{$degree->text}}</span>
+                                            <span>{{$degree->degree->text}}</span>
                                     </div>
                                     <div class="col-md-2">
                                         <strong>Date:</strong>
@@ -171,14 +171,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No educational history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($honors) && count($honors)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Honors</h4>
                                 </div>
                                 @foreach($honors as $honor)
@@ -195,14 +195,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No honors provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($books) && count($books)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Books</h4>
                                 </div>
                                 @foreach($books as $book)
@@ -225,14 +225,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No books provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($meetings) && count($meetings)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Meetings</h4>
                                 </div>
                                 @foreach($meetings as $meeting)
@@ -259,14 +259,14 @@
                                 <hr>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No meeting attendance history provided</h6>
                                 </div>
                                 @endif
 
 
                                 @if(!empty($publications) && count($publications)>0)
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h4 style="color:#777;">Publications</h4>
                                 </div>
                                 @foreach($publications as $publication)
@@ -292,14 +292,14 @@
                                 </div>
                                 @endforeach
                                 @else
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" >
                                     <h6 style="color:#777;">No publications provided</h6>
                                 </div>
                                 @endif
                             </div>
                         </div>
                         <div class="col-lg-12" style="margin-top:30px;">
-                            <a href="{{action('Applicant\PersonController@download', 1)}}" class="btn btn-primary">Download</a>
+                            <a href="{{action('Applicant\PersonController@download', $person->id)}}" class="btn btn-primary">Download</a>
                             <a href="{{action('Applicant\PersonController@index') }}" class="btn btn-secondary">Go Back</a>
                         </div>
 

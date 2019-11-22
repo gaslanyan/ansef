@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
-                <div class="card" style="margin-top:20px;">
+                <div class="card" >
                     <div class="card-header">Update phone numbers for {{$persons_name['first_name']}} {{$persons_name['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
@@ -82,8 +82,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-12 phones">
                                         <label for="phone">Phones:</label>
-                                        <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue"
-                                           style="cursor: pointer"></i>
+                                        <!-- <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue" style="cursor: pointer"></i> -->
                                         <div class="col-12">
                                             <div class="row">
                                                 <input type="text" name="country_code[]"

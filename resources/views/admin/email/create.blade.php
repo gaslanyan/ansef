@@ -5,7 +5,7 @@
 
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                 <div class="card" style="margin-top:20px;">
+                 <div class="card" >
 
                     <div class="card-header">Add an email
 {{--                        <a href = "{{ action('Admin\EmailController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>--}}

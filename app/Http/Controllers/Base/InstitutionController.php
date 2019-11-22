@@ -47,7 +47,7 @@ class InstitutionController extends Controller
     {
         $ins_array = [];
         $institutions_list = Institution::all()->toArray();
-        $institution_person = InstitutionPerson::where('person_id','=', $id)->get()->sortBy('end');
+        $institution_person = InstitutionPerson::where('person_id','=', $id)->orderBy('start', 'DESC')->get()->sortBy('end');
 
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
         $person = Person::where('id',$id )->get()->toArray();

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
-                <div class="card" style="margin-top:20px;">
+                <div class="card" >
                     <div class="card-header">Update emails for {{$persons_name['first_name']}} {{$persons_name['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool"> Go Back</a>
@@ -70,9 +70,8 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="form-group col-lg-10 emails">
-                                        <label for="email">Email <span style="color:#777;">(click plus icon to add several at a time)</span>:</label>
-                                        <i class="fa fa-plus pull-right add  text-blue"
-                                           style="cursor: pointer"></i>
+                                        <label for="email">Email <span style="color:#777;"></span>:</label>
+                                        <!-- <i class="fa fa-plus pull-right add  text-blue" style="cursor: pointer"></i> -->
                                         <input type="text" class="form-control email" name="email[]"
                                                id="email">
                                     </div>
