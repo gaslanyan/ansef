@@ -515,6 +515,11 @@ function truncate($string, $length)
     return $string;
 }
 
+function personidforuser($id) {
+    $person = \App\Models\Person::where('user_id','=',$id)->whereNotIn('type', ['participant', 'support'])->first();
+    return $person->id;
+}
+
 function createperson($user_id) {
     $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=',null)->first();
 

@@ -17,7 +17,8 @@ use App\Models\Person;
 use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\CreatedUserSuccessfully;
+// use App\Notifications\CreatedUserSuccessfully;
+use App\Notifications\UserRegisteredSuccessfully;
 use App\Notifications\GeneratePasswordSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -136,25 +137,21 @@ class AccountController extends Controller
 
             try {
                 $v = Validator::make($request->all(), [
+                    'email' => 'required|email',
                     'role' => 'required|numeric',
-                    'email.*' => 'required|email',
                 ]);
 
                 if (!$v->fails()) {
-                    foreach ($request['email'] as $index => $item) {
-                        $validatedData['email'] = $item;
-                        $validatedData['password'] = bcrypt($generate_password);
-                        $validatedData['confirmation'] = str_random(30) . time();
-                        $validatedData['password_salt'] = "10";
-                        $validatedData['requested_role_id'] = $request->role;
-                        $validatedData['state'] = "inactive";
-                    }
-
+                    $validatedData['email'] = $request->email;
+                    $validatedData['password'] = bcrypt($generate_password);
+                    $validatedData['confirmation'] = str_random(30) . time();
+                    $validatedData['password_salt'] = "10";
+                    $validatedData['requested_role_id'] = $request->role;
+                    $validatedData['state'] = "inactive";
                     $user = app(User::class)->create($validatedData);
-                    $user->notify(new CreatedUserSuccessfully($user, $generate_password));
-                    return redirect('admin/account')->with('success', 'Unable to create new user.');
-                } else
-                    return redirect()->back()->withErrors($v->errors())->withInput();
+                    $user->notify(new UserRegisteredSuccessfully($user));
+                    return redirect()->action('PersonController@index');
+                } else return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
                 return redirect()->back()->with('error', getMessage('wrong'));

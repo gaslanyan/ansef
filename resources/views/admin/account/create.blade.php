@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
-                    <div class="card-header">Create a person<br>
+                    <div class="card-header">Add a person<br>
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
@@ -34,7 +34,7 @@
                             <div class="col-lg-12 ">
                                 <div class="row">
                                     <div class="form-group col-lg-6 emails">
-                                        <label for="role">Role *:</label>
+                                        <label for="role">Role:</label>
                                         <select id="role" class="form-control" name="role" >
                                             <option >Select role</option>
                                             @if(!empty($roles))
@@ -49,10 +49,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-6 emails">
-                                        <label for="email">Emails *:</label>
-                                        <i class="fa fa-plus pull-right add  text-blue"></i>
-                                        <input type="text" class="form-control email" name="email[]" value="{{old('email[0]')}}"
-                                               id="email">
+                                        <label for="email">Email *:</label>
+                                        <input type="text" class="form-control email" name="email" value="{{old('email')}}" id="email">
                                     </div>
                                 </div>
                             </div>

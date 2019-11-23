@@ -74,14 +74,8 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    @if(!getPerson($u_id) )
                     <li>
-                        <a href=" {{action('Admin\PersonController@create')}}"><i class="fa fa-circle-o"></i>Add your
-                            Profile</a>
-                    </li>
-                    @else
-                    <li>
-                        <a href="{{action('Admin\PersonController@edit', $u_id)}}"><i class="fa fa-circle-o"></i>Edit
+                        <a href="{{action('Admin\PersonController@edit', personidforuser($u_id))}}"><i class="fa fa-circle-o"></i>Edit
                             your Profile</a></li>
                     <li class="treeview">
                         <a href="#">
@@ -99,15 +93,8 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                         </ul>
                     </li>
 
-
-                    {{--                    <li><a href="{{action('Admin\PhoneController@create')}}"><i class="fa fa-circle-o"></i>Add--}}
-                    {{--                            a phone number</a></li>--}}
-                    {{--                   --}}
-                    {{--                    <li><a href="{{action('Admin\EmailController@create')}}"><i class="fa fa-circle-o"></i>Add--}}
-                    {{--                            an email</a></li>--}}
                     <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change
                             your Password</a></li>
-                   @endif
                 </ul>
             </li>
 

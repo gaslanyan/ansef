@@ -5,9 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 offset-md-2">
                  <div class="card" >
-                    <div class="card-header">Create Institution
-                        <a href="{{ action('Admin\InstitutionController@index') }}"
-                           class="display float-lg-right btn-box-tool"> Back</a>
+                    <div class="card-header">Edit Institution
                         <br>
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
@@ -33,65 +31,44 @@
                             <div class="form-group col-lg-12">
                                 <label for="name">Institution Name *:</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                       value="@if(!empty($institution['content'])) {{$institution['content']}}@endif">
+                                       value="{{$institution['content']}}">
                             </div>
 
                             <div class="col-lg-12 ">
-                                <label>Addresses:</label>
+                                <label>Address:</label>
 
                                 <div class="row addresses">
 
                                     <div class="form-group col-lg-6">
                                         <label for="street">Street:</label>
-                                        <input type="text" class="form-control" name="street[0]" id="street"
-                                               value="@if(!empty($institution->address->street)) {{$institution->address->street}} @endif">
+                                        <input type="text" class="form-control" name="street" id="street"
+                                               value="{{$address->street}}">
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="provence">Municipality/State:</label>
-                                        <input type="text" class="form-control" name="provence[0]" id="provence"
-                                               value="@if(!empty($institution->address->province)) {{$institution->address->province}} @endif">
+                                        <label for="provence">State/Municipality:</label>
+                                        <input type="text" class="form-control" name="provence" id="provence"
+                                               value="{{$address->province}}">
                                     </div>
 
                                     <div class="form-group col-lg-6">
                                         <label for="city">City *:</label>
-
-                                        <?php $selected = "";
-                                        $selected_id = 0;?>
-                                        <datalist id="city" name="city[0]">
-                                            <option data-value="0" value="Select City"></option>
-                                            @if(!empty($cities))
-                                                @foreach($cities as $val => $item)
-
-                                                    <option data-value="{{$city->id}}"
-                                                            value="{{$item['name']}}">
-                                                    </option>
-                                                    <?php
-                                                    $selected = $item['name'];
-                                                    $selected_id = $city->id;
-                                                    ?>
-                                                @endforeach
-                                            @endif
-                                        </datalist>
-                                        <input list="city" name="city[]" class="form-control"
-                                               value="{{$selected}}" id="_city">
-                                        <input type="hidden" name="city_id[]" value="{{$selected_id}}"
-                                               id="city_id">
+                                        <input list="city" name="city" class="form-control"
+                                               value="{{$address->city}}" id="city">
                                     </div>
                                     <div class="form-group col-lg-6">
-                                        <label for="addr">Country *:</label>
-                                        <select id="addr" class="addr form-control" name="countries[0]">
+                                        <label for="country">Country *:</label>
+                                        <select id="country" class="addr form-control" name="country">
                                             <option value="0">Select country</option>
                                             @if(!empty($countries))
                                                 @foreach($countries as $val=>$item)
-                                                    @if($address['cc_fips'] == $val)
+                                                    @if($address->country_id == $val)
                                                         <option class="text-capitalize" value="{{$val}}"
-                                                                selected>{{$item}}</option>
+                                                                selected>{{$item['country_name']}}</option>
                                                     @else
                                                         <option class="text-capitalize"
-                                                                value="{{$val}}">{{$item}}</option>
+                                                                value="{{$val}}">{{$item['country_name']}}</option>
                                                     @endif
                                                 @endforeach
-
                                             @endif
                                         </select>
                                     </div>

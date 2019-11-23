@@ -42,8 +42,7 @@ class PersonController extends Controller
     public function index()
     {
         try {
-            $persons = User::with('role')
-                ->get();
+            $persons = User::with('role')->get();
 
             $roles = Role::all();
 
@@ -111,8 +110,8 @@ class PersonController extends Controller
                     $person->birthplace = $request->birthplace;
                     $person->nationality = $request->nationality;
                     $person->sex = $request->sex;
-//            $person->state = $request->state;
-//            $person->type = $request->type;
+                    //            $person->state = $request->state;
+                    //            $person->type = $request->type;
                     $person->user_id = $user->id;
                     $person->save();
                     $person_id = $person->id;
@@ -128,7 +127,6 @@ class PersonController extends Controller
                     logger()->error($exception);
                     return redirect()->back()->with('error', getMessage("wrong"));
                 }
-
             } else
                 return redirect()->back()->withErrors($v->errors());
         }
@@ -144,18 +142,17 @@ class PersonController extends Controller
     public function edit($id)
     {
         try {
-            $person = Person::where('user_id', '=', $id)->first();
-            $fulladddress = [];
-            $getaddress = $person->addresses()->get()->toArray();
-            $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-            foreach ($getaddress as $address_item) {
-                $adddress['country'] = $address_item->country_name;
-                $adddress['street'] = $address_item->street;
-                $adddress['province'] = $address_item->province;
-                array_push($fulladddress, $adddress);
+            $person = Person::find($id);
+            $address = $person->addresses()->first();
+            if (empty($address)) {
+                $address = new Address();
+                $address->country_id = 0;
+                $address->save();
+                $person->addresses()->save($address);
             }
-
-            return view('admin.person.edit', compact('fulladddress', 'person', 'id', 'countries'));
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
+            $person_id = $person->id;
+            return view('admin.person.edit', compact('person', 'address', 'person_id', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/person')->with('error', getMessage("wrong"));
@@ -170,39 +167,37 @@ class PersonController extends Controller
      * @param \App\Models\Person $person
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.person.edit');
-        else {
-            try {
-                $v = Validator::make($request->all(), [
-                    'first_name' => 'required|max:255',
-                    'last_name' => 'required|max:255',
-                    'birthdate' => 'required|date|date_format:Y-m-d',
-                    'nationality' => 'required|max:255',
-                    'sex' => 'required|max:15',
-                    'countries.*' => 'required|max:255',
-                    'provence.*' => 'required|max:255',
-                    'street.*' => 'required|max:255',
-                ]);
-                if (!$v->fails()) {
-                    $user = Person::where('user_id', '=', $id)->first();
-                    $person = Person::find($user->id);
-                    $person->first_name = $request->first_name;
-                    $person->last_name = $request->last_name;
-                    $person->birthdate = $request->birthdate;
-                    $person->nationality = $request->nationality;
-                    $person->sex = $request->sex;
-                    $person->save();
+        try {
+            $v = Validator::make($request->all(), [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'sex' => 'required|max:15'
+            ]);
+            if (!$v->fails()) {
+                $person = Person::find($request->person_id);
+                $person->first_name = $request->first_name;
+                $person->last_name = $request->last_name;
+                $person->birthdate = $request->birthdate;
+                $person->birthplace = $request->birthplace;
+                $person->nationality = $request->nationality;
+                $person->sex = $request->sex;
+                $person->save();
 
-                    return redirect('admin/person/' . $id . '/edit')->with('success', getMessage("success"));
-                } else
-                    return redirect()->back()->withErrors($v->errors());
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect('admin/person/' . $id . '/edit')->with('error', getMessage("wrong"));
-            }
+                $address = $person->addresses()->first();
+                $address->street = $request->street;
+                $address->city = $request->city;
+                $address->province = $request->provence;
+                $address->country_id = $request->country;
+                $address->save();
+
+                return redirect('admin/person/' . $request->person_id . '/edit')->with('success', getMessage("success"));
+            } else
+                return redirect()->back()->withInput()->withErrors($v->errors());
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/person/' . $request->person_id . '/edit')->with('error', getMessage("wrong"));
         }
     }
 
@@ -219,7 +214,6 @@ class PersonController extends Controller
 
             if ($p->isEmpty()) {
                 User::where('id', $id)->delete();
-
             } else {
                 $arr = [];
                 switch ($type) {
@@ -235,7 +229,6 @@ class PersonController extends Controller
 
                                 if (!empty($js['account_id']))
                                     $arr[$item['id']] = $js['account_id'];
-
                             }
 
                             $key = array_keys($arr, $person->user_id);
@@ -252,16 +245,14 @@ class PersonController extends Controller
                                     }
                                     RefereeReport::where('proposal_id', $item)->delete();
                                     $file_path = storage_path('proposal/prop-' . $item);
-//
+                                    //
                                     if (is_dir($file_path))
                                         File::deleteDirectory($file_path);
                                     Proposal::where('id', $item)->delete();
                                 }
                             }
 
-                            Person_groups::where('group_person_id', $persons->id)->delete();
                             DegreePerson::where('person_id', $persons->id)->delete();
-                            DisciplinePerson::where('person_id', $persons->id)->delete();
                             Email::where('person_id', $persons->id)->delete();
                             Honors::where('person_id', $persons->id)->delete();
                             Address::where('id', $a->address_id)->delete();
@@ -279,10 +270,10 @@ class PersonController extends Controller
                         User::where('id', $id)->delete();
                         break;
                     case  'admin':
-                        $this->deletUser('admin', $id);
+                        $this->deleteUser('admin', $id);
                         break;
                     case 'referee':
-                        $this->deletUser('referee', $id);
+                        $this->deleteUser('referee', $id);
                         break;
                 }
             }
@@ -295,18 +286,16 @@ class PersonController extends Controller
         }
     }
 
-    public function deletUser($type, $id)
+    public function deleteUser($type, $id)
     {
-        $person = Person::select('id')->
-        where('user_id', $id)->
-        first();
+        $person = Person::select('id')->where('user_id', $id)->first();
 
         $members = Proposal::select('id', 'proposal_' . $type . 's')->get()->toArray();
         foreach ($members as $index => $member) {
             if (!empty($member)) {
                 $json_member = json_decode($member['proposal_' . $type . 's']);
-                $position = array_search((string)$person->id, (array)$json_member);
-                $json_member = (array)$json_member;
+                $position = array_search((string) $person->id, (array) $json_member);
+                $json_member = (array) $json_member;
                 if ($position !== false) {
                     unset($json_member[$position]);
                     if (count($json_member) > 0)
@@ -320,11 +309,9 @@ class PersonController extends Controller
 
                     Person::where('id', $person->id)->delete();
                     User::where('id', $id)->delete();
-
                 }
             }
         }
-
     }
 
     public function changePassword()
@@ -362,17 +349,4 @@ class PersonController extends Controller
             return redirect()->back()->with('error', getMessage("wrong"));
         }
     }
-//    public function __construct()
-//    {
-//
-//        $this->middleware('sign_in')->except('logout');
-//
-//        dd(  $this->middleware('guest:admin'));
-////        $this->middleware('guest')->except('logout');
-////        $this->middleware('guest:applicant')->except('logout');
-////        $this->middleware('guest:admin')->except('logout');
-////        $this->middleware('guest:viewer')->except('logout');
-////        $this->middleware('guest:referee')->except('logout');
-//
-//    }
 }

@@ -37,7 +37,7 @@ class InstitutionController extends Controller
     public function create()
     {
         try {
-            $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
             return view('admin.institution.create', compact('countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -45,52 +45,39 @@ class InstitutionController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
-        // if (!$request->isMethod('post'))
-        //     return view('admin.institution.create');
-        // else {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            $v = Validator::make($request->all(), [
-                'countries' => 'required|max:255'
-            ]);
-            if (!$v->fails()) {
-//            try {
-                $country = Country::where('cc_fips', '=', $request->countries)->first();
+        $v = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'country' => 'required|not_in:0',
+            'city' => 'required|max:255'
+        ]);
+        if (!$v->fails()) {
+            try {
                 $address = new Address();
-                $address->country_id = (int)$country->id;
+                $address->country_id = $request->country;
                 $address->province = $request->provence;
                 $address->street = $request->street;
+                $address->city = $request->city;
                 $address->save();
-                $id = $address->id;
-                $institutions = new Institution();
-                $institutions->content = $request->name;
-                $institutions->address_id = (int)$id;
-                $institutions->save();
-//            } catch (ValidationException $e) {
-//                DB::rollback();
-//                return Redirect::to('/form')
-//                    ->withErrors($e->getErrors())
-//                    ->withInput();
-//
-//            } catch (\Exception $exception) {
-//                DB::rollBack();
-//                logger()->error($exception);
-////            throw $exception;
-//                return redirect('admin/institution')->with('error', getMessage("wrong"));
-//            }
-
-                DB::commit();
-                return redirect('admin/institution')->with('success', getMessage("success"));
-            } else
-                return redirect()->back()->withErrors($v->errors())->withInput();
+                $institution = new Institution();
+                $institution->content = $request->name;
+                $institution->save();
+                $institution->addresses()->save($address);
+            } catch (ValidationException $e) {
+                DB::rollback();
+                return Redirect::to('/form')->withErrors($e->getErrors())->withInput();
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                logger()->error($exception);
+                return redirect('admin/institution')->with('error', getMessage("wrong"));
+            }
+            DB::commit();
+            return redirect('admin/institution')->with('success', getMessage("success"));
+        } else
+            return redirect()->back()->withErrors($v->errors())->withInput();
         // }
     }
 
@@ -103,10 +90,10 @@ class InstitutionController extends Controller
     public function show($id)
     {
         try {
-            $institution = Institution::with('address')->find($id);
-            $address = Country::with('address')->find($institution->address->country_id);
+            $institution = Institution::find($id);
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
 
-            return view('admin.institution.view', compact('institution', 'address'));
+            return view('admin.institution.view', compact('institution', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
@@ -121,12 +108,12 @@ class InstitutionController extends Controller
      */
     public function edit($id)
     {
-        try{
-        $institution = Institution::with('address')->find($id);
-        $address = Country::with('address')->find($institution->address->country_id);
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-//        dd($address);
-        return view('admin.institution.edit', compact('institution', 'address', 'countries', 'id'));
+        try {
+            $institution = Institution::find($id);
+            $address = $institution->addresses()->first();
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
+
+            return view('admin.institution.edit', compact('institution', 'address', 'countries', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/institution')->with('error', getMessage("wrong"));
@@ -145,34 +132,26 @@ class InstitutionController extends Controller
         try {
             $v = Validator::make($request->all(), [
                 'name' => 'required|max:255',
-                'countries.*' => 'required|max:255'
+                'country' => 'required|not_in:0',
+                'city' => 'required|max:255'
             ]);
             if (!$v->fails()) {
-
-                $institutions = Institution::find($id);
-                $address = Address::find($institutions['address_id']);
-                $country = Country::where('cc_fips', '=', $request->countries[0])->first();
-//                $address = new Address();
-                $address->country_id = (int)$country->id;
-                foreach ($request->countries as $key => $val) {
-                    $address->province = $request->provence[$key];
-                    $address->street = $request->street[$key];
-                    $address->save();
-                    $address_id = $address->id;
-                }
-                if (!empty($request->name)) {
-                    $institutions->content = $request->name;
-                }
-                $institutions->save();
+                $institution = Institution::find($id);
+                $institution->content = $request->name;
+                $institution->save();
+                $address = $institution->addresses()->first();
+                $address->country_id = $request->country;
+                $address->city = $request->city;
+                $address->street = $request->street;
+                $address->province = $request->provence;
+                $address->save();
                 return redirect('admin/institution')->with('success', getMessage("update"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-//            throw $exception;
             return redirect('admin/institution')->with('error', getMessage("wrong"));
-
         }
     }
 
@@ -186,10 +165,12 @@ class InstitutionController extends Controller
     {
         DB::beginTransaction();
         try {
-            $template = Institution::find($id);
-            $address = Address::find($template->address_id);
-            $template->delete();
-            $address->delete();
+            $ins = Institution::find($id);
+            $addresses = $ins->addresses()->get();
+            foreach ($addresses as $address) {
+                $address->delete();
+            }
+            $ins->delete();
             DB::commit();
             return redirect('admin/institution')->with('success', getMessage('deleted'));
         } catch (ValidationException $e) {
@@ -197,8 +178,6 @@ class InstitutionController extends Controller
             return redirect()->back()
                 ->withErrors($e->getErrors())
                 ->withInput();
-
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return getMessage("wrong");

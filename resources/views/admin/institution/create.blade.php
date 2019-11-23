@@ -47,24 +47,19 @@
                                     </div>
                                    <div class="form-group col-lg-6">
                                         <label for="city">City *:</label>
-
-                                        <datalist id="city" name="city">
-                                            <option data-value="0" value="Select City"></option>
-
-                                        </datalist>
                                         <input list="city" name="city" class="form-control"
-                                    value="{{old('city')}}" id="_city">
+                                    value="{{old('city')}}" id="city">
                                         <input type="hidden" name="city_id" value=""
                                                id="city_id">
                                     </div>
                                     <div class="form-group col-lg-6">
                                         <label for="addr">Country *:</label>
-                                        <select id="addr" class="addr form-control" name="countries">
+                                        <select id="addr" class="addr form-control" name="country">
                                             <option value="">Select country</option>
                                             @if(!empty($countries))
                                                 @foreach($countries as $val=>$item)
-                                                    <option class="text-capitalize" @if(old('countries') == $val) {{'selected'}} @endif
-                                                            value="{{$val}}">{{$item}}</option>
+                                                    <option class="text-capitalize" @if(old('country') == $val) {{'selected'}} @endif
+                                                            value="{{$val}}">{{$item['country_name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>

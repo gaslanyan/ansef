@@ -56,7 +56,7 @@
                                     $country = '';
                                     if(!empty($address)){
                                         $city = $address->city;
-                                        $country = $address->country->countryname;
+                                        $country = $address->country->country_name;
                                     }
                                 @endphp
 
