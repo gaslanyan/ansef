@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 
+
 class BudgetCategoriesController extends Controller
 {
     public function index()
@@ -45,7 +46,7 @@ class BudgetCategoriesController extends Controller
         $validatedData = $request->validate([
             'bc' => 'required|not_in:0',
             'b_description' => 'required|min:5',
-            // 'amount' => 'required|not_in:choosecompetition',
+            'amount' => 'required|greater_than_field:minamount|less_than_field:maxamount',
         ]);
 
 
@@ -72,7 +73,7 @@ class BudgetCategoriesController extends Controller
             $this->validate($request, [
                 'bc_list.*' => 'required|not_in:0',
                 'description_list.*' => 'required|max:255',
-                'amount_list.*' => 'required',
+                // 'amount_list.*' => 'required|greater_than_field:minamount_list.*|less_than_field:maxamount_list.*',
             ]);
             for ($i = 0; $i <= count($request->bi_list_hidden) - 1; $i++) {
                 $bi = BudgetItem::find($request->bi_list_hidden[$i]);

@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Update Budget
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
-                           class="display float-lg-right btn-primary px-2">Go Back</a>
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
                         @if ($errors->any())
@@ -39,14 +39,17 @@
                                     <div class="row">
                                         <div class="form-group col-lg-3">
                                             <label>Category *:</label>
-                                            <select class="form-control" name="bc_list[]" id="bc_list[]">
+                                            <select class="form-control budgetcategory" name="bc_list[]" id="bc_list[]">
                                                 <option value="0">Select Budget Category</option>
                                                 @if(!empty($bc))
                                                     @foreach($bc as $item)
-                                                    <option class="text-capitalize" value="{{$item['id']}}" {{$el['budget_cat_id'] == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
+                                                    <option class="text-capitalize" value="{{$item['id']}}" min="{{$item['min']}}" max="{{$item['max']}}" {{$el['budget_cat_id'] == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
+                                            <span class="vmessage" style="color:#999;"></span>
+                                            <input type="hidden" class="minamount" name="minamount_list[]" value="">
+                                            <input type="hidden" class="maxamount" name="maxamount_list[]" value="">
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Description *:</label>
@@ -78,22 +81,25 @@
                                 <div class="row institution">
                                     <div class="form-group col-lg-3">
                                         <label for="bcc">Category:</label>
-                                        <select id="bcc" class="form-control" name="bc">
+                                        <select id="bcc" class="form-control budgetcategory" name="bc">
                                             <option value="0">Select Budget Category</option>
                                             @if(!empty($bc))
                                                 @foreach($bc as $item)
-                                                    <option class="text-capitalize" value="{{$item['id']}}">{{$item['name']}}</option>
+                                                    <option class="text-capitalize" min="{{$item['min']}}" max="{{$item['max']}}" value="{{$item['id']}}" {{old('bc') == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
+                                        <span class="vmessage" style="color:#999;"></span>
+                                    <input type="hidden" class="minamount" name="minamount" id="minamount" value="{{old('minamount')}}">
+                                        <input type="hidden" class="maxamount" name="maxamount" id="maxamount" value="{{old('maxamount')}}">
                                     </div>
                                     <div class="form-group col-lg-7">
                                         <label for="title">Details:</label>
-                                        <input type="text" class="form-control" name="b_description" id="b_description">
+                                        <input type="text" class="form-control" name="b_description" id="b_description" value="{{old('b_description')}}">
                                     </div>
                                   <div class="form-group col-lg-2">
                                   <label for="start">Amount ($):</label>
-                                  <input type="text" class="form-control" name="amount" id="amount" >
+                                  <input type="text" class="form-control" name="amount" id="amount" value="{{old('amount')}}">
                                   </div>
                                 </div>
                             </div>
@@ -109,14 +115,24 @@
         </div>
     </div>
     <script>
-// ."**". $item['min']."-". $item['max']
-        // $(document).ready(function(){
-        //        $('#inst').on('change',function(){
-        //            $('#amount').attr('placeholder',"");
-        //         var budget = ($(this).val()).split('**');
-        //        $('#amount').attr('placeholder',budget[1]);
-        //     });
-        // });
+        $(window).on('load', function() {
+                $('select.budgetcategory').each(function() {
+                   var max = $(this).children("option:selected").attr('max');
+                   var min = $(this).children("option:selected").attr('min');
+                //    alert('hello: ' + max + " ," + min);
+                   if(min != undefined) $(this).siblings(".vmessage").html("Min. is <b>$" + min + "</b>; max. is <b>$" + max + '</b>');
+                });
+        });
+
+        $(document).ready(function(){
+                $('select.budgetcategory').on('change',function(){
+                   var max = $(this).children("option:selected").attr('max');
+                   var min = $(this).children("option:selected").attr('min');
+                   $(this).siblings(".vmessage").html("Min. is <b>$" + min + "</b>; max. is <b>$" + max + '</b>');
+                   $(this).siblings(".minamount").val(min);
+                   $(this).siblings(".maxamount").val(max);
+                });
+        });
     </script>
 @endsection
 
