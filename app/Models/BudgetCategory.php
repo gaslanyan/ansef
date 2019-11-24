@@ -19,4 +19,9 @@ class BudgetCategory extends Model
     {
         return $this->belongsTo('App\Models\Competition', 'competition_id');
     }
+
+    public function items() {
+        return $this->hasMany('App\Models\BudgetItem');
+    }
+
 }

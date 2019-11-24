@@ -20,4 +20,8 @@ class BudgetItem extends Model
         return $this->belongsTo('App\Models\Proposal');
     }
 
+    public function category() {
+        return $this->belongsTo('App\Models\BudgetCategory', 'budget_cat_id');
+    }
+
 }

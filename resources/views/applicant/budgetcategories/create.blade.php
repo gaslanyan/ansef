@@ -67,9 +67,17 @@
                                     <br/>
                                     @endforeach
                                 </div>
+                                <div style="font-size: 20px; color:#555;">
+                                    {!! $additional_message !!}<br/>
+                                </div>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </form>
                         @endif
+                    </div>
+                    <div class="card-body card_body">
+
+                        <div style="color:#a00;">{!! $validation_message !!}</div>
+
                     </div>
                     <hr>
                     <div class="card-body card_body">
