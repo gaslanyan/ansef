@@ -205,6 +205,9 @@ Route::resource('/applicant/degree', 'Applicant\DegreePersonController');
 Route::get('/applicant/institution/destroyemployment/{id}', 'Base\InstitutionController@destroyemployment');
 Route::resource('/applicant/institution', 'Base\InstitutionController');
 Route::resource('/applicant/account', 'Applicant\AccountController');
+Route::get('/applicant/proposal/updatepersons/{id}', 'Applicant\ProposalController@updatepersons');
+Route::get('/applicant/proposal/savepersons/{id}', 'Applicant\ProposalController@savepersons');
+Route::get('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
 
 Route::resource('/applicant/discipline', 'Applicant\DisciplineController');
 Route::post('/applicant/updatePassword', 'Applicant\PersonController@updatePassword');

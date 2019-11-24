@@ -203,18 +203,18 @@ class PersonController extends Controller
     {
 
         $person = Person::where('id', '=', $id)->first();
-        $fulladddress = [];
-        $getaddress = $person->addresses()->get()->toArray();
+        $fulladdress = [];
+        $getaddress = $person->addresses()->get();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
 
         foreach ($getaddress as $address_item) {
-            $adddress['country'] = $address_item->country_name;
+            $address['country'] = $address_item->country->country_name;
 
-            $adddress['street'] = $address_item->street;
-            $adddress['province'] = $address_item->province;
-            array_push($fulladddress, $adddress);
+            $address['street'] = $address_item->street;
+            $address['province'] = $address_item->province;
+            array_push($fulladdress, $address);
         }
-        return view('applicant.person.edit', compact('fulladddress', 'person', 'id', 'countries'));
+        return view('applicant.person.edit', compact('fulladdress', 'person', 'id', 'countries'));
     }
 
     /**

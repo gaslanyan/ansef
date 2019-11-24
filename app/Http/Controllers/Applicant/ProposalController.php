@@ -435,6 +435,34 @@ class ProposalController extends Controller
         return $pdf->download($proposal->title . '.pdf');
     }
 
+    public function updatepersons($id)
+    {
+        $proposaltag = getProposalTag($id);
+
+        // FOR KRISTINE
+
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+    }
+
+    public function savepersons($id)
+    {
+        $proposaltag = getProposalTag($id);
+
+        // FOR KRISTINE
+
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+    }
+
+    public function addperson($id)
+    {
+        $proposaltag = getProposalTag($id);
+
+        // FOR KRISTINE
+
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

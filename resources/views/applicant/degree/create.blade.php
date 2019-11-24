@@ -34,7 +34,7 @@
                                 <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
                             </div>
                         @endif
-                        @if(!empty($degreesperson))
+                        @if(!empty($degreesperson) && count($degreesperson)>0)
                             <form method="post" action="{{ action('Applicant\DegreePersonController@update', $id) }}" class="row">
                                     @csrf
                                 <label for="email"><b>Current degrees:</b></label>

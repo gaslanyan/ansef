@@ -99,7 +99,7 @@
                                                name="phone_create_hidden"
                                                value="{{$id}}"
                                                id="email">
-                                        <button type="submit" class="btn btn-primary">Add Phone Number(s)</button>
+                                        <button type="submit" class="btn btn-primary">Add Phone Number</button>
                                     </div>
                                 </div>
                             </div>

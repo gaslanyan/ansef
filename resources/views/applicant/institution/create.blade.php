@@ -37,7 +37,7 @@
                             </div>
                         @endif
 
-                        @if(!empty($institution_person))
+                        @if(!empty($institution_person) && count($institution_person)>0)
                             <form method="post" action="{{action('Base\InstitutionController@update', $id) }}"  class="row">
                                 @csrf
                                 <input name="_method" type="hidden" value="PATCH">
@@ -110,7 +110,6 @@
                                        value="{{$id}}"
                                        id="institution">
                                 <div class="form-group col-lg-12">
-
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>

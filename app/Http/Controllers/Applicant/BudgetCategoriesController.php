@@ -29,10 +29,19 @@ class BudgetCategoriesController extends Controller
         $p = Proposal::find($id);
 
         if(!empty($p)) {
-        $bc = $p->competition()->first()->budgetcategories()->get();
-        $bi = $p->budgetItems()->get();
-
-        return view('applicant.budgetcategories.create', compact('bc', 'bi', 'id'));
+            $competition = $p->competition()->first();
+            $bc = $competition->budgetcategories()->get();
+            $bi = $p->budgetItems()->get();
+            $additional = json_decode($competition->additional);
+            $sum = 0;
+            $validation_message = "";
+            foreach($bi as $item) {
+                // if($item->amount > $item->)
+                $sum += $item->amount;
+            }
+            // $sum += (($sum * $additional['additional_percentage']/100.0)+$additional['additional_charge']);
+            $additional_message = "";
+            return view('applicant.budgetcategories.create', compact('bc', 'bi', 'id', 'sum', 'validation_message'));
         }
         else {
             logger()->error($exception);
