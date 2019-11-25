@@ -19,7 +19,7 @@
 
 
                     <div class="card-body card_body">
-                        @if(!empty($competitonlist))
+                        @if(count($competitionlist)>0)
                             <p><b>Here's a list of competitions that you can currently apply for:</b></p>
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%"  valign="middle">
@@ -33,7 +33,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($competitonlist as $comp)
+                                @foreach($competitionlist as $comp)
                                     <tr>
                                         <td hidden></td>
                                         <td data-order="{{$comp['title']}}" data-search="{{$comp['title']}}">
