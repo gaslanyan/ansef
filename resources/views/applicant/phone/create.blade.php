@@ -11,7 +11,39 @@
                     </div>
 
                     <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <p><b>Add New Phone Number</b></p>
+                        <form method="post" action="{{ action('Applicant\PhoneController@store') }}">
+                            @csrf
+                            <div class="col-lg-12 ">
+                                <div class="row">
+                                    <div class="form-group col-lg-12 phones">
+                                        <label for="phone">Phones:</label>
+                                        <!-- <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue" style="cursor: pointer"></i> -->
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <input type="text" name="country_code[]"
+                                                       class="form-control col-lg-2">
+
+                                                <input type="text" class="form-control phone col-lg-8"
+                                                       name="phone[]"
+                                                       id="phone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        <input type="hidden" class="form-control"
+                                               name="phone_create_hidden"
+                                               value="{{$id}}"
+                                               id="email">
+                                        <button type="submit" class="btn btn-primary">Add Phone Number</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+<hr>
 
                         @if(!empty($phone_list))
                             <form method="post" action="{{ action('Applicant\PhoneController@update', $id) }}">
@@ -51,39 +83,7 @@
                             </form>
                         @endif
                     </div>
-                    <hr>
-                    <div class="card-body card_body">
-                        <p><b>Add New Phone Number</b></p>
-                        <form method="post" action="{{ action('Applicant\PhoneController@store') }}">
-                            @csrf
-                            <div class="col-lg-12 ">
-                                <div class="row">
-                                    <div class="form-group col-lg-12 phones">
-                                        <label for="phone">Phones:</label>
-                                        <!-- <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue" style="cursor: pointer"></i> -->
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <input type="text" name="country_code[]"
-                                                       class="form-control col-lg-2">
-
-                                                <input type="text" class="form-control phone col-lg-8"
-                                                       name="phone[]"
-                                                       id="phone">
-                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group col-lg-12">
-                                        <input type="hidden" class="form-control"
-                                               name="phone_create_hidden"
-                                               value="{{$id}}"
-                                               id="email">
-                                        <button type="submit" class="btn btn-primary">Add Phone Number</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    </div>
                 </div>
             </div>
         </div>

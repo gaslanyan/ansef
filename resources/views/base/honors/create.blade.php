@@ -13,7 +13,27 @@
                     </div>
 
                     <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <p class="col-12"><b>Add an Honor</b></p><br/>
+
+                        <form method="post" action="{{ action('Base\HonorsController@store') }}">
+                            @csrf
+                            <div class="row">
+                            <div class="form-group col-10">
+                                <label for="description">Description of Honors or Grant:</label>
+                            <input type="text" class="form-control" name="description" id="description" value="{{old('description')}}">
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="year">Year:</label>
+                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
+                            </div>
+                            </div>
+                            <input type=hidden value="{{$id}}" name="honor_hidden_id[]">
+                            <button type="submit" class="btn btn-primary">Add Honor or Grant</button>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+                    <hr>
 
                         @if(!empty($honors))
                             <form method="post" action="{{ action('Base\HonorsController@update', $id) }}">
@@ -51,26 +71,6 @@
                                 </div>
                             </form>
                         @endif
-                    </div>
-                    <hr>
-                    <div class="card-body card_body">
-                        <p class="col-12"><b>Add an Honor</b></p><br/>
-
-                        <form method="post" action="{{ action('Base\HonorsController@store') }}">
-                            @csrf
-                            <div class="row">
-                            <div class="form-group col-10">
-                                <label for="description">Description of Honors or Grant:</label>
-                            <input type="text" class="form-control" name="description" id="description" value="{{old('description')}}">
-                            </div>
-                            <div class="form-group col-2">
-                                <label for="year">Year:</label>
-                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
-                            </div>
-                            </div>
-                            <input type=hidden value="{{$id}}" name="honor_hidden_id[]">
-                            <button type="submit" class="btn btn-primary">Add Honor or Grant</button>
-                        </form>
                     </div>
                 </div>
             </div>

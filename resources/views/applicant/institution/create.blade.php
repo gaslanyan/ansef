@@ -12,7 +12,58 @@
                     </div>
 
                     <div class="card-body card_body">
+                        <div class="card-body card_body">
+                        <p><b>Add New Employment</b></p>
+
+                        <form method="post" action="{{ action('Base\InstitutionController@store')}}" class="row">
+                            @csrf
+                            <div class="col-lg-12 ">
+                                <div class="row institution">
+                                    <div class="form-group col-lg-4">
+                                        <label for="inst">Institution:</label>
+                                        <select id="inst" class="form-control" name="institution_id">
+                                            <option value="0">Select institution</option>
+                                            @if(!empty($institutions_list) && count($institutions_list))
+                                                @foreach($institutions_list as $val => $item)
+                                                    <option class="text-capitalize"
+                                                            value="{{$item['id']}}" <?php echo (old('institution_id') == $item['id'] ? 'selected' : '');?>>
+                                                            {{$item['content']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <input type="text" id="institution" class="form-control" value="{{old('institution')}}" name="institution" placeholder="If your institution is not in the list, type instead the name here">
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label for="title">Title:</label>
+                                        <input type="text" class="form-control" value="{{old('i_title')}}" name="i_title" id="title">
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label for="i_type">Type:</label>
+                                        <select id="i_type" class="form-control" name="i_type">
+                                            <option value="0">Select type</option>
+                                            <option value="affiliation" {{old('i_type') == 'affiliation' ? 'selected' : ''}}>Affiliation</option>
+                                            <option value="employment" {{old('i_type') == 'employment' ? 'selected' : ''}}>Employment</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label for="start">Start:</label>
+                                        <input type="date" class="form-control date datepicker" value="{{old('start')}}" name="start" id="start">
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label for="end">End:</label>
+                                        <input type="date" class="form-control date datepicker" value="{{old('end')}}" name="end" id="end">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" name="institution_create_hidden" value="{{$id}}" id="institution_create_hidden">
+                            <div class="form-group col-lg-12">
+                                <button type="submit" class="btn btn-primary">Add Employment</button>
+                            </div>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+<hr>
 
                         @if(!empty($institution_person) && count($institution_person)>0)
                             <form method="post" action="{{action('Base\InstitutionController@update', $id) }}"  class="row">
@@ -92,58 +143,7 @@
                             </form>
                         @endif
                         </div>
-                        <hr>
-                        <div class="card-body card_body">
-                        <p><b>Add New Employment</b></p>
-
-                        <form method="post" action="{{ action('Base\InstitutionController@store')}}" class="row">
-                            @csrf
-                            <div class="col-lg-12 ">
-                                <div class="row institution">
-                                    <div class="form-group col-lg-4">
-                                        <label for="inst">Institution:</label>
-                                        <select id="inst" class="form-control" name="institution_id">
-                                            <option value="0">Select institution</option>
-                                            @if(!empty($institutions_list) && count($institutions_list))
-                                                @foreach($institutions_list as $val => $item)
-                                                    <option class="text-capitalize"
-                                                            value="{{$item['id']}}" <?php echo (old('institution_id') == $item['id'] ? 'selected' : '');?>>
-                                                            {{$item['content']}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <input type="text" id="institution" class="form-control" value="{{old('institution')}}" name="institution" placeholder="If your institution is not in the list, type instead the name here">
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label for="title">Title:</label>
-                                        <input type="text" class="form-control" value="{{old('i_title')}}" name="i_title" id="title">
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label for="i_type">Type:</label>
-                                        <select id="i_type" class="form-control" name="i_type">
-                                            <option value="0">Select type</option>
-                                            <option value="affiliation" {{old('i_type') == 'affiliation' ? 'selected' : ''}}>Affiliation</option>
-                                            <option value="employment" {{old('i_type') == 'employment' ? 'selected' : ''}}>Employment</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label for="start">Start:</label>
-                                        <input type="date" class="form-control date datepicker" value="{{old('start')}}" name="start" id="start">
-                                    </div>
-                                    <div class="form-group col-lg-2">
-                                        <label for="end">End:</label>
-                                        <input type="date" class="form-control date datepicker" value="{{old('end')}}" name="end" id="end">
-                                    </div>
-
-                                </div>
-                            </div>
-                            <input type="hidden" class="form-control" name="institution_create_hidden" value="{{$id}}" id="institution_create_hidden">
-                            <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary">Add Employment</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                                        </div>
             </div>
             </div>
         </div>

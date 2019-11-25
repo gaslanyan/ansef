@@ -9,7 +9,32 @@
                         <a href = "{{ action('Applicant\InfoController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <p><b>Add New Book</b></p>
+                        <form method="post" action="{{ action('Base\BookController@store') }}" class="row">
+                            @csrf
+                            <div class="form-group col-lg-4">
+                                <label for="title">Book Title:</label>
+                                <input type="text" class="form-control" name="title" id="title">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="publisher">Book Publisher:</label>
+                                <input type="text" class="form-control" name="publisher" id="publisher">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="year">Year:</label>
+                                <input type="text" class="form-control" name="year" id="year">
+                            </div>
+                            <div class="form-group col-lg-12">
+                            <button type="submit" class="btn btn-primary">Add Book</button>
+                                <input type="hidden" class="form-check-inline" name="book_add_hidden_id"
+                                       value="{{$id}}"
+                                       id="title">
+                            </div>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+<hr>
 
                             @if(!empty($books))
                             <form method="post" action="{{ action('Base\BookController@update', $id) }}" class="row">
@@ -51,32 +76,7 @@
                             @endif
                     </div>
 
-                    <hr>
-                    <div class="card-body card_body">
-                        <p><b>Add New Book</b></p>
-                        <form method="post" action="{{ action('Base\BookController@store') }}" class="row">
-                            @csrf
-                            <div class="form-group col-lg-4">
-                                <label for="title">Book Title:</label>
-                                <input type="text" class="form-control" name="title" id="title">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="publisher">Book Publisher:</label>
-                                <input type="text" class="form-control" name="publisher" id="publisher">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="year">Year:</label>
-                                <input type="text" class="form-control" name="year" id="year">
-                            </div>
-                            <div class="form-group col-lg-12">
-                            <button type="submit" class="btn btn-primary">Add Book</button>
-                                <input type="hidden" class="form-check-inline" name="book_add_hidden_id"
-                                       value="{{$id}}"
-                                       id="title">
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                                    </div>
             </div>
         </div>
     </div>

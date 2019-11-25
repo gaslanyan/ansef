@@ -9,7 +9,43 @@
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool">Go Back</a></div>
                     <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <p><b>Add New Meeting</b></p>
+
+                        <form method="post" action="{{ action('Base\MeetingController@store') }}">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <label for="description">Meeting Description and location:</label>
+                                <input type="text" class="form-control" name="description" id="description" value="{{old('description')}}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-lg-4">
+                                    <label for="year">Year:</label>
+                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label for="ansef_add" class="label">Supported by ANSEF?<br/>
+                                        <input type="checkbox" class="" value=1 name="ansef_add" id="ansef_add">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label for="domestic_add" class="label">Meeting held in Armenia?<br/>
+                                        <input type="checkbox" class="" name="domestic_add" id="domestic_add" value=1>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-check-inline" name="meeting_add_hidden_id" value="{{$id}}"
+                                   id="title">
+                            <button type="submit" class="btn btn-primary">Add Meeting</button>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+  <hr>
 
                         @if(!empty($meetings))
                             <form method="post" action="{{ action('Base\MeetingController@update', $id) }}">
@@ -68,43 +104,7 @@
                             </form>
                         @endif
                         </div>
-                        <hr>
-                    <div class="card-body card_body">
-                        <p><b>Add New Meeting</b></p>
-
-                        <form method="post" action="{{ action('Base\MeetingController@store') }}">
-                            @csrf
-                            <div class="row">
-                                <div class="form-group col-lg-12">
-                                    <label for="description">Meeting Description and location:</label>
-                                <input type="text" class="form-control" name="description" id="description" value="{{old('description')}}">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label for="year">Year:</label>
-                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label for="ansef_add" class="label">Supported by ANSEF?<br/>
-                                        <input type="checkbox" class="" value=1 name="ansef_add" id="ansef_add">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label for="domestic_add" class="label">Meeting held in Armenia?<br/>
-                                        <input type="checkbox" class="" name="domestic_add" id="domestic_add" value=1>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <input type="hidden" class="form-check-inline" name="meeting_add_hidden_id" value="{{$id}}"
-                                   id="title">
-                            <button type="submit" class="btn btn-primary">Add Meeting</button>
-                        </form>
-                    </div>
-                </div>
+                                      </div>
             </div>
         </div>
     </div>

@@ -10,7 +10,48 @@
                     </div>
                     <div class="card-body card_body">
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>
+                        <div class="card-body card_body">
+                        <p><b>Add New Publication</b></p>
+
+                        <form method="post" action="{{ action('Base\PublicationsController@store') }}" class="row">
+                            @csrf
+                            <div class="form-group col-lg-6">
+                                <label for="title">Title:</label>
+                            <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="journal">Journal (if any):</label>
+                                <input type="text" class="form-control" name="journal" id="journal" value="{{old('journal')}}">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="year">Year:</label>
+                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="ansef_add" class="label">Supported by ANSEF?<br/>
+                                    <input type="checkbox" class="form-control form-check-inline" value=1
+                                           name="ansef_add" id="ansef_add">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="domestic_add" class="label">Is journal based in Armenia?<br/>
+                                    <input type="checkbox" class="form-control form-check-inline" name="domestic_add"
+                                           id="domestic_add" value=1>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <input type="hidden" class="form-check-inline" name="publication_add_hidden_id"
+                                   value="{{$id}}"
+                                   id="title">
+                            <br/>
+                            <div class="form-group col-lg-12">
+                                <button type="submit" class="btn btn-primary">Add Publication</button>
+                            </div>
+                        </form>
+                    </div>
                         @include('partials.status_bar')
+ <hr>
 
                         @if(!empty($publications))
                             <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
@@ -86,48 +127,7 @@
                             </form>
                         @endif
                     </div>
-                    <hr>
-                        <div class="card-body card_body">
-                        <p><b>Add New Publication</b></p>
-
-                        <form method="post" action="{{ action('Base\PublicationsController@store') }}" class="row">
-                            @csrf
-                            <div class="form-group col-lg-6">
-                                <label for="title">Title:</label>
-                            <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="journal">Journal (if any):</label>
-                                <input type="text" class="form-control" name="journal" id="journal" value="{{old('journal')}}">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="year">Year:</label>
-                                <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="ansef_add" class="label">Supported by ANSEF?<br/>
-                                    <input type="checkbox" class="form-control form-check-inline" value=1
-                                           name="ansef_add" id="ansef_add">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label for="domestic_add" class="label">Is journal based in Armenia?<br/>
-                                    <input type="checkbox" class="form-control form-check-inline" name="domestic_add"
-                                           id="domestic_add" value=1>
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <input type="hidden" class="form-check-inline" name="publication_add_hidden_id"
-                                   value="{{$id}}"
-                                   id="title">
-                            <br/>
-                            <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary">Add Publication</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                                   </div>
             </div>
         </div>
     </div>

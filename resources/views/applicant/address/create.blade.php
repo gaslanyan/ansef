@@ -10,14 +10,51 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                 </div>
                 <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <p><b>Add New Address</b></p>
+                        <form method="post" action="{{action('Applicant\AddressController@store') }}">
+                            @csrf
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label for="street">Street *:</label>
+                                        <input type="text" class="form-control street" name="street" value="{{old('street')}}" id="street">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="province">State/Municipality *:</label>
+                                        <input type="text" class="form-control province" name="province" value="{{old('province')}}" id="province">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label for="strecityet">City *:</label>
+                                        <input type="text" class="form-control city" name="city" value="{{old('city')}}" id="city">
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label>Country *:</label>
+                                        <select class="form-control" name="country" id="country">
+                                            <option value="0">Select country</option>
+                                            @if(!empty($country_list))
+                                                @foreach($country_list as $item)
+                                                <option class="text-capitalize" value="{{$item['id']}}" {{old('country') == $item['id'] ? 'selected' : ''}}>{{$item['country_name']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" class="form-control" name="hidden_person_id" value="{{$id}}" id="hidden_person_id">
+                                <button type="submit" class="btn btn-primary">Add new address</button>
+                            </div>
+
+                        </form>
+                </div>
                         @include('partials.status_bar')
+<hr>
 
                         @if(!empty($address_list) && count($address_list)>0)
                             <form method="post" action="{{action('Applicant\AddressController@update', $id) }}">
                                 <div class="form-group">
                                     @csrf
                                     <input name="_method" type="hidden" value="PATCH">
-                                    <label for="email"><b>Current addresses:</b></label>
+                                    <label for="email"><b>Current addresses:</b></label><br/><br/>
                                     @foreach($address_list as $el)
                                     <div class="row">
                                         <div class="col-lg-6">
@@ -57,44 +94,7 @@
                             </form>
                         @endif
                     </div>
-                    <hr>
-                    <div class="card-body card_body">
-                        <p><b>Add New Address</b></p>
-                        <form method="post" action="{{action('Applicant\AddressController@store') }}">
-                            @csrf
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="form-group col-lg-6">
-                                        <label for="street">Street *:</label>
-                                        <input type="text" class="form-control street" name="street" value="{{old('street')}}" id="street">
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="province">State/Municipality *:</label>
-                                        <input type="text" class="form-control province" name="province" value="{{old('province')}}" id="province">
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label for="strecityet">City *:</label>
-                                        <input type="text" class="form-control city" name="city" value="{{old('city')}}" id="city">
-                                    </div>
-                                    <div class="form-group col-lg-6">
-                                        <label>Country *:</label>
-                                        <select class="form-control" name="country" id="country">
-                                            <option value="0">Select country</option>
-                                            @if(!empty($country_list))
-                                                @foreach($country_list as $item)
-                                                <option class="text-capitalize" value="{{$item['id']}}" {{old('country') == $item['id'] ? 'selected' : ''}}>{{$item['country_name']}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
                                 </div>
-                                <input type="hidden" class="form-control" name="hidden_person_id" value="{{$id}}" id="hidden_person_id">
-                                <button type="submit" class="btn btn-primary">Add new address</button>
-                            </div>
-
-                        </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>

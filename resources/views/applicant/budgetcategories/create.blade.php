@@ -10,7 +10,46 @@
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
+                    <div class="card-body card_body">
+                        <label><b>Add New Budget Item:</b></label>
+                        <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
+                            {{ csrf_field() }}
+
+                            <div class="col-lg-12 ">
+                                <div class="row institution">
+                                    <div class="form-group col-lg-3">
+                                        <label for="bcc">Category:</label>
+                                        <select id="bcc" class="form-control budgetcategory" name="bc">
+                                            <option value="0">Select Budget Category</option>
+                                            @if(!empty($bc))
+                                                @foreach($bc as $item)
+                                                    <option class="text-capitalize" min="{{$item['min']}}" max="{{$item['max']}}" value="{{$item['id']}}" {{old('bc') == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        <span class="vmessage" style="color:#999;"></span>
+                                    <input type="hidden" class="minamount" name="minamount" id="minamount" value="{{old('minamount')}}">
+                                        <input type="hidden" class="maxamount" name="maxamount" id="maxamount" value="{{old('maxamount')}}">
+                                    </div>
+                                    <div class="form-group col-lg-7">
+                                        <label for="title">Details:</label>
+                                        <input type="text" class="form-control" name="b_description" id="b_description" value="{{old('b_description')}}">
+                                    </div>
+                                  <div class="form-group col-lg-2">
+                                  <label for="start">Amount ($):</label>
+                                  <input type="text" class="form-control" name="amount" id="amount" value="{{old('amount')}}">
+                                  </div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="form-control" name="prop_id" id="prop_id" value="{{$id}}" >
+                            <div class="form-group col-lg-1">
+                                <button type="submit" class="btn btn-primary">Add Budget Item</button>
+                            </div>
+                        </form>
+
+                    </div>
                         @include('partials.status_bar')
+<hr>
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">
@@ -61,46 +100,7 @@
                         <div style="color:#a00;">{!! $validation_message !!}</div>
 
                     </div>
-                    <hr>
-                    <div class="card-body card_body">
-                        <label><b>Add New Budget Item:</b></label>
-                        <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
-                            {{ csrf_field() }}
-
-                            <div class="col-lg-12 ">
-                                <div class="row institution">
-                                    <div class="form-group col-lg-3">
-                                        <label for="bcc">Category:</label>
-                                        <select id="bcc" class="form-control budgetcategory" name="bc">
-                                            <option value="0">Select Budget Category</option>
-                                            @if(!empty($bc))
-                                                @foreach($bc as $item)
-                                                    <option class="text-capitalize" min="{{$item['min']}}" max="{{$item['max']}}" value="{{$item['id']}}" {{old('bc') == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <span class="vmessage" style="color:#999;"></span>
-                                    <input type="hidden" class="minamount" name="minamount" id="minamount" value="{{old('minamount')}}">
-                                        <input type="hidden" class="maxamount" name="maxamount" id="maxamount" value="{{old('maxamount')}}">
                                     </div>
-                                    <div class="form-group col-lg-7">
-                                        <label for="title">Details:</label>
-                                        <input type="text" class="form-control" name="b_description" id="b_description" value="{{old('b_description')}}">
-                                    </div>
-                                  <div class="form-group col-lg-2">
-                                  <label for="start">Amount ($):</label>
-                                  <input type="text" class="form-control" name="amount" id="amount" value="{{old('amount')}}">
-                                  </div>
-                                </div>
-                            </div>
-                            <input type="hidden" class="form-control" name="prop_id" id="prop_id" value="{{$id}}" >
-                            <div class="form-group col-lg-1">
-                                <button type="submit" class="btn btn-primary">Add Budget Item</button>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
