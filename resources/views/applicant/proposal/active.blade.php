@@ -64,7 +64,7 @@
 
 
                                             <a href="{{action('Applicant\ProposalController@destroy', $ap['id'])}}"
-                                               title="Delete"><span class="fa fa-trash myButton">Delete</span>
+                                               title="Delete" onclick="return confirm('Are you sure you want to delete the proposal?')"><span class="fa fa-trash myButton">Delete</span>
                                             </a><br/>
 
                                             <a href="{{action('Applicant\ProposalController@updatepersons', $ap['id'])}}">
@@ -83,10 +83,6 @@
                                                 }?>
                                             </a>
 
-                                            {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$ap['id'])}}"
-                                               title="Download"
-                                               class="add_honors"><i class="fa fa-download"></i>
-                                            </a> --}}
 
                                             <a href="{{action('Applicant\ProposalController@check', $ap['id'])}}"><span class="fas fa-check-square myButton">Check</span></a>
 

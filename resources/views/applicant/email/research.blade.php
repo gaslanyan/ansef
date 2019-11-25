@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Send Email into Research Board
                         <a href="{{ action('Applicant\InfoController@index') }}"
-                           class="display float-lg-right btn-box-tool"> Back</a>
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
                         @include('partials.status_bar')
@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="form-group col-lg-10 emails">
-                                        <label for="board">Write Message:</label>
+                                        <label for="board">Message:</label>
                                         <textarea class="form-control" name="board"
                                                id="board">
                                         </textarea>

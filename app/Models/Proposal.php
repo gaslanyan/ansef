@@ -64,7 +64,14 @@ class Proposal extends Model
 
     function institutions()
     {
-        return $this->belongsToMany(Institution::class, 'proposal_institutions', 'proposal_id', 'institution_id')->withPivot('institutionname');
+        return $this->belongsToMany(Institution::class, 'proposal_institutions', 'proposal_id', 'institution_id');
+    }
+
+    function institution()
+    {
+        if(!empty($this->institutions()->first())) return $this->institutions()->first()->content;
+        $propins = ProposalInstitution::where('proposal_id','=',$this->id)->first();
+        return $propins->institutionname;
     }
 
     function budget()

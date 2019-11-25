@@ -43,14 +43,12 @@
                                             </div>
                                         </div>
                                     @endif
-                                    @if(!empty($institution))
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <strong><i class="fas fa-building margin-r-5"></i> Project Institution:</strong>
-                                                <p>{{!empty($institution) ? $institution->content : $proposal->institutionname }}</p>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <strong><i class="fas fa-building margin-r-5"></i> Project Institution:</strong>
+                                            <p>{{($institution == "") ? "No institution" : $institution }}</p>
                                         </div>
-                                    @endif
+                                    </div>
                                     <div class="row">
                                         @if(!empty($proposal->title))
                                             <div class="col-md-12">
@@ -86,8 +84,8 @@
                                             <b style="color:#a00;">No proposal document uploaded</b>
                                         </div>
                                     @endif
-                                @endif
                                     <hr>
+                                @endif
                                     @if(!empty($persons) && count($persons) > 0)
                                         <div class="box-header with-border">
                                             <h3 class="box-title">
@@ -123,8 +121,8 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    @endif
                                     <hr>
+                                    @endif
                                     @if(!empty($budget_items) && count($budget_items) > 0)
                                         <div class="box-header with-border">
                                             <h3 class="box-title">
@@ -150,13 +148,13 @@
                                                 </div>
                                             @endfor
                                         </div>
-                                    @endif
                                     <div style="font-size: 20px; color:#555;">
                                         {!! $budget["summary"] !!}<br/>
                                     </div>
                                     <div style="color:#a00;">{!! $budget["validation"] !!}</div>
-
                                     <hr>
+                                    @endif
+
 
                         <div class="col-lg-12" style="margin-top:30px;">
                             <a href="{{action('Applicant\ProposalController@generatePDF', $proposal->id)}}" class="btn btn-primary">Download</a>

@@ -197,7 +197,7 @@ class ProposalController extends Controller
     public function show($id)
     {
         $proposal = Proposal::find($id);
-        $institution = $proposal->institutions()->first();
+        $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get();
         $additional = json_decode($competition->additional);
@@ -350,7 +350,7 @@ class ProposalController extends Controller
     public function generatePDF($id)
     {
         $proposal = Proposal::find($id);
-        $institution = $proposal->institutions()->first();
+        $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get();
         $additional = json_decode($competition->additional);

@@ -73,18 +73,8 @@
                                         <!--   class="view" title="View"><i class="fa fa-eye"></i>-->
                                         <!--</a>-->
                                         <a href="{{action('Applicant\PersonController@destroy', $applicant_person->id)}}"
-                                           class="btn-link col-lg-2 delete">
+                                           class="btn-link col-lg-2 " onclick="return confirm('Are you sure you want to delete the person?')" >
                                             <i class="fa fa-trash"></i></a>
-                                        {{--<a href="{{action('Admin\PersonController@edit', $user->group_person_id)}}"--}}
-                                           {{--title="full_edit"--}}
-                                           {{--class="full_edit"><i class="fa fa-edit"></i>--}}
-                                        {{--</a>--}}
-                                        {{--<form action="{{action('Applicant\PersonController@destroy', $applicant_person->id)}}" method="post">--}}
-                                            {{--@csrf--}}
-                                            {{--<input name="_method" type="hidden" value="DELETE">--}}
-                                        {{--<button title="Delete"--}}
-                                                {{--class="editable btn-link"><i class="fa fa-trash"></i>--}}
-                                        {{--</button>--}}
                                         </form>
                                     </td>
 
