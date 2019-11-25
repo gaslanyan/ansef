@@ -51,7 +51,6 @@ class PhoneController extends Controller
         $validatedData = $request->validate([
             'country_code.*' => 'required|max:4',
             'phone.*' => 'required'
-
         ]);
         try {
             $user_id = getUserID();
@@ -105,7 +104,6 @@ class PhoneController extends Controller
         $validatedData = $request->validate([
             'country_code.*' => 'required|max:4',
             'phone.*' => 'required'
-
         ]);
         try {
 

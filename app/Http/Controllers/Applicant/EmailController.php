@@ -58,9 +58,7 @@ class EmailController extends Controller
     {
 
         $request->validate([
-            'email.*' => 'email|max:255',
-            /*'person_name' => 'required|not_in:Choose person'*/
-
+            'email.*' => 'email|max:255'
         ]);
         try {
             foreach ($request->email as $item) {
@@ -70,8 +68,6 @@ class EmailController extends Controller
                 $email->save();
             }
             return Redirect::back()->with('success', getMessage("success"));
-
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
@@ -114,8 +110,7 @@ class EmailController extends Controller
     {
         try {
             $this->validate($request, [
-                'email.*' => 'required|email|max:255',
-                //|unique:users
+                'email_list.*' => 'required|email|max:255'
             ]);
             for ($i = 0; $i <= count($request->email_list) - 1; $i++) {
                 $email = Email::find($request->email_list_hidden[$i]);

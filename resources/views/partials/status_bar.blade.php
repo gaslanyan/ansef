@@ -1,25 +1,26 @@
                     @if (\Session::has('success'))
                     <div class="alert alert-success">
-                        <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                    </div><br />
-                    @elseif (\Session::has('wrong'))
-                    <div class="alert alert-success">
-                        <p>{{ \Session::get('wrong') }}</p>
-                    </div><br />
+                        @php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp
+                    </div>
+                    @endif
+                    @if (\Session::has('wrong'))
+                    <div class="alert alert-info">
+                        @php echo html_entity_decode(\Session::get('wrong'), ENT_HTML5) @endphp
+                    </div>
                     @endif
                     @if (\Session::has('error'))
                         <div class="alert alert-danger">
-                            <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
+                            @php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp
                         </div>
                     @endif
                     @if (\Session::has('delete'))
                         <div class="alert alert-info">
-                            <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
+                            @php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp
                         </div>
                     @endif
-                    @if (session('status'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('status') }}
+                    @if (\Session::has('status'))
+                        <div class="alert alert-danger">
+                            @php echo html_entity_decode(\Session::get('status'), ENT_HTML5) @endphp
                         </div>
                     @endif
                     @if ($errors->any())
@@ -29,5 +30,5 @@
                             <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                    </div><br />
+                    </div>
                     @endif

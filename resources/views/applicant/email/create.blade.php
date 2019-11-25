@@ -10,37 +10,6 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                     </div>
                     <div class="card-body card_body">
-                        @include('partials.status_bar')
-
-                        @if(!empty($email_list))
-                            <form method="post" action="{{action('Applicant\EmailController@update', $id) }}">
-                                <div class="form-group">
-                                    @csrf
-                                    <input name="_method" type="hidden" value="PATCH">
-
-                                    <label for="email"><b>Current emails:</b></label>
-                                    @foreach($email_list as $el)
-                                        <div class="form-group col-lg-12 emails">
-                                            <div class="row">
-                                                <input type="text" class="form-control email col-lg-10"
-                                                       name="email_list[]"
-                                                       value="{{$el['email']}}"
-                                                       id="email">
-                                                <a href="{{action('Applicant\EmailController@destroy', $el['id'])}}"
-                                                   class="btn-link col-lg-2">
-                                                    <i class="fa fa-trash"></i></a>
-                                                <input type="hidden" class="form-control" name="email_list_hidden[]"
-                                                       value="{{$el['id']}}"
-                                                       id="email">
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </form>
-                        @endif
-                    </div>
-                    <hr>
                     <div class="card-body card_body">
                         <p><b>Add New Email</b></p>
                         <form method="post" action="{{action('Applicant\EmailController@store') }}">
@@ -61,6 +30,37 @@
                             </div>
 
                         </form>
+                    </div>
+                    @include('partials.status_bar')
+
+                    <hr>
+                        @if(!empty($email_list))
+                            <form method="post" action="{{action('Applicant\EmailController@update', $id) }}">
+                                <div class="form-group">
+                                    @csrf
+                                    <input name="_method" type="hidden" value="PATCH">
+
+                                    <label for="email"><b>Current emails:</b></label><br/><br/>
+                                    @foreach($email_list as $el)
+                                        <div class="form-group col-lg-12 emails">
+                                            <div class="row">
+                                                <input type="text" class="form-control email col-lg-10"
+                                                       name="email_list[]"
+                                                       value="{{$el['email']}}"
+                                                       id="email_list">
+                                                <a href="{{action('Applicant\EmailController@destroy', $el['id'])}}"
+                                                   class="btn-link col-lg-2">
+                                                    <i class="fa fa-trash"></i></a>
+                                                <input type="hidden" class="form-control" name="email_list_hidden[]"
+                                                       value="{{$el['id']}}"
+                                                       id="email">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>
