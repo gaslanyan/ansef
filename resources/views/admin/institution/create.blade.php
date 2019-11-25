@@ -16,15 +16,8 @@
                     </div>
 
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
+
                         <form method="post" action="{{ action('Admin\InstitutionController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-12">

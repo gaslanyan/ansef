@@ -10,24 +10,8 @@
                     </div>
                     <div class="card-body card_body">
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                            @if (\Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                                </div><br/>
-                            @elseif (\Session::has('wrong'))
-                                <div class="alert alert-success">
-                                    <p>{{ \Session::get('wrong') }}</p>
-                                </div><br/>
-                            @endif
-                        @endif
+                        @include('partials.status_bar')
+
                         @if(!empty($publications))
                             <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
                                 @csrf

@@ -1,23 +1,4 @@
 @extends('layouts.master')
-<style>
-    .myButton {
-        color: rgb(0, 0, 0);
-        font-size: 12px;
-        padding: 4px;
-        margin: 2px;
-        border: 1px solid rgb(150, 150, 150);
-        border-top-left-radius: 3px;
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-        background-image: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(245, 245, 245) 100%);
-        box-shadow: rgba(0, 0, 0, 0.25) 1px 2px 2px 0px;
-    }
-
-    .myButton:hover {
-        background: #FFaa00;
-    }
-</style>
 
 @section('content')
 <div class="container">

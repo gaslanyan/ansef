@@ -9,25 +9,7 @@
                     <div class="card-header">{{ __('Login') }}</div>
 
                     <div class="card-body ">
-                        @if (session('status'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
                         <form method="POST" action="{{ route('login.'.$url) }}">
                             @csrf
 

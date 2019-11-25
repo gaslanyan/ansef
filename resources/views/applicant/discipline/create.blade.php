@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
 
                         @if(!empty($disciplines_person ))

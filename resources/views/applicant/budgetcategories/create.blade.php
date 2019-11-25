@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">

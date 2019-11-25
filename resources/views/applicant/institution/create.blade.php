@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         @if(!empty($institution_person) && count($institution_person)>0)
                             <form method="post" action="{{action('Base\InstitutionController@update', $id) }}"  class="row">

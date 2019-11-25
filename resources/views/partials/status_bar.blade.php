@@ -17,6 +17,11 @@
                             <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
                         </div>
                     @endif
+                    @if (session('status'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>

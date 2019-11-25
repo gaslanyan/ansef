@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                     </div>
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         @if(!empty($email_list))
                             <form method="post" action="{{action('Applicant\EmailController@update', $id) }}">

@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-primary px-2">Back</a>
                     </div>
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Applicant\PersonController@store') }}" class="row">
                             {{ csrf_field() }}

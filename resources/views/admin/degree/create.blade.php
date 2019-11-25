@@ -9,20 +9,8 @@
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                            @if (\Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                                </div><br />
-                            @endif
-                        @endif
+                        @include('partials.status_bar')
+
                         <form method="post" action="{{ action('Admin\DegreeController@store') }}">
                             @csrf
                             <div class="form-group">

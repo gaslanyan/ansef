@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                 </div>
                 <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         @if(!empty($address_list) && count($address_list)>0)
                             <form method="post" action="{{action('Applicant\AddressController@update', $id) }}">

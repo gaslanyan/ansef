@@ -9,20 +9,7 @@
                     <div class="card-header">Recommendation Letter </div>
 
                     <div class="card-body ">
-                        @if (session('status'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
                          Thanks you for adding recommendation.
                     </div>
                 </div>

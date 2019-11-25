@@ -9,20 +9,7 @@
                     <div class="card-header"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Register') }}</div>
 
                     <div class="card-body ">
-                        @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
                         @isset($url)
                             <form method="POST" action='{{ url("register/$url") }}' aria-label="{{ __('Register') }}">
                                 @else

@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         @if(!empty($phone_list))
                             <form method="post" action="{{ action('Applicant\PhoneController@update', $id) }}">

@@ -7,7 +7,7 @@
                 <div class="card" >
                     <div class="card-header">Add A New Proposal</div>
                     <div class="card-body card_body">
-                        @include('partials.error_bar')
+                        @include('partials.status_bar')
 
                         @if(count($competitions) == 0)
                             <h5>There are no competitions that you can apply to at this time. Check back again later.</h5>

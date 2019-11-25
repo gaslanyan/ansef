@@ -9,28 +9,8 @@
                            class="display float-lg-right btn-box-tool"> Back</a>
                     </div>
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                            </div><br/>
-                        @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                            </div>
-                        @endif
-                        {{--<a href="{{action('Admin\AccountController@edit', 'applicant')}}" class="d-block btn btn-info"--}}
-                        {{--id="submit_data">Edit account information--}}
-                        {{--</a><br>--}}
+                        @include('partials.status_bar')
+
 
                         <div class="box-primary">
                             <div class="box-header with-border">

@@ -13,15 +13,7 @@
                     <div class="card-header">Edit a Publication</div>
 
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
                         <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
                             @csrf
                             <div class="form-group">

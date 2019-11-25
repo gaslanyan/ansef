@@ -9,20 +9,8 @@
                     <div class="card-header">Create Institution</div>
 
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                            @if (\Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                                </div><br />
-                            @endif
-                        @endif
+                        @include('partials.status_bar')
+
                         <form method="post" action="{{ action('Admin\InstitutionController@update', $id) }}" class="row">
                             @csrf
                             {{ method_field('PUT') }}

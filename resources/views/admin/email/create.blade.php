@@ -14,25 +14,8 @@
                     </div>
 
                     <div class="card-body card_body" >
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                            @if (\Session::has('success'))
-                                <div class="alert alert-success">
-                                    <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                                </div>
-                            @endif
-                            @if (\Session::has('error'))
-                                <div class="alert alert-danger">
-                                    <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                                </div>
-                            @endif
+                        @include('partials.status_bar')
+
                         <form method="post" action="{{ action('Admin\EmailController@store') }}">
                             @csrf
                             <div class="form-group">

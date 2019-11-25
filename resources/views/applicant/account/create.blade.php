@@ -9,24 +9,8 @@
                     <div class="card-header">Add A New Person</div>
 
                     <div class="card-body card_body">
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                            </div><br/>
-                        @elseif (\Session::has('wrong'))
-                            <div class="alert alert-success">
-                                <p>{{ \Session::get('wrong') }}</p>
-                            </div><br/>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
+
 
                         <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person
                         who will server as either support to a project or a participant in a project.</span></p>

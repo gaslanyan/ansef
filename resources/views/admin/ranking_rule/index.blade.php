@@ -12,30 +12,8 @@
                            class="display float-lg-right btn-primary mx-2 px-2">Execute ranking rules</a>
                     </div>
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                            </div><br/>
-                        @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                            </div>
-                        @endif
-                        @if (\Session::has('delete'))
-                            <div class="alert alert-info">
-                                <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
-                            </div>
-                        @endif
+                        @include('partials.status_bar')
+
                         <div class="btn_add col-md-12">
                             <button type="button" disabled title="delete" id="deleteRule"
                                     class="btn-link btn delete_cats offset-lg-6 col-lg-2 col-md-3"><i

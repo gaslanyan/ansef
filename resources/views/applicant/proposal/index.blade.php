@@ -9,20 +9,7 @@
                            class="display float-lg-right btn-primary px-2">Create Proposal</a>
                       </div>
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div><br/>
-                        @endif
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                            </div><br/>
-                        @endif
+                        @include('partials.status_bar')
 
 
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"
