@@ -206,6 +206,7 @@ Route::get('/applicant/institution/destroyemployment/{id}', 'Base\InstitutionCon
 Route::resource('/applicant/institution', 'Base\InstitutionController');
 Route::resource('/applicant/account', 'Applicant\AccountController');
 Route::get('/applicant/proposal/updatepersons/{id}', 'Applicant\ProposalController@updatepersons');
+Route::get('/applicant/proposal/check/{id}', 'Applicant\ProposalController@check');
 Route::get('/applicant/proposal/savepersons/{id}', 'Applicant\ProposalController@savepersons');
 Route::get('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
 

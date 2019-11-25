@@ -1,22 +1,5 @@
 @extends('layouts.master')
 
-<style>
-.myButton {
-    color: rgb(0, 0, 0);
-    font-size: 12px;
-    padding: 4px;
-    margin: 2px;
-    border: 1px solid rgb(150, 150, 150);
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    background-image: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(245, 245, 245) 100%);
-    box-shadow: rgba(0, 0, 0, 0.25) 1px 2px 2px 0px;
-}
-.myButton:hover {
-    background: #FFaa00; }
-</style>
 @section('content')
     <div class="container">
 
@@ -25,18 +8,9 @@
                 <div class="card" >
                     <div class="card-header">List of Current Proposals
                         <a href="{{action('Applicant\ProposalController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add A New Proposal</a>
+                           class="display float-lg-right btn-primary px-2 myButton">Add A New Proposal</a>
                     </div>
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
-                            <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                        </div><br/>
-                    @elseif (\Session::has('wrong'))
-                        <div class="alert alert-success">
-                            <p>{{ \Session::get('wrong') }}</p>
-                        </div><br/>
-                    @endif
-
+                    @include('partials.status_bar')
 
                     <div class="card-body card_body">
                         @if(!empty($activeproposals))
@@ -114,7 +88,7 @@
                                                class="add_honors"><i class="fa fa-download"></i>
                                             </a> --}}
 
-                                            <a><span class="fas fa-check-square myButton">Check</span></a>
+                                            <a href="{{action('Applicant\ProposalController@check', $ap['id'])}}"><span class="fas fa-check-square myButton">Check</span></a>
 
                                         </td>
 

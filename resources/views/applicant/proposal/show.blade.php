@@ -46,8 +46,8 @@
                                     @if(!empty($institution))
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <strong><i class="fa fa-heading margin-r-5"></i> Project Institution:</strong>
-                                                <p>{{!empty($institution->institution) ? $institution->institution-> content : $institution->institutionname }}</p>
+                                                <strong><i class="fas fa-building margin-r-5"></i> Project Institution:</strong>
+                                                <p>{{!empty($institution) ? $institution->content : $proposal->institutionname }}</p>
                                             </div>
                                         </div>
                                     @endif
@@ -103,7 +103,7 @@
                                         @foreach($persons as $person)
                                             <div class="col-lg-12">
                                                 <div class="row">
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <strong>First Name:</strong>
                                                         <p>{{$person->first_name}}</p>
                                                     </div>
@@ -111,9 +111,14 @@
                                                         <strong>Last Name:</strong>
                                                         <p>{{$person->last_name}}</p>
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <strong>Role: </strong>
                                                         <p>{{$person->pivot->subtype}}</p>
+                                                    </div>
+                                                    <div class="form-group col-lg-2">
+                                                        <a href="{{action('Applicant\PersonController@show', $person->id)}}" target="_blank" class="myButton" title="View">
+                                                            <i class="fas fa-eye">View</i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

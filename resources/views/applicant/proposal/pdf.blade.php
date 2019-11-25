@@ -57,8 +57,8 @@
                                     @if(!empty($institution))
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <strong><i class="fa fa-heading margin-r-5"></i> Project Institution:</strong>
-                                                <span>{{!empty($institution->institution) ? $institution->institution-> content : $institution->institutionname }}</span>
+                                                <strong><i class="fas fa-building margin-r-5"></i> Project Institution:</strong>
+                                                <span>{{!empty($institution) ? $institution->content : $proposal->institutionname }}</span>
                                             </div>
                                         </div>
                                     @endif

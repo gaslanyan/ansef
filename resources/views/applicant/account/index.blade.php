@@ -7,7 +7,7 @@
                 <div class="card"  >
                     <div class="card-header">List of persons
                     <a href="{{action('Applicant\AccountController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add A New Person</a></div>
+                           class="display float-lg-right btn-primary px-2 myButton">Add A New Person</a></div>
 
                     <div class="card-body card_body">
 
@@ -51,15 +51,6 @@
                                         class="email_field">
                                         <select id="type" class="form-control" name="type" disabled>
                                             {{--<?php $enum = getEnumValues('persons', 'state');?>--}}
-                                            {{--@if(!empty($enum))--}}
-                                                {{--@foreach($enum as $item)--}}
-                                                        {{--@if($applicant_person->state == $item)--}}
-                                                            {{--<option class="text-capitalize" value="{{$item}}" selected>{{$item}}</option>--}}
-                                                        {{--@else--}}
-                                                            {{--<option class="text-capitalize" value="{{$item}}">{{$item}}</option>--}}
-                                                        {{--@endif--}}
-                                                {{--@endforeach--}}
-                                            {{--@endif--}}
                                         </select>
                                     </td-->
                                     <td data-order="{{$applicant_person->type}}" data-search="{{$applicant_person->type}}" class="email_field">
@@ -68,18 +59,7 @@
                                     </td>
                                     <td>
                                         <input type="hidden" class="id" value="{{$applicant_person->id}}">
-                                        <!--<button title="Edit"-->
-                                        <!--        class="edit btn-link"><i class="fa fa-pencil-alt"></i>-->
-                                        <!--</button>-->
-                                        <!--<button title="Save"-->
-                                        <!--        class="save_app editable btn-link"><i class="fa fa-save"></i>-->
-                                        <!--</button>-->
-                                        <!--<button title="Cancel"-->
-                                        <!--        class="cancel editable btn-link"><i class="fa fa-ban"></i>-->
-                                        <!--</button>-->
 
-                                        <!-- VVS -->
-                                        <!-- We need a show page for a person. Currently it doesn't show. I forgot to mention it in 0.4 -->
                                         <a href="{{action('Applicant\PersonController@show', $applicant_person->id)}}"
                                            class="view" title="View">
                                             <i class="fas fa-eye"></i>

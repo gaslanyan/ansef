@@ -55,7 +55,7 @@
                             <div class="form-group col-lg-12">
                                 <label for="abstract">Abstract (<span id="abstractcharleft">250</span> words left):</label>
                                 <textarea rows="4" class="form-control" name="abstract"
-                                          id="abstract" <?php if ($proposal->state == 'awarded' || $proposal->state == 'complete' || $proposal->state == 'unsuccessfull' || $proposal->state == 'disqualified') echo "disabled";?>>{{$proposal->abstract}}</textarea>
+                            id="abstract"">{{$proposal->abstract}}</textarea>
                             </div>
 
 

@@ -315,9 +315,7 @@ class ProposalController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            //  'category.*' => 'required|not_in:0',
-            //  'sub_category.*' => 'required|not_in:0',
-            'title' => 'required|alpha|min:3',
+            'title' => 'required|min:3',
             'abstract' => 'required|min:55',
         ]);
 
@@ -413,13 +411,20 @@ class ProposalController extends Controller
         return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
     }
 
+    public function check($id)
+    {
+        $proposaltag = getProposalTag($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
+        //  Must have title, capitalize
+        //  Must have abstract
+        //  Must have document
+        //  Must have at least one member who is a PI
+        //  Each member must have at least one address, and at least one email
+        //  Warn if participant does not have Employment and Education.
+
+        return view('applicant.proposal.audit', compact('proposaltag', 'id'));
+    }
+
     public function destroy($id)
     {
         try {
