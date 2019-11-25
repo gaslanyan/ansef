@@ -7,31 +7,13 @@
                 <div class="card" >
                     <div class="card-header">Add A New Proposal</div>
                     <div class="card-body card_body">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (\Session::has('success'))
-                            <div class="alert alert-success">
-                                <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                            </div><br/>
-                        @endif
-                        @if (\Session::has('error'))
-                            <div class="alert alert-danger">
-                                <p>@php echo html_entity_decode(\Session::get('error'), ENT_HTML5) @endphp</p>
-                            </div>
-                        @endif
-                        @if (\Session::has('delete'))
-                            <div class="alert alert-info">
-                                <p>@php echo html_entity_decode(\Session::get('delete'), ENT_HTML5) @endphp</p>
-                            </div>
-                        @endif
+                        @include('partials.error_bar')
 
+                        @if(count($competitions) == 0)
+                            <h5>There are no competitions that you can apply to at this time. Check back again later.</h5>
+                                <br/>
+                                <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary">Go Back</a>
+                        @else
                         <form method="post" action="{{action('Applicant\ProposalController@store')}}" class="row"
                               enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -100,116 +82,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-
-                        <!--- Modal --->
-                            <aside class="right-side">
-                                <section class="content">
-                                    <div class="box-primary">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h4>Persons associated with project</h4>
-                                            </div>
-                                        </div>
-                                        <!-- Modal form-->
-                                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                             aria-labelledby="myModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog ">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h2> Add persons to project</h2>
-                                                        <button type="button" class="close" data-dismiss="modal"><span
-                                                                    aria-hidden="true">&times;</span><span
-                                                                    class="sr-only">Close</span></button>
-                                                        <h4 class="modal-title" id="myModalLabel"></h4>
-                                                    </div>
-                                                    <div class="modal-body" id="modal-bodyku">
-                                                            <div class="row">
-                                                                <div class="form-group col-lg-1">
-                                                                </div>
-                                                                <div class="form-group col-lg-4">
-                                                                    <b>Name</b>
-                                                                </div>
-                                                                <div class="form-group col-lg-4">
-                                                                    <b>Role</b>
-                                                                </div>
-                                                                <div class="form-group col-lg-3">
-                                                                    <b>Nationality</b>
-                                                                </div>
-                                                            </div>
-                                                        @foreach($persons as $i=>$person)
-                                                            <div class="row">
-                                                                <div class="form-group col-lg-1">
-                                                                    <label for="choose_person_name{{$i}}"
-                                                                           class="label">
-                                                                        <input type="checkbox" name="choose_person[]"
-                                                                               id="choose_person_id{{$i}}"
-                                                                               value="{{$person['id']}}"/>
-                                                                        <input type="hidden" name="choose_person_name[]"
-                                                                               value="{{$person['first_name']." ". $person['last_name']}}"
-                                                                               id="person_id{{$i}}"/>
-                                                                        <input type="hidden" name="choose_person_t[]"
-                                                                               value="{{$person['type']}}"
-                                                                               id="person_id{{$i}}"/>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-group col-lg-4">
-                                                                    {{$person['first_name']." ".$person['last_name']}}
-                                                                </div>
-                                                                <div class="form-group col-lg-4">
-                                                                    <select class="form-control form-check-inline type tt" name="choose_person_ttype[]"
-                                                                            id="choose_person_type{{$i}}">
-                                                                        <option value = 'None'>Choose role for person</option>
-                                                                    @if($person['type'] == 'participant')
-                                                                            <option value = 'PI'>PI</option>
-                                                                            <option value = 'collaborator'>Collaborator</option>
-                                                                    @else
-                                                                            <option value = 'director'>Director of institute</option>
-                                                                            <option value = 'supportletter'>Provides support letter</option>
-                                                                            <option value = 'consultant'>Consultant</option>
-                                                                    @endif
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group col-lg-3">
-                                                                    <input type="text"
-                                                                           class="form-control form-check-inline type al"
-                                                                           name="choose_person_nationality[]"
-                                                                           id="choose_person_nationality{{$i}}"
-                                                                           value="{{$person['nationality']}}" disabled
-                                                                           style="border:none;background-color: #fff;">
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-
-                                                    </div>
-                                                    <div class="modal-footer" id="modal-footerq">
-                                                        <button type="button" class="btn btn-primary"
-                                                                data-dismiss="modal" id="choose">Choose
-                                                        </button>
-                                                    </div>
-                                                    <input type="hidden" class="form-control form-check-inline aaa"
-                                                           name="hidden_choose_person[]" value="" id="aaa">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- end of modal ------------------------------>
-                                    </div>
-                                    <div class="form-group row col-lg-12" id="prop_person"></div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <button type="button" class="btn btn-primary chooseperson"
-                                                        onClick="open_container();" disabled>Add a person to the project
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section><!-- /.content -->
-                            </aside><!-- /.right-side -->
-                            <!--- Modal --->
-
-
-
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary"> Cancel</a>
@@ -218,6 +90,7 @@
 
 
                         </form>
+                        @endif
 
 
                     </div>

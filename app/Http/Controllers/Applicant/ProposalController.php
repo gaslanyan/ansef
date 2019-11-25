@@ -54,6 +54,7 @@ class ProposalController extends Controller
         $user_id = getUserID();
         $competitions = Competition::where('submission_end_date', '>=', date('Y-m-d'))
             ->where('submission_start_date', '<=', date('Y-m-d'))
+            ->where('submission_end_date', '>=', date('Y-m-d'))
             ->where('state', 'enable')
             ->get();
 
@@ -82,12 +83,21 @@ class ProposalController extends Controller
     public function activeProposal()
     {
         $user_id = getUserID();
-        $activeproposals = User::find($user_id)->proposals()->where('state','=','in-progress')->get()->toArray();
+        $proposals = User::find($user_id)->proposals()->where('state','=','in-progress')->get();
+        $activeproposals = $proposals->filter(function($p, $key) {
+            return date('Y-m-d') <= $p->competition->submission_end_date;
+        });
         return view('applicant.proposal.active', compact('activeproposals'));
     }
 
     public function pastProposal()
     {
+        $user_id = getUserID();
+        $proposals = User::find($user_id)->proposals()->where('state', '=', 'in-progress')->get();
+        $pastproposals = $proposals->filter(function ($p, $key) {
+            return date('Y-m-d') > $p->competition->submission_end_date;
+        });
+
         $user_id = getUserID();
         $pid = [];
         $proposals = Proposal::all();
@@ -101,8 +111,6 @@ class ProposalController extends Controller
                 $pastproposal = Proposal::whereIn('state', ['submitted', 'unsuccessfull', 'complete', 'disqualified'])->whereIn('id', $pid)->get()->toArray();
             }
         }
-
-        //$pastproposal = Proposal::whereIn('state', ['submitted', 'unsuccessfull', 'complete', 'disqualified'])->get();
 
         return view('applicant.proposal.past', compact('pastproposal'));
     }

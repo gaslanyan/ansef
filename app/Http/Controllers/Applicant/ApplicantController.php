@@ -26,10 +26,15 @@ class ApplicantController extends Controller
                                 ->where('state', 'enable')
                                 ->get();
 
+        $upcomingcompetitions = Competition::where('announcement_date','<=', date('Y-m-d'))
+                                ->where('submission_start_date','>=',date('Y-m-d'))
+                                ->get();
+
+
         $user_id = \Auth::guard('applicant')->user()->id;
         createperson($user_id);
 
-        return view("applicant.dashboard", compact('competitionlist', 'id'));
+        return view("applicant.dashboard", compact('competitionlist', 'upcomingcompetitions', 'id'));
     }
 
 
