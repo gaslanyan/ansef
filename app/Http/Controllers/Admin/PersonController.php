@@ -323,7 +323,7 @@ class PersonController extends Controller
     public function updatePassword(Request $request)
     {
         try {
-            $user_id = getUserId('admin');
+            $user_id = getUserIdByRole('admin');
 
             $v = Validator::make($request->all(), [
                 'oldpassword' => 'required',

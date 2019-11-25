@@ -29,7 +29,7 @@ class SendEmailController extends Controller
     {
 //        try {
         $title = Proposal::select('title')->where('id', $id)->first();
-        $person_id = getUserId('referee');
+        $person_id = getUserIdByRole('referee');
         $full_name = Person::select('first_name', 'last_name')->where('id', $person_id)->first();
         $email = User::select('email')->where('id', Session::get('u_id'))->first();
         if (!empty($full_name->first_name) && !empty($full_name->first_name))

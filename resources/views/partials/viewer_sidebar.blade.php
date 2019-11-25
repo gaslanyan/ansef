@@ -1,7 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php
 $signUser = signedPerson();
-$user_id = getUserId('viewer');
+$user_id = getUserIdByRole('viewer');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">

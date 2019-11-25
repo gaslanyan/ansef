@@ -62,7 +62,7 @@ class AccountController extends Controller
     {
         $user_id = getUserID();
         // $person_id = Person::where('user_id', $user_id)->first();
-        $person_id = getUserId(null);
+        $person_id = getUserIdByRole(null);
         $validatedData = $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',

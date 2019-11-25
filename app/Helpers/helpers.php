@@ -103,7 +103,7 @@ function checkUserId($role)
     }
 }
 
-function getUserId($role)
+function getUserIdByRole($role)
 {
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;

@@ -3,7 +3,7 @@
 if(!empty(cookieSign_id()))
     $user_id = cookieSign_id()->id;
 else
-    $user_id = getUserId(null);?>
+    $user_id = getUserIdByRole(null);?>
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

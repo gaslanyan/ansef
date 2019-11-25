@@ -16,7 +16,7 @@ class EmailController extends Controller
     public function index()
     {
         try {
-            $user_id = getUserId('admin');
+            $user_id = getUserIdByRole('admin');
             $emails = Email::where('person_id', $user_id)->get();
             return view('admin.email.index', compact('emails'));
         } catch (\Exception $exception) {
@@ -48,7 +48,7 @@ class EmailController extends Controller
             return view('admin.email.create');
         else {
             try {
-                $pp_id = getUserId('admin');
+                $pp_id = getUserIdByRole('admin');
                 foreach ($request->email as $item) {
                     $email = new Email;
                     $email->person_id = $pp_id;

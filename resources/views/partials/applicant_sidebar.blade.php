@@ -4,7 +4,7 @@ $signUser = signedApplicant();
 //if(!empty(cookieSign_id()))
 //    $user_id = cookieSign_id()->id;
 //else
-    $user_id = getUserId(null);
+    $user_id = getUserIdByRole(null);
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -41,7 +41,7 @@ $signUser = signedApplicant();
                     <span>Change Password</span>
                     <span class="pull-right-container">
                     </span>
-                </a>                
+                </a>
             </li>
             <?php }else {?>
             <li>
@@ -57,7 +57,7 @@ $signUser = signedApplicant();
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Applicant\AccountController@index')}}"><i class="fa fa-circle-o"></i>List All 
+                    <li><a href="{{action('Applicant\AccountController@index')}}"><i class="fa fa-circle-o"></i>List All
                             Persons</a></li>
                     <li><a href="{{action('Applicant\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add a New
                             Person</a>
