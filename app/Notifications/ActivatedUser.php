@@ -54,7 +54,7 @@ class ActivatedUser extends Notification
         $message = "";
 
         return (new MailMessage)
-            ->from(env('MAIL_USERNAME'))
+            ->from('webmaster@ansef.org')
             ->subject($template['activate_account'])
             ->greeting(sprintf('Hello %s,', $role->name))
             ->line($template['successfully_activated'])

@@ -154,7 +154,7 @@ class TemplateSeeder extends Seeder
         App\Models\Template::create([
             'id' => 17,
             'name' => 'successfully_activated',
-            'text' => 'Successfully activated.',
+            'text' => 'The ANSEF administrator activated your account. You may now log in at <a href="http://ansefportal.dopplerthepom.com">ansefportal.dopplerthepom.com</a>.',
             'created_at' => '2019-07-05 06:44:51',
             'updated_at' => '2019-07-05 06:44:51'
         ]);

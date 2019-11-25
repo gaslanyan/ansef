@@ -32,8 +32,7 @@ class ReportController extends Controller
         $referee_ids = Proposal::get()
             ->pluck('proposal_referees', 'id')->filter();
         $pid = [];
-//        dump($referee_ids);
-        //TODO mysql 5.7 json
+
         foreach ($referee_ids as $key => $index) {
             if (!empty($index)) {
                 $elements = json_decode($index, true);
@@ -56,11 +55,9 @@ class ReportController extends Controller
             }])
             ->whereIn('proposal_id', $pid)
             ->where('state', $state)
-            ->where('referee_id', $r_id)
+            // ->where('referee_id', $r_id)
             ->get();
 
-//        echo "<pre>";
-//        dd($reports);
         return view('referee.report.index', compact('reports', 'state'));
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);

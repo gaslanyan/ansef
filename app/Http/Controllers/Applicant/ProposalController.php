@@ -68,7 +68,7 @@ class ProposalController extends Controller
         $pipersons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
         })->get()->toArray();
-        if (count($pipersons[0]) > 1) {
+        if (!empty($pipersons) && count($pipersons[0]) > 1) {
             return view('applicant.proposal.create', compact('persons', 'competitions', 'countries', 'institutions'));
         }
 
