@@ -240,11 +240,10 @@ class ProposalController extends Controller
         $proposal = Proposal::find($id);
         $user_id = getUserID();
         $competitions = Competition::all();
-        $recom = Recommendations::where('proposal_id', $id)->get()->toArray();
-        $persons = Person::where('user_id', $user_id)->where(function ($query) {
-            $query->where('type', 'participant');
-            $query->orWhere('type', 'support');
-        })->get()->toArray();
+        // $persons = Person::where('user_id', $user_id)->where(function ($query) {
+        //     $query->where('type', 'participant');
+        //     $query->orWhere('type', 'support');
+        // })->get()->toArray();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
         $additional = json_decode($competition_name->additional);
         $categories = json_decode($proposal->categories);
@@ -257,16 +256,12 @@ class ProposalController extends Controller
         if (property_exists($categories, 'sec_sub')) $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
         else $cat_sec_sub = '';
         $person_members = json_decode($proposal->proposal_members);
-        $person_acc = User::where("id", '=', $person_members->account_user_id)->get()->first();
-        //        $person_account = Person::whereIn('id', [$person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
-        //        if (!empty($person_members->person_collaborator_id)) {
-        //            $person_collaborator = Person::whereIn('id', [$person_members->person_collaborator_id])->get()->toArray();
-        //        }
-        $person_account = \DB::table('persons')
-            ->select('persons.first_name', 'persons.last_name', 'person_type.subtype', 'persons.id')
-            ->join('person_type', 'persons.id', '=', 'person_type.person_id')
-            ->where('person_type.proposal_id', '=', $id)
-            ->get()->toArray();
+        // $person_acc = User::where("id", '=', $person_members->account_user_id)->get()->first();
+        // $person_account = \DB::table('persons')
+        //     ->select('persons.first_name', 'persons.last_name', 'person_type.subtype', 'persons.id')
+        //     ->join('person_type', 'persons.id', '=', 'person_type.person_id')
+        //     ->where('person_type.proposal_id', '=', $id)
+        //     ->get()->toArray();
 
         $proposalinstitution = ProposalInstitution::where('proposal_id', '=', $id)->first();
         if (!empty($proposalinstitution)) {
@@ -299,9 +294,6 @@ class ProposalController extends Controller
             'cat_sub',
             'cat_sec_parent',
             'cat_sec_sub',
-            'persons',
-            'person_account',
-            'person_acc',
         ));
     }
 

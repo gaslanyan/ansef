@@ -9,7 +9,6 @@
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 
-
                         To add a proposal, you need to first add at least one person in the role of project participant.
                         This person is typically the Principal Investigator (PI) of the proposal.<br/><br/>
                         Go back to the Persons tab, and add a new person in the role of project participant.

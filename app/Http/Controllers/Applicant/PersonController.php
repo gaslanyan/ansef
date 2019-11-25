@@ -317,9 +317,21 @@ class PersonController extends Controller
     public function destroy($id)
     {
         try {
-            $person = Person::find($id);
-            $person->delete();
-            return redirect('applicant/account')->with('delete', getMessage('deleted'));
+            $user_id = getUserID();
+            $proposals = User::find($user_id)->proposals();
+            $flag = true;
+            foreach($proposals as $p) {
+                $members = json_decode($p->proposal_members);
+//                 Check if member id is id
+            }
+            if($flag) {
+                $person = Person::find($id);
+                $person->delete();
+                return redirect('applicant/account')->with('delete', getMessage('deleted'));
+            }
+            else {
+                return redirect('applicant/account')->with('wrong', "Person is member of a project and cannot be deleted.");
+            }
         } catch (\Exception $exception) {
             logger()->error($exception);
             return getMessage("wrong");

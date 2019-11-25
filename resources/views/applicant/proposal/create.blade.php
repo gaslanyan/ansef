@@ -14,6 +14,7 @@
                                 <br/>
                                 <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary">Go Back</a>
                         @else
+                        <h5>Choose a competition first</h5>
                         <form method="post" action="{{action('Applicant\ProposalController@store')}}" class="row"
                               enctype="multipart/form-data">
                             {{ csrf_field() }}

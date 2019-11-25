@@ -60,21 +60,17 @@
                                     <td>
                                         <input type="hidden" class="id" value="{{$applicant_person->id}}">
 
-                                        <a href="{{action('Applicant\PersonController@show', $applicant_person->id)}}"
-                                           class="view" title="View">
-                                            <i class="fas fa-eye"></i>
+                                        <a href="{{action('Applicant\PersonController@show', $applicant_person->id)}}" title="View">
+                                            <span class="fas fa-eye myButton">View</spani>
                                         </a>
 
-                                        <a href="{{action('Applicant\PersonController@edit', $applicant_person->id)}}"
-                                           class="full-edit" title="Full Edit"><i class="fa fa-pencil-alt"></i>
+                                        <a href="{{action('Applicant\PersonController@edit', $applicant_person->id)}}" title="Full Edit">
+                                            <span class="fa fa-edit myButton">Edit</span>
                                         </a>
 
-                                        <!--<a href="{{action('Applicant\AccountController@show', $applicant_person->id)}}"-->
-                                        <!--   class="view" title="View"><i class="fa fa-eye"></i>-->
-                                        <!--</a>-->
                                         <a href="{{action('Applicant\PersonController@destroy', $applicant_person->id)}}"
-                                           class="btn-link col-lg-2 " onclick="return confirm('Are you sure you want to delete the person?')" >
-                                            <i class="fa fa-trash"></i></a>
+                                           onclick="return confirm('Are you sure you want to delete the person?')" >
+                                            <span class="fa fa-trash myButton">Delete</span></a>
                                         </form>
                                     </td>
 
