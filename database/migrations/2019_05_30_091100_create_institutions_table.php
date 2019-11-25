@@ -16,7 +16,7 @@ class CreateInstitutionsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->text('content', 65535);
-			$table->integer('address_id')->nullable()->index('FK_ADDRESS_INS');
+			$table->integer('address_id')->nullable();
 			$table->timestamps();
 		});
 	}

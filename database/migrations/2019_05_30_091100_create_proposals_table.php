@@ -22,7 +22,7 @@ class CreateProposalsTable extends Migration {
 			$table->float('overall_score', 10, 0)->nullable();
 			$table->text('comment', 65535)->nullable();
 			$table->integer('rank')->nullable();
-			$table->integer('competition_id')->index('FK_COMPETITION');
+			$table->integer('competition_id');
 			$table->text('categories', 65535)->nullable()->comment('cat ids from competation table');
 			$table->text('proposal_members', 65535)->nullable()->comment('account_id,person_director_id, person_pi_id');
 			$table->string('proposal_admins')->nullable();

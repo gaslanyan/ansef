@@ -15,7 +15,7 @@ class CreatePublicationsTable extends Migration {
 		Schema::create('publications', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('person_id')->unsigned()->nullable()->index('FK_PUBLICATIONS');
+			$table->integer('person_id')->unsigned()->nullable();
 			$table->string('journal', 191)->nullable();
 			$table->text('title', 65535)->nullable();
 			$table->integer('year')->nullable();

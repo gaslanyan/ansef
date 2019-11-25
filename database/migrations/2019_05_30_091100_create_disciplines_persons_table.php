@@ -16,7 +16,7 @@ class CreateDisciplinesPersonsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->integer('discipline_id');
-			$table->integer('person_id')->unsigned()->index('FK_DISCIPLINES');
+			$table->integer('person_id')->unsigned();
 			$table->timestamps();
 		});
 	}

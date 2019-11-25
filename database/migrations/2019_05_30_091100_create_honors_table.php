@@ -17,7 +17,7 @@ class CreateHonorsTable extends Migration {
 			$table->integer('id', true);
 			$table->text('description', 65535)->nullable();
 			$table->integer('year')->nullable();
-			$table->integer('person_id')->unsigned()->index('FK_HONORS');
+			$table->integer('person_id')->unsigned();
 			$table->timestamps();
 		});
 	}

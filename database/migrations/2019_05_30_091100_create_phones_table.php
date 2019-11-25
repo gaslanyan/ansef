@@ -17,7 +17,7 @@ class CreatePhonesTable extends Migration {
 			$table->integer('id', true);
 			$table->integer('country_code')->nullable();
 			$table->integer('number')->nullable();
-			$table->integer('person_id')->unsigned()->index('FK_PHONES');
+			$table->integer('person_id')->unsigned();
 			$table->timestamps();
 		});
 	}

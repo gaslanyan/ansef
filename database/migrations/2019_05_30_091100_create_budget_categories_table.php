@@ -19,7 +19,7 @@ class CreateBudgetCategoriesTable extends Migration {
 			$table->integer('min')->nullable();
 			$table->integer('max')->nullable();
 			$table->integer('weight')->nullable();
-			$table->integer('competition_id')->index('FK_BUDGET_CATEGORIES');
+			$table->integer('competition_id');
 			$table->timestamps();
 		});
 	}

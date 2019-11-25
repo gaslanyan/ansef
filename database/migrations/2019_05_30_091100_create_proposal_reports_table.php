@@ -17,7 +17,7 @@ class CreateProposalReportsTable extends Migration {
 			$table->integer('id', true);
 			$table->text('description', 65535)->nullable();
 			$table->string('document', 191)->nullable();
-			$table->integer('proposal_id')->index('FK_PROPOSAL');
+			$table->integer('proposal_id');
 			$table->date('due_date')->nullable();
 			$table->enum('approved', array('0','1'))->nullable();
 			$table->dateTime('created_at')->nullable();

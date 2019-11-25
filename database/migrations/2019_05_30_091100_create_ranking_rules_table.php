@@ -17,7 +17,7 @@ class CreateRankingRulesTable extends Migration {
 			$table->integer('id', true);
 			$table->text('sql', 65535)->nullable();
 			$table->integer('value')->nullable();
-			$table->integer('competition_id')->index('FK_RANKING_RULES');
+			$table->integer('competition_id');
 			$table->integer('user_id')->unsigned();
 			$table->timestamps();
 		});

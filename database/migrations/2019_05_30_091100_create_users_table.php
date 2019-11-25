@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
 			$table->string('password', 191)->nullable();
 			$table->string('password_salt', 2)->nullable();
 			$table->string('remember_token', 100)->nullable();
-			$table->boolean('role_id')->nullable()->default(1)->index('FK_ROLE');
+			$table->boolean('role_id')->nullable()->default(1);
 			$table->boolean('requested_role_id')->nullable()->default(0);
 			$table->string('confirmation', 191)->nullable();
 			$table->enum('state', array('active','inactive','disabled','waiting'))->nullable()->default('inactive');

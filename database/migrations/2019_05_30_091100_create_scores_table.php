@@ -15,9 +15,9 @@ class CreateScoresTable extends Migration {
 		Schema::create('scores', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('score_type_id')->index('FK_SCORE_TYPE');
+			$table->integer('score_type_id');
 			$table->integer('value')->nullable();
-			$table->integer('report_id')->nullable()->index('FK_REPORTS');
+			$table->integer('report_id')->nullable();
 			$table->timestamps();
 		});
 	}

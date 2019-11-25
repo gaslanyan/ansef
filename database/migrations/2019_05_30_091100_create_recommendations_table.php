@@ -16,8 +16,8 @@ class CreateRecommendationsTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->text('text', 65535)->nullable();
-			$table->integer('proposal_id')->nullable()->index('FK_RECOMMENDATION_PROPOSAL');
-			$table->integer('person_id')->unsigned()->nullable()->index('FK_RECOMMENDATION');
+			$table->integer('proposal_id')->nullable();
+			$table->integer('person_id')->unsigned()->nullable();
 			$table->dateTime('created_at')->nullable();
 			$table->dateTime('update_at')->nullable();
 		});

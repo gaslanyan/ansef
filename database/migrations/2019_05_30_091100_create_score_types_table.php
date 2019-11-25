@@ -20,7 +20,7 @@ class CreateScoreTypesTable extends Migration {
 			$table->boolean('min')->nullable();
 			$table->boolean('max')->nullable();
 			$table->float('weight', 10, 0)->nullable();
-			$table->integer('competition_id')->index('FK_SCORE_TYPES');
+			$table->integer('competition_id');
 			$table->timestamps();
 		});
 	}

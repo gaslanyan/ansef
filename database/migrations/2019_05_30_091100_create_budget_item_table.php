@@ -15,10 +15,10 @@ class CreateBudgetItemTable extends Migration {
 		Schema::create('budget_item', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('budget_cat_id')->index('FK_BUDGET_CAT');
+			$table->integer('budget_cat_id');
 			$table->text('description', 65535)->nullable();
 			$table->integer('amount')->nullable();
-			$table->integer('proposal_id')->index('FK_BUDGET_ITEM');
+			$table->integer('proposal_id');
 			$table->timestamps();
 		});
 	}

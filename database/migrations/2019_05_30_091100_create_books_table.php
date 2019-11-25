@@ -18,7 +18,7 @@ class CreateBooksTable extends Migration {
 			$table->string('title', 191)->nullable();
 			$table->string('publsher', 191)->nullable();
 			$table->integer('year')->nullable();
-			$table->integer('person_id')->unsigned()->index('FK_BOOKS');
+			$table->integer('person_id')->unsigned();
 			$table->timestamps();
 		});
 	}
