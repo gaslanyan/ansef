@@ -48,12 +48,10 @@ class ProposalController extends Controller
      */
     public function create(Request $request)
     {
-
         $competitions = [];
         $persons = [];
 
-        $user_id = chooseUser();
-        $signed_person_id = signUser()->pid;
+        $user_id = getUserID();
         $competitions = Competition::where('submission_end_date', '>=', date('Y-m-d'))
             ->where('submission_start_date', '<=', date('Y-m-d'))
             ->where('state', 'enable')
@@ -83,33 +81,14 @@ class ProposalController extends Controller
      */
     public function activeProposal()
     {
-        $accountid = signUser();
-        $acc_id = $accountid->user_id;
-        //dd($acc_id);
-        $pid = [];
-        $proposals = Proposal::all();
-        $activeproposal = [];
-
-        for ($i = 0; $i <= count($proposals) - 1; $i++) {
-            $elements = json_decode($proposals[$i]->proposal_members, true);
-            // dd($elements);
-            if (in_array($acc_id, (array) $elements)) {
-                $pid[] = $proposals[$i]->id;
-                // dd($pid);
-                $activeproposal = Proposal::whereIn('state', ['in-progress', 'awarded', 'approved 1', 'in-review'])->whereIn('id', $pid)->get()->toArray();
-            }
-        }
-        /*  $activeproposal = Proposal::whereIn('state', ['in-progress', 'awarded', 'approved 1', 'in-review'])->where('id', '=', $acc_id)->toSql();
-            dd($activeproposal);*/
-
-
-        return view('applicant.proposal.active', compact('activeproposal'));
+        $user_id = getUserID();
+        $activeproposals = User::find($user_id)->proposals()->where('state','=','in-progress')->get()->toArray();
+        return view('applicant.proposal.active', compact('activeproposals'));
     }
 
     public function pastProposal()
     {
-        $accountid = signUser();
-        $acc_id = $accountid->user_id;
+        $user_id = getUserID();
         $pid = [];
         $proposals = Proposal::all();
         $pastproposal = [];
@@ -117,7 +96,7 @@ class ProposalController extends Controller
         for ($i = 0; $i <= count($proposals) - 1; $i++) {
             $elements = json_decode($proposals[$i]->proposal_members, true);
 
-            if (in_array($acc_id, (array) $elements)) {
+            if (in_array($user_id, (array) $elements)) {
                 $pid[] = $proposals[$i]->id;
                 $pastproposal = Proposal::whereIn('state', ['submitted', 'unsuccessfull', 'complete', 'disqualified'])->whereIn('id', $pid)->get()->toArray();
             }
@@ -146,13 +125,13 @@ class ProposalController extends Controller
 
         ]);
         //        try {
-        $signed_person_id = signUser()->pid;
         $prop_members = [];
         $proposal = new Proposal();
         $proposal->title = $request->title;
         $proposal->abstract = $request->abstract;
         $proposal->state = "in-progress";
-        $user_id = chooseUser();
+        $user_id = getUserID();
+        $proposal->user_id = $user_id;
         $proposal->competition_id = $request->comp_prop;
         $cat["parent"] = ($request->category);
         $cat['sub'] = ($request->sub_category);
@@ -165,9 +144,6 @@ class ProposalController extends Controller
         }
         $json_merge = json_encode($cat);
         $proposal->categories = $json_merge;
-        $prop_members['account_id'] = $signed_person_id;
-        $prop_members['account_user_id'] = $user_id;
-        $proposal->proposal_members = json_encode($prop_members);
         $proposal->save();
         $proposal_id = $proposal->id;
 
@@ -213,62 +189,35 @@ class ProposalController extends Controller
     public function show($id)
     {
         $proposal = Proposal::find($id);
-        $user_id = chooseUser();
-        $competitions = Competition::all();
-        $recom = Recommendations::where('proposal_id', $id)->get()->toArray();
-        $persons = Person::where('user_id', $user_id)->get()->toArray();
-        $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
-        $additional = json_decode($competition_name->additional);
+        $institution = $proposal->institutions()->first();
+        $competition = $proposal->competition;
+        $persons = $proposal->persons()->get();
+        $additional = json_decode($competition->additional);
         $categories = json_decode($proposal->categories);
         $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
         $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
-        $cat_sec_parent = Category::with('children')->where('id', $categories->sec_parent)->get()->first();;
-        $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
-        $person_members = json_decode($proposal->proposal_members);
-
-        //TODO stugel person memebrs-i mej yuraqanchyur  persony ka te chka
-        $person_acc = User::where("id", '=', $person_members->account_user_id)->get()->first();
-        //$person_account = Person::whereIn('id', [$person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
-        $person_account = \DB::table('persons')
-            ->select('persons.first_name', 'persons.last_name', 'person_type.subtype')
-            ->join('person_type', 'persons.id', '=', 'person_type.person_id')
-            ->where('person_type.proposal_id', '=', $id)
-            ->get()->toArray();
-        //dd($person_account);
-        /*if (!empty($person_members->person_collaborator_id)) {
-            $person_collaborator = Person::whereIn('id', [$person_members->person_collaborator_id])->get()->toArray();
-        }*/
-
-        //ToDO $person_members->account_id;
-
-        $budget_item = BudgetItem::where('proposal_id', '=', $proposal->id)->get()->toArray();
-        $budget_categories = BudgetCategory::where('competition_id', '=', $proposal->competition_id)->get()->toArray();
-        $refereereport = RefereeReport::where('proposal_id', '=', $id)->get()->toArray();
-        $propsalinstitution = ProposalInstitution::select('institution_id')->where('proposal_id', '=', $id)->get()->first();
-        if (!empty($propsalinstitution->institution_id)) {
-            $ins = Institution::find($propsalinstitution->institution_id);
-        }
-        $scoreTypes = ScoreType::with('score')->where('competition_id', $proposal->competition_id)->get()->toArray();
+        $cat_sec_parent = property_exists($categories, 'sec_parent') ? Category::with('children')->where('id', $categories->sec_parent)->get()->first() : null;
+        $cat_sec_sub = property_exists($categories, 'sec_sub') ? Category::with('children')->where('id', $categories->sec_sub)->get()->first() : null;
+        $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
+        $budget_items = $proposal->budgetitems()->get();
+        $budget = $proposal->budget();
 
         return view('applicant.proposal.show', compact(
-            'scoreTypes',
-            'person_collaborator',
-            'ins',
-            'budget_categories',
-            'budget_item',
-            'competition_name',
-            'competitions',
+            'id',
+            'proposal',
+            'institution',
+            'competition',
+            'persons',
+            'additional',
+            'categories',
             'proposal',
             'cat_parent',
             'cat_sub',
             'cat_sec_parent',
             'cat_sec_sub',
-            'persons',
-            'person_account',
-            'proposalreports',
-            'additional',
-            'refereereport',
-            'recom'
+            'pi',
+            'budget_items',
+            'budget'
         ));
     }
 
@@ -281,7 +230,7 @@ class ProposalController extends Controller
     public function edit($id)
     {
         $proposal = Proposal::find($id);
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $competitions = Competition::all();
         $recom = Recommendations::where('proposal_id', $id)->get()->toArray();
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
@@ -317,10 +266,9 @@ class ProposalController extends Controller
                 $ins = ['id' => 0, 'name' => $proposalinstitution->institutionname];
             } else {
                 $ins = Institution::find($proposalinstitution->institution_id);
-                if(!empty($ins)) {
+                if (!empty($ins)) {
                     $ins = ['id' => $proposalinstitution->institution_id, 'name' => ""];
-                }
-                else {
+                } else {
                     $ins = ['id' => 0, 'name' => ""];
                 }
             }
@@ -395,44 +343,39 @@ class ProposalController extends Controller
 
     public function generatePDF($id)
     {
-        // $proposal = Proposal::where('id','=',$id)->get()->toArray();
-
         $proposal = Proposal::find($id);
-        $user_id = chooseUser();
-        $competitions = Competition::all();
-        $persons = Person::where('user_id', $user_id)->get()->toArray();
-        $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
-        $additional = json_decode($competition_name->additional);
+        $institution = $proposal->institutions()->first();
+        $competition = $proposal->competition;
+        $persons = $proposal->persons()->get();
+        $additional = json_decode($competition->additional);
         $categories = json_decode($proposal->categories);
         $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
         $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
-        $cat_sec_parent = Category::with('children')->where('id', $categories->sec_parent)->get()->first();;
-        $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
-        $person_members = json_decode($proposal->proposal_members);
-        $person_account = Person::whereIn('id', [$person_members->account_id, $person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
-        $budget_item = BudgetItem::where('proposal_id', '=', $proposal->id)->get()->toArray();
-        $budget_categories = BudgetCategory::where('competition_id', '=', $proposal->competition_id)->get()->toArray();
-        $proposalreports = ProposalReports::where('proposal_id', '=', $id)->get()->toArray();
-        $refereereport = RefereeReport::where('proposal_id', '=', $id)->get()->toArray();
-        $data = [
-            'title' => $proposal[0]['title'],
-            'proposal' => $proposal,
-            'competition_name' => $competition_name,
-            'additional' => $additional,
-            'cat_parent' => $cat_parent,
-            'cat_sub' => $cat_sub,
-            'cat_sec_parent' => $cat_sec_parent,
-            'cat_sec_sub' => $cat_sec_sub,
-            'person_account' => $person_account,
-            'budget_item' => $budget_item,
-            'budget_categories' => $budget_categories,
-            'proposalreports' => $proposalreports,
-            'refereereport' => $refereereport
-        ];
+        $cat_sec_parent = property_exists($categories, 'sec_parent') ? Category::with('children')->where('id', $categories->sec_parent)->get()->first() : null;
+        $cat_sec_sub = property_exists($categories, 'sec_sub') ? Category::with('children')->where('id', $categories->sec_sub)->get()->first() : null;
+        $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
+        $budget_items = $proposal->budgetitems()->get();
+        $budget = $proposal->budget();
 
-        $pdf = PDF::loadView('applicant.proposal.pdf', $data);
+        $pdf = PDF::loadView('applicant.proposal.pdf', compact(
+            'id',
+            'proposal',
+            'institution',
+            'competition',
+            'persons',
+            'additional',
+            'categories',
+            'proposal',
+            'cat_parent',
+            'cat_sub',
+            'cat_sec_parent',
+            'cat_sec_sub',
+            'pi',
+            'budget_items',
+            'budget'
+        ));
 
-        return $pdf->download($proposal->title . '.pdf');
+        return $pdf->download('document.pdf');
     }
 
     public function updatepersons($id)

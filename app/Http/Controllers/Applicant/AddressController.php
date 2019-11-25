@@ -19,7 +19,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)
             ->where('persons.type', '!=', null)
             ->get()->toArray();

@@ -28,7 +28,7 @@ class AccountController extends Controller
     public function index()
     {
 
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $person = Person::where('user_id', '=', $user_id)->first();
 
         $applicant_persons = \DB::table('persons')
@@ -60,7 +60,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         // $person_id = Person::where('user_id', $user_id)->first();
         $person_id = getUserId(null);
         $validatedData = $request->validate([

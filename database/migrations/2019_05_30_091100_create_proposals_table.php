@@ -27,6 +27,7 @@ class CreateProposalsTable extends Migration {
 			$table->text('proposal_members', 65535)->nullable()->comment('account_id,person_director_id, person_pi_id');
 			$table->string('proposal_admins')->nullable();
 			$table->string('proposal_referees')->nullable();
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

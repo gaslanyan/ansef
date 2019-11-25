@@ -17,7 +17,7 @@ class PhoneController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id)->first()->toArray();
         $phones = [];
         if (!empty($person_id[0]['id'])) {
@@ -54,7 +54,7 @@ class PhoneController extends Controller
 
         ]);
         try {
-            $user_id = chooseUser();
+            $user_id = getUserID();
             $person = Person::where('user_id', '=', $user_id)->first();
             foreach ($request->phone as $key => $item) {
                 $phone = new Phone();

@@ -133,7 +133,7 @@
                                             @endphp
                                             @foreach ((array)$referee as $item)
                                                 @php
-                                                    $person = getUser($item);
+                                                    $person = getPerson($item);
                                                     $p = $person['last_name']. "
                                                     ".$person['first_name'];
                                                 @endphp
@@ -148,7 +148,7 @@
                                             @endphp
                                             @foreach ((array)$referee as $item)
                                                 @php
-                                                    $person = getUser($item);
+                                                    $person = getPerson($item);
 
                                                     $p = $person['last_name']. "
                                                     ".$person['first_name'];

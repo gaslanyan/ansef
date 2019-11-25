@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = signUser();
+$signUser = signedPerson();
 $user_id = getUserId('viewer');
 ?>
 <aside class="main-sidebar">

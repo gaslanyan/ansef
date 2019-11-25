@@ -115,7 +115,7 @@
                                         @php
                                             $accounts = json_decode($proposal->proposal_members);
                                                if($accounts->person_pi_id){
-                                                 $pi = getUser($accounts->person_pi_id);
+                                                 $pi = getPerson($accounts->person_pi_id);
                                                echo printUser($pi,$accounts);
                                                }
                                         @endphp

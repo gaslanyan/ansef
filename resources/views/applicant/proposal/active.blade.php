@@ -39,7 +39,7 @@
 
 
                     <div class="card-body card_body">
-                        @if(!empty($activeproposal))
+                        @if(!empty($activeproposals))
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%">
                                 <thead>
@@ -52,7 +52,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($activeproposal as $ap)
+                                @foreach($activeproposals as $ap)
                                     <tr>
                                         <td></td>
                                         <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}"

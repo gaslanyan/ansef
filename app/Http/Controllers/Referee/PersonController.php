@@ -24,7 +24,7 @@ class PersonController extends Controller
     public function index()
     {
         try {
-            $user_id = chooseUser();
+            $user_id = getUserID();
             $persons = Person::where('user_id', $user_id)->get()->toArray();
             if (empty($persons)) {
                 return view('referee.dashboard');

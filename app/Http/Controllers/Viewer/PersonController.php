@@ -33,7 +33,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)->get()->toArray();
         if (empty($persons)) {
             return view('viewer.dashboard');
@@ -214,7 +214,7 @@ class PersonController extends Controller
     {
 
 
-        $user_id = chooseUser();
+        $user_id = getUserID();
         /* $person = Person::where('user_id', $user_id)->get()->toArray();
         $p_id = $person[0]['id'];*/
         $validatedData = $request->validate([
@@ -293,7 +293,7 @@ class PersonController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $this->validate($request, [
             'oldpassword' => 'required',
             'newpassword' => 'required|min:8',

@@ -25,7 +25,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)
                         ->where('persons.type', '!=', null)
                         ->get()->toArray();
@@ -143,7 +143,7 @@ class PersonController extends Controller
      */
     public function show(Person $person)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         if($person->user_id != $user_id || $person->type == null) {
             // Permission denied
             return redirect('applicant/account')->with('wrong', 'Permission denied');
@@ -167,7 +167,7 @@ class PersonController extends Controller
     }
 
     public function download($id) {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $person = Person::find($id);
 
         if($person->user_id != $user_id || $person->type == null) {
@@ -226,7 +226,7 @@ class PersonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',
@@ -287,7 +287,7 @@ class PersonController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $this->validate($request, [
             'oldpassword' => 'required',
             'newpassword' => 'required|min:8',

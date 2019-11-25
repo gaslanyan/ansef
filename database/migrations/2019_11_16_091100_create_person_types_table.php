@@ -30,7 +30,7 @@ class CreatePersonTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('person_types');
+		Schema::drop('person_type');
 	}
 
 }

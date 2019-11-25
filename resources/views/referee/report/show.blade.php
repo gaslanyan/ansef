@@ -140,7 +140,7 @@
                                                         @php
                                                             $accounts = json_decode($report->proposal->proposal_members);
                                                                if(!empty($accounts->person_pi_id)){
-                                                                 $pi = getUser($accounts->person_pi_id);
+                                                                 $pi = getPerson($accounts->person_pi_id);
                                                                echo printUser($pi,$accounts);
                                                                }                                                                                                                     @endphp
                                                     </div>

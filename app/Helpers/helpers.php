@@ -162,17 +162,22 @@ function getTableColumns($items)
     }
 }
 
-function signUser()
-{
-    return \App\Models\Person::select('persons.*', 'persons.id as pid', 'sessions.*')->where('persons.user_id', '=', \Illuminate\Support\Facades\Session::get('u_id'))
-        ->join('sessions', 'sessions.user_id', '=', 'persons.user_id')
-        ->first();
-//getLocationInfoByIp($person->domain);
+// function signUser()
+// {
+//     return \App\Models\Person::select('persons.*', 'persons.id as pid', 'sessions.*')->where('persons.user_id', '=', \Illuminate\Support\Facades\Session::get('u_id'))
+//         ->join('sessions', 'sessions.user_id', '=', 'persons.user_id')
+//         ->first();
+// }
+
+function signedApplicant() {
+    $user_id = \Auth::guard(get_Cookie())->user()->id;
+    return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', null)->first();
 }
 
-function signedApplicant()
+function signedPerson()
 {
-    return \App\Models\User::where('id', '=', \Illuminate\Support\Facades\Session::get('u_id'))->first();
+    $user_id = \Auth::guard(get_Cookie())->user()->id;
+    return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['admin','referee','viewer'])->first();
 }
 
 function cookieSign_id()
@@ -187,32 +192,25 @@ function cookieSign_id()
     return null;
 }
 
-function chooseUser()
+function getUserID()
 {
     if (empty($_COOKIE['sign_id']))
-//    if($_COOKIE['sign_id'] === null)
         $user_id = \Auth::guard(get_Cookie())->user()->id;
     else
         $user_id = $_COOKIE['sign_id'];
     return $user_id;
 }
 
-function getUser($id)
+function getPerson($id)
 {
     $person = \App\Models\Person::select('persons.*', 'users.email')
-        ->with('phone')
         ->join('users', 'users.id', '=', 'persons.user_id')
+        ->whereIn('persons.type',['referee','admin','viewer',null])
         ->where('persons.id', '=', $id)->first();
     if ($person)
         return $person;
     else
         return false;
-}
-
-function getPerson($id)
-{
-    $person = \App\Models\Person::where('user_id', $id)->first();
-    return $person ? true : false;
 }
 
 function getPersonNameByPI($id)

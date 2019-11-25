@@ -18,7 +18,7 @@ class DisciplineController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $disciplines = [];
         if(!empty($person_id[0]['id'])) {
@@ -58,7 +58,7 @@ class DisciplineController extends Controller
             $this->validate($request, [
                // 'title' => 'required|min:3'
             ]);
-            $user_id = chooseUser();
+            $user_id = getUserID();
             $person_id = Person::where('user_id', $user_id )->get()->toArray();
             $p_id  = $request->discipline_add_hidden_id;
             $discipline = new DisciplinePerson();

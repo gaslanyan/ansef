@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = signUser();
+$signUser = signedPerson();
 $user_id = getUserId('referee');
 ?>
 <aside class="main-sidebar">
@@ -38,7 +38,7 @@ $user_id = getUserId('referee');
                     <span>Change Password</span>
                     <span class="pull-right-container">
                     </span>
-                </a>                
+                </a>
             </li>
             <li class="text-uppercase">
                 <a href="{{action('Referee\PersonController@edit', $user_id)}}">
@@ -46,7 +46,7 @@ $user_id = getUserId('referee');
                     <span>Update your profile</span>
                     <span class="pull-right-container">
                     </span>
-                </a>                
+                </a>
             </li>
             <?php }else {?>
             <li>

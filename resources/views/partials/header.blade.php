@@ -1,5 +1,4 @@
 <!-- header.blade.php -->
-<?php $signUser = signUser();?>
 <?php $signedUser = signedApplicant();?>
 <header class="main-header">
     <a href="" class="logo">

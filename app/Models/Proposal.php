@@ -19,7 +19,7 @@ class Proposal extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'abstract', 'state', 'document', 'overall_score',
+        'title', 'abstract', 'state', 'document', 'overall_score', 'user_id',
         'comment', 'rank', 'competition_id', 'categories', 'proposal_members','proposal_refeeres','proposal_admins'
          ];
 
@@ -55,11 +55,49 @@ class Proposal extends Model
 
     function persons()
     {
-        return $this->belongsToMany(Person::class , 'person_types', 'proposal_id', 'person_id')->withPivot('subtype');
+        return $this->belongsToMany(Person::class , 'person_type', 'proposal_id', 'person_id')->withPivot('subtype');
+    }
+
+    function user() {
+        return $this->belongsTo(User::class);
     }
 
     function institutions()
     {
         return $this->belongsToMany(Institution::class, 'proposal_institutions', 'proposal_id', 'institution_id')->withPivot('institutionname');
+    }
+
+    function budget()
+    {
+        $competition = $this->competition;
+        $additional = json_decode($competition->additional);
+
+        $sum = 0;
+        $validation_message = "";
+        $bi = $this->budgetItems()->get();
+        foreach ($bi as $item) {
+            if ($item->amount > $item->category->max) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too high; max is $" . $item->category->max . "<br/>");
+            if ($item->amount < $item->category->min) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too low; min is $" . $item->category->min . "<br/>");
+            $sum += $item->amount;
+        }
+
+        $additional_message = "";
+        if ($additional->additional_charge > 0) $additional_message .= (" + <b>" . $additional->additional_charge_name . ":</b> $" . $additional->additional_charge . "<br/>");
+        if ($additional->additional_percentage > 0) $additional_message .= (" + <b>" . $additional->additional_percentage_name . ":</b> " . $additional->additional_percentage . "% x $" . $sum . " = $" . round($sum * $additional->additional_percentage / 100.0) . "<br/>");
+
+        $sum += (round($sum * $additional->additional_percentage / 100.0) + $additional->additional_charge);
+
+        if ($competition->max_budget == $competition->min_budget) {
+            if (($competition->max_budget - $sum) < 10 || $competition->max_budget < $sum) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " must be lower than and within $10 of $" . $competition->max_budget . "<br/>");
+        } else {
+            if ($sum > $competition->max_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too high; max is $" . $competition->max_budget . "<br/>");
+            if ($sum < $competition->min_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too low; min is $" . $competition->min_budget . "<br/>");
+        }
+
+        $additional_message .= ("<br/><b>Total budget:</b> $" . $sum . "<br/>");
+
+        if ($validation_message != "") $validation_message .= ("<br/> <b>Your budget has errors:</b> please correct all errors.<br/>");
+
+        return ["summary" => $additional_message, "validation" => $validation_message];
     }
 }

@@ -66,7 +66,7 @@ class ProposalController extends Controller
 //        $competitions = [];
 //        $persons = [];
 //
-//        $user_id = chooseUser();
+//        $user_id = getUserID();
 //        $competitions = Competition::all();
 //        $persons = Person::where('user_id', $user_id)->get()->toArray();
 //        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
@@ -105,7 +105,7 @@ class ProposalController extends Controller
             $proposal->abstract = $request->abstract;
             $proposal->state = "in-progress";
             $proposal->document = $request->prop_document->getClientOriginalName();
-            $user_id = chooseUser();
+            $user_id = getUserID();
 //            $persons = Person::where('user_id', $user_id)->get()->toArray();
             $folder = storage_path('/app/proposal/' . $user_id . '/');
 //            if (!File::exists($folder)) {
@@ -176,7 +176,7 @@ class ProposalController extends Controller
     {
         $competitions = [];
         $persons = [];
-        $user_id = chooseUser();
+        $user_id = getUserID();
 
         $proposal = Proposal::find($id);
         $competitions = Competition::select('title', 'submission_start_date')->where('id','=',$proposal->competition_id)->get()->first();
@@ -209,7 +209,7 @@ class ProposalController extends Controller
     public function edit($id)
     {
         $proposal = Proposal::find($id);
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $competitions = Competition::all();
         $persons = Person::where('user_id', $user_id)->get()->toArray();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
@@ -229,7 +229,7 @@ class ProposalController extends Controller
         // $proposal = Proposal::where('id','=',$id)->get()->toArray();
 
         $proposal = Proposal::find($id);
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $competitions = Competition::all();
         $persons = Person::where('user_id', $user_id)->get()->toArray();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();

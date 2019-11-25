@@ -91,7 +91,7 @@ class ProposalController extends Controller
             $referee_info = [];
             $referee_id = [];
             foreach ($referees as $index => $referee) {
-                $user = getUser($referee);
+                $person = getPerson($referee);
                 $rr = RefereeReport::with('proposal')->where('referee_id', $referee)->first();
                 $referee_id[] = $rr->id;
                 if (!empty($rr)) {
@@ -100,9 +100,9 @@ class ProposalController extends Controller
                     $referee_info[$referee]['dur_date'] = $rr->dur_date;
                     $referee_info[$referee]['overall_scope'] = $rr->overall_scope;
                 }
-                $referee_info[$referee]['id'] = $user->id;
-                $referee_info[$referee]['first_name'] = $user->first_name;
-                $referee_info[$referee]['last_name'] = $user->last_name;
+                $referee_info[$referee]['id'] = $person->id;
+                $referee_info[$referee]['first_name'] = $person->first_name;
+                $referee_info[$referee]['last_name'] = $person->last_name;
             }
 
         }

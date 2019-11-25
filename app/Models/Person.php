@@ -66,9 +66,5 @@ class Person extends Model
     {
         return $this->hasMany('App\Models\Publications');
     }
-    function proposals()
-    {
-        return $this->belongsToMany(Proposal::class , 'person_types', 'person_id', 'proposal_id')->withPivot('subtype');
-    }
 
 }

@@ -1,5 +1,5 @@
 <!-- sidebar.blade.php -->
-<?php $signUser = signUser();
+<?php $signUser = signPerson();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
 ?>
 <aside class="main-sidebar">

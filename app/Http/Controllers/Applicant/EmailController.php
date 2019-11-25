@@ -19,7 +19,7 @@ class EmailController extends Controller
      */
     public function index()
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)
                             ->where('persons.type', '!=', null)
                             ->get()->toArray();
@@ -42,7 +42,7 @@ class EmailController extends Controller
 
     public function create($id)
     {
-        $user_id = chooseUser();
+        $user_id = getUserID();
         $persons_name = Person::where('id', $id)->first()->toArray();
         $email_list = Email::where('person_id', '=', $id)->get()->toArray();
         return view('applicant.email.create', compact('persons_name', 'email_list', 'id'));
