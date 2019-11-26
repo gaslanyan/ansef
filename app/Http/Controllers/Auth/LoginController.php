@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Role;
 use App\Models\Session;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -103,11 +105,16 @@ class LoginController extends Controller
             $request->session()->put('u_id', $u->id);
             return Redirect::to($role);
         } else {
-            if ($get_role->name !== "applicant")
-                return Redirect::back()->with('status', getMessage("waiting"));
-            else
-                return Redirect::back()->with('status', getMessage("status"));
-            // return back()->with('error', getMessage("error"));
+            if ($get_role->name !== "applicant") {
+                if(Auth::guard($role)->attempt([ 'email' => $request->email, 'password' => $request->password ]))
+                {
+                    Auth::guard($role)->logout();
+                    return Redirect::back()->with('status', getMessage("waiting"));
+                }
+
+                else return Redirect::back()->with('status', "Email or password is incorrect.");
+            }
+            else return Redirect::back()->with('status', getMessage("status"));
         }
     }
 
@@ -131,11 +138,10 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-//        $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
         $role = $_COOKIE['c_user'];
-        setcookie('c_user', $role, time() - 31556926, '/');
+        if(!empty($role)) setcookie('c_user', $role, time() - 31556926, '/');
         return redirect('/');
     }
 }
