@@ -68,9 +68,12 @@
                                             <span class="fa fa-edit myButton">Edit</span>
                                         </a>
 
+                                        @if($applicant_person->assigned)
+                                        @else
                                         <a href="{{action('Applicant\PersonController@destroy', $applicant_person->id)}}"
                                            onclick="return confirm('Are you sure you want to delete the person?')" >
                                             <span class="fa fa-trash myButton">Delete</span></a>
+                                        @endif
                                         </form>
                                     </td>
 

@@ -19,7 +19,7 @@
             <p>Click <b>'Choose File'</b> and select a PDF document that describes your proposal. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
             to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.<br/>
             If you prefer to upload the document later, click <b>Upload later</b> below.</p>
-            <p>If you want to find out what to include in the proposal document, click here.</p><br/>
+            <p>To read the instructions for preparing the proposal document, <a href="{{action('Applicant\ProposalController@instructions', $id)}}">click here</a>.</p><br/>
 
             <div id="oldmessage" class="col-12">
             @if(!empty($document))

@@ -73,7 +73,7 @@ class BudgetCategoriesController extends Controller
     {
         $validatedData = $request->validate([
             'bc' => 'required|not_in:0',
-            'b_description' => 'required|min:5',
+            'description' => 'required|min:5',
             'amount' => 'required|greater_than_field:minamount|less_than_field:maxamount',
         ]);
 
@@ -83,7 +83,7 @@ class BudgetCategoriesController extends Controller
 
                 $budget_item = new BudgetItem();
                 $budget_item->budget_cat_id = $request->bc;
-                $budget_item->description = $request->b_description;
+                $budget_item->description = $request->description;
                 $budget_item->amount = $request->amount;
                 $budget_item->proposal_id = $request->prop_id;
                 $budget_item->save();

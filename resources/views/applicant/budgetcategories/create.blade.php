@@ -9,47 +9,35 @@
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body">
-                    <div class="card-body card_body">
-                        <label><b>Add New Budget Item:</b></label>
+                    <div class="card-body card_body" style="margin-left:20px;margin-right:20px;">
+                        <label><b>Add New Budget Item:</b></label><br/><br/>
                         <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
                             {{ csrf_field() }}
-
-                            <div class="col-lg-12 ">
-                                <div class="row institution">
-                                    <div class="form-group col-lg-3">
-                                        <label for="bcc">Category:</label>
-                                        <select id="bcc" class="form-control budgetcategory" name="bc">
+                                    <div class="form-group row col-12">
+                                        <select id="bcc" class="form-control budgetcategory col-3" name="bc">
                                             <option value="0">Select Budget Category</option>
                                             @if(!empty($bc))
                                                 @foreach($bc as $item)
-                                                    <option class="text-capitalize" min="{{$item['min']}}" max="{{$item['max']}}" value="{{$item['id']}}" {{old('bc') == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
+                                                    <option class="text-capitalize" min="{{$item['min']}}" max="{{$item['max']}}" comments="{{$item['comments']}}" value="{{$item['id']}}" {{old('bc') == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <span class="vmessage" style="color:#999;"></span>
-                                    <input type="hidden" class="minamount" name="minamount" id="minamount" value="{{old('minamount')}}">
+                                        <input type="hidden" class="minamount" name="minamount" id="minamount" value="{{old('minamount')}}">
                                         <input type="hidden" class="maxamount" name="maxamount" id="maxamount" value="{{old('maxamount')}}">
+                                        <input type="text" class="form-control bdescription col-7" name="description" id="description" value="{{old('description')}}">
+                                        <input type="text" class="form-control col-2" name="amount" placeholder="Amount in US$" id="amount" value="{{old('amount')}}"><br/>
+                                        <span class="vmessage col-12" style="color:#999;"></span>
                                     </div>
-                                    <div class="form-group col-lg-7">
-                                        <label for="title">Details:</label>
-                                        <input type="text" class="form-control" name="b_description" id="b_description" value="{{old('b_description')}}">
-                                    </div>
-                                  <div class="form-group col-lg-2">
-                                  <label for="start">Amount ($):</label>
-                                  <input type="text" class="form-control" name="amount" id="amount" value="{{old('amount')}}">
-                                  </div>
-                                </div>
-                            </div>
                             <input type="hidden" class="form-control" name="prop_id" id="prop_id" value="{{$id}}" >
-                            <div class="form-group col-lg-1">
+                            <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Add Budget Item</button>
                             </div>
                         </form>
 
                     </div>
                         @include('partials.status_bar')
-<hr>
+                    <hr>
+                    <div class="card-body card_body">
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">
@@ -64,7 +52,7 @@
                                                 <option value="0">Select Budget Category</option>
                                                 @if(!empty($bc))
                                                     @foreach($bc as $item)
-                                                    <option class="text-capitalize" value="{{$item['id']}}" min="{{$item['min']}}" max="{{$item['max']}}" {{$el['budget_cat_id'] == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
+                                                    <option class="text-capitalize" value="{{$item['id']}}" min="{{$item['min']}}" max="{{$item['max']}}"  comments="{{$item['comments']}}" {{$el['budget_cat_id'] == $item['id'] ? 'selected' : ''}}>{{$item['name']}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -74,7 +62,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Description *:</label>
-                                            <input type="text" class="form-control" name="description_list[]" value="{{$el['description']}}" id="description_list[]">
+                                            <input type="text" class="form-control bdescription" name="description_list[]" value="{{$el['description']}}" id="description_list[]">
                                         </div>
                                         <div class="col-lg-2">
                                             <label>Amount *:</label>
@@ -96,11 +84,9 @@
                         @endif
                     </div>
                     <div class="card-body card_body">
-
                         <div style="color:#a00;">{!! $validation_message !!}</div>
-
                     </div>
-                                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -109,8 +95,9 @@
                 $('select.budgetcategory').each(function() {
                    var max = $(this).children("option:selected").attr('max');
                    var min = $(this).children("option:selected").attr('min');
-                //    alert('hello: ' + max + " ," + min);
+                   var comments = $(this).children("option:selected").attr('comments');
                    if(min != undefined) $(this).siblings(".vmessage").html("Min. is <b>$" + min + "</b>; max. is <b>$" + max + '</b>');
+                   if(comments != undefined) $(this).siblings(".bdescription").attr("placeholder", comments);
                 });
         });
 
@@ -118,7 +105,9 @@
                 $('select.budgetcategory').on('change',function(){
                    var max = $(this).children("option:selected").attr('max');
                    var min = $(this).children("option:selected").attr('min');
+                   var comments = $(this).children("option:selected").attr('comments');
                    $(this).siblings(".vmessage").html("Min. is <b>$" + min + "</b>; max. is <b>$" + max + '</b>');
+                   $(this).siblings(".bdescription").attr("placeholder", comments);
                    $(this).siblings(".minamount").val(min);
                    $(this).siblings(".maxamount").val(max);
                 });

@@ -13,7 +13,7 @@ class FileUploadController extends Controller
 {
     function index($id)
     {
-        $document = Proposal::find($id)->first()->document;
+        $document = Proposal::find($id)->document;
 
         return view('applicant.proposal.file_upload',compact('id', 'document'));
     }

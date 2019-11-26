@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PersonType;
 
 class Person extends Model
 {
-
-
     protected $table = 'persons';
+    protected $appends = ['assigned'];
     protected $fillable = [
         'id','birthdate', 'birthplace','sex', 'state', 'first_name', 'last_name', 'nationality','type','specialization','user_id'
     ];
@@ -65,6 +65,11 @@ class Person extends Model
     public function publications()
     {
         return $this->hasMany('App\Models\Publications');
+    }
+
+    public function getAssignedAttribute()
+    {
+        return (PersonType::where('person_id', '=', $this->id)->count() > 0);
     }
 
 }

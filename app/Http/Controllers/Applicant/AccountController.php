@@ -13,6 +13,7 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
+use App\Models\PersonType;
 use App\Models\Phone;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,17 +28,12 @@ class AccountController extends Controller
      */
     public function index()
     {
-
         $user_id = getUserID();
-        $person = Person::where('user_id', '=', $user_id)->first();
+        $applicant_persons = Person::where('user_id', '=', $user_id)
+            ->where('type', '!=', null)
+            ->get();
 
-        $applicant_persons = \DB::table('persons')
-            ->select('*')
-            ->where('persons.user_id', '=', $user_id)
-            ->where('persons.type', '!=', null)
-            ->get()->toArray();
-
-        return view("applicant.account.index", compact('applicant_persons', 'applicant_persons'));
+        return view("applicant.account.index", compact('applicant_persons'));
     }
 
     /**

@@ -225,6 +225,7 @@ Route::get('/applicant/degree/create/{id}', 'Applicant\DegreePersonController@cr
 Route::get('/applicant/degree/delete/{id}', 'Applicant\DegreePersonController@destroy');
 Route::get('/applicant/discipline/create/{id}', 'Applicant\DisciplineController@create');
 Route::get('/applicant/discipline/delete/{id}', 'Applicant\DisciplineController@destroy');
+Route::get('/applicant/instructions/{id}', 'Applicant\ProposalController@instructions');
 
 Route::get('/applicant/budgetcategories/create/{id}', 'Applicant\BudgetCategoriesController@create');
 Route::get('/applicant/budgetcategories/delete/{id}', 'Applicant\BudgetCategoriesController@destroy');

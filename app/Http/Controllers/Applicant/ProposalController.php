@@ -199,7 +199,7 @@ class ProposalController extends Controller
         $proposal = Proposal::find($id);
         $institution = $proposal->institution();
         $competition = $proposal->competition;
-        $persons = $proposal->persons()->get();
+        $persons = $proposal->persons()->get()->sortBy('last_name');
         $additional = json_decode($competition->additional);
         $categories = json_decode($proposal->categories);
         $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
@@ -344,7 +344,7 @@ class ProposalController extends Controller
         $proposal = Proposal::find($id);
         $institution = $proposal->institution();
         $competition = $proposal->competition;
-        $persons = $proposal->persons()->get();
+        $persons = $proposal->persons()->get()->sortBy('last_name');
         $additional = json_decode($competition->additional);
         $categories = json_decode($proposal->categories);
         $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
@@ -417,6 +417,11 @@ class ProposalController extends Controller
         return view('applicant.proposal.audit', compact('proposaltag', 'id'));
     }
 
+    public function instructions($id) {
+        $competition = Proposal::find($id)->competition;
+        return view('applicant.proposal.instructions', compact('competition'));
+    }
+
     public function destroy($id)
     {
         try {
@@ -425,34 +430,38 @@ class ProposalController extends Controller
                 $budget_item->delete();
             }
 
-            $prop_ins = PersonType::where('proposal_id', '=', $id);
-            if (!empty($prop_ins)) {
-                $prop_ins->delete();
+            $persons = PersonType::where('proposal_id', '=', $id);
+            if (!empty($persons)) {
+                $persons->delete();
             }
 
+            $recs = Recommendations::where('proposal_id', '=', $id);
+            if (!empty($recs)) {
+                $recs->delete();
+            }
 
             $proposal = Proposal::find($id);
-            $proposal_institutons = ProposalInstitution::where('proposal_id', '=', $id);
-            if (!empty($proposal_institutons)) {
-                $proposal_institutons->delete();
+
+            $proposal_institutions = ProposalInstitution::where('proposal_id', '=', $id);
+            if (!empty($proposal_institutions)) {
+                $proposal_institutions->delete();
             }
 
-            $proposal_report = ProposalReports::where('proposal_id', '=', $id);
-            if (!empty($proposal_report)) {
-                foreach ($proposal_report->get()->toArray() as $pr) {
+            $proposal_reports = ProposalReports::where('proposal_id', '=', $id);
+            if (!empty($proposal_reports)) {
+                foreach ($proposal_reports->get()->toArray() as $pr) {
                     if (is_file(storage_path('proposal/prop-' . $pr['proposal_id'] . '/' . $pr['document']))) {
                         unlink(storage_path('proposal/prop-' . $pr['proposal_id'] . '/' . $pr['document']));
                     } else {
                         echo "File does not exist";
                     }
                 }
-                $proposal_report->delete();
+                $proposal_reports->delete();
             }
 
-            $referee_report = RefereeReport::where('proposal_id', '=', $id);
-            if (!empty($referee_report)) {
-
-                $referee_report->delete();
+            $referee_reports = RefereeReport::where('proposal_id', '=', $id);
+            if (!empty($referee_reports)) {
+                $referee_reports->delete();
             }
 
             //

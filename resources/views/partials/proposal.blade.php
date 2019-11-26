@@ -1,29 +1,3 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Proposal {{getProposalTag($id)}}</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px;
-        }
-        strong {
-            color: #00c0ef;
-        }
-
-    </style>
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="container">
-
-    <div class="row justify-content-center">
-        <div class="offset-2 col-md-10">
-             <div class="card" >
-
-                <div class="card-body card_body">
-                        @include('partials.status_bar')
-                    <div class="card-body card_body">
-                        <div class="box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title"><b>Proposal {{getProposalTag($id)}}</b></h3>
                             </div>
@@ -33,11 +7,11 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong><i class="fa fa-list-alt margin-r-5"></i> Primary Category:</strong>
-                                                <span>{{$cat_parent->title}}</span>
+                                                <p>{{$cat_parent->title}}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <strong><i class="fa fa-list-alt margin-r-5"></i> Primary Subcategory:</strong>
-                                                <span>{{$cat_sub->title}}</span>
+                                                <p>{{$cat_sub->title}}</p>
                                             </div>
                                         </div>
                                     @endif
@@ -46,18 +20,18 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <strong><i class="fa fa-heading margin-r-5"></i> Secondary Category:</strong>
-                                                <span>{{$cat_sec_parent->title}}</span>
+                                                <p>{{$cat_sec_parent->title}}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <strong><i class="fa fa-heading margin-r-5"></i> Secondary Subcategory:</strong>
-                                                <span>{{$cat_sec_sub->title}}</span>
+                                                <p>{{$cat_sec_sub->title}}</p>
                                             </div>
                                         </div>
                                     @endif
                                     <div class="row">
                                         <div class="col-md-12">
                                             <strong><i class="fas fa-building margin-r-5"></i> Project Institution:</strong>
-                                            <span>{{($institution == "") ? "No institution" : $institution }}</span>
+                                            <p>{{($institution == "") ? "No institution" : $institution }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -65,7 +39,7 @@
                                             <div class="col-md-12">
                                                 <strong><i class="fas fa-star margin-r-5"></i> Proposal
                                                     title:</strong>
-                                                <span>{{$proposal->title}}</span>
+                                                <p>{{$proposal->title}}</p>
                                             </div>
                                         @endif
                                     </div>
@@ -95,7 +69,6 @@
                                             <b style="color:#a00;">No proposal document uploaded</b>
                                         </div>
                                     @endif
-                                <br/>
                                     <hr>
                                 @endif
                                     @if(!empty($persons) && count($persons) > 0)
@@ -113,21 +86,25 @@
                                         @foreach($persons as $person)
                                             <div class="col-lg-12">
                                                 <div class="row">
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <strong>First Name:</strong>
-                                                        <span>{{$person->first_name}}</span>
+                                                        <p>{{$person->first_name}}</p>
                                                     </div>
                                                     <div class="form-group col-lg-4">
                                                         <strong>Last Name:</strong>
-                                                        <span>{{$person->last_name}}</span>
+                                                        <p>{{$person->last_name}}</p>
                                                     </div>
-                                                    <div class="form-group col-lg-4">
+                                                    <div class="form-group col-lg-3">
                                                         <strong>Role: </strong>
-                                                        <span>{{ucfirst($person->pivot->subtype == 'supportletter' ? 'recommender' : $person->pivot->subtype)}}</p>
+                                                        <p>{{ucfirst($person->pivot->subtype == 'supportletter' ? 'recommender' : $person->pivot->subtype)}}</p>
+                                                    </div>
+                                                    <div class="form-group col-lg-2">
+                                                        <a href="{{action('Applicant\PersonController@show', $person->id)}}" target="_blank" class="myButton" title="View">
+                                                            <i class="fas fa-eye">View</i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <br/>
                                         @endforeach
                                     <hr>
                                     @endif
@@ -137,43 +114,28 @@
                                                 <i class="fas fa-dollar-sign margin-r-5"></i><b>Budget:</b></h3>
                                         </div>
                                         <div class="col-lg-12 ">
+                                            <label>Budget Item</label>
                                             @for($i = 0; $i < count($budget_items); $i++)
                                                 <div class="row institution">
                                                     <div class="form-group col-lg-4">
                                                         <strong>Category:</strong>
-                                                        <span>{{$budget_items[$i]->category->name}}</span>
+                                                        <p>{{$budget_items[$i]->category->name}}</p>
                                                     </div>
                                                     <div class="form-group col-lg-6">
                                                         <strong>Description:</strong>
-                                                        <span> {{$budget_items[$i]->description}}</span>
+                                                        <p> {{$budget_items[$i]->description}}</p>
                                                     </div>
 
                                                     <div class="form-group col-lg-2">
                                                         <strong><i class="fas fa-dollar-sign margin-r-5"></i>Amount:</strong>
-                                                        <span>${{$budget_items[$i]->amount}}</span>
+                                                        <p>${{$budget_items[$i]->amount}}</p>
                                                     </div>
                                                 </div>
-                                                <br/>
                                             @endfor
                                         </div>
                                     <div style="font-size: 20px; color:#555;">
                                         {!! $budget["summary"] !!}<br/>
                                     </div>
                                     <div style="color:#a00;">{!! $budget["validation"] !!}</div>
+                                    <hr>
                                     @endif
-
-
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-</html>
-
