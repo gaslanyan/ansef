@@ -48,15 +48,15 @@
                                                       id="private">{{$report->private_comment}}</textarea>
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="dur_date">Duration Date:</label>
+                                            <label for="due_date">Duration Date:</label>
                                             <input type="text" class="form-control date datepicker"
-                                                   value="{{$report->dur_date}}"
-                                                   name="dur_date" id="dur_date">
+                                                   value="{{$report->due_date}}"
+                                                   name="due_date" id="due_date">
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="overall_scope">Overall Scope</label>
+                                            <label for="overall_score">Overall Scope</label>
                                             <span type="number" class="form-control"
-                                                  id="overall_scope">{{$report->overall_scope}}</span>
+                                                  id="overall_score">{{$report->overall_score}}</span>
                                         </div>
                                     </div>
                                 </div>

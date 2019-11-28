@@ -135,18 +135,18 @@
                                                         @endif
                                                     </div>
                                                     <div class="col-md-6">
-                                                        @if(isset($ref['dur_date']))
+                                                        @if(isset($ref['due_date']))
                                                             <div class="col-md-12">
                                                                 <strong><i class="fa fa-calendar margin-r-5"></i>
                                                                     Dur Date:</strong>
-                                                                <p>{{" ".$ref['dur_date']}}</p>
+                                                                <p>{{" ".$ref['due_date']}}</p>
                                                             </div>
                                                         @endif
-                                                        @if(isset($ref['overall_scope']))
+                                                        @if(isset($ref['overall_score']))
                                                             <div class="col-md-12">
                                                                 <strong><i class="fa fa-calculator margin-r-5"></i>
                                                                     Overall Scope:</strong>
-                                                                <p>{{" ".$ref['overall_scope']}}</p>
+                                                                <p>{{" ".$ref['overall_score']}}</p>
                                                             </div>
                                                         @endif
 

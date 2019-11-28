@@ -20,17 +20,17 @@ class Competition extends Model
      */
     protected $fillable = [
         'title', 'description', 'submission_start_date', 'submission_end_date', 'announcement_date',
-        'project_start_date', 'duration', 'min_budget', 'max_budget', 'min_lavel_deg_id', 'max_lavel_deg_id',
+        'project_start_date', 'duration', 'min_budget', 'max_budget', 'min_level_deg_id', 'max_level_deg_id',
         'min_age', 'max_age', 'allow_foreign', 'comments', 'first_report', 'second_report', 'state',
-        'recommendations_id', 'categories', 'additional'
+        'recommendations_id', 'categories', 'additional', 'instructions'
     ];
     public function min_degree()
     {
-        return $this->belongsTo('App\Models\Degree', 'min_lavel_deg_id');
+        return $this->belongsTo('App\Models\Degree', 'min_level_deg_id');
     }
     public function max_degree()
     {
-        return $this->belongsTo('App\Models\Degree', 'max_lavel_deg_id');
+        return $this->belongsTo('App\Models\Degree', 'max_level_deg_id');
     }
     function rank()
     {

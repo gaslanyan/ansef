@@ -198,7 +198,7 @@ class AccountController extends Controller
             join('countries', 'countries.id', '=', 'address.country_id')
             ->get()->toArray();
         $institution['addr'] = $ip_add;
-        $books = Book::select('title', 'publsher', 'year')->where('person_id', $person_id)->get()->toArray();
+        $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
         $disciplines = DisciplinePerson::with('Discipline')->where('person_id', $person_id)->get()->toArray();
 
         $degrees = DegreePerson::select('degree_id', 'year')->with('degree')->where('person_id', $person_id)->get()->toArray();

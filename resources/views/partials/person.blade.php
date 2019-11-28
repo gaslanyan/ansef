@@ -209,7 +209,7 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <strong>Publisher:</strong>
-                                            <span>{{$book->publsher}}</span>
+                                            <span>{{$book->publisher}}</span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong>Year:</strong>

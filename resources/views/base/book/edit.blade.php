@@ -20,7 +20,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="title">Book Publisher:</label>
-                                <input type="text" class="form-control" name="publisher" value="{{$book->publsher}}"
+                                <input type="text" class="form-control" name="publisher" value="{{$book->publisher}}"
                                        id="title">
                             </div>
                             <div class="form-group">

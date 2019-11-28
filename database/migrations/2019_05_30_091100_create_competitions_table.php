@@ -24,8 +24,8 @@ class CreateCompetitionsTable extends Migration {
 			$table->boolean('duration')->nullable();
 			$table->integer('min_budget')->nullable();
 			$table->integer('max_budget')->nullable();
-			$table->integer('min_lavel_deg_id')->nullable();
-			$table->integer('max_lavel_deg_id')->nullable();
+			$table->integer('min_level_deg_id')->nullable();
+			$table->integer('max_level_deg_id')->nullable();
 			$table->boolean('min_age')->nullable();
 			$table->boolean('max_age')->nullable();
 			$table->enum('allow_foreign', array('0','1'))->nullable();

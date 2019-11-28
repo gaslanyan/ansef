@@ -9,7 +9,7 @@ class RefereeReport extends Model
     protected $table = 'referee_reports';
     protected $fillable = [
         'id','private_comment', 'public_comment','state', 'proposal_id',
-        'dur_date', 'scores', 'overall_scope'
+        'due_date', 'scores', 'overall_score'
     ];
     public function proposal()
     {

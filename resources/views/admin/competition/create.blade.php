@@ -61,6 +61,13 @@
                                 <label for="comments">Competition Comments:</label>
                                 <textarea rows="4" class="form-control" name="comments" id="comments">@if(isset($old)){{$old}} @endif</textarea>
                             </div>
+                            <div class="form-group col-lg-12">
+                                @php
+                                    $old =  old('instructions');
+                                @endphp
+                                <label for="instructions">Instructions:</label>
+                                <textarea rows="4" class="form-control" name="instructions" id="instructions">@if(isset($old)){{$old}} @endif</textarea>
+                            </div>
                             <div class="form-group col-lg-3">
                                 <label for="announcement_date">Announcement Date *:</label>
                                 <input type="text" class="form-control date datepicker"
@@ -116,24 +123,24 @@
 
 
                             <div class="form-group col-lg-6">
-                                <label for="min_lavel_deg_id">Min required degree:</label>
-                                <select class="form-control" name="min_lavel_deg_id" id="min_lavel_deg_id">
+                                <label for="min_level_deg_id">Min required degree:</label>
+                                <select class="form-control" name="min_level_deg_id" id="min_level_deg_id">
                                     <option value="0">Select Degree</option>
                                     @if(!empty($degrees))
                                         @foreach($degrees as $item)
-                                            <option class="text-capitalize" @if(old('min_lavel_deg_id') == $item->id){{'selected'}} @endif
+                                            <option class="text-capitalize" @if(old('min_level_deg_id') == $item->id){{'selected'}} @endif
                                                     value="{{$item->id}}">{{$item->text}}</option>
                                         @endforeach
                                     @endif
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="max_lavel_deg_id">Max required degree:</label>
-                                <select class="form-control" name="max_lavel_deg_id" id="max_lavel_deg_id">
+                                <label for="max_level_deg_id">Max required degree:</label>
+                                <select class="form-control" name="max_level_deg_id" id="max_level_deg_id">
                                     <option value="0">Select Degree</option>
                                     @if(!empty($degrees))
                                         @foreach($degrees as $item)
-                                            <option class="text-capitalize" @if(old('max_lavel_deg_id') == $item->id){{'selected'}} @endif
+                                            <option class="text-capitalize" @if(old('max_level_deg_id') == $item->id){{'selected'}} @endif
                                                     value="{{$item->id}}">{{$item->text}}</option>
                                         @endforeach
                                     @endif

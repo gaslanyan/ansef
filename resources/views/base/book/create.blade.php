@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <label for="title">Book Publisher:</label>
-                                    <input type="text" class="form-control" name="publisher[]" value="{{$book['publsher']}}"
+                                    <input type="text" class="form-control" name="publisher[]" value="{{$book['publisher']}}"
                                            id="title">
                                 </div>
                                 <div class="form-group col-lg-2">

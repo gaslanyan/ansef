@@ -64,7 +64,30 @@ return [
                 'add_extra_option' => '--optionname=optionvalue',
             ]
         ],
-
+        'mysqlold' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => 'ansefold',
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'dump' => [
+                'dump_command_path' => ' ',
+                'dump_binary_path' => '/var/lib/mysql/bin', // only the path, so without `mysqldump` or `pg_dump`
+                //                'dump_binary_path' => '/usr/bin/mysqldump', // only the path, so without `mysqldump` or `pg_dump`
+                'use_single_transaction',
+                'timeout' => 60 * 5, // 5 minute timeout
+                'exclude_tables' => ['users', 'persons'],
+                'add_extra_option' => '--optionname=optionvalue',
+            ]
+        ],
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

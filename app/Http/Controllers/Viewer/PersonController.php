@@ -156,7 +156,7 @@ class PersonController extends Controller
                 ->get()->toArray();
             $institution['ip'] = $ip;
             $institution['addr'] = $ip_add;
-            $books = Book::select('title', 'publsher', 'year')->where('person_id', $person_id)->get()->toArray();
+            $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
             $disciplines = \DB::table('disciplines_persons')
                 ->select('disciplines.text')
                 ->join('disciplines','disciplines.id','=','disciplines_persons.discipline_id')

@@ -97,8 +97,8 @@ class ProposalController extends Controller
                 if (!empty($rr)) {
                     $referee_info[$referee]['public_comment'] = $rr->public_comment;
                     $referee_info[$referee]['private_comment'] = $rr->private_comment;
-                    $referee_info[$referee]['dur_date'] = $rr->dur_date;
-                    $referee_info[$referee]['overall_scope'] = $rr->overall_scope;
+                    $referee_info[$referee]['due_date'] = $rr->due_date;
+                    $referee_info[$referee]['overall_score'] = $rr->overall_score;
                 }
                 $referee_info[$referee]['id'] = $person->id;
                 $referee_info[$referee]['first_name'] = $person->first_name;

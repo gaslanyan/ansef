@@ -19,8 +19,8 @@ class CreateRefereeReportsTable extends Migration {
 			$table->text('public_comment', 65535)->nullable();
 			$table->enum('state', array('in-progress','rejected','complete'))->nullable();
 			$table->integer('proposal_id')->unsigned()->nullable();
-			$table->date('dur_date')->nullable();
-			$table->float('overall_scope', 10, 0)->nullable();
+			$table->date('due_date')->nullable();
+			$table->float('overall_score', 10, 0)->nullable();
 			$table->timestamps();
 		});
 	}

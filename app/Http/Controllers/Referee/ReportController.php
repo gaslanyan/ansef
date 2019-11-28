@@ -158,17 +158,17 @@ class ReportController extends Controller
         $report = RefereeReport::find($id);
         if (!isset($request->state_r)) {
             $scores = $request->name;
-            $overall_scope = 0;
+            $overall_score = 0;
 
             foreach ($scores as $index => $score) {
                 $weight = ScoreType::select('weight')->where('id', $index)->first();
 
-                $overall_scope += ($score*$weight->weight)/100;
+                $overall_score += ($score*$weight->weight)/100;
             }
             $report->public_comment = $request->public_comment;
             $report->private_comment = $request->private_comment;
-            $report->dur_date = $request->dur_date;
-            $report->overall_scope = round($overall_scope / count($scores), 3);
+            $report->due_date = $request->due_date;
+            $report->overall_score = round($overall_score / count($scores), 3);
 //            $report->scores = json_encode($scores);
             if (isset($request->state_c))
                 $report->state = $request->state_c;

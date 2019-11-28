@@ -226,22 +226,6 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-book"></i> <span>Discipline</span>
-                    <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                {{-- <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\DisciplineController@index')}}"><i class="fa fa-circle-o"></i>List of
-                            disciplines</a>
-                    </li>
-                    <li><a href="{{action('Admin\DisciplineController@create')}}"><i class="fa fa-circle-o"></i>Add
-                            a discipline</a>
-                    </li>
-                </ul> --}}
-            </li>
-            <li class="treeview">
-                <a href="#">
                     <i class="fa fa-comments"></i> <span>Email Templates</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>

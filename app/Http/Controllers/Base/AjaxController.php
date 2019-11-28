@@ -991,8 +991,8 @@ class AjaxController extends Controller
             $d['data'][$index]['title'] = $report['proposal']['title'];
             $d['data'][$index]['referee'] = $report['person']['first_name'] . ' ' . $report['person']['last_name'];
             $d['data'][$index]['admin'] = $report['proposal']['proposal_admins'];
-            $d['data'][$index]['dur_date'] = $report['dur_date'];
-            $d['data'][$index]['overall_scope'] = $report['overall_scope'];
+            $d['data'][$index]['due_date'] = $report['due_date'];
+            $d['data'][$index]['overall_score'] = $report['overall_score'];
             $d['data'][$index]['state'] = $report['state'];
             $d['data'][$index]['comment'] = $report['proposal']['comment'];
 

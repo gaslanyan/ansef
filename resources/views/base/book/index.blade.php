@@ -30,7 +30,7 @@
                                 <tr>
                                     <td>{{$book['id']}}</td>
                                     <td>{{$book['title']}}</td>
-                                    <td>{{$book['publsher']}}</td>
+                                    <td>{{$book['publisher']}}</td>
                                     <td><a href="{{action('Base\Books\BookController@edit', $book['id'])}}" class="btn btn-warning">Edit</a></td>
                                     <td>
                                         <form action="{{action('Base\Books\BookController@destroy', $book['id'])}}" method="post">

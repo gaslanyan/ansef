@@ -19,10 +19,10 @@ class Book extends Model
      * @var array
      */
     protected $fillable = [
-        'title','publsher','year', 'person_id'
+        'title','publisher','year', 'person_id'
     ];
 
-    
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person');

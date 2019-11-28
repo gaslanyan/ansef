@@ -11,6 +11,24 @@
 |
 */
 
+use App\Http\Controllers\Applicant\BudgetCategoriesController;
+use App\Models\Address;
+use App\Models\BudgetCategory;
+use App\Models\BudgetItem;
+use App\Models\Competition;
+use App\Models\Degree;
+use App\Models\DegreePerson;
+use App\Models\Honors;
+use App\Models\Institution;
+use App\Models\InstitutionPerson;
+use App\Models\PersonType;
+use App\Models\Proposal;
+use App\Models\ProposalReports;
+use App\Models\Publications;
+use App\Models\RefereeReport;
+use App\Models\ScoreType;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
+
 Auth::routes();
 Route::view('/', 'home')->name('home');
 Route::view('/home', 'home')->name('home');
@@ -288,3 +306,589 @@ Route::get('/referee/generatePDF/{id}', 'Referee\ReportController@generatePDF');
 Route::get('/referee/sendEmail/{id}', 'Referee\SendEmailController@showEmail');
 Route::post('/referee/send/{id}', 'Referee\SendEmailController@sendEmail');
 
+Route::get('/admin/migrate', function() {
+    // Create degrees
+    Degree::create(['text' => 'None']);
+    Degree::create(['text' => 'High school']);
+    Degree::create(['text' => 'Bachelor (college)']);
+    Degree::create(['text' => 'Masters']);
+    Degree::create(['text' => 'Doctoral']);
+    Degree::create(['text' => 'Post-doctoral']);
+
+    $mindegree = Degree::where('text', '=', 'High school')->first();
+    $nodegree = Degree::where('text', '=', 'None')->first();
+    $maxdegree = Degree::where('text', '=', 'Doctoral')->first();
+
+    // Read roles
+    $applicant_role = Role::where('name', '=', 'applicant')->first();
+    $admin_role = Role::where('name', '=', 'admin')->first();
+    $referee_role = Role::where('name', '=', 'referee')->first();
+
+    // Migrate categories
+    $categories = DB::connection('mysqlold')->table('categories')
+        ->get()->keyBy('id');
+    $subcategories = DB::connection('mysqlold')->table('subcategories')
+        ->get()->keyBy('id');
+
+    foreach($categories as $category) {
+        Category::create([
+            'abbreviation' => $category->label,
+            'title' => $category->description,
+            'weight' => 1
+            ]);
+    }
+
+    foreach ($subcategories as $subcategory) {
+        $parentcategory = $categories[$subcategory->category_id];
+        $pc = Category::where('abbreviation','=', $parentcategory->label)->first();
+        Category::create([
+            'abbreviation' => $subcategory->label,
+            'title' => $subcategory->description,
+            'weight' => 1,
+            'parent_id' => $pc->id
+        ]);
+    }
+
+    // Migrate Institutions
+    $affiliations = DB::connection('mysqlold')->table('affiliations')
+        ->get()->keyBy('id');
+    foreach($affiliations as $affiliation){
+        $address = Address::create([
+            'country_id' => 8,
+            'province' => '',
+            'street' => '',
+            'addressable_type' => 'App\Models\Institution',
+            'city' => ''
+        ]);
+        $i = Institution::create([
+            'content' => $affiliation->institution,
+            'address_id' => $address->id
+        ]);
+        $address->addressable_id = $i->id;
+        $address->save();
+    }
+
+    $accounts = DB::connection('mysqlold')->table('accounts')->get();
+
+    $expense_types = DB::connection('mysqlold')->table('expense_types')
+                    ->get()->keyBy('id');
+    $collaboration_types = DB::connection('mysqlold')->table('collaboration_types')
+                    ->get()->keyBy('id');
+
+    $administrators = DB::connection('mysqlold')->table('administrators')
+                    ->get()->keyBy('id');
+    $referees = DB::connection('mysqlold')->table('referees')
+        ->get()->keyBy('id');
+
+    $investigators = DB::connection('mysqlold')->table('investigators')
+                    ->get()->keyBy('id');
+
+    $proposals = DB::connection('mysqlold')->table('proposals')
+                    ->get()->keyBy('id');
+
+
+    // Process proposals
+    foreach($proposals as $proposal) {
+        // Add competition
+        $propyear = date('Y', strtotime($p->date));
+        $compyear = $propyear + 1;
+
+        $additional['additional_charge_name'] = '';
+        $additional['additional_charge'] = 0;
+        $additional['additional_percentage_name'] = 'Percentage overhead';
+        $additional['additional_percentage'] = 5;
+
+        $maincategories = Category::where('parent_id','=',null);
+        $compcategories = '[';
+        foreach($maincategories as $mc) {
+            $compcategories .= ('"' . $mc->abbreviation . '",');
+        }
+        $compcategories = substr($compcategories, 0, -1) . "]";
+        $competition = Competition::firstOrCreate(
+            ['created_at' => (date($propyear . '-05-01'))],
+            [
+                'title' => $compyear . 'ANSEF',
+                'description' => $compyear . ' traditional ANSEF competition',
+                'submission_start_date' => $propyear . '-06-01',
+                'submission_end_date' => $propyear . '-09-01',
+                'announcement_date' => $propyear . '-05-20',
+                'project_start_date' => $compyear . '-01-01',
+                'duration' => 12,
+                'min_budget' => 5000,
+                'max_budget' => 5000,
+                'min_level_deg_id' => $mindegree->id,
+                'max_level_deg_id' => $nodegree->id,
+                'min_age' => 19,
+                'max_age' => 100,
+                'allow_foreign' => false,
+                'first_report' => $compyear . '-06-01',
+                'second_report' => $compyear . '-11-01',
+                'state' => 'enabled',
+                'recommendations' => 0,
+                'categories' => $compcategories,
+                'additional' => json_encode($additional),
+                'updated_at' => date($propyear . '-05-01'),
+                'instructions' => 'Traditional ANSEF competition'
+            ]
+        );
+        // Add score types
+        $scoretype = [];
+        $scoretype['Significance'] = ScoreType::firstOrCreate(['name' => 'Significance'], [
+            'description' => 'Does this study address an important problem?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['Approach'] = ScoreType::firstOrCreate(['name' => 'Approach'], [
+            'name' => 'Approach',
+            'description' => 'Are the concepts and design of methods and analysis adequately developed and appropriate to the aim of the project?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['Innovation'] = ScoreType::firstOrCreate(['name' => 'Innovation'], [
+            'name' => 'Innovation',
+            'description' => 'Does the project employ novel concepts, approaches or methods? Are the aims original and innovative? Does the project challenge existing paradigms or develop new methodologies or technologies?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['Investigator'] = ScoreType::firstOrCreate(['name' => 'Investigator'], [
+            'description' => 'Is the investigator appropriately trained and well-suited to carry out this work? Is the work proposed appropriate to the experience level of the principal investigator and other researchers?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['Budget'] = ScoreType::firstOrCreate(['name' => 'Budget'], [
+            'description' => 'Is the budget appropriate for the proposed project?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['Proposal'] = ScoreType::firstOrCreate(['name' => 'Proposal'], [
+            'description' => 'How well conceived and organized is the proposed activity? Is the review of the current state of knowledge in the field adequate?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+        $scoretype['OverallScore'] = ScoreType::firstOrCreate(['name' => 'Overall Score'], [
+            'description' => 'How would you rate the proposal overall? Please note that ANSEF grants are very competitive. It is rare that a proposal that is not deemed Outstanding in this category would get funded. On the other hand, there should be good reason to consider a proposal Outstanding, based on your assessment of the previous six criteria.',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => $competition->id
+        ]);
+
+        // Add budget categories
+        foreach($expense_types as $expense_type) {
+            BudgetCategory::firstOrCreate([], [
+                'name' => $expense_type->label,
+                'min' => 0,
+                'max' => 5000,
+                'weight' => 1,
+                'competition_id' => $competition->id,
+                'comments' => ''
+            ]);
+        }
+
+        // Add user and person for pi
+        $investigator = $investigators[$proposal->investigator_id];
+        $account = $accounts[$investigator->account_id];
+        $generate_password = randomPassword();
+        $user = User::firstOrCreate([
+            'email' => $account->username
+        ],
+        [
+            'password' => bcrypt($generate_password),
+            'password_salt' => 10,
+            'remember_token' => null,
+            'role_id' => $applicant_role->id,
+            'requested_role_id' => 0,
+            'confirmation' => "1",
+            'state' => 'active'
+        ]);
+
+        Person::firstOrCreate([
+            'user_id' => $user->id,
+            'type' => null
+        ],
+        [
+            'birthdate' => date('Y-m-d', $investigator->birthdate),
+            'birthplace' => ucfirst($investigator->birthplace),
+            'sex' => 'neutral',
+            'state' => 'domestic',
+            'first_name' => $investigator->first_name,
+            'last_name' => $investigator->last_name,
+            'nationality' => ucfirst($investigator->nationality),
+            'type' => null,
+            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
+            'user_id' => $user->id
+        ]);
+
+        $pi = Person::create([
+            'birthdate' => date('Y-m-d', $investigator->birthdate),
+            'birthplace' => ucfirst($investigator->birthplace),
+            'sex' => 'neutral',
+            'state' => 'domestic',
+            'first_name' => $investigator->first_name,
+            'last_name' => $investigator->last_name,
+            'nationality' => ucfirst($investigator->nationality),
+            'type' => 'participant',
+            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
+            'user_id' => $user->id
+        ]);
+
+        Phone::create([
+            "person_id" => $pi->id,
+            "country_code" => 0,
+            "number" => $pi->phone
+        ]);
+
+        Email::create([
+            "person_id" => $pi->id,
+            "email" => $pi->email
+        ]);
+
+        Address::create([
+            'country_id' => 8,
+            'province' => '',
+            'street' =>  $pi->address,
+            'addressable_id' => $pi->id,
+            'addressable_type' => 'App\Models\Person',
+            'city' => ''
+        ]);
+
+        // Add pi CV data
+        $honors = DB::connection('mysqlold')->table('honors')
+                ->where('investigator_id','=',$investigator->id)->get();
+        $grants = DB::connection('mysqlold')->table('grants')
+                ->where('investigator_id', '=', $investigator->id)->get();
+        $employments = DB::connection('mysqlold')->table('employments')
+                ->where('investigator_id', '=', $investigator->id)->get();
+        $publications = DB::connection('mysqlold')->table('publications')
+                ->where('investigator_id', '=', $investigator->id)->get();
+        $degrees = DB::connection('mysqlold')->table('degrees')
+                ->where('investigator_id', '=', $investigator->id)->get();
+        $ansefpublications = DB::connection('mysqlold')->table('ansefpublications')
+                ->where('investigator_id', '=', $investigator->id)->get();
+
+        foreach ($honors as $honor) {
+            Honors::create([
+                'description' => $honor->hon_title,
+                'year' => $honor->hon_year,
+                'person_id' => $pi->id
+            ]);
+        }
+        foreach ($grants as $grant) {
+            Honors::create([
+                'description' => $grant->grant_title . ", " . $grant->grant_type,
+                'year' => $grant->grant_year,
+                'person_id' => $pi->id
+            ]);
+        }
+        foreach ($employments as $employment) {
+            InstitutionPerson::create([
+                'person_id' => $pi->id,
+                'institution_id' => 0,
+                'institution' => '',
+                'title' => $employment->employment_position,
+                'start' => date($employment->employment_start_year . '07-01'),
+                'end' => date($employment->employment_end_year . '07-01'),
+                'type' => 'employment'
+            ]);
+        }
+        foreach ($degrees as $degree) {
+            DegreePerson::create([
+                'person_id' => $pi->id,
+                'degree_id' => $maxdegree->id,
+                'year' => $degree->degree_year,
+                'institution_id' => 0,
+                'institution' => $degree->degree_institution
+            ]);
+        }
+        foreach ($publications as $publication) {
+            Publications::create([
+                'person_id' => $pi->id,
+                'journal' => $publication->publication_reference,
+                'title' => $publication->publication_title,
+                'year' => $publication->publication_year,
+                'domestic' => '0',
+                'ansef_supported' => $publication->publication_ansef
+            ]);
+        }
+        foreach ($ansefpublications as $ansefpublication) {
+            Publications::create([
+                'person_id' => $pi->id,
+                'journal' => $ansefpublication->reference . ", " . $ansefpublication->authors . ": " . $ansefpublication->link,
+                'title' => $ansefpublication->title,
+                'year' => 0,
+                'domestic' => '0',
+                'ansef_supported' => '1'
+            ]);
+        }
+
+        // Add director person
+        $director = Person::create([
+            'birthdate' => null,
+            'birthplace' => '',
+            'sex' => 'neutral',
+            'state' => 'domestic',
+            'first_name' => $proposal->director_first_name,
+            'last_name' => $proposal->director_last_name,
+            'nationality' => '',
+            'type' => 'support',
+            'specialization' => '',
+            'user_id' => $user->id
+        ]);
+
+        // Add user and person for admin
+        $propadmin = $administrators[$proposal->administrator_id];
+        $adminaccount = $accounts[$propadmin->account_id];
+        $adminuser = User::firstOrCreate(
+            [
+                'email' => $adminaccount->username
+            ],
+            [
+                'password' => bcrypt($generate_password),
+                'password_salt' => 10,
+                'remember_token' => null,
+                'role_id' => $admin_role->id,
+                'requested_role_id' => 0,
+                'confirmation' => "1",
+                'state' => 'active'
+            ]
+        );
+        $administrator = Person::firstOrCreate([
+            'first_name' => $propadmin->first_name,
+            'last_name' => $propadmin->last_name
+        ],
+        [
+            'birthdate' => null,
+            'birthplace' => '',
+            'sex' => 'neutral',
+            'state' => 'foreign',
+            'nationality' => '',
+            'type' => 'admin',
+            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
+            'user_id' => $adminuser->id
+        ]);
+
+        // Add proposal
+        $state = 'unsuccessfull';
+        if ($proposal->awardee == 1) $state = 'approved 2';
+
+        $psc = Category::where('abbreviation', '=', $subcategories[$proposal->subcategory_id]->label)->get();
+        $pssc = Category::where('abbreviation', '=', $subcategories[$proposal->secondary_subcategory_id]->label)->get();
+        $pc = Category::find($psc->parent_id);
+        $psc = Category::find($pssc->parent_id);
+        $cat["parent"] = $pc->id;
+        $cat['sub'] = $psc->id;
+        $cat["sec_parent"] = $sc->id;
+        $cat["sec_sub"] = $pssc->id;
+
+        $p = Proposal::create([
+            'title' => $proposal->title,
+            'abstract' => $proposal->abstract,
+            'document' => $proposal->document_full_url,
+            'overall_score' => $proposal->score,
+            'state' => $state,
+            'comment' => '' . $proposal->id,
+            'rank' => '',
+            'competition_id' => $competition->id,
+            'categories' => json_encode($cat),
+            'proposal_admins' => $administrator->id,
+            'user_id' => $user->id,
+            'created_at' => $proposal->date,
+            'updated_at' => $proposal->date
+        ]);
+
+        // Associate PI and director
+        PersonType::create([
+            "person_id" => $pi->id,
+            "proposal_id" => $p->id,
+            "subtype" => 'PI'
+        ]);
+
+        PersonType::create([
+            "person_id" => $director->id,
+            "proposal_id" => $p->id,
+            "subtype" => 'director'
+        ]);
+
+        // Add collaborators
+        $collaborators = DB::connection('mysqlold')->table('collaborators')
+            ->where('proposal_id', '=', $proposal->id)->get();
+        foreach($collaborators as $collaborator) {
+            $per = Person::create([
+                'birthdate' => date('Y-m-d', $collaborator->birthdate),
+                'birthplace' => '',
+                'sex' => 'neutral',
+                'state' => 'domestic',
+                'first_name' => $collaborator->first_name,
+                'last_name' => $collaborator->last_name,
+                'nationality' => $collaborator->foreign_status == 1 ? '' : 'Armenia',
+                'type' => 'participant',
+                'specialization' => '',
+                'user_id' => null
+            ]);
+
+            PersonType::create([
+                "person_id" => $per->id,
+                "proposal_id" => $p->id,
+                "subtype" => 'collaborator'
+            ]);
+
+            Phone::create([
+                "person_id" => $per->id,
+                "country_code" => 0,
+                "number" => $collaborator->phone
+            ]);
+
+            Email::create([
+                "person_id" => $per->id,
+                "email" => $collaborator->email
+            ]);
+
+            Address::create([
+                'country_id' => 8,
+                'province' => '',
+                'street' =>  $collaborator->address,
+                'addressable_id' => $per->id,
+                'addressable_type' => 'App\Models\Person',
+                'city' => ''
+            ]);
+        }
+
+        // Add referee reports
+        $reports = DB::connection('mysqlold')->table('reports')
+            ->where('proposal_id', '=', $proposal->id)->get();
+
+        foreach($reports as $report) {
+            $referee = $referees[$report->referee_id];
+            $refaccount = $accounts[$referee->account_id];
+            $refuser = User::firstOrCreate(
+                [
+                    'email' => $refaccount->username
+                ],
+                [
+                    'password' => bcrypt($generate_password),
+                    'password_salt' => 10,
+                    'remember_token' => null,
+                    'role_id' => $referee_role->id,
+                    'requested_role_id' => 0,
+                    'confirmation' => "1",
+                    'state' => 'active'
+                ]
+            );
+            $ref = Person::firstOrCreate(
+                [
+                    'first_name' => $referee->first_name,
+                    'last_name' => $referee->last_name
+                ],
+                [
+                    'birthdate' => null,
+                    'birthplace' => '',
+                    'sex' => 'neutral',
+                    'state' => 'foreign',
+                    'nationality' => '',
+                    'type' => 'referee',
+                    'specialization' => $referee->comments,
+                    'user_id' => $refuser->id
+                ]
+            );
+
+            $rep = RefereeReport::create([
+                "private_comment" => $report->private_comments,
+                "public_comment" => $report->public_comments,
+                "state" => 'complete',
+                "proposal_id" => $p->id,
+                "due_date" => date('Y-m-d', $compyear . "-12-30"),
+                "overall_score" => $report->score,
+                "referee_id" => $ref->id
+            ]);
+
+            Score::create([
+                'score_type_id' => $scoretype['Significance'],
+                'value' => $rep->significance,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['Approach'],
+                'value' => $rep->approach,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['Innovation'],
+                'value' => $rep->innovation,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['Investigator'],
+                'value' => $rep->investigator,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['Budget'],
+                'value' => $rep->budget,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['Proposal'],
+                'value' => $rep->proposal_score,
+                'report_id' => $rep->id
+            ]);
+            Score::create([
+                'score_type_id' => $scoretype['OverallScore'],
+                'value' => $rep->score,
+                'report_id' => $rep->id
+            ]);
+        }
+
+        // Add budget items
+        $budget_items = DB::connection('mysqlold')->table('budget_items')
+            ->where('proposal_id', '=', $proposal->id)->get();
+        foreach ($budget_items as $budget_item) {
+            $budcat = BudgetCategory::where('name','=',$budget_item->expense_type)->first();
+            BudgetItem::create([
+                'budget_cat_id' => $budcat->id,
+                'description' => $budget_item->detail,
+                'amount' => $budget_item->amount,
+                'proposal_id' => $p->id
+            ]);
+        }
+    }
+
+    // Add proposal reports
+    $awards = DB::connection('mysqlold')->table('awards')->get();
+
+    foreach($awards as $award) {
+        $pp = Proposal::where('comment','=',''. $award->proposal_id);
+        $compyear = date('Y', strtotime($pp->date))+1;
+        ProposalReports::create([
+            'description' => 'Midterm report',
+            'document' => $award->midterm_full_url,
+            'proposal_id' => $pp->id,
+            'due_date' => date('Y-m-d', $compyear . '-07-01'),
+            'approved' => '1'
+        ]);
+        ProposalReports::create([
+            'description' => 'Final report',
+            'document' => $award->final_full_url,
+            'proposal_id' => $pp->id,
+            'due_date' => date('Y-m-d', $compyear . '-12-15'),
+            'approved' => '1'
+        ]);
+    }
+
+    return  'Proposals: ' . count($proposals) . '; generated: ' . Proposal::all()->count()
+            . '<br/>Accounts:' . count($accounts)
+            . '<br/>Investigators:' . count($investigators)
+            . '<br/>Administrators:' . count($administrators)
+            . '<br/>Referees:' . count($referees);
+});

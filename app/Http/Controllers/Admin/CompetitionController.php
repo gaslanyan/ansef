@@ -105,8 +105,8 @@ class CompetitionController extends Controller
                         'duration' => $request->duration,
                         'min_budget' => $request->min_budget,
                         'max_budget' => $request->max_budget,
-                        'min_lavel_deg_id' => $request->min_lavel_deg_id,
-                        'max_lavel_deg_id' => $request->max_lavel_deg_id,
+                        'min_level_deg_id' => $request->min_level_deg_id,
+                        'max_level_deg_id' => $request->max_level_deg_id,
                         'min_age' => $request->min_age,
                         'max_age' => $request->max_age,
                         'allow_foreign' => $allow_foreign,
@@ -116,7 +116,8 @@ class CompetitionController extends Controller
                         'state' => $request->state,
                         'recommendations_id' => $request->recommendations,
                         'categories' => json_encode($request->category),
-                        'additional' => json_encode($additional)
+                        'additional' => json_encode($additional),
+                        'instructions' => $request->instructions
                     ]);
 
                     return redirect('admin/competition')->with('success', getMessage("success"));

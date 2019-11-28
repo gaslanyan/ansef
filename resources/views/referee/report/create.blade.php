@@ -128,8 +128,8 @@
 
 
                             <div class="form-group col-lg-6">
-                                <label for="min_lavel_deg_id">Min Level Degree:</label>
-                                <select class="form-control" name="min_lavel_deg_id" id="min_lavel_deg_id">
+                                <label for="min_level_deg_id">Min Level Degree:</label>
+                                <select class="form-control" name="min_level_deg_id" id="min_level_deg_id">
                                     <option value="0">Select Degree</option>
                                     @if(!empty($degrees))
                                         @foreach($degrees as $item)
@@ -140,8 +140,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="max_lavel_deg_id">Max Level Degree:</label>
-                                <select class="form-control" name="max_lavel_deg_id" id="max_lavel_deg_id">
+                                <label for="max_level_deg_id">Max Level Degree:</label>
+                                <select class="form-control" name="max_level_deg_id" id="max_level_deg_id">
                                     <option value="0">Select Degree</option>
                                     @if(!empty($degrees))
                                         @foreach($degrees as $item)

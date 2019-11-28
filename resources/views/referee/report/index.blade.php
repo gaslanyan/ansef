@@ -29,8 +29,8 @@
                                         <td>{{$report->proposal->competition->title}}</td>
                                         <td>{{$report->proposal->title}}</td>
                                         <td>{{$report->state}}</td>
-                                        <td>{{$report->dur_date}}</td>
-                                        <td>{{$report->overall_scope}}</td>
+                                        <td>{{$report->due_date}}</td>
+                                        <td>{{$report->overall_score}}</td>
                                         <td>
                                             <a href="{{action('Referee\ReportController@edit', $report->id)}}"
                                                class="edit_full" title="Edit"><i class="fa fa-pencil-alt"></i>

@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
   `title` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `publsher` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `publisher` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `year` int(11) DEFAULT NULL,
   `person_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `books` (
 -- Dumping data for table `books`
 --
 
-INSERT INTO `books` (`id`, `title`, `publsher`, `year`, `person_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `books` (`id`, `title`, `publisher`, `year`, `person_id`, `created_at`, `updated_at`) VALUES
 (1, 'Title', 'Cambridge', 2020, 101, '2019-11-04 18:22:28', '2019-11-04 18:22:28');
 
 -- --------------------------------------------------------
@@ -5242,8 +5242,8 @@ CREATE TABLE `competitions` (
   `duration` tinyint(1) DEFAULT NULL,
   `min_budget` int(11) DEFAULT NULL,
   `max_budget` int(11) DEFAULT NULL,
-  `min_lavel_deg_id` int(11) DEFAULT NULL,
-  `max_lavel_deg_id` int(11) DEFAULT NULL,
+  `min_level_deg_id` int(11) DEFAULT NULL,
+  `max_level_deg_id` int(11) DEFAULT NULL,
   `min_age` tinyint(1) DEFAULT NULL,
   `max_age` tinyint(1) DEFAULT NULL,
   `allow_foreign` tinyint(4) DEFAULT '0',
@@ -5262,7 +5262,7 @@ CREATE TABLE `competitions` (
 -- Dumping data for table `competitions`
 --
 
-INSERT INTO `competitions` (`id`, `title`, `description`, `submission_start_date`, `submission_end_date`, `announcement_date`, `project_start_date`, `duration`, `min_budget`, `max_budget`, `min_lavel_deg_id`, `max_lavel_deg_id`, `min_age`, `max_age`, `allow_foreign`, `comments`, `first_report`, `second_report`, `state`, `recommendations_id`, `categories`, `additional`, `created_at`, `updated_at`) VALUES
+INSERT INTO `competitions` (`id`, `title`, `description`, `submission_start_date`, `submission_end_date`, `announcement_date`, `project_start_date`, `duration`, `min_budget`, `max_budget`, `min_level_deg_id`, `max_level_deg_id`, `min_age`, `max_age`, `allow_foreign`, `comments`, `first_report`, `second_report`, `state`, `recommendations_id`, `categories`, `additional`, `created_at`, `updated_at`) VALUES
 (15, '20PSNS', 'Test competition for physical and natural sciences', '2019-10-22', '2019-12-31', '2019-10-21', '2019-10-28', 2, 0, 5000, 4, 0, 0, 100, 0, 'No comments', '2019-10-29', '2019-10-30', 'disable', 0, '[\"103\",\"104\"]', '{\"additional_charge_name\":null,\"additional_charge\":\"0\",\"additional_percentage_name\":null,\"additional_percentage\":\"5\"}', '2019-10-23 01:01:08', '2019-11-02 23:08:37'),
 (16, '20PS2', 'This is the description: \r\nMore text.', '2019-11-22', '2019-11-30', '2019-11-04', '2019-12-01', 2, 0, 5000, 7, 6, 0, 100, 0, NULL, '2019-12-03', '2019-12-06', 'enable', 0, '[\"103\"]', '{\"additional_charge_name\":null,\"additional_charge\":\"0\",\"additional_percentage_name\":null,\"additional_percentage\":\"0\"}', '2019-11-02 23:10:05', '2019-11-02 23:10:32');
 
@@ -6221,8 +6221,8 @@ CREATE TABLE `referee_reports` (
   `private_comment` text COLLATE utf8mb4_unicode_ci,
   `state` enum('in-progress','rejected','complete') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `proposal_id` int(10) UNSIGNED DEFAULT NULL,
-  `dur_date` date DEFAULT NULL,
-  `overall_scope` double DEFAULT NULL,
+  `due_date` date DEFAULT NULL,
+  `overall_score` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -6231,7 +6231,7 @@ CREATE TABLE `referee_reports` (
 -- Dumping data for table `referee_reports`
 --
 
-INSERT INTO `referee_reports` (`id`, `referee_id`, `public_comment`, `private_comment`, `state`, `proposal_id`, `dur_date`, `overall_scope`, `created_at`, `updated_at`) VALUES
+INSERT INTO `referee_reports` (`id`, `referee_id`, `public_comment`, `private_comment`, `state`, `proposal_id`, `due_date`, `overall_score`, `created_at`, `updated_at`) VALUES
 (9, 90, 'tes', 'test', 'complete', 17, NULL, 0.057, '2019-11-03 16:48:00', '2019-11-03 17:04:54'),
 (10, 93, 'Public Comment:', 'Private Comment:', 'complete', 17, '2019-11-20', 0.08, '2019-11-03 17:15:28', '2019-11-04 08:21:17'),
 (12, 90, 'Public comments', NULL, 'complete', 17, NULL, 0.077, '2019-11-04 14:34:15', '2019-11-04 14:35:08'),

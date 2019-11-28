@@ -9,12 +9,12 @@
                     </div>
 
                     <div class="card-body card_body">
-                        
+
                         <div class="box-primary">
                             <div class="box-header with-border">
                                 <h4 class="box-title">{{$person->first_name}} {{$person->last_name}}</h4>
                             </div>
-                            
+
                             <div class="box-body col-md-12">
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Biographical</h4>
@@ -66,7 +66,7 @@
                                             @endif
                                     </div>
                                 </div>
-                                
+
                                 @if(!empty($emails) && count($emails)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Emails</h4>
@@ -89,7 +89,7 @@
                                     <h6 style="color:#777;">No emails provided</h6>
                                 </div>
                                 @endif
-                                
+
                                 @if(!empty($addresses) && count($addresses)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Addresses</h4>
@@ -122,8 +122,8 @@
                                     <h6 style="color:#777;">No addresses provided</h6>
                                 </div>
                                 @endif
-                                
-                                
+
+
                                 @if(!empty($institutions) && count($institutions)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Employment/Affiliations</h4>
@@ -154,8 +154,8 @@
                                     <h6 style="color:#777;">No employment/affiliation history provided</h6>
                                 </div>
                                 @endif
-                                
-                                
+
+
                                 @if(!empty($degrees) && count($degrees)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Education</h4>
@@ -182,8 +182,8 @@
                                     <h6 style="color:#777;">No educational history provided</h6>
                                 </div>
                                 @endif
-                                
-                            
+
+
                                 @if(!empty($honors) && count($honors)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Honors</h4>
@@ -206,8 +206,8 @@
                                     <h6 style="color:#777;">No honors provided</h6>
                                 </div>
                                 @endif
-                                
-                                
+
+
                                 @if(!empty($books) && count($books)>0)
                                 <div class="row" style="margin-top:20px;">
                                     <h4 style="color:#777;">Books</h4>
@@ -222,7 +222,7 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <strong>Publisher:</strong>
-                                            <span>{{$book->publsher}}</span>
+                                            <span>{{$book->publisher}}</span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong>Year:</strong>
@@ -304,7 +304,7 @@
                                 </div>
                                 @endif
                             </div>
-                        </div>            
+                        </div>
                         <div class="col-lg-12" style="margin-top:30px;">
                             <a href="{{action('Applicant\PersonController@download', 1)}}" class="btn btn-primary">Download</a>
                             <a href="{{action('Applicant\PersonController@index') }}" class="btn btn-secondary">Go Back</a>

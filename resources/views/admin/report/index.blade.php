@@ -77,14 +77,14 @@
                     {"data": "title"},
                     {"data": "referee"},
                     {"data": "admin"},
-                    {"data": "dur_date"},
+                    {"data": "due_date"},
                     {
                         "className": 'details-control',
                         "orderable": false,
                         "data": null,
                         "defaultContent": ''
                     },
-                    {"data": "overall_scope"},
+                    {"data": "overall_score"},
                     {"data": "state"},
                     {"data": "comment"},
                     {

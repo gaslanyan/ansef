@@ -62,7 +62,7 @@ class BookController extends Controller
                 $book = new Book;
                 $book->person_id = $request->book_add_hidden_id;
                 $book->title = $request->title;
-                $book->publsher = $request->publisher;
+                $book->publisher = $request->publisher;
                 $book->year = $request->year;
                 $book->save();
                 return \Redirect::back()->with('success', getMessage("success"));
@@ -120,7 +120,7 @@ class BookController extends Controller
                 $domestic = '0';
                 $book = Book::find($request->book_edit_hidden_id[$i]);
                 $book->title = $request->title[$i];
-                $book->publsher = $request->publisher[$i];
+                $book->publisher = $request->publisher[$i];
                 $book->year = $request->year[$i];  /* vercnel miayn tarin te tuyl tal amboxy date mutqagrel?*/;
                 $book->save();
             }
