@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        Schema::defaultStringLength(1024);
 
         Validator::extend('greater_than_field', function ($attribute, $value, $parameters, $validator) {
             $min_field = $parameters[0];

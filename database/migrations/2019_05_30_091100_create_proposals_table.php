@@ -15,7 +15,7 @@ class CreateProposalsTable extends Migration {
 		Schema::create('proposals', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('title', 191)->nullable();
+			$table->string('title', 1024)->nullable();
 			$table->text('abstract', 65535)->nullable();
 			$table->enum('state', array('in-progress','submitted','in-review','review complete','awarded','unsuccessfull','approved 1','approved 2','complete','disqualified','finalist'))->nullable();
 			$table->string('document', 191)->nullable();

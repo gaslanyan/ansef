@@ -11,9 +11,9 @@ class Email extends Model
     protected $table = 'emails';
 
     protected $fillable = [
-        'email', 'peron_id'
+        'email', 'person_id'
     ];
-    
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person');

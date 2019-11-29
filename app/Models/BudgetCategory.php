@@ -13,7 +13,7 @@ class BudgetCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'min', 'max', 'weight', 'competition_id'];
+        'name', 'min', 'max', 'weight', 'competition_id', 'comments'];
 
     public function competition()
     {

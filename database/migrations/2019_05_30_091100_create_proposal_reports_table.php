@@ -21,7 +21,7 @@ class CreateProposalReportsTable extends Migration {
 			$table->date('due_date')->nullable();
 			$table->enum('approved', array('0','1'))->nullable();
 			$table->dateTime('created_at')->nullable();
-			$table->dateTime('update_at')->nullable();
+			$table->dateTime('updated_at')->nullable();
 		});
 	}
 

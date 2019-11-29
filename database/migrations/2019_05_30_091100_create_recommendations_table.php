@@ -19,7 +19,7 @@ class CreateRecommendationsTable extends Migration {
 			$table->integer('proposal_id')->nullable();
 			$table->integer('person_id')->unsigned()->nullable();
 			$table->dateTime('created_at')->nullable();
-			$table->dateTime('update_at')->nullable();
+			$table->dateTime('updated_at')->nullable();
 		});
 	}
 
