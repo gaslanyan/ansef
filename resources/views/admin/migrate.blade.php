@@ -11,9 +11,11 @@
                      @endif
                     <div class="card-body card_body" >
                         @foreach($proposalchunks as $key=>$chunk)
+                        @if($key > $id)
                         <p>
                         <a href="{{action('JobsController@dochunk', $key)}}">Chunk {{$key}} of {{count($proposalchunks)}}</a>
                         </p>
+                        @endif
                         @endforeach
                     </div>
                 </div>

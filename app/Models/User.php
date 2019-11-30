@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'password_salt', 'role', 'state', 'confirmation', 'requested_role_id', 'remember_token'
+        'email', 'password', 'password_salt', 'role_id', 'state', 'confirmation', 'requested_role_id', 'remember_token'
     ];
 
     /**
@@ -40,11 +40,6 @@ class User extends Authenticatable
     function person()
     {
         return $this->hasOne('App\Models\Person');
-    }
-
-    function rank()
-    {
-        return $this->hasOne('App\Models\Score');
     }
 
     public function role()

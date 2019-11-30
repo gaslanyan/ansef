@@ -56,7 +56,7 @@
                                             @endif
                                             @if(!empty($categories))
                                                 @foreach($categories as $cat)
-                                                    <span> @if(in_array($cat->id,$c)) {{$cat->abbreviation}}@endif</span>
+                                                    <span>{{$cat->abbreviation}}</span>
                                                 @endforeach
                                             @endif
                                         </td>
