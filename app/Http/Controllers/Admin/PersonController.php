@@ -14,6 +14,7 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
+use App\Models\PersonType;
 use App\Models\Proposal;
 use App\Models\ProposalInstitution;
 use App\Models\ProposalReports;
@@ -221,36 +222,25 @@ class PersonController extends Controller
                         foreach ($p as $index => $person) {
                             $persons = Person::where('id', $person->id)->first();
 
-                            $pm = Proposal::select('id', 'proposal_members')->get();
+                            // Find proposals of person
+                            // if (!empty($arr)) {
+                            //     foreach ($key as $index => $item) {
+                            //         BudgetItem::where('proposal_id', $item)->delete();
+                            //         ProposalInstitution::where('proposal_id', $item)->delete();
+                            //         ProposalReports::where('proposal_id', $item)->delete();
+                            //         $r = RefereeReport::select('id')->where('proposal_id', $item)->get();
+                            //         foreach ($r as $ind => $it) {
 
-                            $proposals = [];
-                            foreach ($pm as $item) {
-                                $js = json_decode($item->proposal_members, true);
-
-                                if (!empty($js['account_id']))
-                                    $arr[$item['id']] = $js['account_id'];
-                            }
-
-                            $key = array_keys($arr, $person->user_id);
-
-                            if (!empty($arr)) {
-                                foreach ($key as $index => $item) {
-                                    BudgetItem::where('proposal_id', $item)->delete();
-                                    ProposalInstitution::where('proposal_id', $item)->delete();
-                                    ProposalReports::where('proposal_id', $item)->delete();
-                                    $r = RefereeReport::select('id')->where('proposal_id', $item)->get();
-                                    foreach ($r as $ind => $it) {
-
-                                        Score::where('report_id', $it->id)->delete();
-                                    }
-                                    RefereeReport::where('proposal_id', $item)->delete();
-                                    $file_path = storage_path('proposal/prop-' . $item);
-                                    //
-                                    if (is_dir($file_path))
-                                        File::deleteDirectory($file_path);
-                                    Proposal::where('id', $item)->delete();
-                                }
-                            }
+                            //             Score::where('report_id', $it->id)->delete();
+                            //         }
+                            //         RefereeReport::where('proposal_id', $item)->delete();
+                            //         $file_path = storage_path('proposal/prop-' . $item);
+                            //         //
+                            //         if (is_dir($file_path))
+                            //             File::deleteDirectory($file_path);
+                            //         Proposal::where('id', $item)->delete();
+                            //     }
+                            // }
 
                             DegreePerson::where('person_id', $persons->id)->delete();
                             Email::where('person_id', $persons->id)->delete();

@@ -4,11 +4,13 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">List of proposals
-{{--                        @if(get_Cookie() === "superadmin")--}}
-{{--                            <a href="{{action('Admin\ProposalController@create')}}"--}}
-{{--                               class="display float-lg-right btn-primary px-2">Create Proposal</a>--}}
-{{--                        @endif--}}
+                    <div class="card-header">List of proposals for competition :
+                        <select name="competition" id="competition">
+                            @foreach($competitions as $c)
+                                <option value="{{$c['id']}}" {{$c['id']==$cid ? 'selected' : ''}}>{{$c['title']}}</option>
+                            @endforeach
+                                <option value="-1" {{-1==$cid ? 'selected' : ''}}>All</option>
+                        </select>
                     </div>
                     <div class="card-body card_body">
                         @include('partials.status_bar')
@@ -50,7 +52,7 @@
                                 </button>
                             @endif
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example">
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example">
                             <thead>
                             <tr>
                                 <th></th>
@@ -75,84 +77,30 @@
                                 @foreach($proposals as $pr)
                                     <tr>
                                         <td></td>
-                                        <td><label for="proposal{{$pr->id}}" class="label">
+                                        <td><label for="proposal{{$pr['id']}}" class="label">
                                                 <input type="checkbox" class="form-control checkbox" name="id[]"
-                                                       value="{{$pr->id}}"
-                                                       id="proposal{{$pr->id}}">
+                                                       value="{{$pr['id']}}"
+                                                       id="proposal{{$pr['id']}}">
                                             </label></td>
                                         <td>
-                                            <!--{{date_format($pr->created_at,"Y-m-d")}}-->
-                                            {{getProposalTag($pr->id)}}
+                                            {{$pr['tag']}}
                                         </td>
                                         <td class="title_field">
-                                            {{$pr->title}}
+                                            {{$pr['title']}}
                                         </td>
 
                                         <td>
-                                            @php
-                                                $accounts = json_decode($pr->proposal_members);
-                                              if(!empty($accounts->person_pi_id)){
-                                                $person = \App\Models\Person::where('id', $accounts->person_pi_id)->get()->first();
-                                                if($person) {
-                                                $p = $person['last_name']. " ".$person['first_name'];
-                                                echo '<a href="mailto:'.$person['email'].'">'.$accounts->person_pi_id.
-                                                $p.'</a>';
-                                                }
-                                                else {
-                                                    echo 'no PI';
-                                                 }
-                                            }
-                                            @endphp
                                         </td>
                                         <td>
-                                            @php
-
-                                                $referee = json_decode($pr->proposal_referees);
-                                            @endphp
-                                            @foreach ((array)$referee as $item)
-                                                @php
-                                                    $person = getPerson($item);
-                                                    $p = $person['last_name']. "
-                                                    ".$person['first_name'];
-                                                @endphp
-                                                <p><a href="mailto:{{$person['email']}}">
-                                                        {{$p}}
-                                                    </a></p>
-                                            @endforeach
                                         </td>
                                         <td>
-                                            @php
-                                                $referee = json_decode($pr->proposal_admins);
-                                            @endphp
-                                            @foreach ((array)$referee as $item)
-                                                @php
-                                                    $person = getPerson($item);
-
-                                                    $p = $person['last_name']. "
-                                                    ".$person['first_name'];
-                                                @endphp
-                                                <p><a href="mailto:{{$person['email']}}">
-                                                        {{$p}}
-                                                    </a></p>
-                                            @endforeach
                                         </td>
-                                        <td data-order="{{$pr->state}}" class="state_field">
-                                            <select class="form-control" name="state" disabled>
-                                                <?php $enum = getEnumValues('proposals', 'state');?>
-                                                <option value="0">Select state</option>
-                                                @if(!empty($enum))
-                                                    @foreach($enum as $item)
-                                                        <option class="text-capitalize"
-                                                                value="{{$item}}" @if($item === $pr->state)
-                                                            {{'selected'}} @endif>{{$item}}
-                                                        </option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                        <td data-order="{{$pr['state']}}" class="state_field">
+                                            {{$pr['state']}}
                                         </td>
                                         <td>
-                                            <input type="hidden" class="id" value="{{$pr->id}}">
-                                            <input type="hidden" class="url" value="/updateProposal">
+                                            <input type="hidden" class="id" value="{{$pr['id']}}">
+                                            {{-- <input type="hidden" class="url" value="/updateProposal">
                                             <button title="Edit"
                                                     class="edit btn-link">
                                                 <i class="fa fa-pencil-alt"></i>
@@ -163,24 +111,18 @@
                                             </button>
                                             <button title="Cancel"
                                                     class="cancel editable btn-link"><i class="fa fa-ban"></i>
-                                            </button>
-                                            {{--                                            <a target="_blank" href="{{action(ucfirst('applicant').'\\'.ucfirst('applicant').'Controller@index',--}}
-                                            {{--                                                          $person['user_id'])}}"--}}
-                                            {{--                                               class="login" title="Login"><i class="fa fa-sign-in-alt"></i>--}}
-                                            {{--                                            </a>--}}
-{{--                                            <input type="hidden" class="id" name="applicant"--}}
-{{--                                                   value="{{$person['user_id']}}">--}}
+                                            </button> --}}
 
-                                            <a href="{{action('Admin\ProposalController@show', $pr->id)}}"
+                                            <a href="{{action('Admin\ProposalController@show', $pr['id'])}}"
                                                class="view" title="View"><i class="fa fa-eye"></i>
                                             </a>
-                                            <form action="{{action('Admin\ProposalController@destroy', $pr->id)}}"
+                                            {{-- <form action="{{action('Admin\ProposalController@destroy', $pr['id'])}}"
                                                   method="post">
                                                 @csrf
                                                 <input name="_method" type="hidden" value="DELETE">
                                                 <button class="btn-link delete" type="button"><i
                                                             class="fa fa-trash"></i></button>
-                                            </form>
+                                            </form> --}}
                                         </td>
 
                                     </tr>
@@ -276,10 +218,9 @@
                                 <label for="change_proposal_state"
                                        class="label">
                                     <select class="form-control col-12" name="change_proposal_state">
-                                        <?php $enum = getEnumValues('proposals', 'state');?>
                                         <option value="0">Select state</option>
-                                        @if(!empty($enum))
-                                            @foreach($enum as $item)
+                                        @if(!empty($enumvals))
+                                            @foreach($enumvals as $item)
                                                 <option class="text-capitalize" value="{{$item}}">{{$item}}</option>
                                             @endforeach
                                         @endif
@@ -320,13 +261,35 @@
                         "visible": true
                     }
                 ],
-                "scrollX": true
+                "scrollX": true,
+                "scrollY": 450,
+                "deferRender": true,
+                "scrollCollapse": true,
+                "scroller": true,
+                "colReorder": true,
+                "fixedColumns":   { "leftColumns": 3 },
+                "processing": true,
+                "language": {
+                    "loadingRecords": '&nbsp;',
+                    "processing": 'Loading...'
+                },
+                "dom": 'Bfrtip',
+                "buttons": [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
             });
             t.on('order.dt search.dt', function () {
                 t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                     cell.innerHTML = i + 1;
                 });
             }).draw();
+
+            $('#competition').change(function() {
+                // alert("Hello " + $(this).val());
+                var url = '{!! route("proposal_list", ":id"); !!}';
+                url = url.replace(':id', $(this).val());
+                document.location.href=url;
+            });
         });
         var _type = '';
 

@@ -128,7 +128,7 @@ Route::post('/getSTypeCount', 'Base\AjaxController@getSTypeCount');
 Route::post('/getRR', 'Base\AjaxController@getRR');
 
 Route::post('/approve', 'Base\AjaxController@approve');
-Route::get('/ajax_report', 'Base\AjaxController@report');
+Route::get('/ajax_report/{id}', 'Base\AjaxController@report');
 Route::post('/gclfs', 'Base\AjaxController@getCompetitionsListForStatistics');
 //admin
 
@@ -159,8 +159,10 @@ Route::resource('/admin/score', 'Admin\ScoreTypeController');
 Route::resource('/admin/rank', 'Admin\RankingRuleController');
 Route::get('/admin/execute', 'Admin\RankingRuleController@execute');
 Route::post('/admin/execute', 'Admin\RankingRuleController@executeQuery');
+Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
 Route::resource('/admin/proposal', 'Admin\ProposalController');
 Route::get('/admin/approve', 'Admin\ReportController@approve');
+Route::get('/admin/report/list/{id}', 'Admin\ReportController@list')->name('report_list');
 Route::resource('/admin/report', 'Admin\ReportController');
 
 

@@ -137,7 +137,6 @@ class ProposalController extends Controller
                     $prop_members['person_director_id'] = $request->choose_person_id[$i];
                 }
             }
-            $proposal->proposal_members = json_encode($prop_members);
             $proposal->save();
             $proposal_id = $proposal->id;
 
@@ -185,7 +184,6 @@ class ProposalController extends Controller
         $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
         $cat_sec_parent = Category::with('children')->where('id', $categories->sec_parent)->get()->first();;
         $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
-        $person_members = json_decode($proposal->proposal_members);
         $person_account = Person::whereIn('id', [$person_members->account_id, $person_members->account_id, $person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
         $budget_item = \DB::table('budget_item')
             ->select('budget_item.*','budget_categories.name')
@@ -218,7 +216,6 @@ class ProposalController extends Controller
         $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
         $cat_sec_parent = Category::with('children')->where('id', $categories->sec_parent)->get()->first();;
         $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
-        $person_members = json_decode($proposal->proposal_members);
         $person_account = Person::whereIn('id', [$person_members->account_id, $person_members->account_id, $person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
 
         return view('viewer.proposal.edit', compact('competition_name', 'competitions', 'proposal', 'cat_parent', 'cat_sub',
@@ -238,7 +235,6 @@ class ProposalController extends Controller
         $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
         $cat_sec_parent = Category::with('children')->where('id', $categories->sec_parent)->get()->first();;
         $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
-        $person_members = json_decode($proposal->proposal_members);
         $person_account = Person::whereIn('id', [$person_members->account_id, $person_members->person_director_id, $person_members->person_pi_id])->get()->toArray();
         $budget_item = BudgetItem::where('proposal_id', '=', $proposal->id)->get()->toArray();
         $budget_categories = BudgetCategory::where('competition_id', '=', $proposal->competition_id)->get()->toArray();

@@ -94,13 +94,6 @@
                                         <div class="box-header with-border col-12">
                                             <h3 class="box-title">Project PI and Collaborators</h3>
                                         </div>
-                                        @php
-                                            $accounts = json_decode($proposal->proposal_members);
-                                               if($accounts->person_pi_id){
-                                                 $pi = getPerson($accounts->person_pi_id);
-                                               echo printUser($pi,$accounts);
-                                               }
-                                        @endphp
                                         @if(!empty($proposal->proposal_referees))
                                             <div class="box-header with-border col-12">
                                                 <h3 class="box-title">Proposals referees</h3>

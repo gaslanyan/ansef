@@ -198,13 +198,15 @@ class MigrateANSEF implements ShouldQueue
 
         // Add user and person for pi
 
-        if (Arr::exists($investigators, $proposal->investigator_id))
+        $investigator = null;
+        $account = null;
+        if (Arr::exists($investigators, $proposal->investigator_id)) {
             $investigator = $investigators[$proposal->investigator_id];
-        else return;
-        if (Arr::exists($accounts, $investigator->account_id))
-            $account = $accounts[$investigator->account_id];
-        else return;
+            if (Arr::exists($accounts, $investigator->account_id))
+                $account = $accounts[$investigator->account_id];
+        }
         $generate_password = randomPassword();
+        if($account != null)
         $user = User::firstOrCreate(
             [
                 'email' => $account->username
@@ -219,9 +221,22 @@ class MigrateANSEF implements ShouldQueue
                 'state' => 'active'
             ]
         );
-        if ($user->email == 'lilit@ansef.org')
-            \Debugbar::error('1 - Created user ' . $user->id . ' with role ' . $user->role_id);
+        else $user = User::firstOrCreate(
+            [
+                'email' => 'applicant@ansef.org'
+            ],
+            [
+                'password' => bcrypt($generate_password),
+                'password_salt' => 10,
+                'remember_token' => null,
+                'role_id' => $applicant_role->id,
+                'requested_role_id' => 0,
+                'confirmation' => "1",
+                'state' => 'active'
+            ]
+        );
 
+        if($investigator != null)
         Person::firstOrCreate(
             [
                 'user_id' => $user->id,
@@ -240,7 +255,26 @@ class MigrateANSEF implements ShouldQueue
                 'user_id' => $user->id
             ]
         );
+        else Person::firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'type' => null
+                ],
+                [
+                    'birthdate' => date('1970-07-02'),
+                    'birthplace' => '',
+                    'sex' => 'neutral',
+                    'state' => 'domestic',
+                    'first_name' => '',
+                    'last_name' => '',
+                    'nationality' => 'Armenia',
+                    'type' => null,
+                    'specialization' => 'None',
+                    'user_id' => $user->id
+                ]
+            );
 
+        if ($investigator != null)
         $pi = Person::create([
             'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
             'birthplace' => ucfirst($investigator->birthplace),
@@ -253,19 +287,38 @@ class MigrateANSEF implements ShouldQueue
             'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
             'user_id' => $user->id
         ]);
+        else $pi = Person::create([
+            'birthdate' => date('1970-07-02'),
+            'birthplace' => 'Yerevan',
+            'sex' => 'neutral',
+            'state' => 'domestic',
+            'first_name' => 'Applicant',
+            'last_name' => 'Applicantian',
+            'nationality' => 'Armenia',
+            'type' => 'participant',
+            'specialization' => 'None',
+            'user_id' => $user->id
+        ]);
         // \Debugbar::error('Added pi user and person.');
 
+        if ($investigator != null)
         Phone::create([
             "person_id" => $pi->id,
             "country_code" => 0,
             "number" => $investigator->phone
         ]);
 
+        if ($investigator != null)
         Email::create([
             "person_id" => $pi->id,
             "email" => $investigator->email
         ]);
+        else Email::create([
+            "person_id" => $pi->id,
+            "email" => 'applicant@ansef.org'
+        ]);
 
+        if ($investigator != null)
         Address::create([
             'country_id' => 8,
             'province' => '',
@@ -277,6 +330,7 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added pi phone, email, and address.');
 
         // Add pi CV data
+        if ($investigator != null) {
         $honors = DB::connection('mysqlold')->table('honors')
             ->where('investigator_id', '=', $investigator->id)->get();
         $grants = DB::connection('mysqlold')->table('grants')
@@ -348,6 +402,7 @@ class MigrateANSEF implements ShouldQueue
                 'domestic' => '0',
                 'ansef_supported' => '1'
             ]);
+        }
         }
         // \Debugbar::error('Added pi ansefpublications.');
 
@@ -440,7 +495,7 @@ class MigrateANSEF implements ShouldQueue
             'rank' => 0,
             'competition_id' => $competition->id,
             'categories' => json_encode($cat),
-            'proposal_admins' => $administrator->id,
+            'proposal_admin' => $administrator->id,
             'user_id' => $user->id
         ]);
         // \Debugbar::error('Added proposal.');
@@ -562,6 +617,7 @@ class MigrateANSEF implements ShouldQueue
                 "public_comment" => $report->public_comments,
                 "state" => 'complete',
                 "proposal_id" => $p->id,
+                "competition_id" => $competition->id,
                 "due_date" => date($compyear . "-12-30"),
                 "overall_score" => $report->score,
                 "referee_id" => $ref->id

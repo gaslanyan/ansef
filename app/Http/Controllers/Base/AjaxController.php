@@ -215,17 +215,7 @@ class AjaxController extends Controller
             }
             if ($key === 'type')
                 if ($value == 'submitted') {
-                    $person_members = json_decode($proposal->proposal_members);
-                    if (!empty($person_members->person_support_id)) {
-                        $emails = Email::select('email')->where('person_id', '=', $person_members->person_support_id)->get()->toArray();
 
-                        if (!empty($emails)) {
-                            dd($value);//$proposal->state = $value;
-                        } else {
-                            dd($key);//   echo "<script>alert('Please make sure all people have a emails; ');</script>";
-                        }
-
-                    }
                 } else {
                     $proposal->state = $value;
                 }
@@ -675,7 +665,6 @@ class AjaxController extends Controller
     public function sendEmail(Request $request)
     {
         $IDs = json_decode($request->ids);
-        $pi_json = Proposal::select('proposal_members')->whereIn('id', $IDs)->get();
 
         $message = Message::where('id', '=', $request->t_id)->first();
         $objSend = new \stdClass();
@@ -684,13 +673,12 @@ class AjaxController extends Controller
         $objSend->receiver = 'collages';
 
         $items = [];
-        foreach ($pi_json as $index => $json) {
-            $pi = json_decode($json->proposal_members);
-            $email = Person::with('user')->where('id', $pi->person_pi_id)->first();
-            //             $email->user->email;
-            Mail::to($email->user->email)->send(new \App\Mail\Invitation($objSend));
-            return response()->json('ok');
-        }
+        // foreach ($pi_json as $index => $json) {
+        //     $email = Person::with('user')->where('id', $pi->person_pi_id)->first();
+        //     //             $email->user->email;
+        //     Mail::to($email->user->email)->send(new \App\Mail\Invitation($objSend));
+        //     return response()->json('ok');
+        // }
 
     }
 
@@ -743,22 +731,20 @@ class AjaxController extends Controller
 
         $p = Person::select('id')->where('user_id', $_id)->first();
         if (!empty($p)) {
-            $pm = Proposal::select('proposal_members')->get();
             $arr = [];
-            foreach ($pm as $index => $item) {
-                $js = json_decode($item->proposal_members, true);
-                if (!empty($js['account_id']))
-                    $arr[] = $js['account_id'];
-            }
-            if (in_array($p->id, $arr))
-                $response = [
-                    'success' => true
-                ];
-            else
-                $response = [
-                    'success' => false,
-                    'error' => 'Do not available'
-                ];
+            // foreach ($pm as $index => $item) {
+            //     if (!empty($js['account_id']))
+            //         $arr[] = $js['account_id'];
+            // }
+            // if (in_array($p->id, $arr))
+            //     $response = [
+            //         'success' => true
+            //     ];
+            // else
+            //     $response = [
+            //         'success' => false,
+            //         'error' => 'Do not available'
+            //     ];
         } else {
             $response = [
                 'success' => false
@@ -963,15 +949,32 @@ class AjaxController extends Controller
         exit();
     }
 
-    public function report(Request $request)
+    public function report($cid, Request $request)
     {
         $d['data'] = [];
-        $reports = RefereeReport::with(['proposal' => function ($query) {
-            $query->select('id', 'title', 'proposal_admins', 'comment');
-        }, 'person' => function ($query) {
-            $query->select('id', 'first_name', 'last_name');
-        }])
-            ->get();
+        if ($cid == -1) {
+            $reports = RefereeReport::with([
+                'proposal' => function ($query) {
+                    $query->select('id', 'title', 'proposal_admin', 'comment');
+                }, 'person' => function ($query) {
+                    $query->select('id', 'first_name', 'last_name');
+                }
+            ])
+                ->orderBy('id', 'asc')
+                ->get();
+        }
+        else {
+            $reports = RefereeReport::with([
+                'proposal' => function ($query) {
+                    $query->select('id', 'title', 'proposal_admin', 'comment');
+                }, 'person' => function ($query) {
+                    $query->select('id', 'first_name', 'last_name');
+                }
+            ])
+                ->where('competition_id', '=', $cid)
+                ->orderBy('id', 'asc')
+                ->get();
+        }
 
         foreach ($reports as $index => $report) {
             $scores = Score::with(['scoreType' => function ($query) {
@@ -988,9 +991,9 @@ class AjaxController extends Controller
 
             $d['data'][$index]['id'] = $report['id'];
             $d['data'][$index]['url'] = 'Admin\ReportController@destroy';
-            $d['data'][$index]['title'] = $report['proposal']['title'];
+            $d['data'][$index]['title'] = truncate($report['proposal']['title'],20);
             $d['data'][$index]['referee'] = $report['person']['first_name'] . ' ' . $report['person']['last_name'];
-            $d['data'][$index]['admin'] = $report['proposal']['proposal_admins'];
+            $d['data'][$index]['admin'] = $report['proposal']['proposal_admin'];
             $d['data'][$index]['due_date'] = $report['due_date'];
             $d['data'][$index]['overall_score'] = $report['overall_score'];
             $d['data'][$index]['state'] = $report['state'];

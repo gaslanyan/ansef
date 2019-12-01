@@ -555,5 +555,5 @@ function cleanString($text)
 }
 
 function getCleanString($text) {
-    return (!empty($text) && $text != null) ? cleanString(ucwords($text)) : '';
+    return (!empty($text) && $text != null) ? cleanString(ucwords(strtolower($text))) : '';
 }

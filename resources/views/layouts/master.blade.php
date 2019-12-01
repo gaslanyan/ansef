@@ -8,13 +8,17 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/skins/_all-skins.min.css')}}"/>
+    {{-- <link rel="stylesheet" href="{{asset('css/skins/_all-skins.min.css')}}"/> --}}
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{asset('css/datepicker.css')}}"/>
-    <link rel="stylesheet" href="{{asset('css/datatables.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
+    <style>
+    th, td { white-space: nowrap; }
+    </style>
+
     @yield('stylesheets')
-    <script src="{{ asset('js/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
 
 
 </head>
@@ -39,10 +43,10 @@
 {{--integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="--}}
 {{--crossorigin="anonymous"></script>--}}
 <script src="{{ asset('js/jquery/dist/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap/dist/js/bootstrap.js') }}"></script>
-<script src="{{ asset('js/bootstrap/dist/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('js/bootstrap/js/bootstrap.js') }}"></script>
+<script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
-<script src="{{ asset('js/datatables.min.js') }}"></script>
+<script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/init.js') }}"></script>
 

@@ -18,14 +18,13 @@ class CreateProposalsTable extends Migration {
 			$table->string('title', 1024)->nullable();
 			$table->text('abstract', 65535)->nullable();
 			$table->enum('state', array('in-progress','submitted','in-review','review complete','awarded','unsuccessfull','approved 1','approved 2','complete','disqualified','finalist'))->nullable();
-			$table->string('document', 191)->nullable();
+			$table->string('document', 512)->nullable();
 			$table->float('overall_score', 10, 0)->nullable();
 			$table->text('comment', 65535)->nullable();
 			$table->integer('rank')->nullable();
 			$table->integer('competition_id');
 			$table->text('categories', 65535)->nullable()->comment('cat ids from competation table');
-			$table->text('proposal_members', 65535)->nullable()->comment('account_id,person_director_id, person_pi_id');
-			$table->string('proposal_admins')->nullable();
+			$table->integer('proposal_admin')->nullable();
 			$table->string('proposal_referees')->nullable();
             $table->integer('user_id')->nullable();
 			$table->timestamps();

@@ -103,14 +103,6 @@ class ProposalController extends Controller
         $proposals = Proposal::all();
         $pastproposal = [];
 
-        for ($i = 0; $i <= count($proposals) - 1; $i++) {
-            $elements = json_decode($proposals[$i]->proposal_members, true);
-
-            if (in_array($user_id, (array) $elements)) {
-                $pid[] = $proposals[$i]->id;
-                $pastproposal = Proposal::whereIn('state', ['submitted', 'unsuccessfull', 'complete', 'disqualified'])->whereIn('id', $pid)->get()->toArray();
-            }
-        }
 
         return view('applicant.proposal.past', compact('pastproposal'));
     }
@@ -255,13 +247,6 @@ class ProposalController extends Controller
         else $cat_sec_parent = '';
         if (property_exists($categories, 'sec_sub')) $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
         else $cat_sec_sub = '';
-        $person_members = json_decode($proposal->proposal_members);
-        // $person_acc = User::where("id", '=', $person_members->account_user_id)->get()->first();
-        // $person_account = \DB::table('persons')
-        //     ->select('persons.first_name', 'persons.last_name', 'person_type.subtype', 'persons.id')
-        //     ->join('person_type', 'persons.id', '=', 'person_type.person_id')
-        //     ->where('person_type.proposal_id', '=', $id)
-        //     ->get()->toArray();
 
         $proposalinstitution = ProposalInstitution::where('proposal_id', '=', $id)->first();
         if (!empty($proposalinstitution)) {

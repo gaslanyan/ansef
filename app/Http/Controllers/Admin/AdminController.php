@@ -16,6 +16,7 @@ class AdminController extends Controller
     protected $guard = 'admin';
     public function index()
     {
+        ini_set('memory_limit', '512M');
         try {
         $proposals = Competition::with('proposalsCount')->get();
 

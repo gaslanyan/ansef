@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\BudgetItem;
 use App\Models\Category;
+use App\Models\Competition;
 use App\Models\Message;
 use App\Models\Proposal;
 use App\Models\ProposalInstitution;
@@ -20,32 +21,47 @@ use Illuminate\Support\Facades\Validator;
 
 class ProposalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function list($cid)
     {
+        ini_set('memory_limit', '384M');
         try {
-            $proposals = Proposal::with('competition')->get();
-            $referee_role = Role::where('name', '=', 'referee')->first();
-            $admin_role = Role::where('name', '=', 'admin')->first();
-
-            $referee = Role::find($referee_role->id);
-
+            $competitions = Competition::select('id','title')
+                ->orderBy('submission_end_date','desc')
+                ->get()->toArray();
+            // dd($competitions);
+            if($cid == -1) {
+                $proposals = Proposal::select('title', 'state', 'id')
+                    ->orderBy('id', 'asc')
+                    ->get()->toArray();
+            }
+            else {
+                $proposals = Proposal::select('title', 'state', 'id')
+                    ->where('competition_id', '=', $cid)
+                    ->orderBy('id', 'asc')
+                    ->get()->toArray();
+            }
+            foreach($proposals as &$pr) {
+                $pr['tag'] = getProposalTag($pr['id']);
+                $pr['title'] = truncate($pr['title'], 20);
+            }
+            $referee = Role::where('name', '=', 'referee')->first();
+            $admin = Role::where('name', '=', 'admin')->first();
             $referees = $referee->persons;
-
-            $admin = Role::find($admin_role->id);
             $admins = $admin->persons;
+
             $messages = Message::all();
-            return view('admin.proposal.index', compact('proposals', 'referees', 'admins', 'messages'));
+            $enumvals = getEnumValues('proposals', 'state');
+
+            return view('admin.proposal.index', compact('proposals', 'referees', 'admins', 'messages', 'enumvals', 'competitions', 'cid'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal')->with('error', getMessage("wrong"));
+            return redirect('admin/proposal/list/1')->with('error', getMessage("wrong"));
         }
     }
 
+    public function index() {
+
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -120,12 +120,6 @@
                                                             <h3 class="box-title">
                                                                 Project PI </h3>
                                                         </div>
-                                                        @php
-                                                            $accounts = json_decode($report->proposal->proposal_members);
-                                                               if(!empty($accounts->person_pi_id)){
-                                                                 $pi = getPerson($accounts->person_pi_id);
-                                                               echo printUser($pi,$accounts);
-                                                               }                                                                                                                     @endphp
                                                     </div>
                                                 </div>
                                 @else

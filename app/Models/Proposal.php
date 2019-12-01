@@ -20,7 +20,7 @@ class Proposal extends Model
      */
     protected $fillable = [
         'title', 'abstract', 'state', 'document', 'overall_score', 'user_id',
-        'comment', 'rank', 'competition_id', 'categories', 'proposal_members','proposal_refeeres','proposal_admins'
+        'comment', 'rank', 'competition_id', 'categories', 'proposal_refeeres','proposal_admin'
          ];
 
     public function competition()

@@ -320,10 +320,6 @@ class PersonController extends Controller
             $user_id = getUserID();
             $proposals = User::find($user_id)->proposals();
             $flag = true;
-            foreach($proposals as $p) {
-                $members = json_decode($p->proposal_members);
-//                 Check if member id is id
-            }
             if($flag) {
                 $person = Person::find($id);
                 $person->delete();

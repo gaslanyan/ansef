@@ -126,30 +126,7 @@
                                                         <h3 class="box-title">
                                                             Project PI and Collaborators</h3>
                                                     </div>
-                                                    @php
-                                                        $accounts = json_decode($report->proposal->proposal_members);
-                                                            if(!empty($accounts->person_pi_id)){
-                                                              $pi = getPerson($accounts->person_pi_id);
-                                                            echo printUser($pi,$accounts);
-                                                            }
-                                                            if(!empty($accounts->person_director_id)){
-                                                             $pdi = getPerson($accounts->person_director_id);
-                                                            echo printUser($pdi,$accounts);
-                                                            }
-                                                            if(!empty($accounts->account_id)){
-                                                            $aci = getPerson($accounts->account_id);
-                                                            echo printUser($aci,$accounts);
-                                                            }
-                                                            if(!empty($accounts->person_support_id)){
-                                                            $psi = getPerson($accounts->person_support_id);
-                                                            echo printUser($psi,$accounts);
-                                                            }
-                                                            if(!empty($accounts->person_collaborator_id)){
-                                                            $pci = getPerson($accounts->person_collaborator_id);
-                                                            echo printUser($pci,$accounts);
-                                                            }
-                                                    @endphp
-                                                </div>
+                                                                                                    </div>
                                 </div>
                             @else
                                 <p>Can't find data</p>

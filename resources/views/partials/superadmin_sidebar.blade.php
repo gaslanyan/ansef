@@ -171,8 +171,8 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ProposalController@index')}}"><i class="fa fa-circle-o"></i>Show
-                            proposals</a></li>
+                    <li><a href="{{action('Admin\ProposalController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                        Show proposals</a></li>
 
                 </ul>
             </li>
@@ -185,7 +185,7 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ReportController@index')}}"><i class="fa fa-circle-o"></i>Show
+                    <li><a href="{{action('Admin\ReportController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>Show
                              referee reports</a></li>
                     <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI
                             reports</a></li>

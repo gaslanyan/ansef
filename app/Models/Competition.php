@@ -48,6 +48,10 @@ class Competition extends Model
     {
         return $this->hasMany(Proposal::class);
     }
+    public function refereereports()
+    {
+        return $this->hasMany(RefereeReport::class);
+    }
 
     public function budgetCategories() {
         return $this->hasMany(BudgetCategory::class);

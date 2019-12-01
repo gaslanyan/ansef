@@ -16,12 +16,12 @@ class CreatePersonsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->date('birthdate')->nullable();
-			$table->string('birthplace', 191)->nullable();
+			$table->string('birthplace', 512)->nullable();
 			$table->enum('sex', array('male','female','neutral'))->nullable();
 			$table->enum('state', array('foreign','domestic'))->nullable();
-			$table->string('first_name', 191);
-			$table->string('last_name', 191);
-			$table->string('nationality', 191)->nullable();
+			$table->string('first_name', 512)->nullable();
+			$table->string('last_name', 512)->nullable();
+			$table->string('nationality', 512)->nullable();
 			$table->enum('type', array('admin','referee','viewer','applicant','participant','support'))->nullable();
             $table->string('specialization', 512)->nullable();
 			$table->integer('user_id')->unsigned()->nullable();

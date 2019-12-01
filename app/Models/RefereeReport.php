@@ -9,11 +9,15 @@ class RefereeReport extends Model
     protected $table = 'referee_reports';
     protected $fillable = [
         'id','private_comment', 'public_comment','state', 'proposal_id',
-        'due_date', 'scores', 'overall_score'
+        'competition_id', 'due_date', 'scores', 'overall_score'
     ];
     public function proposal()
     {
         return $this->belongsTo('App\Models\Proposal');
+    }
+    public function competition()
+    {
+        return $this->belongsTo('App\Models\Competition');
     }
     public function person()
     {

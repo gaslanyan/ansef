@@ -20,8 +20,8 @@
                 <td>{{$proposal['id']}}</td>
                 <td><?php $categories = json_decode($proposal['categories']); echo getCategoriesNameByID($categories->parent). " - " . getCategoriesNameByID($categories->sub);?></td>
                 <td>{{$proposal['title']}}</td>
-                <td><?php $pi = json_decode($proposal['proposal_members']);  if(getEmailByID($pi->account_id)!= null) echo getEmailByID($pi->account_id);?></td>
-                <td><?php $pi = json_decode($proposal['proposal_members']);  if(getPersonNameByPI($pi->person_pi_id)!= null)echo getPersonNameByPI($pi->person_pi_id); ?></td>
+                <td></td>
+                <td></td>
                 <td>{{$proposal['overall_score']}}</td>
                 <td>{{$proposal['rank']}}</td>
                 <td>{{$proposal['state']}}</td>

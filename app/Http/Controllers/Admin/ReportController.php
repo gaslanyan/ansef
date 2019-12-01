@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ProposalReports;
 use App\Models\RefereeReport;
+use App\Models\Competition;
 use App\Models\Score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,18 +18,22 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function list($cid)
     {
         {
             try {
 
             $score_json = [];
-//                foreach ($scores as $index => $score) {
-//                    $score_json[$score->report->id]['name'][] = $score->scoreType->name;
-//                    $score_json[$score->report->id]['value'][] = $score->value;
-//                }
+                //                foreach ($scores as $index => $score) {
+                //                    $score_json[$score->report->id]['name'][] = $score->scoreType->name;
+                //                    $score_json[$score->report->id]['value'][] = $score->value;
+                //                }
+            $competitions = Competition::select('id', 'title')
+                ->orderBy('submission_end_date', 'desc')
+                ->get()->toArray();
 
-            return view('admin.report.index', compact('score_json'));
+
+            return view('admin.report.index', compact('score_json', 'competitions', 'cid'));
              } catch (\Exception $exception) {
                  logger()->error($exception);
                  return redirect('admin/report')->with('error', getMessage("wrong"));
@@ -37,7 +42,9 @@ class ReportController extends Controller
         }
     }
 
+    public function index() {
 
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -48,11 +55,12 @@ class ReportController extends Controller
     {
         try {
             $report = RefereeReport::find($id);
+            $cid = $report->proposal()->first()->competition()->first()->id;
             $report->delete();
-            return redirect('admin/report')->with('delete', getMessage('deleted'));
+            return redirect('admin/report/list/' . $cid)->with('delete', getMessage('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/report')->with('error', getMessage('wrong'));
+            return redirect('admin/report/list/' . $cid)->with('error', getMessage('wrong'));
         }
     }
 
