@@ -205,7 +205,7 @@ Route::resource('/applicant/account', 'Applicant\AccountController');
 Route::get('/applicant/proposal/updatepersons/{id}', 'Applicant\ProposalController@updatepersons');
 Route::get('/applicant/proposal/check/{id}', 'Applicant\ProposalController@check');
 Route::get('/applicant/proposal/savepersons/{id}', 'Applicant\ProposalController@savepersons');
-Route::get('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
+Route::post('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
 
 Route::resource('/applicant/discipline', 'Applicant\DisciplineController');
 Route::post('/applicant/updatePassword', 'Applicant\PersonController@updatePassword');

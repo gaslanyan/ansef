@@ -278,7 +278,7 @@ class ProposalController extends Controller
             'cat_parent',
             'cat_sub',
             'cat_sec_parent',
-            'cat_sec_sub',
+            'cat_sec_sub'
         ));
     }
 
@@ -361,30 +361,60 @@ class ProposalController extends Controller
         return $pdf->download('document.pdf');
     }
 
-    public function updatepersons($id)
+    public function updatepersons(Request $request,$id)
     {
         $proposaltag = getProposalTag($id);
+        $user_id = getUserID();
+        $persons = Person::where('user_id', $user_id)->where(function ($query) {
+            $query->where('type', 'participant');
+            $query->orWhere('type', 'support');
+        })->get()->toArray();
+
+
+        $added_persons  =  \DB::table('person_type')
+            ->select('persons.first_name', 'persons.last_name','persons.type', 'person_type.subtype', 'persons.id')
+            ->join('persons', 'persons.id', '=', 'person_type.person_id')
+            ->where('person_type.proposal_id', '=', $id)
+            ->get()->toArray();
 
         // FOR KRISTINE
 
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons'));
     }
 
-    public function savepersons($id)
+    public function savepersons(Request $request,$id)
     {
         $proposaltag = getProposalTag($id);
+        $user_id = getUserID();
+        $persons = Person::where('user_id', $user_id)->where(function ($query) {
+            $query->where('type', 'participant');
+            $query->orWhere('type', 'support');
+        })->get()->toArray();
+
+
+        $added_persons  =  \DB::table('person_type')
+            ->select('persons.first_name', 'persons.last_name','persons.type', 'person_type.subtype', 'persons.id')
+            ->join('persons', 'persons.id', '=', 'person_type.person_id')
+            ->where('person_type.proposal_id', '=', $id)
+            ->get()->toArray();
 
         // FOR KRISTINE
 
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id','added_persons','persons'));
     }
 
-    public function addperson($id)
+    public function addperson(Request $request,$id)
     {
+
         $proposaltag = getProposalTag($id);
 
+        $persontype = new PersonType();
+        $persontype->person_id = $request->person_prop;
+        $persontype->proposal_id = $id;
+        $persontype->subtype = $request->subtype;
+        $persontype->save();
         // FOR KRISTINE
-
+        //return redirect()->action('Applicant\ProposalController@updatepersons');
         return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
     }
 
