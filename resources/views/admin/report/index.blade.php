@@ -18,32 +18,32 @@
                         @include('partials.status_bar')
 
                         <div class="btn_add col-md-12">
-                            <button type="button" disabled title="delete" id="deleteReport"
-                                    class="btn-link btn delete_cats offset-lg-6 col-lg-2 col-md-3"><i
-                                        class="fa fa-trash-alt"></i>
-                                Delete
-                            </button>
-                        </div>
-                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
+                                <button type="button" disabled
+                                        title="delete" onclick="deletereports();"
+                                        class="btn-link btn col-lg-2 col-md-3">
+                                        <i class="fa fa-trash-alt" ></i>
+                                    Delete
+                                </button>
+                        </div><br/>
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable"
                                style="width:100%">
                             <thead>
                             <tr>
-                                <th></th>
+                                {{-- <th></th> --}}
                                 <th>
                                     <label for="report" class="label">
                                         <input type="checkbox" class="form-control check_all"
                                                id="report">
                                     </label>
                                 </th>
+                                <th width="100px">ID</th>
                                 <th>Proposal</th>
                                 <th>Referee</th>
                                 <th>Admin</th>
                                 <th>Due</th>
+                                <th>View</th>
                                 <th>Score</th>
-                                <th>Overall</th>
                                 <th>State</th>
-                                <th>Comments</th>
-                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,14 +65,14 @@
                 }
             });
             // var url = "<?= action("Admin\ReportController@destroy", ' + "id" + ')?>";
-            if ( $.fn.dataTable.isDataTable( '#example' ) ) {
-                t = $('#example').DataTable();
+            if ( $.fn.dataTable.isDataTable( '#datatable' ) ) {
+                t = $('#datatable').DataTable();
             }
             else {
-                t = $('#example').DataTable( {
+                t = $('#datatable').DataTable( {
                     "pagingType": "full_numbers",
                     "columns": [
-                        {"defaultContent": ""},
+                        // {"defaultContent": ""},
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
@@ -81,6 +81,7 @@
                                     '</label>';
                             },
                         },
+                        {"data": "tag"},
                         {"data": "title"},
                         {"data": "referee"},
                         {"data": "admin"},
@@ -92,19 +93,7 @@
                             "defaultContent": ''
                         },
                         {"data": "overall_score"},
-                        {"data": "state"},
-                        {"data": "comment"},
-                        {
-                            "render": function (data, type, full, meta) {
-                                var ID = full.id;
-                                return '<form action= "<?= action('Admin\ReportController@destroy', '')?>" method="post"> ' +
-                                    '<input name="_method" type="hidden" value="DELETE">' +
-                                    '<input type="hidden" name="_token" value="{!! csrf_token() !!}">'+
-                                    '<input name="_id" type="hidden" value="' + ID + '">' +
-                                    '<button class="btn-link delete" type="button" data-title="report">' +
-                                    '<i class="fa fa-trash"></i></button></form>';
-                            }
-                        }
+                        {"data": "state"}
                     ],
                     "columnDefs": [
                         {
@@ -131,59 +120,50 @@
                         'copy', 'csv', 'excel', 'pdf', 'print'
                     ]
                 });
-                var ajaxurl = '/ajax_report/:id';
-                ajaxurl = ajaxurl.replace(':id', $('#competition').val());
+                reloadtable('ajax_report');
 
-                t.ajax.url( ajaxurl ).load();
-
-                t.on('order.dt search.dt', function () {
-                    t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) { cell.innerHTML = i + 1; });
-                }).draw();
+                // t.on('order.dt search.dt', function () {
+                //     t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) { cell.innerHTML = i + 1; });
+                // }).draw();
             }
 
             $('#competition').change(function() {
-                // alert("Hello " + $(this).val());
-                t = $('#example').DataTable();
-                var ajaxurl = '/ajax_report/:id';
-                ajaxurl = ajaxurl.replace(':id', $(this).val());
-
-                t.ajax.url( ajaxurl ).load();
-
-                t.on('order.dt search.dt', function () {
-                t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) { cell.innerHTML = i + 1; });
-                }).draw();
+                reloadtable('ajax_report');
             });
 
             function format(d) {
-                var table = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-
+                var table = '<table style="table-layout:fixed;float:right;"><thead><tr><th width="150px" style="text-align:center">Score category</th><th width="50px" style="text-align:center">Score</th><th width="200px">Public comments</th><th width="200px">Private comments</th></tr></thead>';
+                table += '<tbody>';
                 if (d.scores.length) {
                     var s = JSON.parse(d.scores);
+                    var flag = true;
                     for (var i in s) {
                         if (s.hasOwnProperty(i)) {
                             table += '<tr>';
-                            table += '<td>' + s[i].name + '</td><td>' + s[i].value + '</td>';
+                            table += '<td style="text-align:center">' + s[i].name + '</td><td style="text-align:center">' + s[i].value + '</td>';
+                            if(flag) {
+                                table += '<td width="200px" rowspan="7" style="text-align:left;white-space:pre-wrap;">' + d.public + '</td><td width="200px" rowspan="7" style="text-align:left;white-space:pre-wrap;">' + d.private + '</td>';
+                                flag = false;
+                            }
                             table += '</tr>';
                         }
                     }
                 }
 
-                table += '</table>';
+                table += '</tbody></table>';
 
                 return table;
             }
 
-            $('#example tbody').on('click', 'td.details-control',
+            $('#datatable tbody').on('click', 'td.details-control',
                 function () {
                     var tr = $(this).closest('tr');
                     var row = t.row(tr);
 
                     if (row.child.isShown()) {
-                        // This row is already open - close it
                         row.child.hide();
                         tr.removeClass('shown');
                     } else {
-                        // Open this row
                         console.log(row.data());
                         row.child(format(
                             row.data())).show();
@@ -193,6 +173,41 @@
 
         });
 
+        function deletereports() {
+            var checked = $('.checkbox:checked');
+            if (checked.length > 0) {
+                if (confirm('Are you sure you want to delete ' + checked.length + ' reports?')) {
+                    var checkedIDss = [];
+                    $(checked).each(function() {
+                        checkedIDss.push($(this).val());
+                    });
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: '/deleteReport',
+                        type: 'POST',
+                        data: {
+                            token: CSRF_TOKEN,
+                            id: checkedIDss
+                        },
+                        dataType: 'JSON',
+                        success: function(data) {
+                            console.log(data);
+                            if (data.success === -1)
+                                console.log('msg' + data);
+                            else
+                                reloadtable('ajax_report');
+                        },
+                        error: function(data) {
+                            console.log('msg' + data);
+                        }
+                    });
+                }
+            }
+        }
 
     </script>
 @endsection

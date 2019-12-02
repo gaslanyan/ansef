@@ -107,18 +107,18 @@ Route::post('/updateAcc', 'Base\AjaxController@updateAcc');
 Route::post('/updateCategory', 'Base\AjaxController@updateCategory');
 Route::post('/updateCom', 'Base\AjaxController@updateCompetition');
 Route::post('/updateProposal', 'Base\AjaxController@updateProposal');
-Route::post('/addUsers', 'Base\AjaxController@addUsers');
+Route::post('/addUsers', 'Admin\ProposalController@addUsers');
 Route::post('/updateProposalState', 'Base\AjaxController@updateProposalState');
 Route::post('/copyItems', 'Base\AjaxController@copyItems');
-Route::post('/deleteProposal', 'Base\AjaxController@deleteProposal');
+Route::post('/deleteProposal', 'Admin\ProposalController@deleteProposal');
 Route::post('/deleteCats', 'Base\AjaxController@deleteCats');
 Route::post('/deleteScores', 'Base\AjaxController@deleteScores');
 Route::post('/deleteRule', 'Base\AjaxController@deleteRule');
-Route::post('/deleteReport', 'Base\AjaxController@deleteReport');
+Route::post('/deleteReport', 'Admin\ReportController@deleteReport');
 Route::post('/deleteBudgets', 'Base\AjaxController@deleteBudgets');
 Route::post('/duplicateCats', 'Base\AjaxController@duplicateCats');
-Route::post('/sendEmail', 'Base\AjaxController@sendEmail');
-Route::post('/changeState', 'Base\AjaxController@changeState');
+Route::post('/sendEmail', 'Admin\ProposalController@sendEmail');
+Route::post('/changeState', 'Admin\ProposalController@changeState');
 Route::post('/getProposalByApplicant', 'Base\AjaxController@getProposalByApplicant');
 Route::post('/getProposalByReferee', 'Base\AjaxController@getProposalByReferee');
 Route::post('/getBudgetByCategory', 'Base\AjaxController@getBudgetByCategory');
@@ -128,7 +128,8 @@ Route::post('/getSTypeCount', 'Base\AjaxController@getSTypeCount');
 Route::post('/getRR', 'Base\AjaxController@getRR');
 
 Route::post('/approve', 'Base\AjaxController@approve');
-Route::get('/ajax_report/{id}', 'Base\AjaxController@report');
+Route::get('/ajax_report/{id}', 'Admin\ReportController@listreports');
+Route::get('/ajax_proposal/{id}', 'Admin\ProposalController@listproposals');
 Route::post('/gclfs', 'Base\AjaxController@getCompetitionsListForStatistics');
 //admin
 

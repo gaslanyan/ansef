@@ -28,6 +28,12 @@ class Person extends Model
         return $this->hasOne('App\Models\RefereeReport');
     }
 
+    public function administeredproposals()
+    {
+        return $this->hasMany('App\Models\Proposal');
+    }
+
+
     public function emails()
     {
         return $this->hasMany('App\Models\Email');

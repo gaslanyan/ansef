@@ -26,22 +26,22 @@
 
                                 <button type="button" disabled
                                         title="send email" onclick="open_container('email');"
-                                        class="btn-link btn email col-lg-2 col-md-3 "><i
-                                            class="fa fa-envelope-open"></i>
+                                        class="btn-link btn email col-lg-2 col-md-3">
+                                        <i class="fa fa-envelope-open"></i>
                                     Send Email
                                 </button>
-                                <button type="button" disabled title="delete" id="deleteProposal"
-                                        class="btn-link btn delete_proposals col-lg-2 col-md-3"><i
-                                            class="fa fa-trash-alt"></i>
+                                <button type="button" disabled
+                                        title="delete" onclick="deleteproposals();"
+                                        class="btn-link btn col-lg-2 col-md-3">
+                                        <i class="fa fa-trash-alt" ></i>
                                     Delete
                                 </button>
                                 <button type="button" disabled
                                         title="add admin" onclick="open_container('admin');"
                                         class="btn-link btn admin  col-lg-2 col-md-3 "><i
                                             class="fa fa-user-graduate"></i>
-                                    Add Admin
+                                    Assign Admin
                                 </button>
-
                             @endif
                             @if(get_Cookie() === "superadmin" ||  get_Cookie() === "admin" )
                                 <button type="button" disabled
@@ -52,17 +52,17 @@
                                 </button>
                             @endif
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example">
+                        <br/>
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable">
                             <thead>
                             <tr>
-                                <th></th>
+                                {{-- <th></th> --}}
                                 <th>
                                     <label for="proposal" class="label">
                                         <input type="checkbox" class="form-control check_all"
                                                id="proposal">
                                     </label>
                                 </th>
-                                <!--<th>Time</th>-->
                                 <th width="100px">ID</th>
                                 <th>Proposal Title</th>
                                 <th>Proposal PI</th>
@@ -73,61 +73,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(!empty($proposals))
-                                @foreach($proposals as $pr)
-                                    <tr>
-                                        <td></td>
-                                        <td><label for="proposal{{$pr['id']}}" class="label">
-                                                <input type="checkbox" class="form-control checkbox" name="id[]"
-                                                       value="{{$pr['id']}}"
-                                                       id="proposal{{$pr['id']}}">
-                                            </label></td>
-                                        <td>
-                                            {{$pr['tag']}}
-                                        </td>
-                                        <td class="title_field">
-                                            {{$pr['title']}}
-                                        </td>
 
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td>
-                                        </td>
-                                        <td data-order="{{$pr['state']}}" class="state_field">
-                                            {{$pr['state']}}
-                                        </td>
-                                        <td>
-                                            <input type="hidden" class="id" value="{{$pr['id']}}">
-                                            {{-- <input type="hidden" class="url" value="/updateProposal">
-                                            <button title="Edit"
-                                                    class="edit btn-link">
-                                                <i class="fa fa-pencil-alt"></i>
-                                            </button>
-                                            <button title="Save"
-                                                    class="save editable btn-link">
-                                                <i class="fa fa-save"></i>
-                                            </button>
-                                            <button title="Cancel"
-                                                    class="cancel editable btn-link"><i class="fa fa-ban"></i>
-                                            </button> --}}
-
-                                            <a href="{{action('Admin\ProposalController@show', $pr['id'])}}"
-                                               class="view" title="View"><i class="fa fa-eye"></i>
-                                            </a>
-                                            {{-- <form action="{{action('Admin\ProposalController@destroy', $pr['id'])}}"
-                                                  method="post">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <button class="btn-link delete" type="button"><i
-                                                            class="fa fa-trash"></i></button>
-                                            </form> --}}
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-                            @endif
                             </tbody>
                         </table>
 
@@ -251,11 +197,41 @@
 
     <script>
         $(document).ready(function () {
-            var t = $('#example').DataTable({
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var t = $('#datatable').DataTable({
                 "pagingType": "full_numbers",
-                "columnDefs": [
+                    "columns": [
+                        // {"defaultContent": ""},
+                        {
+                            "render": function (data, type, full, meta) {
+                                var ID = full.id;
+                                return '<label for="proposal' + ID + '" class="label">' +
+                                    '<input type="checkbox" class="form-control checkbox" name="id[]"   value="' + ID + '"  id="proposal' + ID + '">' +
+                                    '</label>';
+                            },
+                        },
+                        {"data": "tag"},
+                        {"data": "title"},
+                        {"data": "pi"},
+                        {"data": "refs"},
+                        {"data": "admin"},
+                        {"data": "state"},
+                        {
+                            "render": function (data, type, full, meta) {
+                                var ID = full.id;
+                                return '<a href= "<?= action('Admin\ProposalController@show', ' + ID + ')?>" class="view" title="View"> ' +
+                                    '<i class="fa fa-eye"></i></a>';
+                            }
+                        }
+                    ],
+                    "columnDefs": [
                     {
-                        "targets": [1],
+                        "targets": [0],
                         "searchable": false,
                         "orderable": false,
                         "visible": true
@@ -278,19 +254,104 @@
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
-            t.on('order.dt search.dt', function () {
-                t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
-                });
-            }).draw();
+            // t.on('order.dt search.dt', function () {
+            //     t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+            //         cell.innerHTML = i + 1;
+            //     });
+            // }).draw();
+
+            reloadtable('ajax_proposal');
 
             $('#competition').change(function() {
-                // alert("Hello " + $(this).val());
-                var url = '{!! route("proposal_list", ":id"); !!}';
-                url = url.replace(':id', $(this).val());
-                document.location.href=url;
+                reloadtable('ajax_proposal');
             });
+
+
         });
+
+function deleteproposals() {
+    var checked = $('.checkbox:checked');
+    if (checked.length > 0) {
+        if (confirm('Are you sure you want to delete ' + checked.length + ' proposals?')) {
+            var checkedIDss = [];
+            $(checked).each(function() {
+                checkedIDss.push($(this).val());
+            });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/deleteProposal',
+                type: 'POST',
+                data: {
+                    token: CSRF_TOKEN,
+                    id: checkedIDss
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    if (data.success === -1)
+                        console.log('msg' + data);
+                    else
+                        reloadtable('ajax_proposal');
+                },
+                error: function(data) {
+                    console.log('msg' + data);
+                }
+            });
+        }
+    }
+}
+
+function change_state(checkedIDss) {
+    var selected = $('[name=change_proposal_state]').val();
+    if (selected)
+        $.ajax({
+            url: '/changeState',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                state: selected,
+                ids: JSON.stringify(checkedIDss)
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                reloadtable('ajax_proposal');
+            },
+            error: function(data) {
+                console.log(data);
+            }
+        });
+    else
+        alert('Please choose a proposal');
+}
+
+function send_email(checkedIDss) {
+    var selected = $('[name=message]').val();
+    if (selected)
+        $.ajax({
+            url: '/sendEmail',
+            type: 'POST',
+            data: {
+                _token: CSRF_TOKEN,
+                t_id: selected,
+                ids: JSON.stringify(checkedIDss)
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                alert('Emails sent.');
+            },
+            error: function(data) {
+                alert('Error occured. No emails were sent.');
+                console.log(data);
+            }
+        });
+    else
+        alert('Please Choose Proposal!')
+
+}
+
         var _type = '';
 
         function open_container(type) {
@@ -301,6 +362,7 @@
             _type = type;
             jQuery.noConflict();
             setModalBox(title, size);
+
             if ($('.checkbox:checked').length > 0)
                 jQuery('#myModal').modal('show');
             else
@@ -345,7 +407,7 @@
                     dataType: 'JSON',
                     success: function (data) {
                         console.log(data);
-                        location.reload();
+                        reloadtable('ajax_proposal');
                     },
                     error: function (data) {
                         console.log(data);
@@ -358,7 +420,6 @@
             else
                 alert('Please Choose ' + _type + '!')
         });
-
     </script>
 
 @endsection

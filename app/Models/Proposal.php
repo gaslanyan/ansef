@@ -74,6 +74,40 @@ class Proposal extends Model
         return $propins->institutionname;
     }
 
+    function pi() {
+        $p = PersonType::where('proposal_id','=',$this->id)
+            ->where('subtype','=','PI')
+            ->first();
+        return Person::find($p->person_id);
+    }
+
+    function referees() {
+        $reps = RefereeReport::where('proposal_id','=',$this->id)
+            ->join('persons','persons.id','=', 'referee_reports.referee_id')
+            ->get();
+        $referees = [];
+        foreach($reps as $r) {
+            $referees.push(['id' => $r->referee_id, 'name' => $r->last_name]);
+        }
+        return $referees;
+    }
+
+    function refereesasstring()
+    {
+        $reps = RefereeReport::where('proposal_id', '=', $this->id)
+            ->join('persons', 'persons.id', '=', 'referee_reports.referee_id')
+            ->get();
+        $referees = '';
+        foreach ($reps as $r) {
+            $referees .= (substr($r->last_name, 0, 4) . " ");
+        }
+        return $referees;
+    }
+
+    function admin() {
+        return $this->belongsTo(Person::class, 'proposal_admin', 'id');
+    }
+
     function budget()
     {
         $competition = $this->competition;

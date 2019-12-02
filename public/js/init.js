@@ -607,8 +607,6 @@ $(document).ready(function() {
                             console.log(data.success);
                             if (data.success) {
                                 alert("You cannot remove a category because it is used in competitions!");
-                                // if ($conf2)
-                                //     this.element.parent().submit();
                             } else {
                                 this.element.parent().submit();
                             }
@@ -664,9 +662,9 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on("click", '#deleteProposal,' +
+    $(document).on("click", '' +
         ' #deleteCats, #duplicateCats,' +
-        ' #deleteBudgets, #deleteScores, #deleteRule, #deleteReport',
+        ' #deleteBudgets, #deleteScores, #deleteRule',
         function() {
             var checked = $('.checkbox:checked');
             $url = $(this).attr('id');
@@ -674,7 +672,7 @@ $(document).ready(function() {
                 $pattern = $url.match(/delete/);
                 if (!$pattern)
                     $pattern = 'duplicate';
-                if (confirm('Are you want ' + $pattern + " " + checked.length + ' categories?')) {
+                if (confirm('Are you sure you want to ' + $pattern + " " + checked.length + ' categories?')) {
                     var checkedIDss = [];
                     $(checked).each(function() {
                         checkedIDss.push($(this).val());
@@ -696,10 +694,10 @@ $(document).ready(function() {
                         success: function(data) {
                             console.log(data);
                             if (data.success === -1)
-                                alert('do not allow deletion of ' + $pattern +
-                                    ' that are already assigned to any competition ');
+                                alert('Cannot allow deletion of ' + $pattern +
+                                    ' : assigned to a competition ');
                             else
-                                location.reload();
+                                reloadtable('ajax_proposal');
                         },
                         error: function(data) {
                             console.log('msg' + data);
@@ -792,63 +790,19 @@ $(document).ready(function() {
 var url = window.location;
 
 
-function send_email(checkedIDss) {
 
-    var selected = $('[name=message]').val();
-    if (selected)
-        $.ajax({
-            // headers: {
-            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            // },
-            url: '/sendEmail',
-            type: 'POST',
-            data: {
-                _token: CSRF_TOKEN,
-                t_id: selected,
-                ids: JSON.stringify(checkedIDss)
-            },
-            dataType: 'JSON',
-            success: function(data) {
-                console.log("d" + data);
-                location.reload();
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    else
-        alert('Please Choose Proposal!')
-
+function reloadtable(m) {
+    t = $('#datatable').DataTable();
+    var ajaxurl = '/' + m + '/:id';
+    ajaxurl = ajaxurl.replace(':id', $('#competition').val());
+    t.ajax.url(ajaxurl).load();
+    // t.on('order.dt search.dt', function() {
+    //     t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
+    //         cell.innerHTML = i + 1;
+    //     });
+    // }).draw();
 }
 
-function change_state(checkedIDss) {
-
-    var selected = $('[name=change_proposal_state]').val();
-    if (selected)
-        $.ajax({
-            // headers: {
-            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            // },
-            url: '/changeState',
-            type: 'POST',
-            data: {
-                _token: CSRF_TOKEN,
-                state: selected,
-                ids: JSON.stringify(checkedIDss)
-            },
-            dataType: 'JSON',
-            success: function(data) {
-                console.log("d" + data);
-                location.reload();
-            },
-            error: function(data) {
-                console.log(data);
-            }
-        });
-    else
-        alert('Please Choose Proposal!')
-
-}
 
 function getSegmentUrl(_url) {
     var segment = window.location.pathname.split('/');

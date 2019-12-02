@@ -288,73 +288,6 @@ class AjaxController extends Controller
 
     }
 
-    public function addUsers(Request $request)
-    {
-        if (isset($request->_token)) {
-            $p_id = json_decode($request->p_ids);
-            $u_ids = json_decode($request->u_ids);
-            foreach ($u_ids as $index => $item) {
-                $u_id[$index] = $item;
-            }
-
-            $type = "proposal_" . $request->type . "s";
-            $response = [];
-            $scors = [];
-
-            $porc = Proposal::with(['competition.score'])->where('id', $p_id)->get();
-
-            foreach ($porc as $index => $gSTN) {
-                if (!empty($gSTN->competition->score)) {
-                    foreach ($gSTN->competition->score as $index => $item) {
-                        $scors[strtolower($item->name)] = 0;
-                    }
-                }
-
-            }
-
-            foreach ($p_id as $index => $item) {
-                $add_r = Proposal::find($item);
-                $add_r->$type = json_encode($u_id, JSON_FORCE_OBJECT);
-                $add_r->state = "in-review";
-                if ($add_r->save()) {
-//                    todo messages
-                    $message = Message::where('id', '=', 1)->first();
-                    foreach ($u_id
-                             as $i => $items) {
-                        if ($request->type == "referee") {
-                            $report = new RefereeReport();
-                            $report->proposal_id = $item;
-                            $report->referee_id = $items;
-//                            $report->scores = json_encode($scors, JSON_FORCE_OBJECT);
-                            $report->state = "in-progress";
-                            $report->save();
-                        }
-                        $user = Person::with('user')->where('id', '=', $items)->first();
-
-                        $objSend = new \stdClass();
-                        $objSend->message = $message->text;
-                        $objSend->sender = 'Ansef';
-                        $objSend->receiver = 'collages';
-
-                        Mail::to($user->user->email)->send(new \App\Mail\ChooseBoard($objSend));
-
-                        $response = [
-                            'success' => true
-                        ];
-                    }
-                } else {
-
-                    $response = [
-                        'success' => false,
-                        'error' => 'Do not save'
-                    ];
-                    break;
-                }
-            }
-            return response()->json($response);
-        }
-    }
-
     public function copyItems(Request $request)
     {
         if (isset($request->_token)) {
@@ -432,39 +365,6 @@ class AjaxController extends Controller
             DB::rollBack();
             logger()->error($exception);
         }
-        return response()->json($response);
-    }
-
-    public function deleteProposal(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-//        if (isset($request->_token)) {
-            $proposal_ids = $request->id;
-            foreach ($proposal_ids as $index => $p_id) {
-                BudgetItem::where('proposal_id', $p_id)->delete();
-                ProposalInstitution::where('proposal_id', $p_id)->delete();
-                ProposalReports::where('proposal_id', $p_id)->delete();
-                Recommendations::where('proposal_id', $p_id)->delete();
-                RefereeReport::where('proposal_id', $p_id)->delete();
-                $file_path = storage_path('proposal/prop-' . $p_id);
-                if (is_dir($file_path))
-                    File::deleteDirectory($file_path);
-                Proposal::find($p_id)->delete();
-            }
-            $response = [
-                'success' => true
-            ];
-        } catch (\Exception $exception) {
-            $response = [
-                'success' => false,
-                'error' => 'Do not save'
-            ];
-            DB::rollBack();
-            logger()->error($exception);
-        }
-//        }
-        DB::commit();
         return response()->json($response);
     }
 
@@ -567,32 +467,6 @@ class AjaxController extends Controller
         return response()->json($response);
     }
 
-    public function deleteReport(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-//        if (isset($request->_token)) {
-            $report_ids = $request->id;
-
-            foreach ($report_ids as $index => $id) {
-                RefereeReport::where('id', $id)->delete();
-                $response = [
-                    'success' => true
-                ];
-
-            }
-        } catch (\Exception $exception) {
-            $response = [
-                'success' => false,
-                'error' => 'Do not save'
-            ];
-            DB::rollBack();
-            logger()->error($exception);
-        }
-//        }
-        DB::commit();
-        return response()->json($response);
-    }
 
     public function deleteBudgets(Request $request)
     {
@@ -662,48 +536,6 @@ class AjaxController extends Controller
         exit();
     }
 
-    public function sendEmail(Request $request)
-    {
-        $IDs = json_decode($request->ids);
-
-        $message = Message::where('id', '=', $request->t_id)->first();
-        $objSend = new \stdClass();
-        $objSend->message = $message->text;
-        $objSend->sender = 'Ansef';
-        $objSend->receiver = 'collages';
-
-        $items = [];
-        // foreach ($pi_json as $index => $json) {
-        //     $email = Person::with('user')->where('id', $pi->person_pi_id)->first();
-        //     //             $email->user->email;
-        //     Mail::to($email->user->email)->send(new \App\Mail\Invitation($objSend));
-        //     return response()->json('ok');
-        // }
-
-    }
-
-    public function changeState(Request $request)
-    {
-        try {
-            $IDs = json_decode($request->ids);
-            foreach ($IDs as $index => $ID) {
-                Proposal::where('id', $ID)
-                    ->update(['state' => $request->state]);
-            }
-            $response = [
-                'success' => true,
-            ];
-        } catch (\Exception $exception) {
-            $response = [
-                'success' => false,
-                'error' => 'Do not save'
-            ];
-            DB::rollBack();
-            logger()->error($exception);
-        }
-        return response()->json($response);
-        exit();
-    }
 
     public function getProposal(Request $request)
     {
@@ -949,63 +781,4 @@ class AjaxController extends Controller
         exit();
     }
 
-    public function report($cid, Request $request)
-    {
-        $d['data'] = [];
-        if ($cid == -1) {
-            $reports = RefereeReport::with([
-                'proposal' => function ($query) {
-                    $query->select('id', 'title', 'proposal_admin', 'comment');
-                }, 'person' => function ($query) {
-                    $query->select('id', 'first_name', 'last_name');
-                }
-            ])
-                ->orderBy('id', 'asc')
-                ->get();
-        }
-        else {
-            $reports = RefereeReport::with([
-                'proposal' => function ($query) {
-                    $query->select('id', 'title', 'proposal_admin', 'comment');
-                }, 'person' => function ($query) {
-                    $query->select('id', 'first_name', 'last_name');
-                }
-            ])
-                ->where('competition_id', '=', $cid)
-                ->orderBy('id', 'asc')
-                ->get();
-        }
-
-        foreach ($reports as $index => $report) {
-            $scores = Score::with(['scoreType' => function ($query) {
-                $query->select('name', 'id');
-            }])
-                ->where('report_id', '=', $report['id'])
-                ->get();
-            $s = [];
-            foreach ($scores as $i => $score) {
-                $s[$i]['name'] = $score->scoreType->name;
-                $gstv = getScoreTypeValues();
-                $s[$i]['value'] = $gstv[$score->value];
-            }
-
-            $d['data'][$index]['id'] = $report['id'];
-            $d['data'][$index]['url'] = 'Admin\ReportController@destroy';
-            $d['data'][$index]['title'] = truncate($report['proposal']['title'],20);
-            $d['data'][$index]['referee'] = $report['person']['first_name'] . ' ' . $report['person']['last_name'];
-            $d['data'][$index]['admin'] = $report['proposal']['proposal_admin'];
-            $d['data'][$index]['due_date'] = $report['due_date'];
-            $d['data'][$index]['overall_score'] = $report['overall_score'];
-            $d['data'][$index]['state'] = $report['state'];
-            $d['data'][$index]['comment'] = $report['proposal']['comment'];
-
-            if (!empty($scores)) {
-                $d['data'][$index]['scores'] = json_encode($s);
-            }
-//
-        }
-
-        return Response::json($d);
-
-    }
 }

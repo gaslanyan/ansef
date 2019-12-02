@@ -697,6 +697,8 @@ class MigrateANSEF implements ShouldQueue
                 'due_date' => date($compyear . '-12-15'),
                 'approved' => '1'
             ]);
+            $p->state = 'approved 2';
+            $p->save();
             // \Debugbar::error('Added proposal reports.');
         }
     }

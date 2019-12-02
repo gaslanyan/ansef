@@ -513,6 +513,14 @@ function truncate($string, $length)
     return $string;
 }
 
+function abbreviate($string) {
+    if (strlen($string) > 4) {
+        $string = substr($string, 0, 4) . substr($string, -1);
+    }
+
+    return $string;
+}
+
 function personidforuser($id) {
     $person = \App\Models\Person::where('user_id','=',$id)->whereNotIn('type', ['participant', 'support'])->first();
     return $person->id;
