@@ -5273,6 +5273,7 @@ button.close {
     position: relative;
     width: auto;
     margin: .5rem;
+    overflow-y: initial;
     pointer-events: none
 }
 
@@ -5361,7 +5362,9 @@ button.close {
 .modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 1rem
+    padding: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .modal-footer {

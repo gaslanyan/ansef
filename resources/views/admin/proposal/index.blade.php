@@ -100,7 +100,7 @@
                                                    value="{{$r['id']}}"/>
                                         </label>
                                     </div>
-                                    <div class="form-group col-lg-5">
+                                    <div class="form-group col-lg-9">
                                         {{$r['first_name']." ".$r['last_name']}} ({{$r->user->email}})
                                     </div>
                                 </div>

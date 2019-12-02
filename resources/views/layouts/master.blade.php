@@ -42,8 +42,7 @@
 {{--src="http://code.jquery.com/jquery-3.3.1.slim.min.js"--}}
 {{--integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="--}}
 {{--crossorigin="anonymous"></script>--}}
-<script src="{{ asset('js/jquery/dist/popper.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap/js/bootstrap.js') }}"></script>
+<script src="{{ asset('js/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
 <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
