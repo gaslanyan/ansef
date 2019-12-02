@@ -8,7 +8,7 @@
                     <div class="card-header">List of budget categories
                         @if(get_Cookie() == 'superadmin')
                             <a href="{{action('Admin\BudgetCategoryController@create')}}"
-                               class="display float-lg-right btn-primary px-2">Add a budget category</a>
+                               class="display float-lg-right btn-primary px-2 myButton">Add a budget category</a>
                         @endif
                     </div>
                     <div class="card-body card_body">
@@ -16,18 +16,13 @@
 
 
                         <div class="btn_add col-md-12">
-                            {{--                                <button type="button" disabled title="duplicate" id="duplicateCats"--}}
-                            {{--                                        class="btn-link btn duplicate_cats offset-lg-3 col-lg-2 col-md-3 "><i--}}
-                            {{--                                            class="fa fa-trash-alt"></i>--}}
-                            {{--                                    Duplicate--}}
-                            {{--                                </button>--}}
                             <button type="button" disabled title="delete" id="deleteBudgets"
                                     class="btn-link btn delete_budgetss offset-lg-6 col-lg-2 col-md-3"><i
                                         class="fa fa-trash-alt"></i>
                                 Delete
                             </button>
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                style="width:100%">
                             <thead>
                             <tr>

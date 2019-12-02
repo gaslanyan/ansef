@@ -515,7 +515,7 @@ function truncate($string, $length)
 
 function abbreviate($string) {
     if (strlen($string) > 4) {
-        $string = substr($string, 0, 4) . substr($string, -1);
+        $string = substr($string, 0, 4) . substr($string, -1) . '.';
     }
 
     return $string;

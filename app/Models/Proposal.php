@@ -71,7 +71,7 @@ class Proposal extends Model
     {
         if(!empty($this->institutions()->first())) return $this->institutions()->first()->content;
         $propins = ProposalInstitution::where('proposal_id','=',$this->id)->first();
-        return $propins->institutionname;
+        return !empty($propins) ? $propins->institutionname : '';
     }
 
     function pi() {
@@ -99,7 +99,7 @@ class Proposal extends Model
             ->get();
         $referees = '';
         foreach ($reps as $r) {
-            $referees .= (substr($r->last_name, 0, 4) . " ");
+            $referees .= (truncate($r->last_name, 6) . " ");
         }
         return $referees;
     }

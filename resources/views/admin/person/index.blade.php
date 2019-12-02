@@ -8,13 +8,13 @@
                     <div class="card-header">List of all persons
                         @if(get_Cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
-                               class="display float-lg-right btn-primary px-2">Add a person</a>
+                               class="display float-lg-right btn-primary px-2 myButton">Add a person</a>
                         @endif
                     </div>
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                style="width:100%">
                             <thead>
                             <tr>

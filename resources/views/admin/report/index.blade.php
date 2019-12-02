@@ -6,7 +6,7 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">List of referee reports for competition :
-                        <select name="competition" id="competition">
+                        <select name="competition" id="competition" style="width:100px;font-size:24px;">
                             @foreach($competitions as $c)
                                 <option value="{{$c['id']}}" {{$c['id']==$cid ? 'selected' : ''}}>{{$c['title']}}</option>
                             @endforeach
@@ -17,25 +17,18 @@
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 
-                        <div class="btn_add col-md-12">
-                                <button type="button" disabled
+                        <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
+                                <button type="button"
                                         title="delete" onclick="deletereports();"
-                                        class="btn-link btn col-lg-2 col-md-3">
+                                        class="display float-lg-right btn-primary px-2 myButton">
                                         <i class="fa fa-trash-alt" ></i>
                                     Delete
                                 </button>
-                        </div><br/>
+                        </div>
                         <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable"
                                style="width:100%">
                             <thead>
                             <tr>
-                                {{-- <th></th> --}}
-                                <th>
-                                    <label for="report" class="label">
-                                        <input type="checkbox" class="form-control check_all"
-                                               id="report">
-                                    </label>
-                                </th>
                                 <th width="100px">ID</th>
                                 <th>Proposal</th>
                                 <th>Referee</th>
@@ -72,15 +65,6 @@
                 t = $('#datatable').DataTable( {
                     "pagingType": "full_numbers",
                     "columns": [
-                        // {"defaultContent": ""},
-                        {
-                            "render": function (data, type, full, meta) {
-                                var ID = full.id;
-                                return '<label for="report' + ID + '" class="label">' +
-                                    '<input type="checkbox" class="form-control checkbox" name="id[]"   value="' + ID + '"  id="report' + ID + '">' +
-                                    '</label>';
-                            },
-                        },
                         {"data": "tag"},
                         {"data": "title"},
                         {"data": "referee"},
@@ -103,13 +87,14 @@
                             "visible": true
                         }
                     ],
+                    "select": true,
                     "scrollX": true,
                     "scrollY": 450,
                     "deferRender": true,
                     "scrollCollapse": true,
                     "scroller": true,
                     "colReorder": true,
-                    // "fixedColumns":   { "leftColumns": 3 },
+                    "fixedColumns":   { "leftColumns": 1 },
                     "processing": true,
                     "language": {
                         "loadingRecords": '&nbsp;',
@@ -117,7 +102,7 @@
                     },
                     "dom": 'Bfrtip',
                     "buttons": [
-                        'copy', 'csv', 'excel', 'pdf', 'print'
+                        'selectAll', 'selectNone', 'copy', 'csv', 'excel', 'pdf', 'print'
                     ]
                 });
                 reloadtable('ajax_report');
@@ -174,13 +159,14 @@
         });
 
         function deletereports() {
-            var checked = $('.checkbox:checked');
-            if (checked.length > 0) {
-                if (confirm('Are you sure you want to delete ' + checked.length + ' reports?')) {
+            var t = $('#datatable').DataTable();
+            var data = t.rows({'selected': true}).data();
+            if (data.length > 0) {
+                if (confirm('Are you sure you want to delete ' + data.length + ' reports?')) {
                     var checkedIDss = [];
-                    $(checked).each(function() {
-                        checkedIDss.push($(this).val());
-                    });
+                    for(var i=0; i<data.length; i++) {
+                        checkedIDss.push(data[i].id);
+                    }
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

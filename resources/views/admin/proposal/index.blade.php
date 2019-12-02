@@ -5,7 +5,7 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">List of proposals for competition :
-                        <select name="competition" id="competition">
+                        <select name="competition" id="competition" style="width:100px;font-size:24px;">
                             @foreach($competitions as $c)
                                 <option value="{{$c['id']}}" {{$c['id']==$cid ? 'selected' : ''}}>{{$c['title']}}</option>
                             @endforeach
@@ -15,54 +15,46 @@
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 
-                        <div class="btn_add col-md-12 justify-content-end">
+                        <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
                             @if(get_Cookie() === "superadmin")
-                                <button type="button" disabled
+                                <button type="button"
                                         title="change state" onclick="open_container('state');"
-                                        class="btn-link btn email col-lg-2 col-md-3 "><i
-                                            class="fa fa-comments"></i>
+                                        class="display float-lg-left btn-primary px-2 myButton">
+                                        <i class="fa fa-comments"></i>
                                     Change state
                                 </button>
 
-                                <button type="button" disabled
+                                <button type="button"
                                         title="send email" onclick="open_container('email');"
-                                        class="btn-link btn email col-lg-2 col-md-3">
+                                        class="display float-lg-left btn-primary px-2 myButton">
                                         <i class="fa fa-envelope-open"></i>
                                     Send Email
                                 </button>
-                                <button type="button" disabled
-                                        title="delete" onclick="deleteproposals();"
-                                        class="btn-link btn col-lg-2 col-md-3">
-                                        <i class="fa fa-trash-alt" ></i>
-                                    Delete
-                                </button>
-                                <button type="button" disabled
+                                <button type="button"
                                         title="add admin" onclick="open_container('admin');"
-                                        class="btn-link btn admin  col-lg-2 col-md-3 "><i
-                                            class="fa fa-user-graduate"></i>
+                                        class="display float-lg-left btn-primary px-2 myButton">
+                                        <i class="fa fa-user-graduate"></i>
                                     Assign Admin
                                 </button>
                             @endif
                             @if(get_Cookie() === "superadmin" ||  get_Cookie() === "admin" )
-                                <button type="button" disabled
+                                <button type="button"
                                         title="add referee" onclick="open_container('referee');"
-                                        class="btn-link btn referee col-lg-2  col-md-3 align-self-end "><i
-                                            class="fa fa-user-graduate"></i>
+                                        class="display float-lg-left btn-primary px-2 myButton">
+                                        <i class="fas fa-balance-scale"></i>
                                     Add Referee
                                 </button>
                             @endif
+                                <button type="button"
+                                        title="delete" onclick="deleteproposals();"
+                                        class="display float-lg-right btn-primary px-2 myButton">
+                                        <i class="fa fa-trash-alt" ></i>
+                                    Delete
+                                </button>
                         </div>
-                        <br/>
                         <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable">
                             <thead>
                             <tr>
-                                {{-- <th></th> --}}
-                                <th>
-                                    <label for="proposal" class="label">
-                                        <input type="checkbox" class="form-control check_all"
-                                               id="proposal">
-                                    </label>
-                                </th>
                                 <th width="100px">ID</th>
                                 <th>Proposal Title</th>
                                 <th>Proposal PI</th>
@@ -107,8 +99,6 @@
                                             <input type="checkbox" name="choose_person[]" id="choose_person_name{{$i}}"
                                                    value="{{$r['id']}}"/>
                                         </label>
-
-
                                     </div>
                                     <div class="form-group col-lg-5">
                                         {{$r['first_name']." ".$r['last_name']}} ({{$r->user->email}})
@@ -127,8 +117,6 @@
                                             <input type="checkbox" name="choose_person[]" id="choose_person_name{{$i}}"
                                                    value="{{$a['id']}}"/>
                                         </label>
-
-
                                     </div>
                                     <div class="form-group col-lg-5">
                                         {{$a['first_name']." ".$a['last_name']}}
@@ -139,9 +127,8 @@
                     </div>
                     <div id="email">
                         @if(!empty($messages))
-
                             <div class="row">
-                                <div class="form-group col-lg-1">
+                                <div class="form-group col-lg-6">
                                     <label for="choose_person_email"
                                            class="label">
                                         <select name="message" id="choose_person_email">
@@ -157,13 +144,11 @@
                         @endif
                     </div>
                     <div id="state">
-
-
                         <div class="row">
-                            <div class="form-group col-lg-10">
+                            <div class="form-group col-lg-6">
                                 <label for="change_proposal_state"
                                        class="label">
-                                    <select class="form-control col-12" name="change_proposal_state">
+                                    <select class="form-control" name="change_proposal_state">
                                         <option value="0">Select state</option>
                                         @if(!empty($enumvals))
                                             @foreach($enumvals as $item)
@@ -206,15 +191,6 @@
             var t = $('#datatable').DataTable({
                 "pagingType": "full_numbers",
                     "columns": [
-                        // {"defaultContent": ""},
-                        {
-                            "render": function (data, type, full, meta) {
-                                var ID = full.id;
-                                return '<label for="proposal' + ID + '" class="label">' +
-                                    '<input type="checkbox" class="form-control checkbox" name="id[]"   value="' + ID + '"  id="proposal' + ID + '">' +
-                                    '</label>';
-                            },
-                        },
                         {"data": "tag"},
                         {"data": "title"},
                         {"data": "pi"},
@@ -224,8 +200,12 @@
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
-                                return '<a href= "<?= action('Admin\ProposalController@show', ' + ID + ')?>" class="view" title="View"> ' +
-                                    '<i class="fa fa-eye"></i></a>';
+                                return '<form action= "<?= action('Admin\ProposalController@display', '')?>" method="post"> ' +
+                                    '<input name="_method" type="hidden" value="POST">' +
+                                    '<input type="hidden" name="_token" value="{!! csrf_token() !!}">'+
+                                    '<input name="id" type="hidden" value="' + ID + '">' +
+                                    '<button class="btn btn-link" type="submit">' +
+                                    '<i class="fa fa-eye"></i></button></form>';
                             }
                         }
                     ],
@@ -237,13 +217,14 @@
                         "visible": true
                     }
                 ],
+                "select": true,
                 "scrollX": true,
                 "scrollY": 450,
                 "deferRender": true,
                 "scrollCollapse": true,
                 "scroller": true,
                 "colReorder": true,
-                "fixedColumns":   { "leftColumns": 3 },
+                "fixedColumns":   { "leftColumns": 1 },
                 "processing": true,
                 "language": {
                     "loadingRecords": '&nbsp;',
@@ -251,7 +232,7 @@
                 },
                 "dom": 'Bfrtip',
                 "buttons": [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'selectAll', 'selectNone', 'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
             // t.on('order.dt search.dt', function () {
@@ -270,13 +251,14 @@
         });
 
 function deleteproposals() {
-    var checked = $('.checkbox:checked');
-    if (checked.length > 0) {
-        if (confirm('Are you sure you want to delete ' + checked.length + ' proposals?')) {
+    var t = $('#datatable').DataTable();
+    var data = t.rows({'selected': true}).data();
+    if (data.length > 0) {
+        if (confirm('Are you sure you want to delete ' + data.length + ' proposals?')) {
             var checkedIDss = [];
-            $(checked).each(function() {
-                checkedIDss.push($(this).val());
-            });
+            for(var i=0; i<data.length; i++) {
+                checkedIDss.push(data[i].id);
+            }
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -363,10 +345,12 @@ function send_email(checkedIDss) {
             jQuery.noConflict();
             setModalBox(title, size);
 
-            if ($('.checkbox:checked').length > 0)
+            var t = $('#datatable').DataTable();
+            data = t.rows({'selected': true}).data();
+            if (data.length > 0)
                 jQuery('#myModal').modal('show');
             else
-                alert('Please Choose Proposal!')
+                alert('Please choose a proposal.')
         }
 
         function setModalBox(title, content, footer, $size) {
@@ -387,9 +371,11 @@ function send_email(checkedIDss) {
             jQuery(".modal-body input:checkbox:checked").each(function () {
                 checkedIDs.push($(this).val());
             });
-            jQuery(".checkbox:checked").each(function () {
-                checkedIDss.push($(this).val());
-            });
+            var t = $('#datatable').DataTable();
+            data = t.rows({'selected': true}).data();
+            for(var i=0; i<data.length; i++) {
+                checkedIDss.push(data[i].id);
+            }
             var CSRF_TOKEN = $('input[name="_token"]').val();
             if (_type === "email")
                 send_email(checkedIDss);

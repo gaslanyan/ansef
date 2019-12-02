@@ -161,6 +161,7 @@ Route::resource('/admin/rank', 'Admin\RankingRuleController');
 Route::get('/admin/execute', 'Admin\RankingRuleController@execute');
 Route::post('/admin/execute', 'Admin\RankingRuleController@executeQuery');
 Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
+Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
 Route::resource('/admin/proposal', 'Admin\ProposalController');
 Route::get('/admin/approve', 'Admin\ReportController@approve');
 Route::get('/admin/report/list/{id}', 'Admin\ReportController@list')->name('report_list');

@@ -7,9 +7,9 @@
                     <div class="card-header">List of ranking rules
 
                         <a href="{{action('Admin\RankingRuleController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add a ranking rule</a>
+                           class="display float-lg-right btn-primary px-2 myButton">Add a ranking rule</a>
                         <a href="{{action('Admin\RankingRuleController@execute')}}"
-                           class="display float-lg-right btn-primary mx-2 px-2">Execute ranking rules</a>
+                           class="display float-lg-right btn-primary px-2 myButton">Execute ranking rules</a>
                     </div>
                     <div class="card-body card_body">
                         @include('partials.status_bar')
@@ -21,7 +21,7 @@
                                 Delete
                             </button>
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                style="width:100%">
                             <thead>
                             <tr>

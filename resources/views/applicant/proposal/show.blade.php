@@ -22,7 +22,8 @@
                             'persons' => $persons,
                             'pi' => $pi,
                             'budget_items' => $budget_items,
-                            'budget' => $budget
+                            'budget' => $budget,
+                            'admin' => false
                         ])
 
                         <div class="box-primary">

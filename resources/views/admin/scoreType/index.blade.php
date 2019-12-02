@@ -7,7 +7,7 @@
                     <div class="card-header">List of score types
                         @if(get_Cookie() === "superadmin")
                             <a href="{{action('Admin\ScoreTypeController@create')}}"
-                               class="display float-lg-right btn-primary px-2">Add a score type</a>
+                               class="display float-lg-right btn-primary px-2 myButton">Add a score type</a>
                         @endif
                     </div>
                     <div class="card-body card_body">
@@ -22,7 +22,7 @@
                                 Delete
                             </button>
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                style="width:100%">
                             <thead>
                             <tr>

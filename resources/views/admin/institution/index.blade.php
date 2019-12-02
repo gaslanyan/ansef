@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header"> List of institutions
                         <a href="{{action('Admin\InstitutionController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add an institution</a>
+                           class="display float-lg-right btn-primary px-2 myButton">Add an institution</a>
                     </div>
 
                     <div class="card-body card_body">

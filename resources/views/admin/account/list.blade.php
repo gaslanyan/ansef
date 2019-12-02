@@ -10,10 +10,9 @@
                         <div class="card-header">{{ucfirst($type)}} list
                             @if(get_Cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
-                               class="display float-lg-right btn-primary px-2">Add a person</a>
+                               class="display float-lg-right btn-primary px-2 myButton">Add a person</a>
                             @endif
                         </div>
-
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 

@@ -76,66 +76,49 @@ class ProposalController extends Controller
 
     }
 
+    public function show($id) {
+
+    }
     /**
      * Display the specified resource.
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function display(Request $request)
     {
-//        try{
-        $proposal = Proposal::with('competition')->where('id', $id)->first();
-
+        $id = $request['id'];
+        $proposal = Proposal::find($id);
+        $institution = $proposal->institution();
+        $competition = $proposal->competition;
+        $persons = $proposal->persons()->get()->sortBy('last_name');
+        $additional = json_decode($competition->additional);
         $categories = json_decode($proposal->categories);
-        $referees = json_decode($proposal->proposal_referees);
+        $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
+        $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
+        $cat_sec_parent = property_exists($categories, 'sec_parent') ? Category::with('children')->where('id', $categories->sec_parent)->get()->first() : null;
+        $cat_sec_sub = property_exists($categories, 'sec_sub') ? Category::with('children')->where('id', $categories->sec_sub)->get()->first() : null;
+        $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
+        $budget_items = $proposal->budgetitems()->get();
+        $budget = $proposal->budget();
 
-        if (!empty($referees)) {
-            $referee_info = [];
-            $referee_id = [];
-            foreach ($referees as $index => $referee) {
-                $person = getPerson($referee);
-                $rr = RefereeReport::with('proposal')->where('referee_id', $referee)->first();
-                $referee_id[] = $rr->id;
-                if (!empty($rr)) {
-                    $referee_info[$referee]['public_comment'] = $rr->public_comment;
-                    $referee_info[$referee]['private_comment'] = $rr->private_comment;
-                    $referee_info[$referee]['due_date'] = $rr->due_date;
-                    $referee_info[$referee]['overall_score'] = $rr->overall_score;
-                }
-                $referee_info[$referee]['id'] = $person->id;
-                $referee_info[$referee]['first_name'] = $person->first_name;
-                $referee_info[$referee]['last_name'] = $person->last_name;
-            }
-
-        }
-        foreach ($referee_id as $index => $item) {
-            $scores = DB::table('scores')
-                ->join('score_types', 'score_types.id', '=', 'scores.score_type_id')
-                ->select('score_types.name', 'scores.value')
-                ->get();
-
-        }
-        $cats = [];
-        foreach ($categories as $index => $category) {
-            if ($category != 0) {
-                $cat = Category::with('children')->where('id', $category)->get()->first();
-
-                if (empty($cat->parent_id))
-                    $cats[$cat->id]['parent'] = $cat->title;
-                else {
-//                    dd(in_array($cat->parent_id, (array)$categories));
-                    if (in_array($cat->parent_id, (array)$categories))
-                        $cats[$cat->parent]['sub'] = $cat->title;
-                }
-            }
-        }
-
-        return view('admin.proposal.show', compact('proposal', 'cats', 'referee_info', 'scores'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('admin/proposal')->with('error', getMessage("wrong"));
-//        }
+        return view('admin.proposal.show', compact(
+            'id',
+            'proposal',
+            'institution',
+            'competition',
+            'persons',
+            'additional',
+            'categories',
+            'proposal',
+            'cat_parent',
+            'cat_sub',
+            'cat_sec_parent',
+            'cat_sec_sub',
+            'pi',
+            'budget_items',
+            'budget'
+        ));
     }
 
     /**
@@ -223,14 +206,14 @@ class ProposalController extends Controller
         foreach ($proposals as $index => $pr) {
             $d['data'][$index]['id'] = $pr->id;
             $d['data'][$index]['tag'] = getProposalTag($pr->id);
-            $d['data'][$index]['title'] = truncate($pr->title, 20);
-            $d['data'][$index]['state'] = abbreviate($pr->state);
+            $d['data'][$index]['title'] = truncate($pr->title, 25);
+            $d['data'][$index]['state'] = ($pr->state);
             $pi = $pr->pi();
-            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,5) . ", " . $pi->first_name : '';
+            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,7) . " " . $pi->first_name : '';
             $refs = $pr->refereesasstring();
             $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
             $a = $pr->admin()->first();
-            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name,0,4) : 'None';
+            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name,0,4).'.' : 'None';
         }
 
         return Response::json($d);

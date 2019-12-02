@@ -7,7 +7,7 @@
                     <div class="card-header">List of competitions
                         @if(get_Cookie() === "superadmin")
                             <a href="{{action('Admin\CompetitionController@create')}}"
-                               class="display float-lg-right btn-primary px-2">Add a competition</a>
+                               class="display float-lg-right btn-primary px-2 myButton">Add a competition</a>
                         @endif
                     </div>
                     <div class="card-body card_body">
@@ -18,7 +18,7 @@
                                 <p>{{ Session::get('delete') }}</p>
                             </div>
                         @endif
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                style="width:100%">
                             <thead>
                             <tr>

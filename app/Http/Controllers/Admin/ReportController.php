@@ -131,7 +131,7 @@ class ReportController extends Controller
             $d['data'][$index]['title'] = truncate($report['proposal']['title'], 20);
             $d['data'][$index]['referee'] = truncate($report['person']['last_name'],5);
             $a = $pr->admin()->first();
-            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) : 'None';
+            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
             $d['data'][$index]['due_date'] = $report['due_date'];
             $d['data'][$index]['overall_score'] = $report['overall_score'] . $comments;
             $d['data'][$index]['state'] = abbreviate($report['state']);

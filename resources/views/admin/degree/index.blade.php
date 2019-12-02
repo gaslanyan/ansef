@@ -7,13 +7,13 @@
                  <div class="card" >
                     <div class="card-header">List of possible degrees
                         <a href="{{action('Admin\DegreeController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add a degree</a>
+                           class="display float-lg-right btn-primary px-2 myButton">Add a degree</a>
                     </div>
 
                     <div class="card-body card_body">
                         @include('partials.status_bar')
 
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example" >
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example" >
                             <thead>
                             <tr>
                                 <th hidden>#</th>
