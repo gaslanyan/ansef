@@ -8862,12 +8862,10 @@ td .cancel {
     display: none;
 }
 
-td .save_prop,
 td .cancel {
     display: none;
 }
 
-td .save_app,
 td .cancel {
     display: none;
 }

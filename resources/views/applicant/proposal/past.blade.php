@@ -65,15 +65,6 @@
                                             <a href="{{action('Applicant\ProposalController@show', $pp['id'])}}"
                                                class="view" title="View"><i class="fa fa-eye"></i>
                                             </a>
-                                            {{--<button title="Edit"--}}
-                                                    {{--class="edit btn-link"><i class="fa fa-pencil-alt"></i>--}}
-                                            {{--</button>--}}
-                                            {{--<button title="Save"--}}
-                                                    {{--class="save_prop editable btn-link"><i class="fa fa-save"></i>--}}
-                                            {{--</button>--}}
-                                            {{--<button title="Cancel"--}}
-                                                    {{--class="cancel editable btn-link"><i class="fa fa-ban"></i>--}}
-                                            {{--</button>--}}
                                             <a href="{{action('Applicant\ProposalController@generatePDF',$pp['id'])}}"
                                                title="Download"
                                                class="add_honors"><i class="fa fa-download"></i>

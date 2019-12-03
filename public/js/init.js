@@ -46,51 +46,7 @@ $(document).ready(function() {
         $(this).next().remove();
         $(this).remove();
     });
-    //get city
-    $(document).on("change", '.addr', function() {
-        $city_code = $(this).val();
 
-        $.ajax({
-            url: '/getcity',
-            type: 'POST',
-            context: { number: $(this).attr('name').match(/\[[0-9]\]+/) },
-            data: { _token: CSRF_TOKEN, cc_fips: $city_code },
-            dataType: 'JSON',
-            success: function(data) {
-                $city = $('[name="city' + this.number[0] + '"]');
-
-                if ($city.find('option').length > 1)
-                    $city.find('option').remove();
-                for (var i in data) {
-                    if (data.hasOwnProperty(i)) {
-                        var j_data = $.parseJSON(data[i]);
-                        for (var j in j_data) {
-                            if (j_data.hasOwnProperty(j)) {
-                                $city.append(' <option class="text-capitalize" data-value="' + j + '" value="' + j_data[j] + '"></option>')
-                            }
-                        }
-                        // $('input[name=country_code]').val(i)
-                    }
-                }
-            },
-            error: function(data) {
-                console.error(data);
-            }
-        });
-    });
-    $(document).on("change", '#_city', function() {
-        $list = $(this).attr('list');
-        $options = $('#' + $list).find('option');
-        $dataValues = [];
-        $options.each(function(e, t) {
-            $dataValues[($(this).data('value'))] = t.value;
-
-        });
-        console.log($dataValues)
-        $pos = $.inArray($(this).val(), $dataValues);
-
-        $('#city_id').val($pos);
-    });
     //create editable rows
     $(document).on('click', '.edit', function() {
 
@@ -98,8 +54,6 @@ $(document).ready(function() {
         $(this).nextAll().css('display', 'none');
         $(this).siblings('.save').css('display', 'inline-block');
 
-        $(this).siblings('.save_app').css('display', 'inline-block');
-        $(this).siblings('.save_prop').css('display', 'inline-block');
 
         $(this).siblings('.cancel').css('display', 'inline-block');
         $(this).css('display', 'none');
@@ -140,68 +94,10 @@ $(document).ready(function() {
         $(this).siblings('').css('display', 'inline-block');
         $(this).siblings('.save').css('display', 'none');
 
-        $(this).siblings('.save_app').css('display', 'none');
-        $(this).siblings('.save_prop').css('display', 'none');
 
         $(this).css('display', 'none');
     });
-    /*For applicant accounts */
-    $(document).on('click', '.save_app', function() {
-        $id = $(this).siblings('.id').val();
-        $form = {};
-        $form.id = $id;
-        $siblings = $(this).parent().siblings().children();
-        $siblings.each(function() {
-            var name = $(this).attr('name');
-            $form[name] = $(this).val();
-        });
-        $form = JSON.stringify($form);
-        $.ajax({
-            url: '/updateAccount',
-            type: 'POST',
-            context: { element: $(this) },
-            data: { _token: CSRF_TOKEN, form: $form },
-            dataType: 'JSON',
-            success: function(data) {
-                this.element.parent().siblings('td').children().attr('disabled', true);
-                this.element.siblings('').css('display', 'inline-block');
-                this.element.siblings('.cancel').css('display', 'none');
-                this.element.css('display', 'none');
-            },
-            error: function(data) {
-                console.log(data)
-            }
-        });
-    });
 
-    /*Change State of proposals*/
-    $('.save_prop').click(function() {
-        $id = $(this).siblings('.id').val();
-        $form = {};
-        $form.id = $id;
-        $siblings = $(this).parent().siblings().children();
-        $siblings.each(function() {
-            var name = $(this).attr('name');
-            $form[name] = $(this).val();
-        });
-        $form = JSON.stringify($form);
-        $.ajax({
-            url: '/updateProposalState',
-            type: 'POST',
-            context: { element: $(this) },
-            data: { _token: CSRF_TOKEN, form: $form },
-            dataType: 'JSON',
-            success: function(data) {
-                this.element.parent().siblings('td').children().attr('disabled', true);
-                this.element.siblings('').css('display', 'inline-block');
-                this.element.siblings('.cancel').css('display', 'none');
-                this.element.css('display', 'none');
-            },
-            error: function(data) {
-                console.log(data)
-            }
-        });
-    });
 
     /*Change State of proposals*/
     $('.sign-in').click(function() {
@@ -242,7 +138,7 @@ $(document).ready(function() {
             }
         });
     });
-    //get subcategories
+
     $(document).on("change", '.cat', function() {
         $category = $(this).val();
 
@@ -633,7 +529,7 @@ $(document).ready(function() {
         }
 
     });
-    //get subcategories
+
     $(document).on("change", '#create_budget_categories', function() {
         $category = $(this).val();
 

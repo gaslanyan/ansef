@@ -97,18 +97,13 @@ Route::get('/applicant/sign/{id}', 'Applicant\ApplicantController@index', [
 ]);
 
 //base ajax
-Route::post('/getcity', 'Base\AjaxController@city');
 Route::post('/getsub', 'Base\AjaxController@subcategories');
 Route::post('/lock', 'Admin\SettingsController@lock');
 Route::post('/export', 'Admin\SettingsController@export');
 Route::post('/updatePerson', 'Base\AjaxController@updatePerson');
-Route::post('/updateAccount', 'Base\AjaxController@updateAccount');
 Route::post('/updateAcc', 'Base\AjaxController@updateAcc');
 Route::post('/updateCategory', 'Base\AjaxController@updateCategory');
-Route::post('/updateCom', 'Base\AjaxController@updateCompetition');
-Route::post('/updateProposal', 'Base\AjaxController@updateProposal');
 Route::post('/addUsers', 'Admin\ProposalController@addUsers');
-Route::post('/updateProposalState', 'Base\AjaxController@updateProposalState');
 Route::post('/copyItems', 'Base\AjaxController@copyItems');
 Route::post('/deleteProposal', 'Admin\ProposalController@deleteProposal');
 Route::post('/deleteCats', 'Base\AjaxController@deleteCats');
