@@ -15,6 +15,7 @@ use App\Models\RankingRule;
 use App\Models\RefereeReport;
 use App\Models\ScoreType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -57,6 +58,23 @@ class CompetitionController extends Controller
             logger()->error($exception);
             return redirect('admin/competition')->with('error', getMessage("wrong"));
         }
+    }
+
+    public function updateCompetition(Request $request)
+    {
+        //        if ($request->_token === Session::token()) {
+        $items = json_decode($request->form);
+        if (Competition::find((int) $items->id)->update((array) $items))
+            $response = [
+                'success' => true
+            ];
+        else
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+        return response()->json($response);
+        //        }
     }
 
     /**
@@ -146,6 +164,7 @@ class CompetitionController extends Controller
 
             $categories = json_decode($com->categories);
 
+            dd($com->categories);
             $cats = [];
             foreach ($categories as $index => $category) {
                 if ($category != 0) {

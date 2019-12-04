@@ -97,7 +97,7 @@ class MigrateANSEF implements ShouldQueue
         $additional['additional_percentage_name'] = 'Percentage overhead';
         $additional['additional_percentage'] = 5;
 
-        $maincategories = Category::where('parent_id', '=', null);
+        $maincategories = Category::where('parent_id', '=', null)->get();
         $compcategories = '[';
         foreach ($maincategories as $mc) {
             $compcategories .= ('"' . $mc->abbreviation . '",');

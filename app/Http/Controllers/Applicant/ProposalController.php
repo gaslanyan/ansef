@@ -363,59 +363,68 @@ class ProposalController extends Controller
 
     public function updatepersons(Request $request,$id)
     {
+        $enum = getEnumValues('person_type', 'subtype');
+        foreach($enum as &$item) {
+            if($item == 'PI' || $item =='collaborator') $item = ['role' => $item, 'type' => 'participant'];
+            else $item = ['role' => $item, 'type' => 'support'];
+        }
         $proposaltag = getProposalTag($id);
         $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
             $query->orWhere('type', 'support');
-        })->get()->toArray();
+        })->get()->keyBy('id')->toArray();
 
-
-        $added_persons  =  \DB::table('person_type')
-            ->select('persons.first_name', 'persons.last_name','persons.type', 'person_type.subtype', 'persons.id')
-            ->join('persons', 'persons.id', '=', 'person_type.person_id')
-            ->where('person_type.proposal_id', '=', $id)
+        $added_persons = PersonType::where('proposal_id','=', $id)
             ->get()->toArray();
 
-        // FOR KRISTINE
-
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'enum'));
     }
 
     public function savepersons(Request $request,$id)
     {
+        $enum = getEnumValues('person_type', 'subtype');
         $proposaltag = getProposalTag($id);
         $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
             $query->orWhere('type', 'support');
-        })->get()->toArray();
+        })->get()->keyBy('id')->toArray();
 
-
-        $added_persons  =  \DB::table('person_type')
-            ->select('persons.first_name', 'persons.last_name','persons.type', 'person_type.subtype', 'persons.id')
-            ->join('persons', 'persons.id', '=', 'person_type.person_id')
-            ->where('person_type.proposal_id', '=', $id)
+        $added_persons = PersonType::where('proposal_id', '=', $id)
             ->get()->toArray();
 
-        // FOR KRISTINE
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id','added_persons','persons', 'enum'));
+    }
 
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id','added_persons','persons'));
+    public function removeperson($id)
+    {
+        try {
+            $added_person = PersonType::find($id);
+            $added_person->delete();
+            return Redirect::back()->with('delete', getMessage("deleted"));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return Redirect::back()->with('wrong', getMessage("wrong"));
+        }
     }
 
     public function addperson(Request $request,$id)
     {
+        // Validate
 
-        $proposaltag = getProposalTag($id);
+        try {
+            $persontype = new PersonType();
+            $persontype->person_id = $request->person_prop;
+            $persontype->proposal_id = $id;
+            $persontype->subtype = $request->subtype;
+            $persontype->save();
 
-        $persontype = new PersonType();
-        $persontype->person_id = $request->person_prop;
-        $persontype->proposal_id = $id;
-        $persontype->subtype = $request->subtype;
-        $persontype->save();
-        // FOR KRISTINE
-        //return redirect()->action('Applicant\ProposalController@updatepersons');
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id'));
+            return Redirect::back()->with('success', getMessage("success"));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+        }
     }
 
     public function check($id)

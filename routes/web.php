@@ -103,6 +103,7 @@ Route::post('/export', 'Admin\SettingsController@export');
 Route::post('/updatePerson', 'Base\AjaxController@updatePerson');
 Route::post('/updateAcc', 'Base\AjaxController@updateAcc');
 Route::post('/updateCategory', 'Base\AjaxController@updateCategory');
+Route::post('/updateCom', 'Admin\CompetitionController@updateCompetition');
 Route::post('/addUsers', 'Admin\ProposalController@addUsers');
 Route::post('/copyItems', 'Base\AjaxController@copyItems');
 Route::post('/deleteProposal', 'Admin\ProposalController@deleteProposal');
@@ -201,6 +202,7 @@ Route::get('/applicant/proposal/updatepersons/{id}', 'Applicant\ProposalControll
 Route::get('/applicant/proposal/check/{id}', 'Applicant\ProposalController@check');
 Route::get('/applicant/proposal/savepersons/{id}', 'Applicant\ProposalController@savepersons');
 Route::post('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
+Route::get('/applicant/proposal/removeperson/{id}', 'Applicant\ProposalController@removeperson');
 
 Route::resource('/applicant/discipline', 'Applicant\DisciplineController');
 Route::post('/applicant/updatePassword', 'Applicant\PersonController@updatePassword');

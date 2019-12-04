@@ -56,7 +56,6 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'email.*' => 'email|max:255'
         ]);
@@ -71,8 +70,6 @@ class EmailController extends Controller
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-
-
         }
     }
 

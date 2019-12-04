@@ -18,7 +18,6 @@
                                 <div class="row">
                                     <div class="form-group col-lg-10 emails">
                                         <label for="email">Email <span style="color:#777;"></span>:</label>
-                                        <!-- <i class="fa fa-plus pull-right add  text-blue" style="cursor: pointer"></i> -->
                                         <input type="text" class="form-control email" name="email[]"
                                                id="email">
                                     </div>
