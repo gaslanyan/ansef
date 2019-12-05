@@ -69,26 +69,28 @@ class AccountController extends Controller
             'nationality' => 'required|not_in:Select country',
         ]);
 
-        $person = new Person;
-        $person->first_name = $request->first_name;
-        $person->last_name = $request->last_name;
-        if (!empty($request->birthdate)) {
-            $person->birthdate = formatDate($request->birthdate);
+        try {
+            $person = new Person;
+            $person->first_name = $request->first_name;
+            $person->last_name = $request->last_name;
+            if (!empty($request->birthdate)) {
+                $person->birthdate = formatDate($request->birthdate);
+            }
+    
+            $person->birthplace = $request->birthplace;
+            $person->nationality = $request->nationality;
+            $person->sex = $request->sex;
+            $person->state = $request->state;
+            $person->type =$request->type;
+            $person->specialization = $request->specialization;
+            $person->user_id = $user_id;
+            $person->save();
+    
+            return redirect()->action('Applicant\InfoController@index');    
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
         }
-
-        $person->birthplace = $request->birthplace;
-        $person->nationality = $request->nationality;
-        $person->sex = $request->sex;
-        $person->state = $request->state;
-        $person->type =$request->type;
-        $person->specialization = $request->specialization;
-        $person->user_id = $user_id;
-        $person->save();
-
-      return redirect()->action('Applicant\InfoController@index');
-
-       // return redirect()->action('Applicant\EmailController@index');
-//        return Redirect::back()->with('success', getMessage("success"));
 
     }
 

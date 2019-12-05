@@ -22,7 +22,7 @@ class Competition extends Model
         'title', 'description', 'submission_start_date', 'submission_end_date', 'announcement_date',
         'project_start_date', 'duration', 'min_budget', 'max_budget', 'min_level_deg_id', 'max_level_deg_id',
         'min_age', 'max_age', 'allow_foreign', 'comments', 'first_report', 'second_report', 'state',
-        'recommendations_id', 'categories', 'additional', 'instructions'
+        'recommendations', 'categories', 'additional', 'instructions'
     ];
     public function min_degree()
     {

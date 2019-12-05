@@ -173,7 +173,7 @@ class AjaxController extends Controller
             $comp_id = $request->id;
 
             $content = [];
-            $com = Competition::select('recommendations_id', 'allow_foreign', 'categories', 'additional')->where('id', '=', $comp_id)->first();
+            $com = Competition::select('recommendations', 'allow_foreign', 'categories', 'additional')->where('id', '=', $comp_id)->first();
             $categories = json_decode($com->categories);
             foreach ($categories as $index => $category) {
                 if ($category != 0) {
@@ -190,7 +190,7 @@ class AjaxController extends Controller
 
             $content['bc'] = BudgetCategory::where('competition_id', '=', $comp_id)->get()->toArray();
             $content['st'] = ScoreType::where('competition_id', '=', $comp_id)->get()->toArray();
-            $content['recommendition'] = $com->recommendations_id;
+            $content['recommendition'] = $com->recommendations;
             $content['allowforeign'] = $com->allow_foreign;
             $content['additional'] = json_decode($com->additional);
 

@@ -133,7 +133,7 @@ class CompetitionController extends Controller
                         'first_report' => $request->first_report,
                         'second_report' => $request->second_report,
                         'state' => $request->state,
-                        'recommendations_id' => $request->recommendations,
+                        'recommendations' => $request->recommendations,
                         'categories' => json_encode($request->category),
                         'additional' => json_encode($additional),
                         'instructions' => $request->instructions

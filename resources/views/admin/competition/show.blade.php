@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <strong><i class="fa fa-bookmark margin-r-5"></i>Min. recommendations:</strong>
-                                        <p>@if($com->recommendations_id == 0){{'None'}}@else {{$com->recommendations_id}}@endif</p>
+                                        <p>@if($com->recommendations == 0){{'None'}}@else {{$com->recommendations}}@endif</p>
                                     </div>
                                 </div>
                                 <hr>

@@ -5251,7 +5251,7 @@ CREATE TABLE `competitions` (
   `first_report` date DEFAULT NULL,
   `second_report` date DEFAULT NULL,
   `state` enum('enable','disable') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `recommendations_id` int(11) DEFAULT '0',
+  `recommendations` int(11) DEFAULT '0',
   `categories` text COLLATE utf8mb4_unicode_ci,
   `additional` text COLLATE utf8mb4_unicode_ci COMMENT 'additional_charge_name,additional_charge, additional_percentage_name,additional_percentage',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -5262,7 +5262,7 @@ CREATE TABLE `competitions` (
 -- Dumping data for table `competitions`
 --
 
-INSERT INTO `competitions` (`id`, `title`, `description`, `submission_start_date`, `submission_end_date`, `announcement_date`, `project_start_date`, `duration`, `min_budget`, `max_budget`, `min_level_deg_id`, `max_level_deg_id`, `min_age`, `max_age`, `allow_foreign`, `comments`, `first_report`, `second_report`, `state`, `recommendations_id`, `categories`, `additional`, `created_at`, `updated_at`) VALUES
+INSERT INTO `competitions` (`id`, `title`, `description`, `submission_start_date`, `submission_end_date`, `announcement_date`, `project_start_date`, `duration`, `min_budget`, `max_budget`, `min_level_deg_id`, `max_level_deg_id`, `min_age`, `max_age`, `allow_foreign`, `comments`, `first_report`, `second_report`, `state`, `recommendations`, `categories`, `additional`, `created_at`, `updated_at`) VALUES
 (15, '20PSNS', 'Test competition for physical and natural sciences', '2019-10-22', '2019-12-31', '2019-10-21', '2019-10-28', 2, 0, 5000, 4, 0, 0, 100, 0, 'No comments', '2019-10-29', '2019-10-30', 'disable', 0, '[\"103\",\"104\"]', '{\"additional_charge_name\":null,\"additional_charge\":\"0\",\"additional_percentage_name\":null,\"additional_percentage\":\"5\"}', '2019-10-23 01:01:08', '2019-11-02 23:08:37'),
 (16, '20PS2', 'This is the description: \r\nMore text.', '2019-11-22', '2019-11-30', '2019-11-04', '2019-12-01', 2, 0, 5000, 7, 6, 0, 100, 0, NULL, '2019-12-03', '2019-12-06', 'enable', 0, '[\"103\"]', '{\"additional_charge_name\":null,\"additional_charge\":\"0\",\"additional_percentage_name\":null,\"additional_percentage\":\"0\"}', '2019-11-02 23:10:05', '2019-11-02 23:10:32');
 

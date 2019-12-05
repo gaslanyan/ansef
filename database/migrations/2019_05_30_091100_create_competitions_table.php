@@ -33,7 +33,7 @@ class CreateCompetitionsTable extends Migration {
 			$table->date('first_report')->nullable();
 			$table->date('second_report')->nullable();
 			$table->enum('state', array('enable','disable'))->nullable();
-			$table->integer('recommendations_id')->nullable()->default(0);
+			$table->integer('recommendations')->nullable()->default(0);
 			$table->text('categories', 65535)->nullable();
 			$table->text('additional', 65535)->nullable()->comment('additional_charge_name,additional_charge, additional_percentage_name,additional_percentage');
 			$table->timestamps();

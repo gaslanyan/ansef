@@ -159,8 +159,8 @@
                             </div>
                             <div class="form-group col-lg-2">
                                 <label for="recommendations" class="label">Recommendations
-                                    <input type="checkbox" class="form-control" name="recommendations_id"
-                                           <?php if ($com->recommendations_id == 1) echo 'checked'?> id="recommendations">
+                                    <input type="checkbox" class="form-control" name="recommendations"
+                                           <?php if ($com->recommendations == 1) echo 'checked'?> id="recommendations">
                                     <span class="checkmark"></span>
                                 </label>
                             </div>

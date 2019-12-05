@@ -531,12 +531,34 @@ class ProposalController extends Controller
         if($budget["validation"] != "")
             array_push($messages, $budget["validation"]);
 
-        // Check the count of support letters
-        // Check recommendation letters > provide button to send invitations
+        $recs = $p->competition->recommendations;
+        $missingrecs = [];
+        $submittedrecs = [];
+        if($recs > 0) {
+            $recommenders = PersonType::where('proposal_id', '=', $id)
+            ->where('subtype','=','supportletter')
+            ->join('persons','persons.id','=','person_id')
+            ->get();
+            if(count($recommenders) < $recs)
+                array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letters of support. You currently have only " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
+
+            $reccount = Recommendations::where('proposal_id','=',$p->id)->count();
+            if($reccount < $recs)
+                array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letters of support. Once you add " . $recs . " persons to the proposal in the role of recommenders, click the button below to send them a notice and instructions to submit their letters of support.");
+        
+            foreach($recommenders as $recommender) {
+                $email = Email::where('person_id','=',$recommender->person_id)->first();
+
+                if(Recommendations::where('proposal_id','=',$p->id)->where('person_id','=',$recommender->person_id)->exists())
+                    array_push($submittedrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
+                else 
+                    array_push($missingrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
+            }
+        }
 
         $competition = $p->competition;
 
-        return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition'));
+        return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition', 'submittedrecs', 'missingrecs'));
     }
 
     public function instructions($id) {
