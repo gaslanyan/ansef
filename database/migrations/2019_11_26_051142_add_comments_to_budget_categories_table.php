@@ -14,7 +14,7 @@ class AddCommentsToBudgetCategoriesTable extends Migration
     public function up()
     {
         Schema::table('budget_categories', function (Blueprint $table) {
-            $table->string('comments', 255);
+            $table->string('comments', 255)->nullable();
         });
     }
 

@@ -13,8 +13,11 @@ use App\Models\Person;
 use App\Models\Institution;
 use App\Models\ProposalInstitution;
 use App\Models\Proposal;
+use App\Models\Email;
 use App\Models\Address;
 use App\Models\Country;
+use App\Models\DegreePerson;
+use App\Models\InstitutionPerson;
 use App\Models\Recommendations;
 use App\Models\RefereeReport;
 use App\Models\ScoreType;
@@ -127,7 +130,7 @@ class ProposalController extends Controller
         //        try {
         $prop_members = [];
         $proposal = new Proposal();
-        $proposal->title = $request->title;
+        $proposal->title = ucwords(strtolower($request->title));
         $proposal->abstract = $request->abstract;
         $proposal->state = "in-progress";
         $user_id = getUserID();
@@ -478,14 +481,62 @@ class ProposalController extends Controller
     {
         $proposaltag = getProposalTag($id);
 
-        //  Must have title, capitalize
-        //  Must have abstract
-        //  Must have document
-        //  Must have at least one member who is a PI
-        //  Each member must have at least one address, and at least one email
-        //  Warn if participant does not have Employment and Education.
+        $p = Proposal::find($id);
+        $messages = [];
+        $warnings = [];
+        if (empty($p->title) || $p->title == "") array_push($messages, "Proposal must have a title.");
+        if (empty($p->abstract) || $p->abstract == "") array_push($messages, "Proposal must have an abstract.");
+        if (empty($p->document) || $p->document == "") array_push($messages, "Proposal must have a document uploaded detailing the project.");
+        $pi = PersonType::where('proposal_id', '=', $id)
+                ->join('persons', 'persons.id', '=', 'person_id')
+                ->where('subtype','=','PI')
+                ->first();
+        if (empty($pi)) array_push($messages, "Proposal must have one Principal Investigator (PI).");
+        else {
+            $picount = PersonType::where('proposal_id', '=', $id)
+                ->where('subtype', '=', 'PI')
+                ->count();
+            if ($picount > 1) array_push($messages, "Proposal cannot have more than one Principal Investigator.");
 
-        return view('applicant.proposal.audit', compact('proposaltag', 'id'));
+            if($p->competition()->first()->allow_foreign == "0") {
+                if($pi->state == "foreign")
+                    array_push($messages, "This competition does not allow a PI (" . $pi->first_name . " " . $pi->last_name . ") that is not based in Armenia.");
+            }
+        }
+        $members = PersonType::where('proposal_id', '=', $id)
+                    ->join('persons','persons.id','=','person_id')
+                    ->get();
+        foreach($members as $member) {
+            $ecount = Email::where('person_id', '=', $member->person_id)->count();
+            if($ecount == 0)
+                array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one email address provided.");
+            $addcount = Address::where('addressable_id', '=', $member->person_id)
+                            ->where('addressable_type','=','App\Models\Person')
+                            ->count();
+            if($addcount == 0)
+                array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one mailing address provided.");
+
+            if($member->type == "participant") {
+                $education = DegreePerson::where('person_id', '=', $member->person_id)->count();
+                $employment = InstitutionPerson::where('person_id', '=', $member->person_id)->count();
+
+                if($education == 0)
+                    array_push($warnings, "You have not provided an educational history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an educational history for each project participant.");
+                if ($employment == 0)
+                    array_push($warnings, "You have not provided an employment history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an employment history for each project participant.");
+            }
+        }
+
+        $budget = $p->budget();
+        if($budget["validation"] != "")
+            array_push($messages, $budget["validation"]);
+
+        // Check the count of support letters
+        // Check recommendation letters > provide button to send invitations
+
+        $competition = $p->competition;
+
+        return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition'));
     }
 
     public function instructions($id) {

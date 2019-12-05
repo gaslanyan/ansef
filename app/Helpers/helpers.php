@@ -8,6 +8,7 @@
  */
 
 
+
 function checkPermission($permissions)
 {
     $guard = basename(url()->current());

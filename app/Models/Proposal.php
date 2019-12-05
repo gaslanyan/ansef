@@ -123,21 +123,21 @@ class Proposal extends Model
         }
 
         $additional_message = "";
-        if ($additional->additional_charge > 0) $additional_message .= (" + <b>" . $additional->additional_charge_name . ":</b> $" . $additional->additional_charge . "<br/>");
-        if ($additional->additional_percentage > 0) $additional_message .= (" + <b>" . $additional->additional_percentage_name . ":</b> " . $additional->additional_percentage . "% x $" . $sum . " = $" . round($sum * $additional->additional_percentage / 100.0) . "<br/>");
+        if ((int)$additional->additional_charge > 0) $additional_message .= (" + <b>" . $additional->additional_charge_name . ":</b> $" . $additional->additional_charge . "<br/>");
+        if ((int)$additional->additional_percentage > 0) $additional_message .= (" + <b>" . $additional->additional_percentage_name . ":</b> " . $additional->additional_percentage . "% x $" . $sum . " = $" . round($sum * $additional->additional_percentage / 100.0) . "<br/>");
 
         $sum += (round($sum * $additional->additional_percentage / 100.0) + $additional->additional_charge);
 
         if ($competition->max_budget == $competition->min_budget) {
-            if (($competition->max_budget - $sum) < 10 || $competition->max_budget < $sum) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " must be lower than and within $10 of $" . $competition->max_budget . "<br/>");
+            if (($competition->max_budget - $sum) > 10 || $competition->max_budget < $sum) $validation_message .= ("Total budget amount $" . $sum . " must be lower than and within $10 of $" . $competition->max_budget . "<br/>");
         } else {
-            if ($sum > $competition->max_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too high; max is $" . $competition->max_budget . "<br/>");
-            if ($sum < $competition->min_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too low; min is $" . $competition->min_budget . "<br/>");
+            if ($sum > $competition->max_budget) $validation_message .= ("Total budget amount $" . $sum . " is too high; max is $" . $competition->max_budget . "<br/>");
+            if ($sum < $competition->min_budget) $validation_message .= ("Total budget amount $" . $sum . " is too low; min is $" . $competition->min_budget . "<br/>");
         }
 
         $additional_message .= ("<br/><b>Total budget:</b> $" . $sum . "<br/>");
 
-        if ($validation_message != "") $validation_message .= ("<br/> <b>Your budget has errors:</b> please correct all errors.<br/>");
+        if ($validation_message != "") $validation_message .= ("<b>Your budget has errors:</b> please correct all errors.");
 
         return ["summary" => $additional_message, "validation" => $validation_message];
     }

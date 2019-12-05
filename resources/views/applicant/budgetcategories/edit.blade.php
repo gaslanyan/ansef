@@ -11,7 +11,7 @@
                         @include('partials.status_bar')
 
                         <p><i class="fas fa-question-circle text-blue"></i></i><span style="color:#777;margin-left:10px;">Add basic data about a person
-                        who will server as either support to a project or a participant in a project.</span></p>
+                        who will serve as either support to a project or a participant in a project.</span></p>
                         <p><i class="fa fa-info text-blue all"> {{Lang::get('messages.required_all')}}</i></p>
                         <form method="post" action="{{ action('Applicant\PersonController@update', $id) }}" class="row">
                             @csrf

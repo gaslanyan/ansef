@@ -35,30 +35,18 @@ class BudgetCategoriesController extends Controller
             $additional = json_decode($competition->additional);
 
             $sum = 0;
-            $validation_message = "";
             foreach($bi as $item) {
                 if ($item->amount > $item->category->max) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too high; max is $" . $item->category->max . "<br/>");
                 if ($item->amount < $item->category->min) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too low; min is $" . $item->category->min . "<br/>");
                 $sum += $item->amount;
             }
 
-            $additional_message = "";
-            if ($additional->additional_charge > 0) $additional_message .= (" + <b>" . $additional->additional_charge_name . ":</b> $" . $additional->additional_charge . "<br/>");
-            if ($additional->additional_percentage > 0) $additional_message .= (" + <b>" . $additional->additional_percentage_name . ":</b> " . $additional->additional_percentage . "% x $" . $sum . " = $" . round($sum * $additional->additional_percentage / 100.0) . "<br/>");
-
             $sum += (round($sum * $additional->additional_percentage / 100.0) + $additional->additional_charge);
 
-            if($competition->max_budget == $competition->min_budget) {
-                if(($competition->max_budget - $sum) < 10 || $competition->max_budget < $sum) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " must be lower than and within $10 of $" . $competition->max_budget . "<br/>");
-            }
-            else {
-                if ($sum > $competition->max_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too high; max is $" . $competition->max_budget . "<br/>");
-                if ($sum < $competition->min_budget) $validation_message .= ("<b>Error:</b> Total budget amount $" . $sum . " is too low; min is $" . $competition->min_budget . "<br/>");
-            }
+            $budget = $p->budget();
 
-            $additional_message .= ("<br/><b>Total budget:</b> $" . $sum . "<br/>");
-
-            if($validation_message != "") $validation_message .= ("<br/> <b>Your budget has errors:</b> please correct all errors.<br/>");
+            $additional_message = $budget["summary"];
+            $validation_message = $budget["validation"];
 
             return view('applicant.budgetcategories.create', compact('bc', 'bi', 'id', 'sum', 'validation_message', 'additional_message'));
         }
@@ -79,8 +67,6 @@ class BudgetCategoriesController extends Controller
 
 
          if (!empty($request->bc)) {
-                // $bc_val = explode('**',$val);
-
                 $budget_item = new BudgetItem();
                 $budget_item->budget_cat_id = $request->bc;
                 $budget_item->description = $request->description;
