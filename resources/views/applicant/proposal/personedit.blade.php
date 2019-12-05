@@ -17,33 +17,35 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="form-group col-lg-4">
-
-                                        <select id="bcc" class="form-control budgetcategory" name="person_prop">
-                                            <option value="0">Choose a Person</option>
+                                        <select id="bcc" class="form-control person" name="theperson">
+                                            <option value="0" role="">Choose a Person</option>
                                             @if(!empty($persons))
                                                 @foreach($persons as $item)
-                                                <option class="text-capitalize" {{old('person_prop')==$item['id'] ? 'selected' : ''}} value = "{{$item['id']}}">{{$item['first_name'] . " ".$item['last_name']." (".$item['type'].")"}}</option>
+                                                <option class="text-capitalize" role="{{$item['type']}}" {{old('theperson')==$item['id'] ? 'selected' : ''}} value = "{{$item['id']}}">{{$item['first_name'] . " ".$item['last_name']}}</option>
                                                 @endforeach
                                             @endif
                                         </select>
-                                </div>
+                                    </div>
                                     <div class="form-group col-lg-4">
-                                        <select id="bcc" class="form-control budgetcategory" name="subtype">
-
+                                        <select id="sp" class="form-control participant" name="subtypeparticipant">
                                             <option value="0">Choose a role</option>
-                                            @if(!empty($enum))
-                                                @foreach($enum as $val=>$item)
-                                        <option class="text-capitalize" {{old('subtype')==$item['role'] ? 'selected' : ''}} value="{{$item['role']}}">{{$item['role']=="supportletter" ? "Recommendation letter" : ucfirst($item['role'])}} (for {{$item['type']}} only)</option>
-                                                @endforeach
-                                            @endif
+                                            @foreach($participant as $val=>$item)
+                                            <option class="text-capitalize" {{old('subtype')==$item ? 'selected' : ''}} value="{{$item}}">{{$item=="supportletter" ? "Recommendation letter" : ucfirst($item)}}</option>
+                                            @endforeach
+                                        </select>
+                                        <select id="ss" class="form-control support" name="subtypesupport">
+                                            <option value="0">Choose a role</option>
+                                            @foreach($support as $val=>$item)
+                                            <option class="text-capitalize" {{old('subtype')==$item ? 'selected' : ''}} value="{{$item}}">{{$item=="supportletter" ? "Recommendation letter" : ucfirst($item)}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-4">
-                                <input type="hidden" class="form-control" name="participant_create_hidden"
-                                       value="{{$id}}" id="participant_create_hidden">
-                                <button type="submit" class="btn btn-primary">Add participant</button>
+                                    <input type="hidden" class="form-control" name="participant_create_hidden"
+                                        value="{{$id}}" id="participant_create_hidden">
+                                    <button type="submit" class="btn btn-primary">Add participant</button>
                                     </div>
-                            </div>
+                                </div>
                             </div>
 
                         </form>
@@ -62,17 +64,20 @@
                                         <div class="form-group col-lg-12 emails">
                                             <div class="row">
                                                 <div class="form-group col-lg-4">
-                                                    <select id="person_list" class="form-control" name="person_list[]">
-                                                        <option class="text-capitalize" value = "{{$added_p['person_id']}}">{{$persons[$added_p['person_id']]['first_name'] . " ".$persons[$added_p['person_id']]['last_name']." (".$persons[$added_p['person_id']]['type'].")"}}</option>
+                                                    <select id="person_list" class="form-control person" name="person_list[]">
+                                                        <option class="text-capitalize" role="{{$persons[$added_p['person_id']]['type']}}" value = "{{$added_p['person_id']}}">{{$persons[$added_p['person_id']]['first_name'] . " ".$persons[$added_p['person_id']]['last_name']}}</option>
                                                      </select>
                                                 </div>
                                                 <div class="form-group col-lg-4">
-                                                    <select id="role" class="form-control" name="role_list[]">
-                                                        @if(!empty($enum))
-                                                            @foreach($enum as $val=>$item)
-                                                            <option class="text-capitalize" {{old('subtype')==$item['role'] ? 'selected' : ''}} value="{{$item['role']}}" <?php if($added_p['subtype']==$item['role']) echo "selected"; ?>>{{$item['role']=="supportletter" ? "Recommendation letter" : ucfirst($item['role'])}} (for {{$item['type']}} only)</option>
-                                                            @endforeach
-                                                        @endif
+                                                    <select id="role1" class="form-control participant" name="subtypeparticipant[]">
+                                                        @foreach($participant as $val=>$item)
+                                                        <option class="text-capitalize" value="{{$item}}" <?php if($added_p['subtype']==$item) echo "selected"; ?>>{{$item=="supportletter" ? "Recommendation letter" : ucfirst($item)}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    <select id="role2" class="form-control support" name="subtypesupport[]">
+                                                        @foreach($support as $val=>$item)
+                                                        <option class="text-capitalize" value="{{$item}}" <?php if($added_p['subtype']==$item) echo "selected"; ?>>{{$item=="supportletter" ? "Recommendation letter" : ucfirst($item)}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <a href="{{action('Applicant\ProposalController@removeperson', $added_p['id'])}}"
@@ -91,4 +96,43 @@
             </div>
         </div>
     </div>
+    <script>
+        $(window).on('load', function() {
+                $('select.participant').hide();
+                $('select.support').hide();
+                $('select.person').each(function() {
+                    var role = $(this).children("option:selected").attr('role');
+                    if(role == 'participant') {
+                        $(this).parent().siblings().children('select.participant').show();
+                        $(this).parent().siblings().children('select.support').hide();
+                    }
+                    else if(role == 'support') {
+                        $(this).parent().siblings().children('select.participant').hide();
+                        $(this).parent().siblings().children('select.support').show();
+                    }
+                    else {
+                        $(this).parent().siblings().children('select.participant').hide();
+                        $(this).parent().siblings().children('select.support').hide();
+                    }
+                });
+        });
+
+        $(document).ready(function(){
+                $('select.person').on('change',function(){
+                    var role = $(this).children("option:selected").attr('role');
+                    if(role == 'participant') {
+                        $(this).parent().siblings().children('select.participant').show();
+                        $(this).parent().siblings().children('select.support').hide();
+                    }
+                    else if(role == 'support') {
+                        $(this).parent().siblings().children('select.participant').hide();
+                        $(this).parent().siblings().children('select.support').show();
+                    }
+                    else {
+                        $(this).parent().siblings().children('select.participant').hide();
+                        $(this).parent().siblings().children('select.support').hide();
+                    }
+                });
+        });
+    </script>
 @endsection

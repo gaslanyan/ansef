@@ -282,13 +282,6 @@ class ProposalController extends Controller
         ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request '
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
@@ -364,9 +357,11 @@ class ProposalController extends Controller
     public function updatepersons(Request $request,$id)
     {
         $enum = getEnumValues('person_type', 'subtype');
-        foreach($enum as &$item) {
-            if($item == 'PI' || $item =='collaborator') $item = ['role' => $item, 'type' => 'participant'];
-            else $item = ['role' => $item, 'type' => 'support'];
+        $participant = [];
+        $support = [];
+        foreach($enum as $item) {
+            if($item == 'PI' || $item =='collaborator') array_push($participant, $item);
+            else array_push($support, $item);
         }
         $proposaltag = getProposalTag($id);
         $user_id = getUserID();
@@ -378,14 +373,35 @@ class ProposalController extends Controller
         $added_persons = PersonType::where('proposal_id','=', $id)
             ->get()->toArray();
 
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'enum'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
     }
 
-    public function savepersons(Request $request,$id)
+    public function savepersons(Request $request, $id)
     {
         $enum = getEnumValues('person_type', 'subtype');
+        $participant = [];
+        $support = [];
+        foreach ($enum as $item) {
+            if ($item == 'PI' || $item == 'collaborator') array_push($participant, $item);
+            else array_push($support, $item);
+        }
         $proposaltag = getProposalTag($id);
         $user_id = getUserID();
+
+        for ($i = 0; $i <= count($request->person_list) - 1; $i++) {
+            $pt = PersonType::find($request->person_list_hidden[$i]);
+            if(!empty($pt)) {
+                $person = Person::find($pt->person_id);
+                if ($person->type == 'participant') {
+                    $pt->subtype = $request->subtypeparticipant[$i];
+                    $pt->save();
+                } else if ($person->type == 'support') {
+                    $pt->subtype = $request->subtypesupport[$i];
+                    $pt->save();
+                } else { }
+            }
+        }
+
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
             $query->orWhere('type', 'support');
@@ -393,8 +409,7 @@ class ProposalController extends Controller
 
         $added_persons = PersonType::where('proposal_id', '=', $id)
             ->get()->toArray();
-
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id','added_persons','persons', 'enum'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id', 'persons', 'added_persons', 'participant', 'support'));
     }
 
     public function removeperson($id)
@@ -402,25 +417,57 @@ class ProposalController extends Controller
         try {
             $added_person = PersonType::find($id);
             $added_person->delete();
-            return Redirect::back()->with('delete', getMessage("deleted"));
+            return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"));
         }
     }
 
-    public function addperson(Request $request,$id)
+    public function addperson(Request $request, $id)
     {
-        // Validate
+        if($request->theperson == 0) {
+            return Redirect::back()->with('wrong', 'Please choose a person to add.')->withInput();
+        }
+        else {
+            $ptc = PersonType::where('proposal_id','=',$id)
+                    ->where('person_id','=', $request->theperson)->count();
+            if($ptc != 0) {
+                return Redirect::back()->with('wrong', 'This person has already been added to the project.')->withInput();
+            }
+            $person = Person::find($request->theperson);
+            if ($person->type == 'participant') {
+                if ($request->subtypeparticipant == "0") {
+                    return Redirect::back()->with('wrong', 'Please choose the role of the person in the project.')->withInput();
+                }
+            }
+            else if ($person->type == 'support') {
+                if ($request->subtypesupport == "0") {
+                    return Redirect::back()->with('wrong', 'Please choose the role of the person in the project.')->withInput();
+                }
+            }
+            else {
+            }
+        }
 
         try {
             $persontype = new PersonType();
-            $persontype->person_id = $request->person_prop;
+            $persontype->person_id = $request->theperson;
             $persontype->proposal_id = $id;
-            $persontype->subtype = $request->subtype;
-            $persontype->save();
-
-            return Redirect::back()->with('success', getMessage("success"));
+            $person = Person::find($request->theperson);
+            if($person->type == 'participant') {
+                $persontype->subtype = $request->subtypeparticipant;
+                $persontype->save();
+                return Redirect::back()->with('success', getMessage("success"));
+            }
+            else if($person->type == 'support') {
+                $persontype->subtype = $request->subtypesupport;
+                $persontype->save();
+                return Redirect::back()->with('success', getMessage("success"));
+            }
+            else {
+                return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            }
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
