@@ -5,7 +5,7 @@
 
     <div class="row justify-content-center">
         <div class="offset-md-2 col-md-10">
-            <div class="card" >
+            <div class="card">
                 @include('partials.status_bar')
 
                 <div class="card-header">List of Persons
