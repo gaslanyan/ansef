@@ -29,6 +29,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NotifyRecommender;
 
 class ProposalController extends Controller
 {
@@ -149,22 +151,6 @@ class ProposalController extends Controller
         $proposal->categories = $json_merge;
         $proposal->save();
         $proposal_id = $proposal->id;
-
-        if (!empty($request->choose_person)) {
-            for ($i = 0; $i < count($request->choose_person); $i++) {
-                $id_type = explode("_", $request->choose_person[$i]);
-                if (count($id_type) != 2) {
-                    dd($id_type);
-                    return redirect()->action('Applicant\ProposalController@create');
-                }
-
-                $persontype = new PersonType();
-                $persontype->person_id = $id_type[0];
-                $persontype->proposal_id = $proposal_id;
-                $persontype->subtype = $id_type[1];
-                $persontype->save();
-            }
-        }
 
         $prop_institution = new ProposalInstitution();
         if (!empty($request->institutionname)) {
@@ -540,25 +526,72 @@ class ProposalController extends Controller
             ->join('persons','persons.id','=','person_id')
             ->get();
             if(count($recommenders) < $recs)
-                array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letters of support. You currently have only " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
+                array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letter" . ($recs > 1 ? 's' : '') ." of support. You currently have " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
 
-            $reccount = Recommendations::where('proposal_id','=',$p->id)->count();
-            if($reccount < $recs)
-                array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letters of support. Once you add " . $recs . " persons to the proposal in the role of recommenders, click the button below to send them a notice and instructions to submit their letters of support.");
-        
             foreach($recommenders as $recommender) {
                 $email = Email::where('person_id','=',$recommender->person_id)->first();
 
-                if(Recommendations::where('proposal_id','=',$p->id)->where('person_id','=',$recommender->person_id)->exists())
+                if(Recommendations::where('proposal_id','=',$p->id)->where('document','!=',null)->where('person_id','=',$recommender->person_id)->exists()) {
                     array_push($submittedrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
-                else 
-                    array_push($missingrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
+                }
+                else {
+                    if(!empty($email))
+                        array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
+                }
             }
         }
 
         $competition = $p->competition;
 
-        return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition', 'submittedrecs', 'missingrecs'));
+        return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition', 'submittedrecs', 'missingrecs', 'pi'));
+    }
+
+    public function notifyrecommenders($id) {
+        $missingrecs = [];
+        $recommenders = PersonType::where('proposal_id', '=', $id)
+            ->where('subtype', '=', 'supportletter')
+            ->join('persons', 'persons.id', '=', 'person_id')
+            ->get();
+
+        foreach ($recommenders as $recommender) {
+            $email = Email::where('person_id', '=', $recommender->person_id)->first();
+
+            if (!Recommendations::where('proposal_id', '=', $id)->where('document','!=',null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
+                array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
+            }
+        }
+
+        $p = Proposal::find($id);
+        $pi = PersonType::where('proposal_id', '=', $id)
+            ->join('persons', 'persons.id', '=', 'person_id')
+            ->where('subtype', '=', 'PI')
+            ->first();
+
+        foreach ($missingrecs as $missingrec) {
+            $confirmation = randomPassword();
+            $r = Recommendations::firstOrCreate([
+                'proposal_id' => $p->id,
+                'person_id' => $missingrec['id']] , [
+                'confirmation' => $confirmation
+            ]);
+            Notification::route('mail', $missingrec['email'])
+                ->notify(new NotifyRecommender($missingrec['email'], $missingrec['name'], $pi->first_name . " " . $pi->last_name, $r->id, $confirmation));
+        }
+
+        return redirect()->action('Applicant\ProposalController@activeProposal')->with('success', count($missingrecs) . ' email' . (count($missingrecs)>1 ? 's' : '') . ' sent requesting recommendation letter' . (count($missingrecs)>1 ? 's' : '') . '.');
+    }
+
+    public function submitletter(Request $request) {
+        $input = $request->all();
+        $id = $input['rid'];
+        $rec = Recommendations::find($id);
+        if(!empty($rec)) {
+            if($rec->confirmation == $input['confirmation']) {
+                $document = $rec->document;
+                return view('applicant.proposal.recletter', compact('id', 'document'));
+            }
+        }
+        return view('applicant.proposal.recletterdeny');
     }
 
     public function instructions($id) {

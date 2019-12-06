@@ -17,7 +17,6 @@ use App\Models\Person;
 use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
-// use App\Notifications\CreatedUserSuccessfully;
 use App\Notifications\UserRegisteredSuccessfully;
 use App\Notifications\GeneratePasswordSend;
 use Illuminate\Http\Request;

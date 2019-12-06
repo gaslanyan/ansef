@@ -19,7 +19,7 @@ class Recommendations extends Model
      * @var array
      */
     protected $fillable = [
-        'text', 'proposal_id','person_id'
+        'document', 'confirmation', 'proposal_id','person_id'
     ];
 
 }

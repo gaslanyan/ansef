@@ -49,6 +49,9 @@ class FileUploadController extends Controller
         return response()->json($output);
     }
 
+    function uploadletter(Request $request) {
+
+    }
 
     function uploadreport(Request $request)
     {
@@ -105,9 +108,13 @@ class FileUploadController extends Controller
         $proposal->save();
         }
       return  redirect()->action('Applicant\ProposalController@activeProposal');
-}
+    }
 
-public function removereport(Request $request,$id)
+    public function removeletter(Request $request,$id)
+    {
+    }
+
+    public function removereport(Request $request,$id)
     {
         if($request->file('report_file') != ""){
         $proposal = ProposalReports::find($id);
@@ -123,5 +130,5 @@ public function removereport(Request $request,$id)
         $proposal->delete();;
         }
       return  redirect()->action('Applicant\ProposalController@activeProposal');
-}
+    }
 }

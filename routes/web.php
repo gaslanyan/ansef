@@ -49,6 +49,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
 
 Route::get('/verify-user/{email}/code/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
+Route::get('/submit-letter/', 'Applicant\ProposalController@submitletter')->name('submit-letter');
 
 //permission
 //
@@ -203,6 +204,7 @@ Route::get('/applicant/proposal/check/{id}', 'Applicant\ProposalController@check
 Route::get('/applicant/proposal/savepersons/{id}', 'Applicant\ProposalController@savepersons');
 Route::post('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@addperson');
 Route::get('/applicant/proposal/removeperson/{id}', 'Applicant\ProposalController@removeperson');
+Route::get('/applicant/proposal/emailrecommenders/{id}', 'Applicant\ProposalController@notifyrecommenders');
 
 Route::resource('/applicant/discipline', 'Applicant\DisciplineController');
 Route::post('/applicant/updatePassword', 'Applicant\PersonController@updatePassword');
@@ -238,9 +240,11 @@ Route::get('/applicant/download/{id}', 'Applicant\PersonController@download');
 /*File Upload routes*/
 Route::get('file-upload/{id}', 'Applicant\FileUploadController@index');
 Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
-Route::post('file-upload/uploadreport', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
+Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter')->name('uploadletter');
+Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
 Route::get('file-upload/remove/{id}', 'Applicant\FileUploadController@remove');
-Route::get('file-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
+Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
+Route::get('report-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
 
 /*File Upload routs*/
 

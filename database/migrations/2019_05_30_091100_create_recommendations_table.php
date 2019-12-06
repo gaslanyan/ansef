@@ -15,7 +15,8 @@ class CreateRecommendationsTable extends Migration {
 		Schema::create('recommendations', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->text('text', 65535)->nullable();
+            $table->string('document', 1024)->nullable();
+            $table->string('confirmation', 1024)->nullable();
 			$table->integer('proposal_id')->nullable();
 			$table->integer('person_id')->unsigned()->nullable();
 			$table->dateTime('created_at')->nullable();
