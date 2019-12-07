@@ -692,6 +692,8 @@ function reloadtable(m) {
     var ajaxurl = '/' + m + '/:id';
     ajaxurl = ajaxurl.replace(':id', $('#competition').val());
     t.ajax.url(ajaxurl).load();
+    t.draw();
+    t.columns.adjust();
     // t.on('order.dt search.dt', function() {
     //     t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function(cell, i) {
     //         cell.innerHTML = i + 1;

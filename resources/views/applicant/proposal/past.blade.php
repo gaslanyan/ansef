@@ -7,103 +7,140 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">List of Past Proposals
-                        <a href="{{action('Applicant\ProposalController@create')}}"
-                           class="display float-lg-right btn-primary px-2">Add A New Proposal</a>
                     </div>
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
-                            <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                        </div><br/>
-                    @elseif (\Session::has('wrong'))
-                        <div class="alert alert-success">
-                            <p>{{ \Session::get('wrong') }}</p>
-                        </div><br/>
-                    @endif
-
+                    @include('partials.status_bar')
 
                     <div class="card-body card_body" style="overflow:auto;">
-                        @if(!empty($pastproposal))
-                            <table class="table table-responsive-md table-sm table-bordered display" id="example"
+                        @if(!empty($awards) && count($awards) > 0)
+                            <h4>Awarded proposals</h4>
+                            <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
                                    style="width:100%">
                                 <thead>
                                 <tr>
+                                    <th hidden>ID</th>
                                     <th>ID</th>
-                                    <th>Proposal Name</th>
+                                    <th>Proposal Title</th>
                                     <th>Proposal State</th>
-                                    <th>Action</th>
+                                    <th colspan="2">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($pastproposal as $pp)
+                                @foreach($awards as $ap)
                                     <tr>
-                                        <td></td>
-                                        <td data-order="{{$pp['title']}}" data-search="{{$pp['title']}}"
-                                            class="email_field">
-                                            <input type="text" class="form-control" name="email"
-                                                   value="{{$pp['title']}}" disabled>
+                                        <td hidden></td>
+                                        <td>{{getProposalTag($ap['id'])}}</td>
+                                        <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}">
+                                            {{truncate($ap['title'],55)}}
                                         </td>
-                                        <td data-order="{{$pp['state']}}" data-search="{{$pp['state']}}"
-                                            class="email_field">
-                                            <select id="type" class="form-control" name="type" disabled>
-                                                <?php $enum = getEnumValues('proposals', 'state');?>
-                                                <option>Change State</option>
-                                                @if(!empty($enum))
-                                                    @foreach($enum as $item)
-                                                        @if($item == $pp['state'])
-                                                            <option class="text-capitalize" value="{{$item}}"
-                                                                    selected>{{$item}}</option>
-                                                        @else
-                                                            <option class="text-capitalize"
-                                                                    value="{{$item}}">{{$item}}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                        <td data-order="{{$ap['state']}}" data-search="{{$ap['state']}}">
+                                            @if($ap->state == 'awarded')
+                                                Awarded - first report due on
+                                                {{date('Y-m-d', strtotime("+" . (int)($ap->competition->duration/2) . " month", strtotime($ap->competition->project_start_date)))}}
+                                            @elseif($ap->state == 'approved 1')
+                                                Awarded - first report approved; second report due on
+                                                {{date('Y-m-d', strtotime("+" . (int)($ap->competition->duration) . " month", strtotime($ap->competition->project_start_date)))}}
+                                            @elseif($ap->state == 'approved 2' || $ap->state == 'complete')
+                                                Awarded - final report approved
+                                            @else
+                                            @endif
                                         </td>
                                         <td>
-                                            <input type="hidden" class="id" value="{{$pp['id']}}">
-                                            <a href="{{action('Applicant\ProposalController@show', $pp['id'])}}"
-                                               class="view" title="View"><i class="fa fa-eye"></i>
-                                            </a>
-                                            <a href="{{action('Applicant\ProposalController@generatePDF',$pp['id'])}}"
-                                               title="Download"
-                                               class="add_honors"><i class="fa fa-download"></i>
+                                            <input type="hidden" class="id" value="{{$ap['id']}}">
+                                            <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
+                                                <span class="fa fa-eye myButton">View</span>
                                             </a>
                                         </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <br/><br/>
+                        @endif
+                        @if(!empty($pastproposals) && count($pastproposals)>0)
+                        <h4>Past proposals</h4>
+                            <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
+                                   style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th hidden>ID</th>
+                                    <th>ID</th>
+                                    <th>Proposal Title</th>
+                                    <th>Proposal State</th>
+                                    <th colspan="2">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pastproposals as $ap)
+                                    <tr>
+                                        <td hidden></td>
+                                        <td>{{getProposalTag($ap['id'])}}</td>
+                                        <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}">
+                                            {{truncate($ap['title'],55)}}
+                                        </td>
+                                        <td data-order="{{$ap['state']}}" data-search="{{$ap['state']}}">
+                                            @if($ap->state == 'in-progress')
+                                                Initial processing
+                                            @elseif($ap->state == 'submitted')
+                                                Preparing for review
+                                            @elseif($ap->state == 'in-review')
+                                                With referees
+                                            @elseif($ap->state == 'review complete')
+                                                Reviews complete
+                                            @elseif($ap->state == 'unsuccessfull')
+                                                Unsuccessful
+                                            @elseif($ap->state == 'disqualified')
+                                                Disqualified
+                                            @elseif($ap->state == 'finalist')
+                                                Finalist but not awarded
+                                            @elseif($ap->state == 'awarded')
+                                                Awarded
+                                            @elseif($ap->state == 'approved 1')
+                                            @elseif($ap->state == 'approved 2')
+                                            @elseif($ap->state == 'complete')
+                                            @else
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <input type="hidden" class="id" value="{{$ap['id']}}">
+                                            <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
+                                                <span class="fa fa-eye myButton">View</span>
+                                            </a>
+                                        </td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         @else
-                            <p>Can't find data</p>
+                            <p>No past proposals</p>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function () {
-            var t = $('#example').DataTable({
-                //"pagingType": "full_numbers",
-                "paging": false,
-                "columnDefs": [
-                    {
-                        "targets": [3],
-                        "searchable": false
-                    }, {
-                        "targets": [3],
-                        "searchable": false
-                    }
-                ],
-                "scrollX": true
-            });
-            t.on('order.dt search.dt', function () {
-                t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
-                    cell.innerHTML = i + 1;
+        <script>
+            $(document).ready(function () {
+                var t = $('#example').DataTable({
+                    //"pagingType": "full_numbers",
+                    "paging": false,
+                    "columnDefs": [
+                        {
+                            "targets": [3],
+                            "searchable": false
+                        }, {
+                            "targets": [3],
+                            "searchable": false
+                        }
+                    ]
                 });
-            }).draw();
-        });
+                t.on('order.dt search.dt', function () {
+                    t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }).draw();
+            });
 
-    </script>
+        </script>
 @endsection

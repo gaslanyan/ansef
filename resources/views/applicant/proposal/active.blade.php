@@ -13,43 +13,28 @@
                     @include('partials.status_bar')
 
                     <div class="card-body card_body" style="overflow:auto;">
-                        @if(!empty($activeproposals))
+                        @if(!empty($activeproposals) && count($activeproposals) > 0)
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%">
                                 <thead>
                                 <tr>
+                                    <th hidden>ID</th>
                                     <th>ID</th>
                                     <th>Proposal Title</th>
-                                    <th>Proposal State</th>
-                                    {{--<th>Email</th>--}}
+                                    <th>Deadline</th>
                                     <th colspan="2">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($activeproposals as $ap)
                                     <tr>
-                                        <td></td>
-                                        <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}"
-                                            class="email_field">
+                                        <td hidden></td>
+                                        <td>{{getProposalTag($ap['id'])}}</td>
+                                        <td data-order="{{$ap['title']}}" data-search="{{$ap['title']}}">
                                             {{truncate($ap['title'],55)}}
                                         </td>
-                                        <td data-order="{{$ap['state']}}" data-search="{{$ap['state']}}"
-                                            class="email_field">
-
-                                            <select id="type" class="form-control" name="type" disabled>
-                                                <?php $enum = getEnumValues('proposals', 'state');?>
-                                                <option>Change State</option>
-                                                @if(!empty($enum))
-                                                    @foreach($enum as $item)
-                                                        @if($item == $ap['state'])
-                                                            <option class="text-capitalize" value="{{$item}}" selected>{{$item}}</option>
-                                                            @else
-                                                            <option class="text-capitalize" value="{{$item}}">{{$item}}</option>
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            </select>
-
+                                        <td data-order="{{$ap->competition->submission_end_date}}" data-search="{{$ap['state']}}">
+                                            {{$ap->competition->submission_end_date}}
                                         </td>
                                         <td>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
@@ -93,7 +78,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <p>Can't find data</p>
+                            <p>No current proposals; add a new proposal to see it here.</p>
                         @endif
                     </div>
                 </div>

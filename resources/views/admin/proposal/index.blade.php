@@ -18,6 +18,13 @@
                         <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
                             @if(get_Cookie() === "superadmin")
                                 <button type="button"
+                                        title="check" onclick="check();"
+                                        class="display float-lg-left btn-primary px-2 myButton">
+                                        <i class="fas fa-check"></i>
+                                    Validate
+                                </button>
+
+                                <button type="button"
                                         title="change state" onclick="open_container('state');"
                                         class="display float-lg-left btn-primary px-2 myButton">
                                         <i class="fa fa-comments"></i>
@@ -52,10 +59,10 @@
                                     Delete
                                 </button>
                         </div>
-                        <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable">
+                        <table class="table table-bordered display compact" id="datatable">
                             <thead>
                             <tr>
-                                <th width="100px">ID</th>
+                                <th>ID</th>
                                 <th>Proposal Title</th>
                                 <th>Proposal PI</th>
                                 <th>Referee</th>
@@ -210,21 +217,22 @@
                         }
                     ],
                     "columnDefs": [
-                    {
-                        "targets": [0],
-                        "searchable": false,
-                        "orderable": false,
-                        "visible": true
-                    }
+                    { "width": "120px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "175px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "120px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true }
                 ],
                 "select": true,
                 "scrollX": true,
                 "scrollY": 450,
                 "deferRender": true,
-                "scrollCollapse": true,
+                "scrollCollapse": false,
                 "scroller": true,
                 "colReorder": true,
-                "fixedColumns":   { "leftColumns": 1 },
+                // "fixedColumns":   { "leftColumns": 1 },
                 "processing": true,
                 "language": {
                     "loadingRecords": '&nbsp;',
@@ -242,13 +250,46 @@
             // }).draw();
 
             reloadtable('ajax_proposal');
-
             $('#competition').change(function() {
                 reloadtable('ajax_proposal');
             });
 
 
         });
+
+function check() {
+    var t = $('#datatable').DataTable();
+    var data = t.rows({'selected': true}).data();
+    if (data.length > 0) {
+        var checkedIDss = [];
+        for(var i=0; i<data.length; i++) {
+            checkedIDss.push(data[i].id);
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/checkProposal',
+            type: 'POST',
+            data: {
+                token: CSRF_TOKEN,
+                id: checkedIDss
+            },
+            dataType: 'JSON',
+            success: function(data) {
+                if (data.success === -1)
+                    console.log('msg' + data);
+                else
+                    reloadtable('ajax_proposal');
+            },
+            error: function(data) {
+                console.log('msg' + data);
+            }
+        });
+    }
+}
 
 function deleteproposals() {
     var t = $('#datatable').DataTable();

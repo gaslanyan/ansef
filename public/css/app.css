@@ -9204,3 +9204,18 @@ tr.group:hover {
     background: #FFaa00;
     border: 2px solid rgb(0, 0, 0);
 }
+
+
+/* table.dataTable tbody th,
+table.dataTable tbody td {
+    white-space: nowrap;
+} */
+
+
+/* table.dataTable,
+table.dataTable th,
+table.dataTable td {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+} */

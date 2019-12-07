@@ -219,6 +219,39 @@ class ProposalController extends Controller
         return Response::json($d);
     }
 
+    public function checkProposal(Request $request) {
+        DB::beginTransaction();
+        try {
+            $proposal_ids = $request->id;
+            foreach ($proposal_ids as $index => $p_id) {
+                $r = checkproposal($p_id);
+                $messages =  $r['messages'];
+                $submittedrecs = $r['submittedrecs'];
+                $p = Proposal::find($p_id);
+
+                if(count($messages) > 0 || count($submittedrecs) < $p->competition->recommendations) {
+                    $p->state = "disqualified";
+                }
+                else {
+                    $p->state = "submitted";
+                }
+                $p->save();
+            }
+            $response = [
+                'success' => true
+            ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Error while checking'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        DB::commit();
+        return response()->json($response);
+    }
+
     public function deleteProposal(Request $request)
     {
         DB::beginTransaction();

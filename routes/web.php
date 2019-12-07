@@ -107,6 +107,7 @@ Route::post('/updateCom', 'Admin\CompetitionController@updateCompetition');
 Route::post('/addUsers', 'Admin\ProposalController@addUsers');
 Route::post('/copyItems', 'Base\AjaxController@copyItems');
 Route::post('/deleteProposal', 'Admin\ProposalController@deleteProposal');
+Route::post('/checkProposal', 'Admin\ProposalController@checkProposal');
 Route::post('/deleteCats', 'Base\AjaxController@deleteCats');
 Route::post('/deleteScores', 'Base\AjaxController@deleteScores');
 Route::post('/deleteRule', 'Base\AjaxController@deleteRule');
