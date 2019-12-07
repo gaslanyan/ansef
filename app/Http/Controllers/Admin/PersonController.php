@@ -7,7 +7,6 @@ use App\Models\Address;
 use App\Models\BudgetItem;
 use App\Models\Country;
 use App\Models\DegreePerson;
-use App\Models\DisciplinePerson;
 use App\Models\Email;
 use App\Models\Honors;
 use App\Models\Institution;

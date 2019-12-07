@@ -53,9 +53,6 @@ class Person extends Model
     public function degrees() {
         return $this->belongsToMany('App\Models\Degree', 'degrees_persons')->withPivot('year');
     }
-    public function disciplines() {
-        return $this->belongsToMany('App\Models\Discipline', 'disciplines_persons');
-    }
     public function honors()
     {
         return $this->hasMany('App\Models\Honors');

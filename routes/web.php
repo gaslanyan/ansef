@@ -178,7 +178,6 @@ Route::post('/admin/password/{id}', 'Admin\AccountController@generatePassword');
 
 //Route::resource('/admin/account/show/{id}', 'Admin\AccountController@show');
 
-Route::resource('/admin/discipline', 'Admin\DisciplineController');
 Route::resource('/admin/email', 'Admin\EmailController');
 Route::resource('/admin/phone', 'Admin\PhoneController');
 
@@ -206,7 +205,6 @@ Route::post('/applicant/proposal/addperson/{id}', 'Applicant\ProposalController@
 Route::get('/applicant/proposal/removeperson/{id}', 'Applicant\ProposalController@removeperson');
 Route::get('/applicant/proposal/emailrecommenders/{id}', 'Applicant\ProposalController@notifyrecommenders');
 
-Route::resource('/applicant/discipline', 'Applicant\DisciplineController');
 Route::post('/applicant/updatePassword', 'Applicant\PersonController@updatePassword');
 Route::get('/applicant/changePassword', 'Applicant\PersonController@changePassword');
 Route::get('/applicant/person/delete/{id}', 'Applicant\PersonController@destroy');
@@ -219,8 +217,6 @@ Route::get('/applicant/phone/delete/{id}', 'Applicant\PhoneController@destroy');
 Route::get('/applicant/institution/create/{id}', 'Base\InstitutionController@create');
 Route::get('/applicant/degree/create/{id}', 'Applicant\DegreePersonController@create');
 Route::get('/applicant/degree/delete/{id}', 'Applicant\DegreePersonController@destroy');
-Route::get('/applicant/discipline/create/{id}', 'Applicant\DisciplineController@create');
-Route::get('/applicant/discipline/delete/{id}', 'Applicant\DisciplineController@destroy');
 Route::get('/applicant/instructions/{id}', 'Applicant\ProposalController@instructions');
 
 Route::get('/applicant/budgetcategories/create/{id}', 'Applicant\BudgetCategoriesController@create');

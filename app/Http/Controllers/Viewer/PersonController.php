@@ -157,13 +157,7 @@ class PersonController extends Controller
             $institution['ip'] = $ip;
             $institution['addr'] = $ip_add;
             $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
-            $disciplines = \DB::table('disciplines_persons')
-                ->select('disciplines.text')
-                ->join('disciplines','disciplines.id','=','disciplines_persons.discipline_id')
-                ->where('disciplines_persons.person_id','=', $person_id)->get()->toArray();
 
-            /*$disciplines = Discipline::select('text')->
-                           join('disciplines_persons', )->where('person_id', $person_id)->get()->toArray();*/
             $degrees = [];
             //DegreePerson::select('text', 'year')->where('person_id', $person_id)->get()->toArray();
             $degrees = \DB::table('degrees_persons')
@@ -174,7 +168,7 @@ class PersonController extends Controller
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
             return view('viewer.person.show', compact('person',
-                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
+                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'institution'));
         } else {
             return back();
         }

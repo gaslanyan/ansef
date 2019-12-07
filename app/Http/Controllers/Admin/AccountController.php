@@ -7,7 +7,6 @@ use App\Models\Address;
 use App\Models\Book;
 use App\Models\Country;
 use App\Models\DegreePerson;
-use App\Models\DisciplinePerson;
 use App\Models\Email;
 use App\Models\Honors;
 use App\Models\Institution;
@@ -198,7 +197,6 @@ class AccountController extends Controller
             ->get()->toArray();
         $institution['addr'] = $ip_add;
         $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
-        $disciplines = DisciplinePerson::with('Discipline')->where('person_id', $person_id)->get()->toArray();
 
         $degrees = DegreePerson::select('degree_id', 'year')->with('degree')->where('person_id', $person_id)->get()->toArray();
 
@@ -206,7 +204,7 @@ class AccountController extends Controller
         $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
         return view('admin.account.show', compact('person',
-            'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
+            'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'institution'));
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);
 //            return redirect()->back()->with('error', getMessage('wrong'));

@@ -52,18 +52,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <strong>Specializations:</strong>
-                                            @if(!empty($disciplines) && count($disciplines)>0)
-                                            <?php $step = 0; ?>
-                                            @foreach($disciplines as $discipline)
-                                            <?php $step++; ?>
-                                            <span>one</span>,
-                                            @if($step < count($disciplines))
-                                                ,
-                                            @endif
-                                            @endforeach
-                                            @else
-                                            <span>None provided</span>
-                                            @endif
                                     </div>
                                 </div>
 

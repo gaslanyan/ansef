@@ -160,9 +160,8 @@ class PersonController extends Controller
             $books = $person->books->sortBy('year');
             $meetings = $person->meetings->sortBy('year');
             $publications = $person->publications->sortBy('year');
-            $disciplines = $person->disciplines;
 
-            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications', 'institutionslist'));
+            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
         }
     }
 
@@ -185,9 +184,8 @@ class PersonController extends Controller
             $books = $person->books->sortBy('year');
             $meetings = $person->meetings->sortBy('year');
             $publications = $person->publications->sortBy('year');
-            $disciplines = $person->disciplines;
 
-            $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'disciplines', 'publications', 'institutionslist'));
+            $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
 
             return $pdf->stream('person-profile.pdf');
         }

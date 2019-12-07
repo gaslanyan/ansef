@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Book;
 use App\Models\Country;
-use App\Models\Discipline;
 use App\Models\Email;
 use App\Models\Honors;
 use App\Models\Institution;
@@ -76,7 +75,7 @@ class AccountController extends Controller
             if (!empty($request->birthdate)) {
                 $person->birthdate = formatDate($request->birthdate);
             }
-    
+
             $person->birthplace = $request->birthplace;
             $person->nationality = $request->nationality;
             $person->sex = $request->sex;
@@ -85,8 +84,8 @@ class AccountController extends Controller
             $person->specialization = $request->specialization;
             $person->user_id = $user_id;
             $person->save();
-    
-            return redirect()->action('Applicant\InfoController@index');    
+
+            return redirect()->action('Applicant\InfoController@index');
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
@@ -123,13 +122,7 @@ class AccountController extends Controller
 
 
             $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
-            $disciplines = \DB::table('disciplines_persons')
-                ->select('disciplines.text')
-                ->join('disciplines','disciplines.id','=','disciplines_persons.discipline_id')
-                ->where('disciplines_persons.person_id','=', $person_id)->get()->toArray();
 
-            /*$disciplines = Discipline::select('text')->
-                           join('disciplines_persons', )->where('person_id', $person_id)->get()->toArray();*/
             $degrees = [];
             //DegreePerson::select('text', 'year')->where('person_id', $person_id)->get()->toArray();
             $degrees = \DB::table('degrees_persons')
@@ -141,7 +134,7 @@ class AccountController extends Controller
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
             return view('applicant.account.show', compact('person',
-                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'disciplines', 'institution'));
+                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'institution'));
         } else {
             return back();
         }

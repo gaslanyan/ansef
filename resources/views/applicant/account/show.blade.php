@@ -210,21 +210,6 @@
                                             </table>
                                         </div>
                                     @endif
-                                        @if(!empty($disciplines))
-                                        <div class="col-md-6">
-                                            <strong><i class="fa fa-sticky-note margin-r-5"></i> Disciplines:</strong>
-
-                                            <table class="col-md-12">
-                                                <tr>
-                                                    <?php $columns = getTableColumnsName('disciplines');?>
-                                                    @foreach($columns as $col)
-                                                        <th class="text-capitalize">{{$col}}</th>
-                                                    @endforeach
-                                                </tr>
-                                                <?php getTableColumns($disciplines);?>
-                                            </table>
-                                        </div>
-                                    @endif
 
 
                                 </div>
