@@ -10,7 +10,7 @@
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool"> Back</a>
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <form method="post" action="{{ action('Applicant\EmailController@update', $id) }}">
                             <div class="form-group">
                                 @csrf

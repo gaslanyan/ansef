@@ -20,7 +20,7 @@
                         <span class="hidden-xs">
                          <?php
                             if (!empty($signUser) && !empty($signedUser)):?>
-                            <?= strtolower($signedUser->email); ?>
+                            <?= mb_strtolower($signedUser->email); ?>
                             <?php else: ?>
                             <?= get_Cookie(); ?>
                             <?php endif;?>
@@ -33,7 +33,7 @@
                             <p class="">
                                 <?php
                                 if (!empty($signUser) && !empty($signedUser)):?>
-                            <?= strtolower($signedUser->email) . " " .
+                            <?= mb_strtolower($signedUser->email) . " " .
                                 "<br>From: " . $signUser->domain .
                                 "<br>Date: " . $signUser->updated_at;
                                     ?>

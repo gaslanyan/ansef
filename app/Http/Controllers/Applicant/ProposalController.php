@@ -132,7 +132,7 @@ class ProposalController extends Controller
         //        try {
         $prop_members = [];
         $proposal = new Proposal();
-        $proposal->title = ucwords(strtolower($request->title));
+        $proposal->title = ucwords(mb_strtolower($request->title));
         $proposal->abstract = $request->abstract;
         $proposal->state = "in-progress";
         $user_id = getUserID();
@@ -165,7 +165,7 @@ class ProposalController extends Controller
         }
         $prop_institution->save();
 
-        return redirect()->action('Applicant\FileUploadController@index', $proposal_id);
+        return redirect()->action('Applicant\FileUploadController@docfile', $proposal_id);
     }
 
 
@@ -574,24 +574,13 @@ class ProposalController extends Controller
                 'person_id' => $missingrec['id']] , [
                 'confirmation' => $confirmation
             ]);
+            $r->confirmation = $confirmation;
+            $r->save();
             Notification::route('mail', $missingrec['email'])
                 ->notify(new NotifyRecommender($missingrec['email'], $missingrec['name'], $pi->first_name . " " . $pi->last_name, $r->id, $confirmation));
         }
 
         return redirect()->action('Applicant\ProposalController@activeProposal')->with('success', count($missingrecs) . ' email' . (count($missingrecs)>1 ? 's' : '') . ' sent requesting recommendation letter' . (count($missingrecs)>1 ? 's' : '') . '.');
-    }
-
-    public function submitletter(Request $request) {
-        $input = $request->all();
-        $id = $input['rid'];
-        $rec = Recommendations::find($id);
-        if(!empty($rec)) {
-            if($rec->confirmation == $input['confirmation']) {
-                $document = $rec->document;
-                return view('applicant.proposal.recletter', compact('id', 'document'));
-            }
-        }
-        return view('applicant.proposal.recletterdeny');
     }
 
     public function instructions($id) {

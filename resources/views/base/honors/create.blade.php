@@ -12,8 +12,8 @@
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
-                    <div class="card-body card_body">
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <p class="col-12"><b>Add an Honor</b></p><br/>
 
                         <form method="post" action="{{ action('Base\HonorsController@store') }}">

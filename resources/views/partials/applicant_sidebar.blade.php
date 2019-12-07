@@ -16,7 +16,7 @@ $signUser = signedApplicant();
                 <p class="">
                 <?php
                 if (!empty($signUser)):?>
-                            <?= strtolower($signUser->email) ?>
+                            <?= mb_strtolower($signUser->email) ?>
                             <?php else: ?>
                             <?= get_Cookie(); ?>
                             <?php endif;?>

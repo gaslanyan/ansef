@@ -29,7 +29,10 @@
     <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
              <div class="card" >
-                <div class="card-header">Recommendation Document
+                <div class="card-header">Recommendation Letter
+                </div>
+                <div class="card-body card_body" style="overflow:auto;">
+                Incorrect confirmation code. Please contact <a href="mailto:dopplerthepom@gmail.com">dopplerthepom@gmail.com</a>.
                 </div>
             </div>
         </div>

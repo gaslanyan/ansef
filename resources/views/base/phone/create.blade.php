@@ -8,7 +8,7 @@
                         @include('partials.status_bar')
                     <div class="card-header">Create Emails</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <form method="post" action="{{ action('Base\PhoneController@store') }}">
                             @csrf
                             <div class="col-lg-12 ">

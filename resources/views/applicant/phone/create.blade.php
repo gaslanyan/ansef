@@ -10,8 +10,8 @@
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
-                    <div class="card-body card_body">
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Phone Number</b></p>
                         <form method="post" action="{{ action('Applicant\PhoneController@store') }}">
                             @csrf

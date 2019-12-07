@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-primary px-2 myButton">Add an email template</a>
                     </div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"

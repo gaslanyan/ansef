@@ -20,7 +20,7 @@
 
                     </div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(!empty($report))
@@ -72,11 +72,11 @@
                                                 <label for="{{$gstn->name}}" class="form-control col-lg-6">{{$gstn->name}}</label>
 
                                                 <select class="form-control col-lg-6"
-                                                        name="name[{{strtolower($gstn->id)}}]" id="{{$gstn->id}}">
+                                                        name="name[{{mb_strtolower($gstn->id)}}]" id="{{$gstn->id}}">
 {{--                                                    <option value="0">Select a Score</option>--}}
                                                     @foreach($gstvs as $key=> $gstv)
                                                         @php
-                                                            $gstn_s = strtolower($gstn->id);
+                                                            $gstn_s = mb_strtolower($gstn->id);
                                                         $stv = json_decode($gstn->score, true);
 
                                                         @endphp

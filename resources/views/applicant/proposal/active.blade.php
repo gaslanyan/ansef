@@ -12,7 +12,7 @@
                     </div>
                     @include('partials.status_bar')
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @if(!empty($activeproposals))
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%">
@@ -73,7 +73,7 @@
                                                 <a href="{{action('Applicant\BudgetCategoriesController@create', $ap['id'])}}">
                                                 <span class="fas fa-file-invoice-dollar myButton">Budget</span></a>
 
-                                            <a href="{{action('Applicant\FileUploadController@index', $ap['id'])}}"
+                                            <a href="{{action('Applicant\FileUploadController@docfile', $ap['id'])}}"
                                                title="Delete">
                                                <?php if($ap['document'] == null){
                                                 echo " <span class='fas fa-file-pdf myButton' style='color:#dd4b39 !important;'>Document</span>";

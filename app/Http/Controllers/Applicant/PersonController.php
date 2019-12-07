@@ -187,7 +187,8 @@ class PersonController extends Controller
 
             $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
 
-            return $pdf->stream('person-profile.pdf');
+            return $pdf->download('person-profile.pdf');
+            // return $pdf->stream('person-profile.pdf');
         }
     }
 

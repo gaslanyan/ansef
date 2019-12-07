@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header">Create Comment for</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\ProposalController@update',\Illuminate\Support\Facades\Session::get('p_id')) }}" class="row">

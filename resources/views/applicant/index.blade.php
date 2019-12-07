@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Dashboard</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         Hi boss! index page
                     </div>
                 </div>

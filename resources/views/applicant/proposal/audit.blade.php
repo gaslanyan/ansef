@@ -9,7 +9,7 @@
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <p>We scanned the content of the proposal.</p>
                         @if(count($messages) > 0 || count($missingrecs) > 0)
                         The following problems were identified:<br/><br/>

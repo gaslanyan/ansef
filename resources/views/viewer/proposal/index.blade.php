@@ -14,7 +14,7 @@
 
                     </div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
 
                         <div class="box-body col-md-12">
                             <div class="row">

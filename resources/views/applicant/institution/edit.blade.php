@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header">Create Institution</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\InstitutionController@update', $id) }}" class="row">

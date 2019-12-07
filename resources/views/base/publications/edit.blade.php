@@ -12,7 +12,7 @@
                  <div class="card" >
                     <div class="card-header">Edit a Publication</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
                         <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
                             @csrf

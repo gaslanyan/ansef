@@ -9,7 +9,7 @@
                     <a href="{{action('Applicant\AccountController@create')}}"
                            class="display float-lg-right btn-primary px-2 myButton">Add A New Person</a></div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
 
                         @if (\Session::has('success'))
                             <div class="alert alert-success">

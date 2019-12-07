@@ -11,7 +11,7 @@
                         <a href="{{action('Admin\RankingRuleController@execute')}}"
                            class="display float-lg-right btn-primary px-2 myButton">Execute ranking rules</a>
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <div class="btn_add col-md-12">

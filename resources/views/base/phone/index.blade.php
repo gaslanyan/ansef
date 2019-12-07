@@ -18,7 +18,7 @@
                     @endif
                     <div class="card-header">List of phones</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @if(!empty($phones))
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                style="width:100%">

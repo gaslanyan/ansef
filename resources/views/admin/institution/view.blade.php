@@ -7,7 +7,7 @@
             <div class="col-md-10 offset-md-2">
                  <div class="card" >
                     <div class="card-header">Institution list</div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <table class="table table-striped col-12">

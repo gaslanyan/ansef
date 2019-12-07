@@ -10,7 +10,7 @@
                                class="display float-lg-right btn-primary px-2 myButton">Add a competition</a>
                         @endif
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if (Session::has('delete'))

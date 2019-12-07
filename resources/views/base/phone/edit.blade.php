@@ -8,7 +8,7 @@
                         @include('partials.status_bar')
                     <div class="card-header">Edit a phone number</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <form method="post" action="{{ action('Base\PhoneController@update', $id) }}">
                             @csrf
                             <input name="_method" type="hidden" value="PATCH">

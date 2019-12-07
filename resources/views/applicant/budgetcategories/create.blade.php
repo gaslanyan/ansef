@@ -37,7 +37,7 @@
                     </div>
                         @include('partials.status_bar')
                     <hr>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">
@@ -83,7 +83,7 @@
                             </form>
                         @endif
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <div style="color:#a00;">{!! $validation_message !!}</div>
                     </div>
                 </div>

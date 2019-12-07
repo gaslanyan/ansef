@@ -9,7 +9,7 @@
                         @include('partials.status_bar')
                     <div class="card-header">Institution list</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                style="width:100%">
                             <thead>

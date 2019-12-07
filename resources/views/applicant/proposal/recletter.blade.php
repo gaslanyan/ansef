@@ -29,26 +29,31 @@
        <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
              <div class="card" >
-                <div class="card-header">Recommendation Document
+                <div class="card-header">Recommendation Letter for {{$pi->first_name}} {{$pi->last_name}}
                 </div>
 
-        <div class="card-body card_body">
+        <div class="card-body card_body" style="overflow:auto;">
             <br />
-            <p>Click <b>'Choose File'</b> and select a PDF document. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
-            to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.<br/>
-            If you prefer to upload the document later, click <b>Upload later</b> below.</p>
+            <p>{{$pi->first_name}} {{$pi->last_name}} is submitting a grant proposal to the Armenian
+            National Science and Education Fund as a Principal Investigator and has listed you as a person who would provide a letter
+            of support. Please write your letter on an official letterhead if possible, and upload a signed PDF.</p>
+            <p>
+                Your letter will be treated confidentially and will not be seen by the Principal Investigator.
+            </p>
+            <p>Click <b>'Choose File'</b> below and select your PDF document. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
+            to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.</p>
 
             <div id="oldmessage" class="col-12">
             @if(!empty($document))
-                You currently have an uploaded document. You can:<br/><br/>
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank">
-                        <i class="fa fa-download"></i>&nbsp; Download uploaded document
+                You currently have an uploaded letter. You can:<br/><br/>
+                <a class="btn btn-primary" href="\storage\proposal\prop-{{$prop}}\letter-{{$id}}.pdf" target="_blank">
+                        <i class="fa fa-download"></i>&nbsp; Download uploaded letter to verify content
                 </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@remove', $id)}}">
-                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
+                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@removeletter', $id)}}">
+                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded letter
                 </a>
             @else
-                There are currently no uploaded documents
+                There is currently no uploaded letter
             @endif
             </div><br/><br/>
 
@@ -57,7 +62,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input type="file" name="file" id="file" />
-                        <input type="hidden" name="prop_id_file"  value="{{$id}}" />
+                        <input type="hidden" name="prop_id_file"  value="{{$prop}}" />
+                        <input type="hidden" name="rec_id_file"  value="{{$id}}" />
                     </div>
                     <div class="col-md-6" align="right">
                         <input type="submit" name="upload" value="{{!empty($document) ? 'Replace' : 'Upload'}}" class="btn btn-success" />
@@ -65,6 +71,7 @@
                 </div>
             </form>
             <br />
+
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow=""
                      aria-valuemin="0" aria-valuemax="100" style="width: 0%">
@@ -72,22 +79,9 @@
                 </div>
             </div>
             <br />
-            <div id="success">
-            </div>
-            <div id="newmessage">
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\letter.pdf" target="_blank">
-                        <i class="fa fa-download"></i>&nbsp; Download and verify uploaded document
-                </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@removeletter', $id)}}">
-                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
-                </a>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="uploaddone"><a href="{{action('Applicant\ProposalController@activeProposal', $id)}}" class="btn btn-primary">Done</a></div>
-                </div>
-             </div>
+            @if($errors->any())
+            <p style="color:indigo;font-size:22px;">{{$errors->first()}}</p>
+            @endif
         </div>
             </div>
 </div>

@@ -20,9 +20,9 @@
         <div class="offset-2 col-md-10">
              <div class="card" >
 
-                <div class="card-body card_body">
+                <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <div class="box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title"><b>Proposal {{getProposalTag($id)}}</b></h3>
@@ -82,13 +82,7 @@
                                     @endif
                                     @if(!empty($proposal->document))
                                         <div class="col-lg-12">
-                                            <div class="row">
-                                                <div class="form-group">
-                                                    <strong><i class="fa fa-file margin-r-5"></i> Proposal Document:</strong><br/>
-                                                    <a href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank" class="btn-link">
-                                                        <i class="fa fa-download"></i> Download proposal document</a>
-                                                </div>
-                                            </div>
+                                            <b style="color:#0a0;">A proposal document has been uploaded</b>
                                         </div>
                                     @else
                                         <div class="col-lg-12">

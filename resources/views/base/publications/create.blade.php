@@ -8,9 +8,9 @@
                     <div class="card-header">Show Publications for  {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
                         <a href="{{ action('Applicant\InfoController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>
-                        <div class="card-body card_body">
+                        <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Publication</b></p>
 
                         <form method="post" action="{{ action('Base\PublicationsController@store') }}" class="row">

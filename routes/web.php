@@ -49,7 +49,6 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
 
 Route::get('/verify-user/{email}/code/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
-Route::get('/submit-letter/', 'Applicant\ProposalController@submitletter')->name('submit-letter');
 
 //permission
 //
@@ -231,16 +230,19 @@ Route::get('/applicant/meeting/delete/{id}', 'Base\MeetingController@destroy');
 Route::get('/applicant/honors/create/{id}', 'Base\HonorsController@create');
 Route::get('/applicant/honors/delete/{id}', 'Base\HonorsController@destroy');
 
-Route::get('/applicant/download/{id}', 'Applicant\PersonController@download');
-
 /*File Upload routes*/
-Route::get('file-upload/{id}', 'Applicant\FileUploadController@index');
+Route::get('file-upload/{id}', 'Applicant\FileUploadController@docfile');
+Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
+Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
 Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
 Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter')->name('uploadletter');
 Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
 Route::get('file-upload/remove/{id}', 'Applicant\FileUploadController@remove');
 Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
 Route::get('report-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
+Route::get('letter-upload/done', function () {
+    return 'Thanks';
+})->name('uploadthanks');
 
 /*File Upload routs*/
 

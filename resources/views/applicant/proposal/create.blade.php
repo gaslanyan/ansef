@@ -6,7 +6,7 @@
             <div class="offset-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">Add A New Proposal</div>
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(count($competitions) == 0)

@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Edit a template</div>
 
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
                         <form method="post" action="{{ action('Base\Books\BookController@update', $id) }}">
                             @csrf

@@ -9,8 +9,8 @@
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body">
-                    <div class="card-body card_body">
+                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Participant</b></p>
                         <form method="post" action="{{action('Applicant\ProposalController@addperson', $id) }}">
                             @csrf

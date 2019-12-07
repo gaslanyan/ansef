@@ -11,7 +11,7 @@
                 <div class="card-header">List of Persons
                     <a href="{{action('Applicant\AccountController@create')}}" class="display float-lg-right btn-primary px-2 myButton">Add A New Person</a></div>
 
-                <div class="card-body card_body">
+                <div class="card-body card_body" style="overflow:auto;">
                     @if(!empty($persons))
                     <i class="fas fa-question-circle all" style="color:#dd4b39;"></i> <span style="color:#dd4b39;"> Items in red are required and missing</span><br />
                     <i class="fas fa-question-circle all" style="color:#777;"></i> <span style="color:#777;"> Items in gray are optional</span>
