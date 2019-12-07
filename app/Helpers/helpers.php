@@ -1,12 +1,12 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Gtech-pc
- * Date: 07.02.2019
- * Time: 15:59
- */
-
+use App\Models\PersonType;
+use App\Models\Proposal;
+use App\Models\Email;
+use App\Models\Address;
+use App\Models\DegreePerson;
+use App\Models\InstitutionPerson;
+use App\Models\Recommendations;
 
 
 function checkPermission($permissions)
@@ -565,4 +565,89 @@ function cleanString($text)
 
 function getCleanString($text) {
     return (!empty($text) && $text != null) ? cleanString(ucwords(mb_strtolower($text))) : '';
+}
+
+function checkproposal($id)
+{
+    $p = Proposal::find($id);
+    $messages = [];
+    $warnings = [];
+    if (empty($p->title) || $p->title == "") array_push($messages, "Proposal must have a title.");
+    if (empty($p->abstract) || $p->abstract == "") array_push($messages, "Proposal must have an abstract.");
+    if (empty($p->document) || $p->document == "") array_push($messages, "Proposal must have a document uploaded detailing the project.");
+    $pi = PersonType::where('proposal_id', '=', $id)
+            ->join('persons', 'persons.id', '=', 'person_id')
+            ->where('subtype','=','PI')
+            ->first();
+    if (empty($pi)) array_push($messages, "Proposal must have one Principal Investigator (PI).");
+    else {
+        $picount = PersonType::where('proposal_id', '=', $id)
+            ->where('subtype', '=', 'PI')
+            ->count();
+        if ($picount > 1) array_push($messages, "Proposal cannot have more than one Principal Investigator.");
+
+        if($p->competition()->first()->allow_foreign == "0") {
+            if($pi->state == "foreign")
+                array_push($messages, "This competition does not allow a PI (" . $pi->first_name . " " . $pi->last_name . ") that is not based in Armenia.");
+        }
+    }
+    $members = PersonType::where('proposal_id', '=', $id)
+                ->join('persons','persons.id','=','person_id')
+                ->get();
+    foreach($members as $member) {
+        $ecount = Email::where('person_id', '=', $member->person_id)->count();
+        if($ecount == 0)
+            array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one email address provided.");
+        $addcount = Address::where('addressable_id', '=', $member->person_id)
+                        ->where('addressable_type','=','App\Models\Person')
+                        ->count();
+        if($addcount == 0)
+            array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one mailing address provided.");
+
+        if($member->type == "participant") {
+            $education = DegreePerson::where('person_id', '=', $member->person_id)->count();
+            $employment = InstitutionPerson::where('person_id', '=', $member->person_id)->count();
+
+            if($education == 0)
+                array_push($warnings, "You have not provided an educational history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an educational history for each project participant.");
+            if ($employment == 0)
+                array_push($warnings, "You have not provided an employment history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an employment history for each project participant.");
+        }
+    }
+
+    $budget = $p->budget();
+    if($budget["validation"] != "")
+        array_push($messages, $budget["validation"]);
+
+    $recs = $p->competition->recommendations;
+    $missingrecs = [];
+    $submittedrecs = [];
+    if($recs > 0) {
+        $recommenders = PersonType::where('proposal_id', '=', $id)
+        ->where('subtype','=','supportletter')
+        ->join('persons','persons.id','=','person_id')
+        ->get();
+        if(count($recommenders) < $recs)
+            array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letter" . ($recs > 1 ? 's' : '') ." of support. You currently have " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
+
+        foreach($recommenders as $recommender) {
+            $email = Email::where('person_id','=',$recommender->person_id)->first();
+
+            if(Recommendations::where('proposal_id','=',$p->id)->where('document','!=',null)->where('person_id','=',$recommender->person_id)->exists()) {
+                array_push($submittedrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
+            }
+            else {
+                if(!empty($email))
+                    array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
+            }
+        }
+    }
+
+    return [
+        'messages' => $messages,
+        'warnings' => $warnings,
+        'submittedrecs' => $submittedrecs,
+        'missingrecs' => $missingrecs,
+        'pi' => $pi
+    ];
 }
