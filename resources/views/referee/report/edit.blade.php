@@ -5,22 +5,24 @@
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">Edit Report
-                        <input type="button" class="display float-lg-right btn btn-primary px-2" onclick="open_container()"
-                               value="View refereeing guidelines">
-                        <a href="{{action('Referee\ReportController@generatePDF', $report->id)}}"
-                           class="download float-lg-right px-2 btn" title="Download Report"><i class="fa fa-download"></i>
-                        </a>
-                        <a href="{{action('Referee\SendEmailController@showEmail', $report->id)}}"
-                           class="view float-lg-right px-2 btn" title="Send email" ><i class="fa fa-envelope-open"></i>
-                        </a>
-                        <a href="{{action('Referee\ReportController@show', $report->id)}}"
-                           class="view float-lg-right px-2 btn" title="View"><i class="fa fa-eye"></i>
-                        </a>
+                    <div class="card-header">Review and submit scores
 
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <div class="row">
+                            <a href="{{action('Referee\ReportController@generatePDF', $report->id)}}"
+                            class="download float-left myButton" title="Download Report"><i class="fa fa-download" style="margin-right:5px;"></i>Download proposal
+                            </a>
+                            <a href="{{action('Referee\SendEmailController@showEmail', $report->id)}}"
+                            class="email float-left myButton" title="Send email" ><i class="fa fa-envelope-open" style="margin-right:5px;"></i>Contact program officer
+                            </a>
+                            <a href="{{action('Referee\ReportController@show', $report->id)}}"
+                            class="view float-left myButton" title="View"><i class="fa fa-eye" style="margin-right:5px;"></i>View proposal
+                            </a>
+                            <input style="margin-left:20px;" type="button" class="display btn btn-primary" onclick="open_container()" value="View refereeing guidelines">
+
+                        </div><br/><br/>
                         @include('partials.status_bar')
 
                         @if(!empty($report))
@@ -31,9 +33,7 @@
                                     <input name="_method" type="hidden" value="PATCH">
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <h2 for="title">{{$report->proposal->title}}</h2>
-                                    {{--<input type="text" class="form-control" name="title" id="title"--}}
-                                    {{--value="{{$report->proposal->title}}">--}}
+                                    <p for="title"><b>{{getProposalTag($report->proposal->id)}}</b><br/> {{$report->proposal->title}}</p>
                                 </div>
                                 <div class="form-group col-lg-6">
                                     <div class="row">
@@ -48,55 +48,39 @@
                                                       id="private">{{$report->private_comment}}</textarea>
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="due_date">Duration Date:</label>
-                                            <input type="text" class="form-control date datepicker"
-                                                   value="{{$report->due_date}}"
-                                                   name="due_date" id="due_date">
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="overall_score">Overall Scope</label>
-                                            <span type="number" class="form-control"
-                                                  id="overall_score">{{$report->overall_score}}</span>
+                                            <label for="due_date">Report due date:</label>
+                                            <b>{{$report->due_date}}</b>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
-                                    <label>Score Type Name:</label>
-                                    <div class="col-lg-12">
-                                        @php
-                                            $gstns = $scoreTypes;
-                                            $gstvs = getScoreTypeValues();
-                                        @endphp
-                                        @foreach($gstns as $gstn)
-                                            <div class="row">
-                                                <label for="{{$gstn->name}}" class="form-control col-lg-6">{{$gstn->name}}</label>
-
-                                                <select class="form-control col-lg-6"
-                                                        name="name[{{mb_strtolower($gstn->id)}}]" id="{{$gstn->id}}">
-{{--                                                    <option value="0">Select a Score</option>--}}
-                                                    @foreach($gstvs as $key=> $gstv)
-                                                        @php
-                                                            $gstn_s = mb_strtolower($gstn->id);
-                                                        $stv = json_decode($gstn->score, true);
-
-                                                        @endphp
-                                                        <option value="{{$key}}"
-                                                        @if($stv['value'] == $key) {{'selected'}} @endif
-                                                        >{{$gstv}}</option>
+                                    <div>
+                                        @foreach($scoreTypes as $scoreType)
+                                            @php
+                                                $vals= range($scoreType->min, $scoreType->max)
+                                            @endphp
+                                            <div class="row col-12">
+                                            {{$scoreType->description}}
+                                            </div>
+                                            <div class="row col-12">
+                                                <div class="col-6"><b>{{$scoreType->name}}: </b></div>
+                                                <select class="form-control col-6" name="name[{{mb_strtolower($scoreType->id)}}]" id="{{$scoreType->id}}">
+                                                    @foreach($vals as $val)
+                                                    <option value="{{$val}}">{{$val}}{{$val == 0 ? ' (Poor)' : ''}}{{$val == $scoreType->max ? ' (Outstanding)' : ''}}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
+                                            </div><br/>
                                         @endforeach
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <button type="submit" name="state_r" value="rejected" class="btn btn-primary">
+                                    <button type="submit" name="state_r" value="rejected" class="btn btn-secondary">
                                         Reject to review
                                     </button>
-                                    <button type="submit" name="state_p" value="in-progress" class="btn btn-primary">
+                                    <button style="margin-left:10px;" type="submit" name="state_p" value="in-progress" class="btn btn-primary float-right">
                                         Save but do not submit
                                     </button>
-                                    <button type="submit" name="state_c" value="complete" class="btn btn-primary">Save
+                                    <button style="margin-left:10px;" type="submit" name="state_c" value="complete" class="btn btn-primary float-right">Save
                                         and submit review
                                     </button>
 

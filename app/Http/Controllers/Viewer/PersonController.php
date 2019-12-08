@@ -89,8 +89,8 @@ class PersonController extends Controller
             $person->birthplace = $request->birthplace;
             $person->nationality = $request->nationality;
             $person->sex = $request->sex;
-            $person->state = $request->state;
-            $person->type = $request->type;
+            // $person->state = $request->state;
+            $person->type = 'viewer';
             $person->user_id = $user->id;
             $person->save();
             $person_id = $person->id;

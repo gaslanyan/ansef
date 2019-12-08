@@ -27,42 +27,18 @@ class ReportController extends Controller
 
     public function state($state)
     {
-//        try {
+       try {
         $r_id = getUserIdByRole('referee');
-        $referee_ids = Proposal::get()
-            ->pluck('proposal_referees', 'id')->filter();
-        $pid = [];
-
-        foreach ($referee_ids as $key => $index) {
-            if (!empty($index)) {
-                $elements = json_decode($index, true);
-
-                if (in_array($r_id, (array)$elements)) {
-
-                    if (in_array($r_id, (array)$elements))
-                        $pid[] = $key;
-                }
-            }
-        }
-
-
-        $reports = RefereeReport::with(['proposal'
-        => function ($query) {
-                $query->select('id', 'title', 'competition_id');
-            },
-            'proposal.competition' => function ($query) {
-                $query->select('id', 'title');
-            }])
-            ->whereIn('proposal_id', $pid)
-            ->where('state', $state)
-            // ->where('referee_id', $r_id)
+        $reports = RefereeReport::where('referee_id', '=', $r_id)
+            ->where('state', '=', $state)
+            ->orderBy('due_date','asc')
             ->get();
 
         return view('referee.report.index', compact('reports', 'state'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('referee/' . $state)->with('error', getMessage("wrong"));
-//        }
+       } catch (\Exception $exception) {
+           logger()->error($exception);
+           return redirect('referee/' . $state)->with('error', getMessage("wrong"));
+       }
     }
 
     /**
@@ -134,7 +110,6 @@ class ReportController extends Controller
     {
         try {
             $report = RefereeReport::with('proposal')->find($id);
-
             $scoreTypes = ScoreType::with('score')->where('competition_id', $report->proposal->competition_id)->get();
 
             return view('referee.report.edit', compact('report', 'scoreTypes'));

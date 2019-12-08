@@ -18,7 +18,8 @@ class InfoController extends Controller
     {
         $user_id = getUserID();
         $persons = Person::where('user_id', $user_id )
-                    ->where('persons.type', '!=', null)
+                    ->where('persons.type', '=', 'support')
+                    ->orWhere('persons.type', '=', 'participant')
                     ->get()->toArray();
         return view('applicant.email.index', compact('persons'));
     }

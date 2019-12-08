@@ -9,44 +9,39 @@
                         @include('partials.status_bar')
 
 
+                        @if(!empty($reports) && count($reports)>0)
                         <table class="table table-responsive-md table-sm table-bordered display" id="example">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Competition title</th>
+                                <th hidden></th>
+                                <th width="150px">ID</th>
                                 <th>Proposal title</th>
                                 <th>State</th>
-                                <th>Dur date</th>
-                                <th>Overall Scope</th>
+                                <th>Due date</th>
                                 <th class="action long">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @if(!empty($reports))
                                 @foreach($reports as $report)
                                     <tr>
-                                        <td></td>
-                                        <td>{{$report->proposal->competition->title}}</td>
-                                        <td>{{$report->proposal->title}}</td>
+                                        <td hidden></td>
+                                        <td>{{getProposalTag($report->proposal->id)}}</td>
+                                        <td>{{truncate($report->proposal->title,40)}}</td>
                                         <td>{{$report->state}}</td>
                                         <td>{{$report->due_date}}</td>
-                                        <td>{{$report->overall_score}}</td>
                                         <td>
                                             <a href="{{action('Referee\ReportController@edit', $report->id)}}"
-                                               class="edit_full" title="Edit"><i class="fa fa-pencil-alt"></i>
+                                               class="display btn-primary myButton" title="Edit">
+                                               Review and score
                                             </a>
-
-{{--                                            <a href="{{action('Referee\ReportController@destroy', $report->id)}}"--}}
-{{--                                               class="view" title="Remove"><i class="fa fa-trash"></i>--}}
-{{--                                            </a>--}}
                                         </td>
-
                                     </tr>
                                 @endforeach
-                            @endif
                             </tbody>
                         </table>
-
+                        @else
+                        <h4>There are no reports</h4>
+                        @endif
                     </div>
 
                 </div>
@@ -56,38 +51,38 @@
 
     <script>
         $(document).ready(function () {
-            var groupColumn = 1;
-            var t = $('#example').DataTable({
-                "columnDefs": [
-                    {"visible": false, "targets": groupColumn}
-                ],
-                "order": [[groupColumn, 'asc']],
-                // "displayLength": 25,
-                "drawCallback": function (settings) {
-                    var api = this.api();
-                    var rows = api.rows({page: 'current'}).nodes();
-                    var last = null;
+            // var groupColumn = 1;
+            // var t = $('#example').DataTable({
+            //     "columnDefs": [
+            //         {"visible": false, "targets": groupColumn}
+            //     ],
+            //     "order": [[groupColumn, 'asc']],
+            //     // "displayLength": 25,
+            //     "drawCallback": function (settings) {
+            //         var api = this.api();
+            //         var rows = api.rows({page: 'current'}).nodes();
+            //         var last = null;
 
-                    api.column(groupColumn, {page: 'current'}).data().each(function (group, i) {
-                        if (last !== group) {
-                            $(rows).eq(i).before(
-                                '<tr class="group"><td colspan="6">' + group + '</td></tr>'
-                            );
+            //         api.column(groupColumn, {page: 'current'}).data().each(function (group, i) {
+            //             if (last !== group) {
+            //                 $(rows).eq(i).before(
+            //                     '<tr class="group"><td colspan="6">' + group + '</td></tr>'
+            //                 );
 
-                            last = group;
-                        }
-                    });
-                }
-            });
-            $('#example tbody').on('click', 'tr.group', function () {
-                var currentOrder = t.order()[0];
-                if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-                    t.order([groupColumn, 'desc']).draw();
-                }
-                else {
-                    t.order([groupColumn, 'asc']).draw();
-                }
-            });
+            //                 last = group;
+            //             }
+            //         });
+            //     }
+            // });
+            // $('#example tbody').on('click', 'tr.group', function () {
+            //     var currentOrder = t.order()[0];
+            //     if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+            //         t.order([groupColumn, 'desc']).draw();
+            //     }
+            //     else {
+            //         t.order([groupColumn, 'asc']).draw();
+            //     }
+            // });
             t.on('order.dt search.dt', function () {
                 t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
                     cell.innerHTML = i + 1;

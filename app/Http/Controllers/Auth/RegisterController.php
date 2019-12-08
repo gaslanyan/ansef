@@ -124,6 +124,7 @@ class RegisterController extends Controller
                 $person->first_name = "";
                 $person->last_name = "";
                 $person->specialization = "";
+                $person->type = $role->name;
                 $person->save();
 
                 if($role->name === "applicant")

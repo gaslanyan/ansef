@@ -52,15 +52,9 @@
                             <div class="form-group col-lg-6">
                                 <label for="type">* Will this person participate in a project or only provide support?:</label>
                                 <select id="type" class="form-control" name="type">
-                                    <?php $enum = getEnumValues('persons', 'type');?>
                                     <option>Select person's role</option-->
-                                    @if(!empty($enum))
-                                        @foreach($enum as $val=>$item)
-                                            @if($item != "admin" && $item != "referee" && $item != "viewer" && $item != "applicant")
-                                                <option class="text-capitalize" <?php if(old('type') == $val) echo 'selected'; ?> value="{{$item}}">{{$item == 'participant' ? 'Will participate' : 'Will support only'}}</option>
-                                            @endif
-                                        @endforeach
-                                    @endif
+                                    <option class="text-capitalize" <?php if(old('type') == 'participant') echo 'selected'; ?> value="participant">Will participate</option>
+                                    <option class="text-capitalize" <?php if(old('type') == 'support') echo 'selected'; ?> value="support">Will support only</option>
                                 </select>
                             </div>
 

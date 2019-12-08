@@ -1,10 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = signedApplicant();
-//if(!empty(cookieSign_id()))
-//    $user_id = cookieSign_id()->id;
-//else
-    $user_id = getUserIdByRole(null);
+    $signUser = signedApplicant();
+    $user_id = getUserIdByRole('applicant');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -34,7 +31,7 @@ $signUser = signedApplicant();
                     </span>
                 </a>
             </li>
-            <?php if(checkUserId(null) != false ){ ?>
+            <?php if(checkUserId('applicant') != false ){ ?>
             <li class="text-uppercase">
                 <a href="{{action('Applicant\PersonController@changePassword')}}">
                     <i class="fas fa-key"></i>
@@ -48,7 +45,7 @@ $signUser = signedApplicant();
                 Your user ID is incorrect. Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
             </li>
             <?php } ?>
-            <?php if(checkUserId(null) != false ){ ?>
+            <?php if(checkUserId('applicant') != false ){ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-users"></i> <span>Persons</span>

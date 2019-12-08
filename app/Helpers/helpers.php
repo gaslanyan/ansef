@@ -92,7 +92,7 @@ function checkUserId($role)
 {
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;
-        $table = \App\Models\Person::where('user_id', $user_id)->where('type', null)->first();
+        $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
 
         if (!empty($table)) {
             return true;
@@ -109,7 +109,6 @@ function getUserIdByRole($role)
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;
         $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
-
         if (!empty($table)) {
             return $table->id;
 
@@ -172,13 +171,13 @@ function getTableColumns($items)
 
 function signedApplicant() {
     $user_id = \Auth::guard(get_Cookie())->user()->id;
-    return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', null)->first();
+    return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
 }
 
 function signedPerson()
 {
     $user_id = \Auth::guard(get_Cookie())->user()->id;
-    return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['admin','referee','viewer'])->first();
+    return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['superadmin', 'admin','referee', 'viewer', 'applicant'])->first();
 }
 
 function cookieSign_id()
@@ -206,7 +205,7 @@ function getPerson($id)
 {
     $person = \App\Models\Person::select('persons.*', 'users.email')
         ->join('users', 'users.id', '=', 'persons.user_id')
-        ->whereIn('persons.type',['referee','admin','viewer',null])
+        ->whereIn('persons.type',['referee','admin','viewer','applicant'])
         ->where('persons.id', '=', $id)->first();
     if ($person)
         return $person;
@@ -527,11 +526,13 @@ function personidforuser($id) {
     return $person->id;
 }
 
-function createperson($user_id) {
-    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=',null)->first();
+function createperson($user_id, $role) {
+    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=','applicant')->first();
 
     if(empty($person)) {
-        \App\Models\Person::create(['user_id' => $user_id,
+        \App\Models\Person::firstOrCreate([
+                        'user_id' => $user_id,
+                        'type' => $role], [
                         'first_name' => '',
                         'last_name' => '',
                         'specialization' => '']);

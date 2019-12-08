@@ -16,60 +16,10 @@
         complete; <br>(4) <b>Send a message</b> to the administrator assigned to the proposal, for
         example for questions or further information about the proposal at hand.</p>
     <p style="font-size: 12px;padding:8px;">Each proposal needs a score in
-        one of <b>seven</b> different criteria described below. Each score can be one of six grades:
-        Outstanding, Excellent, Very Good, Good, Fair, Poor. You can also write comments about the
+        one of several different criteria. You can also write comments about the
         proposal: these are seen by our Research Board during the final evaluation stage and are
         <strong>not</strong> communicated to the PIs.</p>
     <p style=" color:#a00; font-size: 12px;padding:8px;"><b>All proposals
             are to be deemed confidential.</b></p>
-    <p style="font-size: 15px;padding:8px;"><b>EVALUATION CRITERIA</b></p>
 
-    <div style="padding:8px;">
-
-        <table class="tableview" cellpadding="2px" style="width: 100%">
-            <tbody>
-            <tr style="font-size: 14px;background-color:grey;">
-                <td class="center"></td>
-            </tr>
-            <tr style="background-color:white;">
-                <td   height="75" ><b>Significance</b><span
-                        style="font-size: 12px;">Does this study address an important problem?</span>
-                </td>
-            </tr>
-            <tr style="background-color:#eeeeee;">
-                <td height="75">
-                    <b>Approach</b><span style="font-size: 12px;">Are the concepts and design of methods and analysis adequately developed and appropriate to the aim of the project?</span>
-                </td>
-            </tr>
-            <tr style="background-color:white;">
-                <td   height="75" >
-                    <b>Innovation</b><span style="font-size: 12px;">Does the project employ novel concepts, approaches or methods? Are the aims original and innovative? Does the project challenge existing paradigms or develop new methodologies or technologies?</span>
-                </td>
-            </tr>
-            <tr style="background-color:#eeeeee;">
-                <td   height="75" ><b>Investigator</b><span
-                        style="font-size: 12px;">Is the investigator appropriately trained and well-suited to carry out this work? Is the work proposed appropriate to the experience level of the principal investigator and other researchers?</span>
-                </td>
-            </tr>
-            <tr style="background-color:white;">
-                <td   height="75" >
-                    <b>Budget</b><span style="font-size: 12px;">Is the budget appropriate for the proposed project?</span>
-                </td>
-            </tr>
-            <tr style="background-color:#eeeeee;">
-                <td   height="75" >
-                    <b>Proposal</b><span style="font-size: 12px;">How well conceived and organized is the proposed activity? Is the review of the current state of knowledge in the field adequate?</span>
-                </td>
-            </tr>
-            <tr>
-                <td  style="background-color:white;" height="75"
-                ><b>Overall Score</b><span style="font-size: 12px;">How would you rate the proposal overall? Please note that ANSEF grants are very competitive. It is rare that a proposal that is not deemed Outstanding in this category would get funded. On the other hand, there should be good reason to consider a proposal Outstanding, based on your assessment of the previous six criteria.</span>
-                </td>
-            </tr>
-            <tr style="font-size: 14px;background-color:grey;">
-                <td class="center"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
 </div>

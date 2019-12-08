@@ -32,7 +32,7 @@ class ApplicantController extends Controller
 
 
         $user_id = \Auth::guard('applicant')->user()->id;
-        createperson($user_id);
+        createperson($user_id, 'applicant');
 
         return view("applicant.dashboard", compact('competitionlist', 'upcomingcompetitions', 'id'));
     }

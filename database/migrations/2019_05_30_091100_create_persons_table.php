@@ -22,7 +22,7 @@ class CreatePersonsTable extends Migration {
 			$table->string('first_name', 512)->nullable();
 			$table->string('last_name', 512)->nullable();
 			$table->string('nationality', 512)->nullable();
-			$table->enum('type', array('admin','referee','viewer','applicant','participant','support'))->nullable();
+			$table->enum('type', array('non role','admin','superadmin','referee','viewer','applicant','participant','support'))->nullable();
             $table->string('specialization', 512)->nullable();
 			$table->integer('user_id')->unsigned()->nullable();
 			$table->timestamps();

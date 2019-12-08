@@ -20,8 +20,8 @@ class ViewerController extends Controller
         $user_id = \Auth::guard('viewer')->user()->id;
         $person = Person::where('user_id', '=', $user_id)->first();
         $competitonlist = Competition::all();
-        
-        createperson($user_id);
+
+        createperson($user_id, 'viewer');
 
         return view("viewer.dashboard", compact('competitonlist'));
     }

@@ -66,7 +66,7 @@ class InitializationSeeder extends Seeder
 
         App\Models\Person::create([
             'user_id' => 1,
-            'type' => null,
+            'type' => 'superadmin',
             'specialization' => '',
             'first_name' => '',
             'last_name' => ''
@@ -85,7 +85,7 @@ class InitializationSeeder extends Seeder
 
         App\Models\Person::create([
             'user_id' => 2,
-            'type' => null,
+            'type' => 'applicant',
             'specialization' => '',
             'first_name' => '',
             'last_name' => ''
@@ -104,7 +104,7 @@ class InitializationSeeder extends Seeder
 
         App\Models\Person::create([
             'user_id' => 3,
-            'type' => null,
+            'type' => 'referee',
             'specialization' => '',
             'first_name' => '',
             'last_name' => ''
@@ -123,7 +123,7 @@ class InitializationSeeder extends Seeder
 
         App\Models\Person::create([
             'user_id' => 4,
-            'type' => null,
+            'type' => 'viewer',
             'specialization' => '',
             'first_name' => '',
             'last_name' => ''
@@ -176,7 +176,7 @@ class InitializationSeeder extends Seeder
             'first_report' => date("Y-m-d", strtotime("+15 day")),
             'second_report' => date("Y-m-d", strtotime("+25 day")),
             'state' => 'enable',
-            'recommendations' => 2,
+            'recommendations' => 1,
             'categories' => '["1","2"]',
             'additional' => '{"additional_charge_name":null,"additional_charge":"0","additional_percentage_name":"Overhead percentage","additional_percentage":"7"}',
             'instructions' => 'Instructions for proposal document'
@@ -189,6 +189,23 @@ class InitializationSeeder extends Seeder
             'comments' => 'Monthly amount, number of months',
             'competition_id' => 1
         ]);
+        App\Models\ScoreType::create([
+            'name' => 'Significance',
+            'description' => 'How significant is the project?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => 1,
+        ]);
+        App\Models\ScoreType::create([
+            'name' => 'Approach',
+            'description' => 'Is the approach reasonable?',
+            'min' => 0,
+            'max' => 7,
+            'weight' => 1,
+            'competition_id' => 1,
+        ]);
+
 
 
     }

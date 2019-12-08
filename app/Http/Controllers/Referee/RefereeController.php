@@ -23,7 +23,7 @@ class RefereeController extends Controller
         }
 
         $user_id = \Auth::guard('referee')->user()->id;
-        createperson($user_id);
+        createperson($user_id, 'referee');
 
         return view("referee.dashboard", compact('user_id'));
     }

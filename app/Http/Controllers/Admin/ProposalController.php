@@ -351,6 +351,10 @@ class ProposalController extends Controller
                         $report = new RefereeReport();
                         $report->proposal_id = $pid;
                         $report->referee_id = $uid;
+                        $report->competition_id = $proposal->competition->id;
+                        $report->overall_score = 0;
+                        $report->private_comment = "";
+                        $report->public_comment = "";
                         $report->state = "in-progress";
                         $report->due_date = date('Y-m-d', strtotime('+3 months'));
                         $flag = $flag & $report->save();
