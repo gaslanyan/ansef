@@ -105,7 +105,7 @@
                         'selectAll', 'selectNone', 'copy', 'csv', 'excel', 'pdf', 'print'
                     ]
                 });
-                reloadtable('ajax_report');
+                reloadtable('admin/listreports');
 
                 // t.on('order.dt search.dt', function () {
                 //     t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) { cell.innerHTML = i + 1; });
@@ -113,7 +113,7 @@
             }
 
             $('#competition').change(function() {
-                reloadtable('ajax_report');
+                reloadtable('admin/listreports');
             });
 
             function format(d) {
@@ -173,7 +173,7 @@
                         }
                     });
                     $.ajax({
-                        url: '/deleteReport',
+                        url: '/admin/deleteReport',
                         type: 'POST',
                         data: {
                             token: CSRF_TOKEN,
@@ -185,7 +185,7 @@
                             if (data.success === -1)
                                 console.log('msg' + data);
                             else
-                                reloadtable('ajax_report');
+                                reloadtable('admin/listreports');
                         },
                         error: function(data) {
                             console.log('msg' + data);

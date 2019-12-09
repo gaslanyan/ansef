@@ -122,7 +122,7 @@ $(document).ready(function() {
     });
     $('#off, #on').click(function(e) {
         e.preventDefault();
-        $url = '/lock';
+        $url = '/admin/lock';
         $look = $(this).attr('id');
         $.ajax({
             url: $url,
@@ -143,7 +143,7 @@ $(document).ready(function() {
         $category = $(this).val();
 
         $.ajax({
-            url: '/getsub',
+            url: '/applicant/getsub',
             type: 'POST',
             context: { element: $(this) },
             data: { _token: CSRF_TOKEN, id: $category },
@@ -593,7 +593,7 @@ $(document).ready(function() {
                                 alert('Cannot allow deletion of ' + $pattern +
                                     ' : assigned to a competition ');
                             else
-                                reloadtable('ajax_proposal');
+                                reloadtable('admin/listproposals');
                         },
                         error: function(data) {
                             console.log('msg' + data);
@@ -608,7 +608,7 @@ $(document).ready(function() {
         $compid = $(this).val();
 
         $.ajax({
-            url: '/getProposalByCompByID',
+            url: '/viewer/getProposalByCompByID',
             type: 'POST',
             context: { element: $(this) },
             data: { _token: CSRF_TOKEN, id: $compid },

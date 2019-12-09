@@ -590,4 +590,13 @@ class ProposalController extends Controller
             return Redirect::back()->with('wrong', getMessage("wrong"));
         }
     }
+
+    public function subcategories(Request $request)
+    {
+        $resp = [];
+        $sub = Category::where('parent_id', '=', $request['id'])->pluck('title', 'id')->toArray();
+        echo $resp[0] = json_encode($sub);
+        exit();
+    }
+
 }

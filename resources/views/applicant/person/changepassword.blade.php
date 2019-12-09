@@ -1,9 +1,5 @@
 @extends('layouts.master')
-<?php
-if(!empty(cookieSign_id()))
-    $user_id = cookieSign_id()->id;
-else
-    $user_id = getUserIdByRole(null);?>
+<?php $user_id = getUserIdByRole(null); ?>
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

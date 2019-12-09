@@ -63,7 +63,7 @@ class LoginController extends Controller
             'role_id' => $get_role->id],
             $request->get('remember'))) {
 
-            setcookie('c_user', $role, 0, '/');
+            setcookie('user_role', $role, 0, '/');
 
             $u = Auth::guard($role)->user();
             $session = Session::where('user_id', $u->id)->first();
@@ -101,12 +101,12 @@ class LoginController extends Controller
     public function __construct()
     {
 
-        $this->middleware('guest')->except('logout');
-        $this->middleware('guest:applicant')->except('logout');
-        $this->middleware('guest:admin')->except('logout');
-        $this->middleware('guest:superadmin')->except('logout');
-        $this->middleware('guest:viewer')->except('logout');
-        $this->middleware('guest:referee')->except('logout');
+        // $this->middleware('guest')->except('logout');
+        // $this->middleware('guest:applicant')->except('logout');
+        // $this->middleware('guest:admin')->except('logout');
+        // $this->middleware('guest:superadmin')->except('logout');
+        // $this->middleware('guest:viewer')->except('logout');
+        // $this->middleware('guest:referee')->except('logout');
 
     }
 
@@ -114,8 +114,8 @@ class LoginController extends Controller
     {
         $request->session()->flush();
         $request->session()->regenerate();
-        $role = $_COOKIE['c_user'];
-        if(!empty($role)) setcookie('c_user', $role, time() - 31556926, '/');
+        $role = $_COOKIE['user_role'];
+        if(!empty($role)) setcookie('user_role', $role, time() - 31556926, '/');
         return redirect('/');
     }
 }

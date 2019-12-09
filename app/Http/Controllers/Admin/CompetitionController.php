@@ -235,6 +235,6 @@ class CompetitionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('sign_in')->except('logout');
+        // $this->except('logout');
     }
 }

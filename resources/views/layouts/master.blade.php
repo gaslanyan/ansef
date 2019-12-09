@@ -26,12 +26,7 @@
 <div class="wrapper">
     @include('partials.header')
 
-    @php echo $c_user = cookieSign_id(); @endphp
-    @if(!empty($c_user))
-        @include('partials.'.$c_user->user->role->name.'_sidebar')
-    @else
-        @include('partials.'.get_Cookie().'_sidebar')
-    @endif
+    @include('partials.'.get_Cookie().'_sidebar')
 
 
     @yield('content')

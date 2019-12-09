@@ -10,8 +10,8 @@ class CheckRole
                            Closure $next,
                            $permission)
     {
-        $permission = explode('|', $permission);
-        if (checkPermission($permission)) {
+        $permissions = explode('|', $permission);
+        if (checkPermission($permissions)) {
             return $next($request);
         }
         return response()->view('errors.check-role');

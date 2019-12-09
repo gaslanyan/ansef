@@ -66,7 +66,7 @@
                                         </td>
                                         <td>
                                             <input type="hidden" class="id" value="{{$person->id}}">
-                                            <input type="hidden" class="url" value="/updatePerson">
+                                            <input type="hidden" class="url" value="/admin/updatePerson">
                                             <button title="Edit" class="edit btn-link"><i class="fa fa-pencil-alt"></i>
                                             </button>
                                             <button title="Save" class="save editable btn-link"><i

@@ -70,14 +70,13 @@ Route::get('/applicant/sign/{id}', 'Applicant\ApplicantController@index', [
     'middleware' => 'check-role:applicant|admin|superadmin'
 ]);
 Route::get('/referee/sign/{id}', 'Referee\RefereeController@index', [
-    'only' => ['index'],
+    // 'only' => ['index'],
     'middleware' => 'check-role:referee|admin|superadmin'
 ]);
 
 
 // ---------------------------------- Admin routes ----------------------------------
-   Route::group(['middleware' => ['auth', 'check-role:admin|superadmin']], function () {
-
+   Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
     Route::post('/admin/updatePassword', 'Admin\PersonController@updatePassword');
     Route::get('/admin/changePassword', 'Admin\PersonController@changePassword');
@@ -120,18 +119,28 @@ Route::get('/referee/sign/{id}', 'Referee\RefereeController@index', [
     Route::post('/admin/password/{id}', 'Admin\AccountController@generatePassword');
     Route::resource('/admin/email', 'Admin\EmailController');
     Route::resource('/admin/phone', 'Admin\PhoneController');
+    Route::post('/admin/lock', 'Admin\SettingsController@lock');
+    Route::post('/export', 'Admin\SettingsController@export');
+    Route::post('/admin/updatePerson', 'Admin\PersonController@updatePerson');
+    Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
+
+    Route::post('/admin/addUsers', 'Admin\ProposalController@addUsers');
+    Route::post('/admin/deleteProposal', 'Admin\ProposalController@deleteProposal');
+    Route::post('/admin/checkProposal', 'Admin\ProposalController@checkProposal');
+    Route::post('/admin/deleteReport', 'Admin\ReportController@deleteReport');
+    Route::post('/admin/sendEmail', 'Admin\ProposalController@sendEmail');
+    Route::post('/admin/changeState', 'Admin\ProposalController@changeState');
+    Route::get('/admin/listreports/{id}', 'Admin\ReportController@listreports');
+    Route::get('/admin/listproposals/{id}', 'Admin\ProposalController@listproposals');
+    Route::post('/admin/updateCom', 'Admin\CompetitionController@updateCompetition');
+
     Route::get('/admin/migrate', 'JobsController@migrate');
     Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
-    Route::post('/lock', 'Admin\SettingsController@lock');
-    Route::post('/export', 'Admin\SettingsController@export');
-    Route::post('/updatePerson', 'Base\AjaxController@updatePerson');
-    Route::post('/updateAcc', 'Base\AjaxController@updateAcc');
-   });
+});
 
 // ---------------------------------- Applicant routes ----------------------------------
-Route::group(['middleware' => ['auth', 'check-role:applicant|admin|superadmin']], function () {
+Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], function () {
     Route::resource('/applicant/person', 'Applicant\PersonController');
-
     Route::resource('/applicant/book', 'Base\BookController');
     Route::resource('/applicant/meeting', 'Base\MeetingController');
     Route::resource('/applicant/honors', 'Base\HonorsController');
@@ -190,8 +199,7 @@ Route::group(['middleware' => ['auth', 'check-role:applicant|admin|superadmin']]
     Route::post('/applicant/sendtoadmin', 'Applicant\ResearchBoardController@sendtoadmin');
     Route::get('/applicant/proposal/generatePDF/{id}', 'Applicant\ProposalController@generatePDF');
     Route::get('/applicant/person/download/{id}', 'Applicant\PersonController@download');
-
-    Route::post('/getsub', 'Base\AjaxController@subcategories');
+    Route::post('/applicant/getsub', 'Applicant\ProposalController@subcategories');
 
     Route::get('file-upload/{id}', 'Applicant\FileUploadController@docfile');
     Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
@@ -202,16 +210,14 @@ Route::group(['middleware' => ['auth', 'check-role:applicant|admin|superadmin']]
     Route::get('file-upload/remove/{id}', 'Applicant\FileUploadController@remove');
     Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
     Route::get('report-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
-    Route::get('letter-upload/done', function () {
-        return 'Thanks';
-    })->name('uploadthanks');
+    Route::get('letter-upload/done', function () { return 'Thanks'; })->name('uploadthanks');
 
     Route::get('/support/{prop_id}/{person_id}', 'Applicant\SupportController@index');
     Route::post('/support/save/{person_id}', 'Applicant\SupportController@save');
 });
 
 // ---------------------------------- Referee routes ----------------------------------
-Route::group(['middleware' => ['auth', 'check-role:referee|admin|superadmin']], function () {
+Route::group(['middleware' => ['check-role:referee|admin|superadmin']], function () {
     Route::get('/referee/person/{id}', 'Referee\PersonController@edit');
     Route::post('/referee/update/{id}', 'Referee\PersonController@update');
     Route::post('/referee/updatePassword', 'Referee\PersonController@updatePassword');
@@ -224,7 +230,7 @@ Route::group(['middleware' => ['auth', 'check-role:referee|admin|superadmin']], 
 });
 
 // ---------------------------------- Viewer routes ----------------------------------
-Route::group(['middleware' => ['auth', 'check-role:viewer|admin|superadmin']], function () {
+Route::group(['middleware' => ['check-role:viewer|admin|superadmin']], function () {
     //Viewer
     Route::resource('/viewer/person', 'Viewer\PersonController');
     Route::resource('/viewer/proposal', 'Viewer\ProposalController');
@@ -234,28 +240,14 @@ Route::group(['middleware' => ['auth', 'check-role:viewer|admin|superadmin']], f
     Route::post('/viewer/statistics/y_result', 'Viewer\StatisticsController@y_result');
 
     Route::get('/viewer/show/{id}', 'Viewer\PersonController@show');
-    Route::post('/getProposalByCompByID', 'Viewer\ProposalController@getProposalByCompByID');
+    Route::post('/viewer/getProposalByCompByID', 'Viewer\ProposalController@getProposalByCompByID');
 });
 
-
-
-
-
-
-
 //base ajax
-Route::post('/updateCom', 'Admin\CompetitionController@updateCompetition');
-Route::post('/addUsers', 'Admin\ProposalController@addUsers');
-Route::post('/deleteProposal', 'Admin\ProposalController@deleteProposal');
-Route::post('/checkProposal', 'Admin\ProposalController@checkProposal');
-Route::post('/deleteReport', 'Admin\ReportController@deleteReport');
-Route::post('/sendEmail', 'Admin\ProposalController@sendEmail');
-Route::post('/changeState', 'Admin\ProposalController@changeState');
-Route::get('/ajax_report/{id}', 'Admin\ReportController@listreports');
-Route::get('/ajax_proposal/{id}', 'Admin\ProposalController@listproposals');
 
-Route::post('/updateCategory', 'Base\AjaxController@updateCategory');
-Route::post('/copyItems', 'Base\AjaxController@copyItems');
+Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
+Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
+
 Route::post('/deleteCats', 'Base\AjaxController@deleteCats');
 Route::post('/deleteScores', 'Base\AjaxController@deleteScores');
 Route::post('/deleteRule', 'Base\AjaxController@deleteRule');

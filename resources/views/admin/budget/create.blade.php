@@ -230,7 +230,7 @@
             var CSRF_TOKEN = $('input[name="_token"]').val();
             if (checkedIDs.length > 0) {
                 jQuery.ajax({
-                    url: '/copyItems',
+                    url: '/admin/copyItems',
                     type: 'POST',
                     context: {element: $(this)},
                     data: {

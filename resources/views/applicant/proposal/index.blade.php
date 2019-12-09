@@ -65,27 +65,6 @@
                                             </select>
                                         </td>
 
-                                        <td style="width: 100px">
-                                            <input type="hidden" class="id" value="{{$com->id}}">
-                                            <input type="hidden" class="url" value="/updateCom">
-                                            <button title="Edit"
-                                                    class="edit btn-link"><i class="fa fa-pencil-alt"></i>
-                                            </button>
-                                            <button title="Save"
-                                                    class="save editable btn-link"><i class="fa fa-save"></i>
-                                            </button>
-                                            <button title="Cancel"
-                                                    class="cancel editable btn-link"><i class="fa fa-ban"></i>
-                                            </button>
-                                            <a href="{{action('Admin\CompetitionController@show', $com->id)}}"
-                                               class="view" title="View"><i class="fa fa-eye"></i>
-                                            </a>
-
-                                            <a href="{{action('Admin\CompetitionController@edit', $com->id)}}"
-                                               title="full_edit"
-                                               class="full_edit"><i class="fa fa-edit"></i>
-                                            </a>
-                                        </td>
 
                                     </tr>
                                 @endforeach

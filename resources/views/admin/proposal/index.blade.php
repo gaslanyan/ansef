@@ -249,9 +249,9 @@
             //     });
             // }).draw();
 
-            reloadtable('ajax_proposal');
+            reloadtable('admin/listproposals');
             $('#competition').change(function() {
-                reloadtable('ajax_proposal');
+                reloadtable('admin/listproposals');
             });
 
 
@@ -271,7 +271,7 @@ function check() {
             }
         });
         $.ajax({
-            url: '/checkProposal',
+            url: '/admin/checkProposal',
             type: 'POST',
             data: {
                 token: CSRF_TOKEN,
@@ -282,7 +282,7 @@ function check() {
                 if (data.success === -1)
                     console.log('msg' + data);
                 else
-                    reloadtable('ajax_proposal');
+                    reloadtable('admin/listproposals');
             },
             error: function(data) {
                 console.log('msg' + data);
@@ -306,7 +306,7 @@ function deleteproposals() {
                 }
             });
             $.ajax({
-                url: '/deleteProposal',
+                url: '/admin/deleteProposal',
                 type: 'POST',
                 data: {
                     token: CSRF_TOKEN,
@@ -317,7 +317,7 @@ function deleteproposals() {
                     if (data.success === -1)
                         console.log('msg' + data);
                     else
-                        reloadtable('ajax_proposal');
+                        reloadtable('admin/listproposals');
                 },
                 error: function(data) {
                     console.log('msg' + data);
@@ -331,7 +331,7 @@ function change_state(checkedIDss) {
     var selected = $('[name=change_proposal_state]').val();
     if (selected)
         $.ajax({
-            url: '/changeState',
+            url: '/admin/changeState',
             type: 'POST',
             data: {
                 _token: CSRF_TOKEN,
@@ -340,7 +340,7 @@ function change_state(checkedIDss) {
             },
             dataType: 'JSON',
             success: function(data) {
-                reloadtable('ajax_proposal');
+                reloadtable('admin/listproposals');
             },
             error: function(data) {
                 console.log(data);
@@ -354,7 +354,7 @@ function send_email(checkedIDss) {
     var selected = $('[name=message]').val();
     if (selected)
         $.ajax({
-            url: '/sendEmail',
+            url: '/admin/sendEmail',
             type: 'POST',
             data: {
                 _token: CSRF_TOKEN,
@@ -422,7 +422,7 @@ function send_email(checkedIDss) {
                 send_email(checkedIDss);
             else if (checkedIDss.length > 0 && checkedIDs.length > 0) {
                 jQuery.ajax({
-                    url: '/addUsers',
+                    url: '/admin/addUsers',
                     type: 'POST',
                     context: {element: $(this)},
                     data: {
@@ -434,7 +434,7 @@ function send_email(checkedIDss) {
                     dataType: 'JSON',
                     success: function (data) {
                         console.log(data);
-                        reloadtable('ajax_proposal');
+                        reloadtable('admin/listproposals');
                     },
                     error: function (data) {
                         console.log(data);

@@ -40,7 +40,6 @@ class ApplicantController extends Controller
 
     public function __construct()
     {
-        //checkUser();
-        $this->middleware('sign_in')->except('logout');
+        // $this->except('logout');
     }
 }

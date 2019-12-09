@@ -127,7 +127,7 @@
                                         </td>
                                         <td>
                                             <input type="hidden" class="id" value="{{$com->id}}">
-                                            <input type="hidden" class="url" value="/updateCom">
+                                            <input type="hidden" class="url" value="/admin/updateCom">
                                             <button title="Edit"
                                                     class="edit btn-link"><i class="fa fa-pencil-alt"></i>
                                             </button>

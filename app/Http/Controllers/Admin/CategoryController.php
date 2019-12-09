@@ -152,4 +152,29 @@ class CategoryController extends Controller
 //            return redirect('admin/category')->with('error', getMessage('wrong'));
 //        }
     }
+
+    public function updateCategory(Request $request)
+    {
+        //        if ($request->_token === Session::token()) {
+        $items = json_decode($request->form);
+        $category = Category::where('id', '=', $items->id)->first();
+        $category->id = $items->id;
+        if ($items->parent_id == 0)
+            $category->parent_id = null;
+        else
+            $category->parent_id = $items->parent_id;
+        $category->abbreviation = $items->abbreviation;
+        $category->title = $items->title;
+        $category->weight = $items->weight;
+        if ($category->save()) {
+            $response = [
+                'success' => true
+            ];
+        } else
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+        return response()->json($response);
+    }
 }

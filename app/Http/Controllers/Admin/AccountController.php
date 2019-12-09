@@ -298,11 +298,63 @@ class AccountController extends Controller
         return redirect()->back()->with('status', 'Mail sent to referee');
     }
 
+    public function updateAcc(Request $request)
+    {
+        $user = [];
+        $person = [];
+        $isSaved = false;
+        $isState = false;
+        //        dd(Session::token());
+        //        if ($request->_token === Session::token()) {
+        $items = json_decode($request->form);
+        DB::beginTransaction();
+        try {
+            $id = $items->id;
+            $user = User::find((int) $id);
+            $user->email = trim($items->email);
+            if (isset($items->state)) {
+                $user->state = $items->state;
+                $isState = true;
+            }
+            if ($user->save()) {
+                $isSaved = true;
+                if ($isSaved)
+                    $user->notify(new ActivatedUser($user));
+            }
+            if (isset($items->first_name)) {
+                $p = Person::where('user_id', $id)->first();
+                $person = Person::find($p->id);
+                $person->first_name = $items->first_name;
+                $person->last_name = $items->last_name;
+                if ($person->save())
+                    $isSaved = true;
+                if (isset($items->content)) {
+                    $ip = InstitutionPerson::where('person_id', $p->id)->get();
+                    $i = Institution::find($ip->institution_id);
+                    $i->content = $items->content;
+                    if ($i->save())
+                        $isSaved = true;
+                }
+            }
+            $response = [
+                'success' => true
+            ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        //        }
+        DB::commit();
+        return response()->json($response);
+    }
+
     public function __construct()
     {
-//        $this->middleware('auth');
-//        $this->middleware('check-role:superadmin');
-        $this->middleware('sign_in')->except('logout');
+        // $this->except('logout');
 
     }
 

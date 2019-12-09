@@ -120,7 +120,7 @@
 
                                                 <input type="hidden" class="id"
                                                        value="@if(!empty($p['user']['id'])){{$p['user']['id']}} @else {{$p['id']}} @endif">
-                                                <input type="hidden" class="url" value="/updateAcc">
+                                                <input type="hidden" class="url" value="/admin/updateAcc">
                                                 {{--@if(!empty($p['user']['id']))--}}
                                                 @if($type !== "applicant")
                                                 <button title="Edit"

@@ -31,11 +31,6 @@ class AdminController extends Controller
 
     public function __construct()
     {
-
-//        $this->middleware('auth');
-//        $this->middleware('check-role');
-
-        $this->middleware('sign_in')->except('logout');
-
+        // $this->except('logout');
     }
 }

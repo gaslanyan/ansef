@@ -209,7 +209,7 @@ class ProposalController extends Controller
             $d['data'][$index]['title'] = truncate($pr->title, 25);
             $d['data'][$index]['state'] = ($pr->state);
             $pi = $pr->pi();
-            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,7) . " " . $pi->first_name : '';
+            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,7) . " " . $pi->first_name : 'No PI';
             $refs = $pr->refereesasstring();
             $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
             $a = $pr->admin()->first();

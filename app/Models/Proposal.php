@@ -78,7 +78,7 @@ class Proposal extends Model
         $p = PersonType::where('proposal_id','=',$this->id)
             ->where('subtype','=','PI')
             ->first();
-        return Person::find($p->person_id);
+        return !empty($p) ? Person::find($p->person_id) : null;
     }
 
     function referees() {

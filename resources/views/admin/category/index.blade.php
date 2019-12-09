@@ -84,7 +84,7 @@
 
                                         <td>
                                             <input type="hidden" class="id" value="{{$category['id']}}">
-                                            <input type="hidden" class="url" value="/updateCategory">
+                                            <input type="hidden" class="url" value="/admin/updateCategory">
                                             <button title="Edit"
                                                     class="edit btn-link"><i class="fa fa-pencil-alt"></i>
                                             </button>

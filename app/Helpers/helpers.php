@@ -12,53 +12,16 @@ use App\Models\Score;
 
 function checkPermission($permissions)
 {
-    $guard = basename(url()->current());
-    $obj = \Illuminate\Support\Facades\Auth::guard($guard)->user();
-
-    if (empty($obj) && isset($_COOKIE['c_user']) && $_COOKIE['c_user'] !== "admin")
-        return false;
-
-    if (empty($obj)) {
-        $admin = ['admin', 'superadmin'];
-        $role = \App\Models\Role::whereIn('name', $admin)->first();
-        $role_id = $role->id;
-    } else  $role_id = $obj->role_id;
-
-    $userAccess = getMyPermission($role_id);
-//dd($userAccess);
-    foreach ($permissions as $key => $value) {
-//        dd($userAccess);
-        if ($value == $userAccess
-            || $userAccess == "superadmin") {
+    $user = \Illuminate\Support\Facades\Auth::guard($_COOKIE['user_role'])->user();
+    if (empty($user)) return false;
+    $userAccess = $_COOKIE['user_role'];
+    if($userAccess == "superadmin") return true;
+    foreach ($permissions as $value) {
+        if ($value == $userAccess) {
             return true;
         }
     }
     return false;
-}
-
-function getMyPermission($id)
-{
-    $get_role = \App\Models\Role::find($id);
-
-    $name = "";
-    switch ($get_role->name) {
-        case 'admin':
-            $name = $get_role->name;
-            break;
-        case 'superadmin':
-            $name = $get_role->name;
-            break;
-        case 'referee':
-            $name = $get_role->name;
-            break;
-        case 'viewer':
-            $name = $get_role->name;
-            break;
-        case 'applicant':
-            $name = $get_role->name;
-            break;
-    }
-    return $name;
 }
 
 function getMessage($name)
@@ -69,11 +32,11 @@ function getMessage($name)
 
 function get_Cookie()
 {
-    if (!empty($_COOKIE['c_user']))
-        $c_user = $_COOKIE['c_user'];
+    if (!empty($_COOKIE['user_role']))
+        $user_role = $_COOKIE['user_role'];
     else
-        $c_user = basename(url()->current());
-    return $c_user;
+        $user_role = basename(url()->current());
+    return $user_role;
 }
 
 function getEnumValues($table, $column)
@@ -179,18 +142,6 @@ function signedPerson()
 {
     $user_id = \Auth::guard(get_Cookie())->user()->id;
     return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['superadmin', 'admin','referee', 'viewer', 'applicant'])->first();
-}
-
-function cookieSign_id()
-{
-    if (!empty($_COOKIE['sign_id'])) {
-        $c_user_id = $_COOKIE['sign_id'];
-        $user = \App\Models\Person::with('user.role')
-            ->where('user_id', $c_user_id)->first();
-
-        return $user;
-    }
-    return null;
 }
 
 function getUserID()
