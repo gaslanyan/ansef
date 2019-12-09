@@ -141,19 +141,19 @@ Route::get('/referee/sign/{id}', 'Referee\RefereeController@index', [
 // ---------------------------------- Applicant routes ----------------------------------
 Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], function () {
     Route::resource('/applicant/person', 'Applicant\PersonController');
-    Route::resource('/applicant/book', 'Base\BookController');
-    Route::resource('/applicant/meeting', 'Base\MeetingController');
-    Route::resource('/applicant/honors', 'Base\HonorsController');
+    Route::resource('/applicant/book', 'Applicant\BookController');
+    Route::resource('/applicant/meeting', 'Applicant\MeetingController');
+    Route::resource('/applicant/honors', 'Applicant\HonorsController');
     Route::resource('/applicant/email', 'Applicant\EmailController');
     Route::resource('/applicant/address', 'Applicant\AddressController');
     Route::resource('/applicant/info', 'Applicant\InfoController');
     Route::resource('/applicant/phone', 'Applicant\PhoneController');
     Route::resource('/applicant/budgetcategories', 'Applicant\BudgetCategoriesController');
-    Route::resource('/applicant/publication', 'Base\PublicationsController');
+    Route::resource('/applicant/publication', 'Applicant\PublicationsController');
     Route::resource('/applicant/degree', 'Applicant\DegreePersonController');
 
-    Route::get('/applicant/institution/destroyemployment/{id}', 'Base\InstitutionController@destroyemployment');
-    Route::resource('/applicant/institution', 'Base\InstitutionController');
+    Route::get('/applicant/institution/destroyemployment/{id}', 'Applicant\InstitutionController@destroyemployment');
+    Route::resource('/applicant/institution', 'Applicant\InstitutionController');
     Route::resource('/applicant/account', 'Applicant\AccountController');
 
     Route::get('/applicant/proposal/updatepersons/{id}', 'Applicant\ProposalController@updatepersons');
@@ -172,7 +172,7 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('/applicant/address/delete/{id}', 'Applicant\AddressController@destroy');
     Route::get('/applicant/email/delete/{id}', 'Applicant\EmailController@destroy');
     Route::get('/applicant/phone/delete/{id}', 'Applicant\PhoneController@destroy');
-    Route::get('/applicant/institution/create/{id}', 'Base\InstitutionController@create');
+    Route::get('/applicant/institution/create/{id}', 'Applicant\InstitutionController@create');
     Route::get('/applicant/degree/create/{id}', 'Applicant\DegreePersonController@create');
     Route::get('/applicant/degree/delete/{id}', 'Applicant\DegreePersonController@destroy');
     Route::get('/applicant/instructions/{id}', 'Applicant\ProposalController@instructions');
@@ -180,14 +180,14 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('/applicant/budgetcategories/create/{id}', 'Applicant\BudgetCategoriesController@create');
     Route::get('/applicant/budgetcategories/delete/{id}', 'Applicant\BudgetCategoriesController@destroy');
 
-    Route::get('/applicant/book/create/{id}', 'Base\BookController@create');
-    Route::get('/applicant/book/delete/{id}', 'Base\BookController@destroy');
-    Route::get('/applicant/publications/create/{id}', 'Base\PublicationsController@create');
-    Route::get('/applicant/publications/delete/{id}', 'Base\PublicationsController@destroy');
-    Route::get('/applicant/meeting/create/{id}', 'Base\MeetingController@create');
-    Route::get('/applicant/meeting/delete/{id}', 'Base\MeetingController@destroy');
-    Route::get('/applicant/honors/create/{id}', 'Base\HonorsController@create');
-    Route::get('/applicant/honors/delete/{id}', 'Base\HonorsController@destroy');
+    Route::get('/applicant/book/create/{id}', 'Applicant\BookController@create');
+    Route::get('/applicant/book/delete/{id}', 'Applicant\BookController@destroy');
+    Route::get('/applicant/publications/create/{id}', 'Applicant\PublicationsController@create');
+    Route::get('/applicant/publications/delete/{id}', 'Applicant\PublicationsController@destroy');
+    Route::get('/applicant/meeting/create/{id}', 'Applicant\MeetingController@create');
+    Route::get('/applicant/meeting/delete/{id}', 'Applicant\MeetingController@destroy');
+    Route::get('/applicant/honors/create/{id}', 'Applicant\HonorsController@create');
+    Route::get('/applicant/honors/delete/{id}', 'Applicant\HonorsController@destroy');
 
     Route::resource('/applicant/proposal', 'Applicant\ProposalController');
     Route::get('/applicant/activeProposal', 'Applicant\ProposalController@activeProposal');

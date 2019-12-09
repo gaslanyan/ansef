@@ -10,7 +10,7 @@
 
                     <div class="card-body card_body" style="overflow:auto;">
 
-                        <form method="post" action="{{ action('Base\HonorsController@update', $id) }}">
+                        <form method="post" action="{{ action('Applicant\HonorsController@update', $id) }}">
                             @csrf
                             <div class="form-group">
                                 <input name="_method" type="hidden" value="PATCH">

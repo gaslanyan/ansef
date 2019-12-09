@@ -619,7 +619,7 @@ class MigrateANSEF implements ShouldQueue
                 "proposal_id" => $p->id,
                 "competition_id" => $competition->id,
                 "due_date" => date($compyear . "-12-30"),
-                "overall_score" => $report->score,
+                "overall_score" => (int)(100*$report->score/7.0),
                 "referee_id" => $ref->id
             ]);
 

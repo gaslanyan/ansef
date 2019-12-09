@@ -15,7 +15,7 @@
                         <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Employment</b></p>
 
-                        <form method="post" action="{{ action('Base\InstitutionController@store')}}" class="row">
+                        <form method="post" action="{{ action('Applicant\InstitutionController@store')}}" class="row">
                             @csrf
                             <div class="col-lg-12 ">
                                 <div class="row institution">
@@ -66,7 +66,7 @@
 <hr>
 
                         @if(!empty($institution_person) && count($institution_person)>0)
-                            <form method="post" action="{{action('Base\InstitutionController@update', $id) }}"  class="row">
+                            <form method="post" action="{{action('Applicant\InstitutionController@update', $id) }}"  class="row">
                                 @csrf
                                 <input name="_method" type="hidden" value="PATCH">
                                 <div class="col-lg-12 ">
@@ -122,7 +122,7 @@
                                                        value="{{$ins->end}}">
                                             </div>
                                             <div class="col-lg-1 align-self-center">
-                                                <a href="{{action('Base\InstitutionController@destroyemployment', $ins->id)}}"
+                                                <a href="{{action('Applicant\InstitutionController@destroyemployment', $ins->id)}}"
                                                 class="btn-link">
                                                 <i class="fa fa-trash"></i>
                                                 </a>

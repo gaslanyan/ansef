@@ -37,10 +37,10 @@
                                     <td data-order="{{$phone['country_code']}}" data-search="{{$phone['country_code']}}">{{$phone['country_code']}}</td>
                                     <td data-order="{{$phone['number']}}" data-search="{{$phone['number']}}">{{$phone['number']}}</td>
                                     <td>
-                                        <a href="{{action('Base\PhoneController@edit', $phone['id'])}}"
+                                        <a href="{{action('Applicant\PhoneController@edit', $phone['id'])}}"
                                            title="full_edit"><i class="fa fa-edit"></i>
                                         </a>
-                                        <form action="{{action('Base\PhoneController@destroy', $phone['id'])}}" method="post">
+                                        <form action="{{action('Applicant\PhoneController@destroy', $phone['id'])}}" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button type="submit" class=" btn-link"><i class="fa fa-trash"></i></button>

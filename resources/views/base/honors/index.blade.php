@@ -37,9 +37,9 @@
                                     <td data-order="{{$honor['id']}}" data-search="{{$honor['id']}}">{{$honor['id']}}</td>
                                     <td data-order="{{$honor['description']}}" data-search="{{$honor['description']}}">{{$honor['description']}}</td>
                                     <td data-order="{{$honor['year']}}" data-search="{{$honor['year']}}">{{$honor['year']}}</td>
-                                   <td><a href="{{action('Base\HonorsController@edit', $honor['id'])}}" class="btn btn-warning">Edit</a></td>
+                                   <td><a href="{{action('Applicant\HonorsController@edit', $honor['id'])}}" class="btn btn-warning">Edit</a></td>
                                     <td>
-                                        <form action="{{action('Base\HonorsController@destroy', $honor['id'])}}" method="post">
+                                        <form action="{{action('Applicant\HonorsController@destroy', $honor['id'])}}" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button class="btn btn-danger" type="submit">Delete Honors&Grants</button>
@@ -56,11 +56,11 @@
                                         {{--class="view" title="View"><i class="fa fa-eye"></i>--}}
                                         {{--</a>--}}
 
-                                        <a href="{{action('Base\HonorsController@edit', $honor['id'])}}"
+                                        <a href="{{action('Applicant\HonorsController@edit', $honor['id'])}}"
                                            title="full_edit"
                                            class="full_edit"><i class="fa fa-edit"></i>
                                         </a>
-                                        <a href="{{action('Base\HonorsController@destroy', $honor['id'])}}"
+                                        <a href="{{action('Applicant\HonorsController@destroy', $honor['id'])}}"
                                            title="delete"
                                            class="full_edit"><i class="fa fa-trash"></i>
                                         </a>

@@ -11,7 +11,7 @@
                     <div class="card-body card_body" style="overflow:auto;">
                     <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Book</b></p>
-                        <form method="post" action="{{ action('Base\BookController@store') }}" class="row">
+                        <form method="post" action="{{ action('Applicant\BookController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-4">
                                 <label for="title">Book Title:</label>
@@ -37,7 +37,7 @@
 <hr>
 
                             @if(!empty($books))
-                            <form method="post" action="{{ action('Base\BookController@update', $id) }}" class="row">
+                            <form method="post" action="{{ action('Applicant\BookController@update', $id) }}" class="row">
                                 @csrf
                                 <p class="col-12"><b>Book titles:</b></p><br/>
                                 @foreach($books as $book)
@@ -59,7 +59,7 @@
                                 </div>
                                     <div class="form-group col-lg-2">
                                         <label>
-                                            <a href="{{action('Base\BookController@destroy', $book['id'])}}"
+                                            <a href="{{action('Applicant\BookController@destroy', $book['id'])}}"
                                                class="btn-link col-lg-2">
                                                 <i class="fa fa-trash"></i>
                                             </a>

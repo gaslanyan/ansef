@@ -19,7 +19,7 @@
                         @include('partials.status_bar')
 
                         @if(!empty($ins_array))
-                            <form method="post" action="{{ action('Base\InstitutionController@update', 53) }}"
+                            <form method="post" action="{{ action('Applicant\InstitutionController@update', 53) }}"
                                   class="row">
                                 @csrf
                                 {{ method_field('PUT') }}
@@ -79,7 +79,7 @@
                         @endif
 
 
-                        <form method="post" action="{{ action('Base\InstitutionController@store') }}" class="row">
+                        <form method="post" action="{{ action('Applicant\InstitutionController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-12">
                                 <label for="name">Institution Name:</label>

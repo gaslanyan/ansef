@@ -13,7 +13,7 @@
                         <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Publication</b></p>
 
-                        <form method="post" action="{{ action('Base\PublicationsController@store') }}" class="row">
+                        <form method="post" action="{{ action('Applicant\PublicationsController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-6">
                                 <label for="title">Title:</label>
@@ -54,7 +54,7 @@
  <hr>
 
                         @if(!empty($publications))
-                            <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
+                            <form method="post" action="{{ action('Applicant\PublicationsController@update', $id) }}">
                                 @csrf
                                 <label><b>Recent publications:</b></label><br/><br/>
                                 @foreach($publications as $i =>$publication)
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="form-group col-lg-1">
                                         <label>
-                                            <a href="{{action('Base\PublicationsController@destroy', $publication['id'])}}"
+                                            <a href="{{action('Applicant\PublicationsController@destroy', $publication['id'])}}"
                                                class="btn-link col-lg-2">
                                                 <i class="fa fa-trash"></i>
                                             </a>

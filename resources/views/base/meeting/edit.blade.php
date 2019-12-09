@@ -10,7 +10,7 @@
                     <div class="card-body">
                         @include('partials.status_bar')
 
-                        <form method="post" action="{{ action('Base\MeetingController@update', $id) }}">
+                        <form method="post" action="{{ action('Applicant\MeetingController@update', $id) }}">
                             @csrf
                             <div class="form-group">
                                 <input name="_method" type="hidden" value="PATCH">

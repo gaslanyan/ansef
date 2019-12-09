@@ -37,9 +37,9 @@
                                     <td>{{$publication['year']}}</td>
                                     <td>{{$publication['domestic']}}</td>
                                     <td>{{$publication['ansef_supported']}}</td>
-                                    <td><a href="{{action('Base\PublicationsController@edit', $publication['id'])}}" class="btn btn-warning">Edit</a></td>
+                                    <td><a href="{{action('Applicant\PublicationsController@edit', $publication['id'])}}" class="btn btn-warning">Edit</a></td>
                                     <td>
-                                        <form action="{{action('Base\PublicationsController@destroy', $publication['id'])}}" method="post">
+                                        <form action="{{action('Applicant\PublicationsController@destroy', $publication['id'])}}" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button class="btn btn-danger" type="submit">Delete Publications</button>

@@ -35,9 +35,9 @@
                                     <td>{{$meeting['year']}}</td>
                                     <td>{{$meeting['domestic']}}</td>
                                     <td>{{$meeting['ansef_supported']}}</td>
-                                    <td><a href="{{action('Base\MeetingController@edit', $meeting['id'])}}" class="btn btn-warning">Edit</a></td>
+                                    <td><a href="{{action('Applicant\MeetingController@edit', $meeting['id'])}}" class="btn btn-warning">Edit</a></td>
                                     <td>
-                                        <form action="{{action('Base\MeetingController@destroy', $meeting['id'])}}" method="post">
+                                        <form action="{{action('Applicant\MeetingController@destroy', $meeting['id'])}}" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button class="btn btn-danger" type="submit">Delete Meeting</button>

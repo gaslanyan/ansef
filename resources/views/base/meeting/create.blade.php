@@ -12,7 +12,7 @@
                     <div class="card-body card_body" style="overflow:auto;">
                         <p><b>Add New Meeting</b></p>
 
-                        <form method="post" action="{{ action('Base\MeetingController@store') }}">
+                        <form method="post" action="{{ action('Applicant\MeetingController@store') }}">
                             @csrf
                             <div class="row">
                                 <div class="form-group col-lg-12">
@@ -48,7 +48,7 @@
   <hr>
 
                         @if(!empty($meetings))
-                            <form method="post" action="{{ action('Base\MeetingController@update', $id) }}">
+                            <form method="post" action="{{ action('Applicant\MeetingController@update', $id) }}">
                                 @csrf
                                 <p class="col-12"><b>Meeting list:</b></p>
                                 @foreach($meetings as  $i =>$meeting)
@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="form-group col-lg-2">
                                             <label>
-                                                <a href="{{action('Base\MeetingController@destroy', $meeting['id'])}}"
+                                                <a href="{{action('Applicant\MeetingController@destroy', $meeting['id'])}}"
                                                    class="btn-link col-lg-2">
                                                     <i class="fa fa-trash"></i>
                                                 </a>

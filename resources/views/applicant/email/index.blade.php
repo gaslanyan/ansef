@@ -52,20 +52,20 @@
                                     </a>
                                     <a href="{{action('Applicant\PhoneController@create', $person['id'])}}" title="Show Phones" class="add_phone"><span class="fa fa-phone myButton">Phone numbers</span>
                                     </a>
-                                    <a href="{{action('Base\InstitutionController@create', $person['id'])}}" title="Show Institutions" class="add_institutions"><span class="fa fa-university myButton">Employment</span>
+                                    <a href="{{action('Applicant\InstitutionController@create', $person['id'])}}" title="Show Institutions" class="add_institutions"><span class="fa fa-university myButton">Employment</span>
                                     </a><br />
 
                                     @if($person['type']=='participant')
                                     <a href="{{action('Applicant\DegreePersonController@create', $person['id'])}}" title="Show Degrees" class="add_degrees"><span class="fa fa-graduation-cap myButton">Education</span>
                                     </a>
-                                    <a href="{{action('Base\BookController@create', $person['id'])}}" title="Show Books" class="add_institutions"><span class="fa fa-book myButton">Books</span>
+                                    <a href="{{action('Applicant\BookController@create', $person['id'])}}" title="Show Books" class="add_institutions"><span class="fa fa-book myButton">Books</span>
                                     </a>
-                                    <a href="{{action('Base\MeetingController@create', $person['id'])}}" title="Show Meetings" class="add_meetings"><span class="fa fa-user-friends myButton">Meetings</span>
+                                    <a href="{{action('Applicant\MeetingController@create', $person['id'])}}" title="Show Meetings" class="add_meetings"><span class="fa fa-user-friends myButton">Meetings</span>
 
                                     </a>
-                                    <a href="{{action('Base\PublicationsController@create', $person['id'])}}" title="Show Publications" class="add_publications"><span class="fas fa-sticky-note myButton">Publications</span>
+                                    <a href="{{action('Applicant\PublicationsController@create', $person['id'])}}" title="Show Publications" class="add_publications"><span class="fas fa-sticky-note myButton">Publications</span>
                                     </a>
-                                    <a href="{{action('Base\HonorsController@create', $person['id'])}}" title="Show Honors&Grants" class="add_honors"><span class="fa fa-trophy myButton">Honors</span>
+                                    <a href="{{action('Applicant\HonorsController@create', $person['id'])}}" title="Show Honors&Grants" class="add_honors"><span class="fa fa-trophy myButton">Honors</span>
                                     </a>
                                     @endif
                                     {{--<form action="{{action('Applicant\EmailController@destroy', $person['id'])}}" method="post">--}}

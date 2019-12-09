@@ -14,7 +14,7 @@
 
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
-                        <form method="post" action="{{ action('Base\PublicationsController@update', $id) }}">
+                        <form method="post" action="{{ action('Applicant\PublicationsController@update', $id) }}">
                             @csrf
                             <div class="form-group">
                                 <input name="_method" type="hidden" value="PATCH">

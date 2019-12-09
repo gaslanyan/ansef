@@ -9,7 +9,7 @@
                     <div class="card-header">Create Emails</div>
 
                     <div class="card-body card_body" style="overflow:auto;">
-                        <form method="post" action="{{ action('Base\PhoneController@store') }}">
+                        <form method="post" action="{{ action('Applicant\PhoneController@store') }}">
                             @csrf
                             <div class="col-lg-12 ">
                                 <div class="row">
