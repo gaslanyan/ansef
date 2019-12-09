@@ -7,13 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-
     public function handle($request, Closure $next, $guard = null)
     {
-//
-//        dd( $guard);
         if ($guard == "superadmin" &&  Auth::guard($guard)->check()) {
-      return redirect('/superadmin');
+            return redirect('/superadmin');
         }
         if ($guard == "admin" &&  Auth::guard($guard)->check()) {
             return redirect('/admin');
@@ -27,10 +24,6 @@ class RedirectIfAuthenticated
         if ($guard == "applicant" && Auth::guard($guard)->check()) {
             return redirect('/applicant');
         }
-//        if (Auth::guard($guard)->check()) {
-//            return redirect('/home');
-//        }
-
 
         return $next($request);
     }

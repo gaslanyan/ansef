@@ -6,24 +6,22 @@
             <div class="offset-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Review and submit scores
+                            <input style="margin-left:40px;" type="button" class="display btn btn-primary float-right" onclick="open_container()" value="View refereeing guidelines">
 
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
                         <div class="row">
-                            <a href="{{action('Referee\ReportController@generatePDF', $report->id)}}"
-                            class="download float-left myButton" title="Download Report"><i class="fa fa-download" style="margin-right:5px;"></i>Download proposal
-                            </a>
-                            <a href="{{action('Referee\SendEmailController@showEmail', $report->id)}}"
-                            class="email float-left myButton" title="Send email" ><i class="fa fa-envelope-open" style="margin-right:5px;"></i>Contact program officer
-                            </a>
                             <a href="{{action('Referee\ReportController@show', $report->id)}}"
                             class="view float-left myButton" title="View"><i class="fa fa-eye" style="margin-right:5px;"></i>View proposal
                             </a>
-                            <input style="margin-left:20px;" type="button" class="display btn btn-primary" onclick="open_container()" value="View refereeing guidelines">
-
+                            <a href="{{action('Referee\ReportController@generatePDF', $report->id)}}"
+                            class="download float-left myButton" title="Download Report"><i class="fa fa-download" style="margin-right:5px;"></i>Download proposal
+                            </a>
+                            <a style="margin-left:20px;" href="{{action('Referee\SendEmailController@showEmail', $report->id)}}"
+                            class="email float-left myButton" title="Send email" ><i class="fa fa-envelope-open" style="margin-right:5px;"></i>Contact program officer
+                            </a>
                         </div><br/><br/>
-                        @include('partials.status_bar')
 
                         @if(!empty($report))
                             <form method="post" action="{{ action('Referee\ReportController@update', $report->id) }}"
@@ -33,18 +31,27 @@
                                     <input name="_method" type="hidden" value="PATCH">
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <p for="title"><b>{{getProposalTag($report->proposal->id)}}</b><br/> {{$report->proposal->title}}</p>
+                                    <p for="title"><h5><b>{{getProposalTag($report->proposal->id)}}</b></h5>{{$report->proposal->title}}</p>
                                 </div>
                                 <div class="form-group col-lg-6">
+                                    <h4>Comments</h4>
                                     <div class="row">
                                         <div class="form-group col-lg-12">
-                                            <label for="public">Public Comment:</label>
+                                            <label for="public">Public Comments:</label>
+                                            <p style="color:#999;">Please provide a few words summarizing your assessment.
+                                                The comments will be shared with the Principal Investigator of the proposal in an effort to help him or her
+                                                improve their project.
+                                            </p>
                                             <textarea rows="4" class="form-control" name="public_comment"
                                                       id="public">{{$report->public_comment}}</textarea>
                                         </div>
                                         <div class="form-group col-lg-12">
                                             <label for="private">Private Comment:</label>
-                                            <textarea rows="4" class="form-control" name="private_comment"
+                                            <p style="color:#999;">You can provide the ANSEF Research Board with private comments about the proposal.
+                                                These comments will NOT be shared with any members of the proposal and will be treated
+                                                confidentially.
+                                            </p>
+                                        <textarea rows="4" class="form-control" name="private_comment"
                                                       id="private">{{$report->private_comment}}</textarea>
                                         </div>
                                         <div class="form-group col-lg-6">
@@ -54,44 +61,49 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-6">
+                                    <h4>Scores</h4>
                                     <div>
                                         @foreach($scoreTypes as $scoreType)
                                             @php
                                                 $vals= range($scoreType->min, $scoreType->max)
                                             @endphp
-                                            <div class="row col-12">
+                                            <div class="row col-12" style="color:#999;">
                                             {{$scoreType->description}}
                                             </div>
                                             <div class="row col-12">
                                                 <div class="col-6"><b>{{$scoreType->name}}: </b></div>
-                                                <select class="form-control col-6" name="name[{{mb_strtolower($scoreType->id)}}]" id="{{$scoreType->id}}">
+                                                <select class="form-control col-6" name="name[{{$scoreType->id}}]" id="{{$scoreType->id}}">
                                                     @foreach($vals as $val)
-                                                    <option value="{{$val}}">{{$val}}{{$val == 0 ? ' (Poor)' : ''}}{{$val == $scoreType->max ? ' (Outstanding)' : ''}}</option>
+                                                    <option value="{{$val}}" {{$val == $scores[$scoreType->id]->value ? 'selected' : ''}}>{{$val}}{{$val == 0 ? ' (Poor)' : ''}}{{$val == $scoreType->max ? ' (Outstanding)' : ''}}</option>
                                                     @endforeach
                                                 </select>
-                                            </div><br/>
+                                            </div><hr/>
                                         @endforeach
+                                    </div>
+                                    <div>
+                                        <b>Overall score:</b> {{$overall}}%
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-12">
-                                    <button type="submit" name="state_r" value="rejected" class="btn btn-secondary">
-                                        Reject to review
+                                    <button type="submit" name="submitaction" value="rejected" class="btn btn-secondary">
+                                        Decline to review
                                     </button>
-                                    <button style="margin-left:10px;" type="submit" name="state_p" value="in-progress" class="btn btn-primary float-right">
+                                    <button style="margin-left:10px;" type="submit" name="submitaction" value="in-progress" class="btn btn-primary float-right">
                                         Save but do not submit
                                     </button>
-                                    <button style="margin-left:10px;" type="submit" name="state_c" value="complete" class="btn btn-primary float-right">Save
+                                    <button style="margin-left:10px;" type="submit" name="submitaction" value="complete" class="btn btn-primary float-right">Save
                                         and submit review
                                     </button>
-
                                 </div>
                             </form>
+                        @include('partials.status_bar')
                         @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog ">

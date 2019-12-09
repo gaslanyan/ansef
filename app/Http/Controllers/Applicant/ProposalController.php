@@ -183,6 +183,7 @@ class ProposalController extends Controller
      */
     public function show($id)
     {
+        $pid = $id;
         $proposal = Proposal::find($id);
         $institution = $proposal->institution();
         $competition = $proposal->competition;
@@ -198,7 +199,7 @@ class ProposalController extends Controller
         $budget = $proposal->budget();
 
         return view('applicant.proposal.show', compact(
-            'id',
+            'pid',
             'proposal',
             'institution',
             'competition',

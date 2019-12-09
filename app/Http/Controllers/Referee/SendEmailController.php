@@ -16,9 +16,9 @@ class SendEmailController extends Controller
     public function showEmail($id)
     {
         try {
-            $p_id = RefereeReport::select('proposal_id')->where('id', $id)->first();
-            $title = Proposal::select('title')->where('id', $p_id->proposal_id)->first();
-            return view('referee.report.showEmail', compact('p_id', 'title'));
+            $pid = RefereeReport::select('proposal_id')->where('id', $id)->first()->proposal_id;
+            $tag = getProposalTag($pid);
+            return view('referee.report.showEmail', compact('pid', 'tag'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/edit')->with('error', getMessage("wrong"));
@@ -27,7 +27,7 @@ class SendEmailController extends Controller
 
     public function sendEmail(Request $request, $id)
     {
-//        try {
+       try {
         $title = Proposal::select('title')->where('id', $id)->first();
         $person_id = getUserIdByRole('referee');
         $full_name = Person::select('first_name', 'last_name')->where('id', $person_id)->first();
@@ -40,17 +40,15 @@ class SendEmailController extends Controller
 
         Mail::send(['text' => 'referee.report.mail'],
            $data, function ($message) use ($title, $email, $f_name) {
-                $message->to(env('MAIL_USERNAME'), 'Ansef')
-                    ->subject('About ' . $title->title . ' proposal');
+                $message->to('dopplerthepom@gmail.com')
+                    ->subject('Referee communication about proposal ' . $tag);
                 $message->from($email->email, $f_name);
             });
-//            return redirect()->back()->with('success', getMessage("send_email"));
         return redirect()->back()->with('success', "Basic Email Sent. Check your inbox.");
-        echo "Basic Email Sent. Check your inbox.";
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);)
-//            return redirect()->back()->with('error', getMessage("wrong"));
-//        }
+       } catch (\Exception $exception) {
+           logger()->error($exception);
+           return redirect()->back()->with('error', getMessage("wrong"));
+       }
     }
 }
 

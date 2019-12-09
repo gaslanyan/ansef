@@ -87,8 +87,8 @@ class ProposalController extends Controller
      */
     public function display(Request $request)
     {
-        $id = $request['id'];
-        $proposal = Proposal::find($id);
+        $pid = $request['id'];
+        $proposal = Proposal::find($pid);
         $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get()->sortBy('last_name');
@@ -103,7 +103,7 @@ class ProposalController extends Controller
         $budget = $proposal->budget();
 
         return view('admin.proposal.show', compact(
-            'id',
+            'pid',
             'proposal',
             'institution',
             'competition',

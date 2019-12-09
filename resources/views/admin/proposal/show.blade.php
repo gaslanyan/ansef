@@ -13,6 +13,7 @@
                         @include('partials.status_bar')
 
                         @include('partials.proposal',[
+                            'pid' => $pid,
                             'proposal' => $proposal,
                             'cat_parent' => $cat_parent,
                             'cat_sub' => $cat_sub,

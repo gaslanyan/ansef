@@ -74,12 +74,6 @@ $user_id = getUserIdByRole('referee');
                             Past Reports
                         </a>
                     </li>
-                    <li>
-                        <a href="{{action('Referee\ReportController@state', 'rejected')}}">
-                            <i class="fa fa-circle-o"></i>
-                            Rejected Reports
-                        </a>
-                    </li>
                 </ul>
             </li>
 

@@ -16,11 +16,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         try {
@@ -31,18 +26,12 @@ class PersonController extends Controller
             } else {
                 return view('referee.person.index', compact('persons'));
             }
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/person')->with('error', getMessage("wrong"));
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         try {
@@ -56,160 +45,69 @@ class PersonController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $user_type = get_Cookie();
-        $user = Auth::guard($user_type)->user();
-
-        $v = Validator::make($request->all(), [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'birthdate' => 'required|date|date_format:Y-m-d',
-            'nationality' => 'required|max:255',
-            'sex' => 'required|max:15',
-            'countries.*' => 'required|max:255',
-            'provence.*' => 'required|max:255',
-            'street.*' => 'required|max:255',
-        ]);
-        if (!$v->fails()) {
-
-            DB::beginTransaction();
-            try {
-                $person = new Person;
-                $person->first_name = $request->first_name;
-                $person->last_name = $request->last_name;
-                if (!empty($request->birthdate)) {
-                    $time = strtotime($request->birthdate);
-                    $newformat = date('Y-m-d', $time);
-                    $person->birthdate = $newformat;
-                }
-
-                $person->birthplace = $request->birthplace;
-                $person->nationality = $request->nationality;
-                $person->sex = $request->sex;
-//            $person->state = $request->state;
-                $person->type = 'referee';
-                $person->user_id = $user->id;
-                $person->save();
-                $person_id = $person->id;
-            } catch (ValidationException $e) {
-                // Rollback and then redirect
-                // back to form with errors
-                DB::rollback();
-                return redirect()->back()
-                    ->withErrors($e->getErrors())
-                    ->withInput();
-            } catch (\Exception $exception) {
-                DB::rollBack();
-                logger()->error($exception);
-                return redirect()->back()->with('error', getMessage("wrong"));
-            }
-
-        } else
-            return redirect()->back()->withErrors($v->errors());
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Person $person)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-//        try {
-        $person = Person::where('id', '=', $id)->first();
-        $fulladddress = [];
-        $getaddress = $person->addresses()->get()->toArray();
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        try {
+            $person = Person::where('id', '=', $id)->first();
+            $address = Address::firstOrCreate([
+                'addressable_id' => $person->id,
+                'addressable_type' => 'App\Models\Person'
+            ], [
+                'street' => '',
+                'province' => '',
+                'city' => ''
+            ]);
+            $countries = Country::all();
 
-        foreach ($getaddress as $address_item) {
-            $adddress['country'] = $address_item->country_name;
-            $adddress['street'] = $address_item->street;
-            $adddress['province'] = $address_item->province;
-            array_push($fulladddress, $adddress);
+            return view('referee.person.edit', compact('address', 'person', 'id', 'countries'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('referee/person')->with('error', getMessage("wrong"));
         }
-
-        return view('referee.person.edit', compact('fulladddress', 'person', 'id', 'countries'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('referee/person')->with('error', getMessage("wrong"));
-//        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         try {
-        $v = Validator::make($request->all(), [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'birthdate' => 'required|date|date_format:Y-m-d',
-            'nationality' => 'required|max:255',
-            'sex' => 'required|max:15',
-            'countries.*' => 'required|max:255',
-            'provence.*' => 'required|max:255',
-            'street.*' => 'required|max:255',
-        ]);
-        if (!$v->fails()) {
-            $user = Person::where('id', '=', $id)->first();
-            $person = Person::find($user->id);
-            $person->first_name = $request->first_name;
-            $person->last_name = $request->last_name;
-            $person->birthdate = $request->birthdate;
-            $person->nationality = $request->nationality;
-            $person->sex = $request->sex;
-            $person->save();
+            $v = Validator::make($request->all(), [
+                'first_name' => 'required|max:255',
+                'last_name' => 'required|max:255',
+                'birthdate' => 'required|date|date_format:Y-m-d',
+                'nationality' => 'required|max:255',
+                'sex' => 'required|max:15',
+                'country_id' => 'required|max:255',
+                'province' => 'required|max:255',
+                'street' => 'required|max:255',
+                'city' => 'required|max:255',
+            ]);
+            if (!$v->fails()) {
+                $person = Person::find($id);
+                $person->first_name = $request->first_name;
+                $person->last_name = $request->last_name;
+                $person->birthdate = $request->birthdate;
+                $person->nationality = $request->nationality;
+                $person->sex = $request->sex;
+                $person->save();
+                $address = $person->addresses()->first();
+                $address->street = $request->street;
+                $address->province = $request->province;
+                $address->city = $request->city;
+                $address->country_id = $request->country_id;
+                $address->save();
 
-
-            // return redirect('referee/person')->with('success', getMessage("success"));
-            return redirect('referee/person/' . $id . '/edit')->with('success', getMessage("success"));
-        } else
-            return redirect()->back()->withErrors($v->errors());
+                return redirect()->back()->withInput();
+            }
+            else
+                return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/person/' . $id . '/edit')->with('error', getMessage("wrong"));
+            return redirect()->back()->withErrors($v->errors());
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Person $person)
-    {
-        //
-    }
 
     public function changePassword()
     {
-
         return view('referee.person.changepassword');
     }
 
@@ -243,7 +141,6 @@ class PersonController extends Controller
                 }
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/person')->with('error', getMessage("wrong"));

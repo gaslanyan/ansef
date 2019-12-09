@@ -168,9 +168,9 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         Jimmyjs\ReportGenerator\ServiceProvider::class,
-       
-        Barryvdh\DomPDF\ServiceProvider::class,
 
+        Barryvdh\DomPDF\ServiceProvider::class,
+        LynX39\LaraPdfMerger\PdfMergerServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -233,6 +233,7 @@ return [
         'ExcelReport' => Jimmyjs\ReportGenerator\Facades\ExcelReportFacade::class,
         'CSVReport' => Jimmyjs\ReportGenerator\Facades\CSVReportFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
-    ],
+        'PdfMerger' => LynX39\LaraPdfMerger\Facades\PdfMerger::class
+        ],
 
 ];

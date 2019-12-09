@@ -27,52 +27,27 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-//    protected $redirectTo = '/login';
-
     public function redirectTo()
     {
         $url = \Illuminate\Support\Facades\Request::fullUrl();
         return 'login.';
     }
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
+
     protected function guard()
     {
         $role = basename($_SERVER['HTTP_HOST'].'/'.$_SERVER['REQUEST_URI']);
 
-        if ($role === 'login')
-            $role = "applicant";
+        if ($role === 'login') $role = "applicant";
         return Auth::guard($role);
     }
 
-    /**
-     * Show login form
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
     public function showLoginForm(Request $request)
     {
         $role = basename($request->url());
 
-        if ($role === 'login')
-            $role = "applicant";
+        if ($role === 'login') $role = "applicant";
         return view("auth.login", ['url' => $role]);
     }
-
-    /**
-     * Handle an authentication attempt.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-
 
     public function doLogin(Request $request)
     {
@@ -126,7 +101,6 @@ class LoginController extends Controller
     public function __construct()
     {
 
-//        $this->middleware('check-role');
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:applicant')->except('logout');
         $this->middleware('guest:admin')->except('logout');

@@ -14,7 +14,6 @@
 
                         <form method="post" action="{{ action('Referee\PersonController@update', $id) }}" class="row">
                             @csrf
-                            <input name="_method" type="hidden" value="PATCH">
                             <div class="form-group col-lg-6">
                                 <label for="f_name">First Name:</label>
                                 <input type="text" class="form-control" name="first_name" id="f_name"
@@ -31,7 +30,7 @@
                                        value="{{$person['birthdate']}}">
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="birthplace">Birth Place:</label>
+                                <label for="birthplace">Birth place:</label>
                                 <input type="text" class="form-control" name="birthplace" id="birthplace"
                                        value="{{$person['birthplace']}}">
                             </div>
@@ -68,103 +67,36 @@
                             </div>
 
                             <div class="col-lg-12 ">
-                                <label>Addresses:</label>
-                                <i class="fa fa-plus pull-right add text-blue"
-                                   style="cursor: pointer"></i>
-                                @if(!empty($fulladddress))
-                                    @foreach($fulladddress as $address)
-                                        <?php //var_dump($address);die;?>
-                                        <div class="row addresses">
-                                            <div class="form-group col-lg-6">
-                                                <label for="provence">Provence:</label>
-                                                <input type="text" class="form-control" name="provence[0]" id="provence"
-                                                       value="{{$address['province']}}">
-                                            </div>
-                                            <div class="form-group col-lg-6">
-                                                <label for="street">Municipality/state* :</label>
-                                                <input type="text" class="form-control" name="street[0]" id="street"
-                                                       value="{{$address['street']}}">
-                                            </div>
-                                            <div class="form-group col-lg-6">
-                                                <label for="city">City:</label>
-                                                <?php $selected = "";
-                                                $selected_id = 0;?>
-                                                <datalist id="city" name="city[0]">
-                                                    <option data-value="0" value="Select City"></option>
-                                                    <option data-value="{{$address['city_id']}}"
-                                                            value="{{$address['city']}}">
-                                                    </option>
-                                                    <?php
-                                                    //if ($key == $scoreType->competition_id):
-                                                    $selected = $address['city'];
-                                                    $selected_id = $address['city_id'];
-                                                    //                                                    endif
-                                                    ?>
-
-                                                    {{--</select>--}}
-                                                </datalist>
-                                                <input list="city" name="city[]" class="form-control"
-                                                       value="{{$selected}}" id="_city">
-                                                <input type="hidden" name="city_id[]" value="{{$selected_id}}"
-                                                       id="city_id">
-                                            </div>
-                                            <div class="form-group col-lg-6">
-                                                <label for="addr">Country:</label>
-                                                <select id="addr" class="addr form-control" name="countries[0]">
-                                                    <option value="0">Select country</option>
-                                                    @if(!empty($countries))
-                                                        @foreach($countries as $val=>$item)
-                                                            @if($address['country'] == $item)
-                                                                <option class="text-capitalize" value="{{$val}}"
-                                                                        selected>{{$item}}</option>
-                                                            @else
-                                                                <option class="text-capitalize"
-                                                                        value="{{$val}}">{{$item}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @else
+                                <label>Address:</label>
                                     <div class="row addresses">
                                         <div class="form-group col-lg-6">
-                                            <label for="addr">Country:</label>
-                                            <select id="addr" class="addr form-control" name="countries[0]">
+                                            <label for="street">Street:</label>
+                                            <input value="{{$address['street']}}" type="text" class="form-control" name="street" id="street">
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="city">City:</label>
+                                            <input type="text" name="city" class="form-control" value="{{$address['city']}}" id="city">
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="provence">State/Municipality:</label>
+                                            <input value="{{$address['province']}}" type="text" class="form-control" name="province" id="province">
+                                        </div>
+                                        <div class="form-group col-lg-6">
+                                            <label for="country_id">Country:</label>
+                                            <select id="country_id" class="addr form-control" name="country_id">
                                                 <option value="0">Select country</option>
                                                 @if(!empty($countries))
-                                                    @foreach($countries as $val=>$item)
-                                                        <option class="text-capitalize"
-                                                                value="{{$val}}">{{$item}}</option>
+                                                    @foreach($countries as $item)
+                                                        @if($item->id == $address['country_id'])
+                                                        <option class="text-capitalize" value="{{$item->id}}" selected>{{$item->country_name}}</option>
+                                                        @else
+                                                        <option class="text-capitalize" value="{{$item->id}}">{{$item->country_name}}</option>
+                                                        @endif
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="provence">Provence:</label>
-                                            <input type="text" class="form-control" name="provence[0]" id="provence">
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="city">City:</label>
-                                            <?php $selected = "";
-                                            $selected_id = 0;?>
-                                            <datalist id="city" name="city[0]">
-                                                <option data-value="0" value="Select City"></option>
-
-                                            </datalist>
-                                            <input list="city" name="city[]" class="form-control"
-                                                   value="" id="_city">
-                                            <input type="hidden" name="city_id[]" value=""
-                                                   id="city_id">
-                                        </div>
-                                        <div class="form-group col-lg-6">
-                                            <label for="street">Street:</label>
-                                            <input type="text" class="form-control" name="street[0]" id="street">
-                                        </div>
-
                                     </div>
-                                @endif
                             </div>
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>

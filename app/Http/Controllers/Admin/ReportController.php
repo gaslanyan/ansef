@@ -55,6 +55,8 @@ class ReportController extends Controller
         try {
             $report = RefereeReport::find($id);
             $cid = $report->proposal()->first()->competition()->first()->id;
+            $scores = Score::where('report_id','=',$id);
+            $scores->delete();
             $report->delete();
             return redirect('admin/report/list/' . $cid)->with('delete', getMessage('deleted'));
         } catch (\Exception $exception) {

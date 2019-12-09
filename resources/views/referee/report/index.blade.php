@@ -4,12 +4,12 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header text-capitalize">List of {{($state=='in-progress' ? "Current" : $state). " "}}Reports</div>
+                    <div class="card-header text-capitalize">List of {{($state=='in-progress' ? "Current" : $state). " "}}reports assigned to you</div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
-
                         @if(!empty($reports) && count($reports)>0)
+                        @if($state == 'in-progress')
                         <table class="table table-responsive-md table-sm table-bordered display" id="example">
                             <thead>
                             <tr>
@@ -30,15 +30,38 @@
                                         <td>{{$report->state}}</td>
                                         <td>{{$report->due_date}}</td>
                                         <td>
-                                            <a href="{{action('Referee\ReportController@edit', $report->id)}}"
-                                               class="display btn-primary myButton" title="Edit">
+                                            <span class="btn-primary myButton"><a href="{{action('Referee\ReportController@edit', $report->id)}}"
+                                               title="Edit">
                                                Review and score
-                                            </a>
+                                            </a></span>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        @elseif($state == 'complete')
+                        <table class="table table-responsive-md table-sm table-bordered display" id="example">
+                            <thead>
+                            <tr>
+                                <th hidden></th>
+                                <th width="150px">ID</th>
+                                <th>Proposal title</th>
+                                <th width="100px">Overall score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($reports as $report)
+                                    <tr>
+                                        <td hidden></td>
+                                        <td>{{getProposalTag($report->proposal->id)}}</td>
+                                        <td>{{truncate($report->proposal->title,100)}}</td>
+                                        <td>{{overallScore($report->id)}}%</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+                        @endif
                         @else
                         <h4>There are no reports</h4>
                         @endif

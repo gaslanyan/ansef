@@ -7,7 +7,8 @@ use App\Models\Address;
 use App\Models\DegreePerson;
 use App\Models\InstitutionPerson;
 use App\Models\Recommendations;
-
+use App\Models\RefereeReport;
+use App\Models\Score;
 
 function checkPermission($permissions)
 {
@@ -566,6 +567,20 @@ function cleanString($text)
 
 function getCleanString($text) {
     return (!empty($text) && $text != null) ? cleanString(ucwords(mb_strtolower($text))) : '';
+}
+
+function overallScore($rid) {
+    $report = RefereeReport::find($rid);
+    $scores = Score::where('report_id','=',$rid)
+                    ->join('score_types', 'score_types.id','=', 'scores.score_type_id')
+                    ->get();
+    $result = $scores->reduce(function($carry, $item) {
+        return $carry + ($item->weight * 100.0 * $item->value / $item->max);
+    });
+    $weights = $scores->reduce(function ($carry, $item) {
+        return $carry + $item->weight;
+    });
+    return (int)($result/$weights);
 }
 
 function checkproposal($id)

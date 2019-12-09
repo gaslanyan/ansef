@@ -1,5 +1,5 @@
 <div class="box-header with-border">
-<h3 class="box-title"><b>Proposal {{getProposalTag($id)}}</b></h3>
+<h3 class="box-title"><b>Proposal {{getProposalTag($pid)}}</b></h3>
 </div>
 <div class="box-body col-md-12">
 @if(!empty($proposal))
@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="form-group">
                     <strong><i class="fa fa-file margin-r-5"></i> Proposal Document:</strong><br/>
-                    <a href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank" class="btn-link">
+                    <a href="\storage\proposal\prop-{{$pid}}\document.pdf" target="_blank" class="btn-link">
                         <i class="fa fa-download"></i> Download proposal document</a>
                 </div>
             </div>
