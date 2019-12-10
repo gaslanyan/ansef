@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Person;
 use App\Models\Proposal;
 use App\Models\ProposalReports;
+use App\Models\Recommendations;
 use App\Models\RefereeReport;
 use App\Models\Score;
 use App\Models\ScoreType;
@@ -86,6 +87,7 @@ class ReportController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
+        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
 
         return view('referee.report.show', compact(
             'id',
@@ -103,7 +105,8 @@ class ReportController extends Controller
             'cat_sec_sub',
             'pi',
             'budget_items',
-            'budget'
+            'budget',
+            'recommendations'
         ));
     }
 

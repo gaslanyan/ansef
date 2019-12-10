@@ -21,6 +21,11 @@
                         'publications' => $publications
                     ])
 
+                    <div class="col-lg-12" style="margin-top:30px;">
+                        <a href="{{action('Applicant\PersonController@download', $person->id)}}" class="btn btn-primary">Download</a>
+                        <a href="{{action('Applicant\PersonController@index') }}" class="btn btn-secondary">Go Back</a>
+                    </div>
+
                 </div>
             </div>
         </div>

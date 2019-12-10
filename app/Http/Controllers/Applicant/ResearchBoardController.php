@@ -37,7 +37,7 @@ class ResearchBoardController extends Controller
             $objSend->sender = 'Ansef';
             $objSend->receiver = 'collages';
 
-            Mail::to('krist68@mail.ru')->send(new \App\Mail\ResearchBoard($objSend));
+            Mail::to('dopplerthepom@gmail.com')->send(new \App\Mail\ResearchBoard($objSend));
             return redirect()->back()->with('success', getMessage("success"));
         } else
             return back()->withInput($request->only('board', 'remember'));

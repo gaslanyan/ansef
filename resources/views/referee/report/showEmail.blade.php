@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">Communicate with Program Officer</div>
+                    <div class="card-header">Communicate with Program Officer
+                        <a href="{{'/referee/reports/' . $id . '/edit'}}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
+                    </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
@@ -16,8 +19,7 @@
                                 <h3 class="box-title">Communicate with Program Officer about proposal: {{$tag}} </h3>
                             </div>
                             <div class="box-body col-md-12">
-                                <form method="post"
-                                      action="{{ action('Referee\SendEmailController@sendEmail', $pid) }}"
+                                <form method="post" action="{{ action('Referee\SendEmailController@sendEmail', $pid) }}"
                                       class="row">
                                     @csrf
 {{--                                    <input name="_method" type="hidden" value="PATCH">--}}

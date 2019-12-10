@@ -22,4 +22,9 @@ class Recommendations extends Model
         'document', 'confirmation', 'proposal_id','person_id'
     ];
 
+    public function person()
+    {
+        return $this->belongsTo('\App\Models\Person');
+    }
+
 }

@@ -55,7 +55,7 @@ class ReportController extends Controller
         try {
             $report = RefereeReport::find($id);
             $cid = $report->proposal()->first()->competition()->first()->id;
-            $scores = Score::where('report_id','=',$id);
+            $scores = Score::where('report_id','=',$id)->get();
             $scores->delete();
             $report->delete();
             return redirect('admin/report/list/' . $cid)->with('delete', getMessage('deleted'));
@@ -155,6 +155,7 @@ class ReportController extends Controller
 
             foreach ($report_ids as $index => $id) {
                 RefereeReport::where('id', $id)->delete();
+                $scores = Score::where('report_id', '=', $id)->delete();
                 $response = [
                     'success' => true
                 ];
