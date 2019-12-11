@@ -11,6 +11,40 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
+
+// JSON 
+//  {
+//      'min_pi_age': 0,
+//      'max_pi_age': 100,
+//      'pi_sex': [],
+//      'participants_sex': 0.5,
+//      'min_participants': 0,
+//      'max_participants': 0,
+//      'min_avg_part_age': 0,
+//      'max_avg_part_age': 0,
+//      'junior_participants': 0,
+//      'category': [],
+//      'min_budget': 0,
+//      'max_budget': 0,
+//      'min_pi_salary': 0,
+//      'max_pi_salary': 0,
+//      'min_salary_dev': 0,
+//      'max_salary_dev': 0,
+//      'min_avg_salary': 0,
+//      'max_avg_salary': 0,
+//      'min_travel': 0,
+//      'max_travel': 0,
+//      'min_equipment': 0,
+//      'max_equipment': 0,
+//      'min_part_salary': 0,
+//      'max_part_salary': 0,
+//      'min_subscore': 0,
+//      'max_subscore': 0,
+//      'min_score': 0,
+//      'max_score': 0,
+//  }
+
+
 class RankingRuleController extends Controller
 {
     /**
