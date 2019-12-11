@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class FileUploadController extends Controller
+class FileController extends Controller
 {
     function index()
     {

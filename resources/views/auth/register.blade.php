@@ -67,6 +67,7 @@
                                                 </button>
                                             </div>
                                         </div>
+                                        {!! Recaptcha::render() !!}
                                     </form>
                     </div>
                 </div>
