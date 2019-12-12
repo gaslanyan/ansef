@@ -202,10 +202,8 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::post('/applicant/getsub', 'Applicant\ProposalController@subcategories');
 
     Route::get('file-upload/{id}', 'Applicant\FileUploadController@docfile');
-    Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
     Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
     Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
-    Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter')->name('uploadletter');
     Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
     Route::get('file-upload/remove/{id}', 'Applicant\FileUploadController@remove');
     Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
@@ -243,6 +241,9 @@ Route::group(['middleware' => ['check-role:viewer|admin|superadmin']], function 
     Route::get('/viewer/show/{id}', 'Viewer\PersonController@show');
     Route::post('/viewer/getProposalByCompByID', 'Viewer\ProposalController@getProposalByCompByID');
 });
+
+Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter')->name('uploadletter');
+Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
 
 //base ajax
 
