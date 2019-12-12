@@ -226,6 +226,7 @@ Route::group(['middleware' => ['check-role:referee|admin|superadmin']], function
     Route::get('/referee/report/{state}', 'Referee\ReportController@state');
     Route::get('/referee/generatePDF/{id}', 'Referee\ReportController@generatePDF');
     Route::get('/referee/sendEmail/{id}', 'Referee\SendEmailController@showEmail');
+    Route::get('/referee/sendRejectedEmail/{id}', 'Referee\SendEmailController@showRejectedEmail');
     Route::post('/referee/send/{id}', 'Referee\SendEmailController@sendEmail');
 });
 

@@ -33,7 +33,7 @@
     @endforeach
 
     <br/><br/><br/>
-    @if(count($recommendations) > 0)
+    @if(count($recommendations) > 0 && $showdownloads)
     <div class="box-header with-border">
         <h4 class="row">  Recommendation letters </h4>
     </div>

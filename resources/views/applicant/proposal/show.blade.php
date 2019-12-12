@@ -24,7 +24,8 @@
                             'pi' => $pi,
                             'budget_items' => $budget_items,
                             'budget' => $budget,
-                            'admin' => false
+                            'admin' => false,
+                            'showdownloads' => true
                         ])
 
                         <div class="box-primary">

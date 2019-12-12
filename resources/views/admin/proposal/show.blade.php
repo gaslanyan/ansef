@@ -24,13 +24,14 @@
                             'pi' => $pi,
                             'budget_items' => $budget_items,
                             'budget' => $budget,
-                            'admin' => true
+                            'admin' => true,
+                            'showdownloads' => true
                         ])
 
                         @include('partials.proposaldetails',[
-                            // 'persons' => $proposal,
-                            // 'scores' => $cat_parent,
-                            // 'reports' => $cat_sub
+                            'persons' => $persons,
+                            'recommendations' => $recommendations,
+                            'showdownloads' => false
                         ])
 
                         <div class="box-primary">

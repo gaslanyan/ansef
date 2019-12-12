@@ -103,8 +103,7 @@ class ProposalController extends Controller
             return  date('Y-m-d') > $p->competition->submission_end_date
                     && $p->state != 'awarded'
                     && $p->state != 'approved 1'
-                    && $p->state != 'approved 2'
-                    && $p->state != 'complete';
+                    && $p->state != 'approved 2';
         });
 
         $awards = $proposals->filter(function ($p, $key) {

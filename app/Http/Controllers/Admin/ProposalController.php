@@ -231,11 +231,11 @@ class ProposalController extends Controller
 
                 if(count($messages) > 0 || count($submittedrecs) < $p->competition->recommendations) {
                     $p->state = "disqualified";
+                    $p->save();
                 }
                 else {
-                    $p->state = "submitted";
+                    updateProposalState($p->id);
                 }
-                $p->save();
             }
             $response = [
                 'success' => true

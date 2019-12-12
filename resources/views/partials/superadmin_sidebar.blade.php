@@ -78,7 +78,7 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <?php if(checkUserId('superadmin') ): ?>
+                    <?php if(checkUser('superadmin') ): ?>
                     <li>
                         <a href=" {{action('Admin\PersonController@create')}}"><i class="fa fa-circle-o"></i>User
                             profile</a>

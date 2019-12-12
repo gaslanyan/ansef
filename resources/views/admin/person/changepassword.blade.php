@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<?php $user_id = getUserIdByRole('admin');?>
+<?php $user_id = getPersonIdByRole('admin');?>
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

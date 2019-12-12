@@ -52,7 +52,7 @@ function getEnumValues($table, $column)
 }
 
 /* Check and find if user_id is exists */
-function checkUserId($role)
+function checkUser($role)
 {
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;
@@ -72,9 +72,19 @@ function getUserIdByRole($role)
 {
     if (!empty(Auth::guard(get_Cookie())->user()->id)) {
         $user_id = \Auth::guard(get_Cookie())->user()->id;
-        $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
-        if (!empty($table)) {
-            return $table->id;
+        return $user_id;
+    } else {
+        return view('errors.404');
+    }
+}
+
+function getPersonIdByRole($role)
+{
+    if (!empty(Auth::guard(get_Cookie())->user()->id)) {
+        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $person = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
+        if (!empty($person)) {
+            return $person->id;
 
         } else {
             return false;
@@ -617,4 +627,23 @@ function checkproposal($id)
         'missingrecs' => $missingrecs,
         'pi' => $pi
     ];
+}
+
+function updateProposalState($id) {
+    $p = Proposal::find($id);
+    $reports = RefereeReport::where('proposal_id', '=', $id)->get();
+
+    if (count($reports) == 0) $p->state = "submitted";
+    else {
+        $complete = true;
+        foreach ($reports as $report) {
+            if ($report->state == 'in-progress' || $report->state == 'rejected') {
+                $complete = false;
+                break;
+            }
+        }
+        if ($complete) $p->state = "complete";
+        else $p->state = "in-review";
+    }
+    $p->save();
 }

@@ -105,7 +105,6 @@ class PersonController extends Controller
         }
     }
 
-
     public function changePassword()
     {
         return view('referee.person.changepassword');
@@ -114,33 +113,22 @@ class PersonController extends Controller
     public function updatePassword(Request $request)
     {
         try {
-            $v = Validator::make($request->all(), [
-                'oldpassword' => 'required',
-                'newpassword' => 'required|8',
-                'confirmpassword' => 'required|same:newpassword',
-            ]);
-            if (!$v->fails()) {
                 $user_id = \Auth::guard('referee')->user()->id;
                 $this->validate($request, [
                     'oldpassword' => 'required',
                     'newpassword' => 'required|min:8',
                     'confirmpassword' => 'required|same:newpassword',
                 ]);
-                $data = $request->all();
                 $user = User::find($user_id);
-                //var_dump(Hash::check('222222', $user->password));die;
-                if (!Hash::check($request->oldpassword, $user->password)) {
 
+                if (!Hash::check($request->oldpassword, $user->password)) {
                     return back()
                         ->with('error', 'The specified password does not match the database password');
                 } else {
-
                     $user->password = bcrypt($request->newpassword);
                     $user->save();
                     return \Redirect::to('logout')->with('success', getMessage("success"));
                 }
-            } else
-                return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/person')->with('error', getMessage("wrong"));

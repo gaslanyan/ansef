@@ -16,7 +16,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
-
+use LynX39\LaraPdfMerger\Facades\PdfMerger;
 
 class ReportController extends Controller
 {
@@ -30,7 +30,7 @@ class ReportController extends Controller
     public function state($state)
     {
         try {
-            $r_id = getUserIdByRole('referee');
+            $r_id = getPersonIdByRole('referee');
             $reports = RefereeReport::where('referee_id', '=', $r_id)
                 ->where('state', '=', $state)
                 ->orderBy('due_date', 'asc')
@@ -163,7 +163,11 @@ class ReportController extends Controller
                 $s->value = $score;
                 $s->save();
             }
-            return redirect()->action('Referee\ReportController@state', 'in-progress');
+            updateProposalState($report->proposal_id);
+            if($report->state == 'rejected') {
+                return redirect()->action('Referee\SendEmailController@showRejectedEmail', $report->id);
+            }
+            else return redirect()->action('Referee\ReportController@state', 'in-progress');
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', getMessage("wrong"))->withInput();
@@ -177,52 +181,62 @@ class ReportController extends Controller
 
     public function generatePDF($id)
     {
-        // $pdf = new \LynX39\LaraPdfMerger\PdfManage;
-
-        // $pdf->addPDF(public_path('/upload/1547633948.pdf'), 'all');
-        // $pdf->addPDF(public_path('/upload/test.pdf'), 'all');
-
-        // $pdf->merge('file', public_path('/upload/created.pdf'), 'P');
-
-        $report = RefereeReport::with([
-            'proposal',
-            'proposal.competition'
-        ])
-            ->where('id', $id)
-            ->first();
-
-        $categories = json_decode($report->proposal->categories, true);
-
-        $cats = [];
-        foreach ($categories as $index => $category) {
-            if ($category != 0) {
-                $cat = Category::with('children')->where('id', $category)->get()->first();
-
-                if (empty($cat->parent_id))
-                    $cats[$cat->id]['parent'] = $cat->title;
-                else {
-                    if (in_array($cat->parent_id, $categories))
-                        $cats[$cat->parent_id]['sub'] = $cat->title;
-                }
-            }
-        }
+        $report = RefereeReport::find($id);
+        $pid = $report->proposal_id;
+        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
+        $proposal = Proposal::find($pid);
+        $institution = $proposal->institution();
+        $competition = $proposal->competition;
+        $persons = $proposal->persons()->get()->sortBy('last_name');
+        $additional = json_decode($competition->additional);
+        $categories = json_decode($proposal->categories);
+        $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
+        $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
+        $cat_sec_parent = property_exists($categories, 'sec_parent') ? Category::with('children')->where('id', $categories->sec_parent)->get()->first() : null;
+        $cat_sec_sub = property_exists($categories, 'sec_sub') ? Category::with('children')->where('id', $categories->sec_sub)->get()->first() : null;
+        $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
+        $budget_items = $proposal->budgetitems()->get();
+        $budget = $proposal->budget();
 
         $data = [
-            'title' => $report->proposal->title,
-            'report' => $report,
-            'cats' => $cats
+            'id' => $id,
+            'pid' => $pid,
+            'proposal' => $proposal,
+            'institution' => $institution,
+            'competition' => $competition,
+            'persons' => $persons,
+            'additional' => $additional,
+            'categories' => $categories,
+            'proposal' => $proposal,
+            'cat_parent' => $cat_parent,
+            'cat_sub' => $cat_sub,
+            'cat_sec_parent' => $cat_sec_parent,
+            'cat_sec_sub' => $cat_sec_sub,
+            'pi' => $pi,
+            'budget_items' => $budget_items,
+            'budget' => $budget,
+            'recommendations' => $recommendations
         ];
 
         $pdf = PDF::loadView('referee.report.pdf', $data);
+        $pdf->save(storage_path('/proposal/prop-' . $pid . '/combined.pdf'));
 
-        return $pdf->download($report->proposal->title . '.pdf');
+        $pdfMerge = PDFMerger::init();
+        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/document.pdf'), 'all');
+        foreach ($recommendations as $r) {
+            $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/letter-' . $r->id . '.pdf'), 'all');
+        }
+        $pdfMerge->merge();
+
+        $pdfMerge->save(storage_path('/proposal/prop-' . $pid . 'download.pdf'), 'download');
     }
 
     public function sendEmail($id)
     {
         //        try {
         $title = Proposal::select('title')->where('id', $id)->first();
-        $person_id = getUserIdByRole('referee');
+        $person_id = getPersonIdByRole('referee');
         $full_name = Person::select('first_name', 'last_name')->where('id', $person_id)->first();
         $email = User::select('email')->where('id', Session::get('u_id'))->first();
         if (!empty($full_name->first_name) && !empty($full_name->first_name))

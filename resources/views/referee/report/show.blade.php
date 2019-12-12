@@ -24,13 +24,15 @@
                             'pi' => $pi,
                             'budget_items' => $budget_items,
                             'budget' => $budget,
-                            'admin' => true
+                            'admin' => true,
+                            'showdownloads' => true
                         ])
 
                         @include('partials.proposaldetails',[
                             'persons' => $persons,
-                            'recommendations' => $recommendations
-                        ])
+                            'recommendations' => $recommendations,
+                            'showdownloads' => true
+                    ])
 
                         </div>
                     </div>

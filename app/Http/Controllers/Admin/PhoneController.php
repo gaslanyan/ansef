@@ -18,7 +18,7 @@ class PhoneController extends Controller
     public function index()
     {
         try {
-            $pp_id = getUserIdByRole('admin');
+            $pp_id = getPersonIdByRole('admin');
             $person_id = Person::where('id', $pp_id)->get()->toArray();
             $phones = [];
             if (!empty($person_id[0]['id'])) {
@@ -59,7 +59,7 @@ class PhoneController extends Controller
 
         ]);
         try {
-            $person_id = getUserIdByRole('admin');
+            $person_id = getPersonIdByRole('admin');
             foreach ($request->phone as $key => $item) {
                 $phone = new Phone();
                 $phone->person_id = $person_id;

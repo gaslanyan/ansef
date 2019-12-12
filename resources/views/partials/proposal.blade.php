@@ -54,6 +54,7 @@
             </div>
         </div>
     @endif
+    @if($showdownloads)
     @if(!empty($proposal->document))
         <div class="col-lg-12">
             <div class="row">
@@ -68,6 +69,7 @@
         <div class="col-lg-12">
             <b style="color:#a00;">No proposal document uploaded</b>
         </div>
+    @endif
     @endif
     <hr>
 @endif

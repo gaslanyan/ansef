@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Applicant;
 
-use App\Models\Proposal;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -16,48 +16,43 @@ class ResearchBoardController extends Controller
      */
     public function index($type)
     {
-         if($type=='board'){
-        return view('applicant.email.research');
+         if($type=='board') {
+            return view('applicant.email.board');
          }
          else{
-             return view('applicant.email.requestadmin');
+            return view('applicant.email.admin');
          }
     }
 
 
     public function send(Request $request)
     {
+        if (!empty($request->message)) {
+            $user_id = getUserIdByRole('applicant');
+            $user = User::find($user_id);
+            $email = $user->email;
+            $name = $user->email;
+            if(!empty($person->first_name) && !empty($person->last_name)) {
+                $name = $person->first_name . " " . $person->last_name;
+            }
+            $data = ['email' => $email, 'name' => $name, 'content' => $request->message];
+            $to = $request->target == "board" ? "dopplerthepom@gmail.com" : "vvsahakian@me.com";
 
-        $referee = Proposal::select('proposal_referees')
-            ->where('id', '=', 13)->get()->first();
-        //dd($referee['proposal_referees']);
-        if (!empty($request->board)) {
-            $objSend = new \stdClass();
-            $objSend->message = $request->board;
-            $objSend->sender = 'Ansef';
-            $objSend->receiver = 'collages';
+            Mail::send(
+                ['text' => 'applicant.email.emailtemplate'],
+                $data,
+                function ($message) use ($email, $name, $to) {
+                    $message->to($to)
+                            ->subject('Applicant communication to ' . $to);
+                    $message->from($email, $name);
+                }
+            );
 
-            Mail::to('dopplerthepom@gmail.com')->send(new \App\Mail\ResearchBoard($objSend));
-            return redirect()->back()->with('success', getMessage("success"));
+            return redirect()->back()->with('success', 'Email sent');
         } else
-            return back()->withInput($request->only('board', 'remember'));
+            return back()->withInput()->with('error', 'Could not send email');
     }
 
-    public function sendtoadmin(Request $request)
-    {
-
-
-        if (!empty($request->requesttoadmin)) {
-            $objSend = new \stdClass();
-            $objSend->message = $request->board;
-            $objSend->sender = 'Ansef';
-            $objSend->receiver = 'collages';
-
-            Mail::to('krist68@mail.ru')->send(new \App\Mail\SendToAdmin($objSend));
-            return redirect()->back()->with('success', getMessage("success"));
-        } else
-            return back()->withInput($request->only('sendtoadmin', 'remember'));
-    }
 
     /***
      * Show the form for creating a new resource.

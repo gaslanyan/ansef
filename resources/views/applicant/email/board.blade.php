@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">Send Email into Research Board
+                    <div class="card-header">Send email to Research Board
                         <a href="{{ action('Applicant\InfoController@index') }}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
@@ -17,13 +17,12 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="form-group col-lg-10 emails">
+                                        <input type="hidden" name="target" value="board">
                                         <label for="board">Message:</label>
-                                        <textarea class="form-control" name="board"
-                                               id="board">
-                                        </textarea>
+                                        <textarea class="form-control" name="message" id="message"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Send Email</button>
+                                <button type="submit" class="btn btn-primary">Send message</button>
                             </div>
 
                         </form>

@@ -1,7 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php
 $signUser = signedPerson();
-$user_id = getUserIdByRole('viewer');
+$user_id = getPersonIdByRole('viewer');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -39,7 +39,7 @@ $user_id = getUserIdByRole('viewer');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <?php if(checkUserId('viewer') != false ){ ?>
+                    <?php if(checkUser('viewer') != false ){ ?>
                     <li><a href="{{action('Viewer\PersonController@create')}}"><i class="fa fa-circle-o"></i>Add account</a>
                     </li>
                     <?php }else{?>

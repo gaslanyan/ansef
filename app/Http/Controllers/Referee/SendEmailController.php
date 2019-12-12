@@ -26,10 +26,23 @@ class SendEmailController extends Controller
         }
     }
 
+    public function showRejectedEmail($id)
+    {
+        try {
+            $pid = RefereeReport::select('proposal_id')->where('id', $id)->first()->proposal_id;
+            $tag = getProposalTag($pid);
+            $rejected = 'rejected';
+            return view('referee.report.showEmail', compact('pid', 'tag', 'id', 'rejected'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('referee/edit')->with('error', getMessage("wrong"));
+        }
+    }
+
     public function sendEmail(Request $request, $id)
     {
        try {
-        $person_id = getUserIdByRole('referee');
+        $person_id = getPersonIdByRole('referee');
         $person = Person::where('id', $person_id)->first();
         $email = User::where('id','=', $person->user_id)->first()->email;
 
@@ -46,7 +59,10 @@ class SendEmailController extends Controller
                                 ->subject('Referee communication about proposal ' . $tag);
                         $message->from($email, $f_name);
             });
-        return redirect()->back()->with('success', "Email sent to ANSEF Program Officer.");
+        if($request->rejected == 'rejected')
+            return redirect('/referee/report/in-progress')->with('success', "Email sent to ANSEF Program Officer.");
+        else
+            return redirect()->back()->with('success', "Email sent to ANSEF Program Officer.");
        } catch (\Exception $exception) {
            logger()->error($exception);
            return redirect()->back()->with('error', getMessage("wrong"));

@@ -154,8 +154,11 @@ class ReportController extends Controller
             $report_ids = $request->id;
 
             foreach ($report_ids as $index => $id) {
+                $pid = RefereeReport::find($id)->proposal_id;
                 RefereeReport::where('id', $id)->delete();
-                $scores = Score::where('report_id', '=', $id)->delete();
+                Score::where('report_id', '=', $id)->delete();
+                updateProposalState($pid);
+
                 $response = [
                     'success' => true
                 ];
