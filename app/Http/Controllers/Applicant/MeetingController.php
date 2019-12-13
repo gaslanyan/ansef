@@ -17,7 +17,7 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id)->get()->toArray();
         $meetings = [];
         if (!empty($person_id[0]['id'])) {
@@ -52,7 +52,7 @@ class MeetingController extends Controller
             'year' => 'required|numeric|min:1900|max:2030',
         ]);
         try {
-            $user_id = \Auth::guard(get_Cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
+            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
             /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
             $p_id  = $person_id[0]['id'];*/
             $p_id = $request->meeting_add_hidden_id;

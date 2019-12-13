@@ -17,7 +17,7 @@ class PhoneController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $phones= [];
         if(!empty($person_id[0]['id'])) {
@@ -53,7 +53,7 @@ class PhoneController extends Controller
         try {
            /* $user = Auth::guard('admin')->user();
             $person = Person::where('user_id', '=', $user->id)->first();*/
-            $user_id = \Auth::guard(get_Cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
+            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
             $person = Person::where('user_id', '=', $user_id)->first();
             foreach ($request->phone as $key => $item) {
                 $phone = new Phone();
@@ -106,7 +106,7 @@ class PhoneController extends Controller
     public function update(Request $request, $id)
     {
         /*Need to check validation not working*/
-        
+
         $validatedData = $request->validate([
             /*'country_code' => 'required|numeric|phone_number|max:3',
             //'number' =>'required|size:11'*/
@@ -117,7 +117,7 @@ class PhoneController extends Controller
 //                'name' => 'required|numeric|phone_number|size:11',
 //                'text' => 'required|numeric|phone_number|max:3'
 //            ]);
-          
+
 
              foreach ($request->phone as $key => $item) {
                  $phones = Phone::find($id);

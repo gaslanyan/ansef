@@ -19,7 +19,7 @@ class DegreePersonController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id)->get()->toArray();
         $dp = DegreePerson::with('degree')->find();
 

@@ -33,9 +33,12 @@ class ProposalController extends Controller
 
             $referee = Role::where('name', '=', 'referee')->first();
             $admin = Role::where('name', '=', 'admin')->first();
+            $superadmin = Role::where('name', '=', 'superadmin')->first();
 
             $referees = $referee->persons;
-            $admins = $admin->persons;
+            $adminpersons = $admin->persons;
+            $superadminpersons = $superadmin->persons;
+            $admins = $adminpersons->concat($superadminpersons)->all();
             $messages = Message::all();
             $enumvals = getEnumValues('proposals', 'state');
 

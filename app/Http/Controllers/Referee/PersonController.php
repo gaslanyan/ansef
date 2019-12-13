@@ -58,7 +58,7 @@ class PersonController extends Controller
                 'city' => ''
             ]);
             $countries = Country::all();
-
+            $address->save();
             return view('referee.person.edit', compact('address', 'person', 'id', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);

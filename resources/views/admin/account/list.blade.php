@@ -8,7 +8,7 @@
                 <div class="card" >
 
                         <div class="card-header">{{ucfirst($type)}} list
-                            @if(get_Cookie() == 'superadmin')
+                            @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
                                class="display float-lg-right btn-primary px-2 myButton">Add a person</a>
                             @endif
@@ -163,7 +163,7 @@
                                                 $id =$p['id'];
 
                                                 @endphp
-                                                @if(get_Cookie() == 'superadmin')
+                                                @if(get_role_cookie() == 'superadmin')
                                                     <form action="{{action('Admin\PersonController@destroy', ['id'=>$id, 'type'=>$type])}}"
                                                           method="post">
                                                         @csrf

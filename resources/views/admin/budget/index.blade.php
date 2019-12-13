@@ -6,7 +6,7 @@
                 <div class="card" >
 
                     <div class="card-header">List of budget categories
-                        @if(get_Cookie() == 'superadmin')
+                        @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\BudgetCategoryController@create')}}"
                                class="display float-lg-right btn-primary px-2 myButton">Add a budget category</a>
                         @endif

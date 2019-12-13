@@ -34,9 +34,9 @@
                                 <th>Referee</th>
                                 <th>Admin</th>
                                 <th>Due</th>
-                                <th>View</th>
                                 <th>Score</th>
                                 <th>State</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,6 +49,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal form-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4></h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span></button>
+                    <h5 class="modal-title" id="myModalLabel"></h5>
+                </div>
+                <div class="modal-body" id="modal-bodyku">
+                    <div>
+                        <span id="content">Report content</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- end of modal ------------------------------>
+
 
     <script>
         $(document).ready(function () {
@@ -70,14 +94,15 @@
                         {"data": "referee"},
                         {"data": "admin"},
                         {"data": "due_date"},
-                        {
-                            "className": 'details-control',
-                            "orderable": false,
-                            "data": null,
-                            "defaultContent": ''
-                        },
                         {"data": "overall_score"},
-                        {"data": "state"}
+                        {"data": "state"},
+                        {
+                            "render": function (data, type, full, meta) {
+                                var ID = full.id;
+                                return '<button class="btn btn-link" onclick="open_container(' + meta.row + ')">' +
+                                    '<i class="fa fa-eye"></i></button>';
+                            }
+                        }
                     ],
                     "columnDefs": [
                         {
@@ -90,11 +115,11 @@
                     "select": true,
                     "scrollX": true,
                     "scrollY": 450,
-                    "deferRender": false,
+                    "deferRender": true,
                     "scrollCollapse": false,
-                    "scroller": false,
+                    "scroller": true,
                     "colReorder": true,
-                    "fixedColumns":   { "leftColumns": 1 },
+                    // "fixedColumns":   { "leftColumns": 1 },
                     "processing": true,
                     "language": {
                         "loadingRecords": '&nbsp;',
@@ -115,46 +140,6 @@
             $('#competition').change(function() {
                 reloadtable('admin/listreports');
             });
-
-            function format(d) {
-                var table = '<table style="table-layout:fixed;float:right;"><thead><tr><th width="150px" style="text-align:center">Score category</th><th width="50px" style="text-align:center">Score</th><th width="200px">Public comments</th><th width="200px">Private comments</th></tr></thead>';
-                table += '<tbody>';
-                if (d.scores.length) {
-                    var s = JSON.parse(d.scores);
-                    var flag = true;
-                    for (var i in s) {
-                        if (s.hasOwnProperty(i)) {
-                            table += '<tr>';
-                            table += '<td style="text-align:center">' + s[i].name + '</td><td style="text-align:center">' + s[i].value + '</td>';
-                            if(flag) {
-                                table += '<td width="200px" rowspan="7" style="text-align:left;white-space:pre-wrap;">' + d.public + '</td><td width="200px" rowspan="7" style="text-align:left;white-space:pre-wrap;">' + d.private + '</td>';
-                                flag = false;
-                            }
-                            table += '</tr>';
-                        }
-                    }
-                }
-
-                table += '</tbody></table>';
-
-                return table;
-            }
-
-            $('#datatable tbody').on('click', 'td.details-control',
-                function () {
-                    var tr = $(this).closest('tr');
-                    var row = t.row(tr);
-
-                    if (row.child.isShown()) {
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    } else {
-                        console.log(row.data());
-                        row.child(format(
-                            row.data())).show();
-                        tr.addClass('shown');
-                    }
-                });
 
         });
 
@@ -193,6 +178,47 @@
                     });
                 }
             }
+        }
+
+        function open_container(i) {
+            var size = 'small',
+                content = ''+i,
+                title = '',
+                footer = '';
+            jQuery.noConflict();
+            setModalBox(title, content, footer, size);
+            jQuery('#myModal').modal('show');
+        }
+
+        function setModalBox(title, content, footer, $size) {
+            var row = parseInt(content);
+            var t = $('#datatable').DataTable();
+            var data = t.rows().data();
+            var tabledata = format(data[row]);
+            $('#myModal').find('.modal-header h4').text('Report for ' + data[row].tag);
+            $('#myModal').find('#content').replaceWith(tabledata);
+        }
+
+        function format(d) {
+            var table = '<table style="table-layout:fixed;float:right;"><thead><tr><th width="150px" style="text-align:left;color:#999;">Score category</th><th width="50px" style="text-align:center;color:#999;">Score</th></thead>';
+            table += '<tbody>';
+            if (d.scores.length) {
+                var s = JSON.parse(d.scores);
+                for (var i in s) {
+                    if (s.hasOwnProperty(i)) {
+                        table += '<tr>';
+                        table += '<td style="text-align:left;color:#048;"><b>' + s[i].name + '</b></td><td style="text-align:center">' + s[i].value + '</td>';
+                        table += '</tr>';
+                    }
+                }
+                table += '<tr><td colspan="2" style="text-align:left;white-space:pre-wrap;padding:20px;"><b>Public comments</b><br/>' + d.public + '</td></tr>';
+                table += '<tr><td rowspan="2" style="text-align:left;white-space:pre-wrap;padding:20px;"><b>Private comments</b><br/>' + d.private + '</td></tr>';
+                flag = false;
+            }
+
+            table += '</tbody></table>';
+
+            return table;
         }
 
     </script>

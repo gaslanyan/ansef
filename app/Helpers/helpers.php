@@ -30,7 +30,7 @@ function getMessage($name)
     return $message->text;
 }
 
-function get_Cookie()
+function get_role_cookie()
 {
     if (!empty($_COOKIE['user_role']))
         $user_role = $_COOKIE['user_role'];
@@ -54,8 +54,8 @@ function getEnumValues($table, $column)
 /* Check and find if user_id is exists */
 function checkUser($role)
 {
-    if (!empty(Auth::guard(get_Cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
 
         if (!empty($table)) {
@@ -68,10 +68,10 @@ function checkUser($role)
     }
 }
 
-function getUserIdByRole($role)
+function getUserIdByRole()
 {
-    if (!empty(Auth::guard(get_Cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         return $user_id;
     } else {
         return view('errors.404');
@@ -80,8 +80,8 @@ function getUserIdByRole($role)
 
 function getPersonIdByRole($role)
 {
-    if (!empty(Auth::guard(get_Cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
         if (!empty($person)) {
             return $person->id;
@@ -144,20 +144,20 @@ function getTableColumns($items)
 // }
 
 function signedApplicant() {
-    $user_id = \Auth::guard(get_Cookie())->user()->id;
+    $user_id = \Auth::guard(get_role_cookie())->user()->id;
     return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
 }
 
 function signedPerson()
 {
-    $user_id = \Auth::guard(get_Cookie())->user()->id;
+    $user_id = \Auth::guard(get_role_cookie())->user()->id;
     return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['superadmin', 'admin','referee', 'viewer', 'applicant'])->first();
 }
 
 function getUserID()
 {
     if (empty($_COOKIE['sign_id']))
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
     else
         $user_id = $_COOKIE['sign_id'];
     return $user_id;

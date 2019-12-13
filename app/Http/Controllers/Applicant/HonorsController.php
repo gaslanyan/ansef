@@ -17,7 +17,7 @@ class HonorsController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         dd( $person_id);
         $honors= [];
@@ -56,7 +56,7 @@ class HonorsController extends Controller
              ]);
 
         try {
-            $user_id = \Auth::guard(get_Cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i(ka te chka) stugum???*/
+            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i(ka te chka) stugum???*/
             //$person_id = Person::where('user_id', $user_id )->get()->toArray();
           //  $p_id  = $person_id[0]['id'];
             $honors = new Honors;
@@ -104,7 +104,7 @@ class HonorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $p_id  = $person_id[0]['id'];
 

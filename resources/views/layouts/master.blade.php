@@ -26,7 +26,7 @@
 <div class="wrapper">
     @include('partials.header')
 
-    @include('partials.'.get_Cookie().'_sidebar')
+    @include('partials.'.get_role_cookie().'_sidebar')
 
 
     @yield('content')

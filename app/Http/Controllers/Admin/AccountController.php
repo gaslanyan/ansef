@@ -26,6 +26,18 @@ use Illuminate\Support\Facades\Mail;
 class AccountController extends Controller
 {
 
+    public function index() {
+        try {
+            $persons = User::with('role')->get();
+
+            $roles = Role::all();
+
+            return view('admin.person.index', compact('persons', 'roles'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/person')->with('error', getMessage("wrong"));
+        }
+    }
     /**
      * Display a listing of the resource.
      *

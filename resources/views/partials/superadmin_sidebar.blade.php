@@ -1,12 +1,13 @@
 <!-- sidebar.blade.php -->
 <?php $signUser = signedPerson();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
+$user_id = getPersonIdByRole('referee');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image d-inline-block">
-                <img src="{{asset('img/'.get_Cookie().'.png')}}" class="img-circle" alt="{{get_Cookie()}} Image"/>
+                <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="{{get_role_cookie()}} Image"/>
             </div>
             <div class="pull-left info d-inline-block">
                 <p class="text-capitalize">
@@ -16,7 +17,7 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     $signUser->last_name .
                     "<br>from: " . $signUser->domain; ?>
                             <?php else: ?>
-                            <?= get_Cookie(); ?>
+                            <?= get_role_cookie(); ?>
                             <?php endif;?>
                 </p>
             </div>
@@ -39,7 +40,7 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                 </a>
                 <ul class="treeview-menu">
                     <li>
-                        <a href="{{action('Admin\PersonController@index')}}"><i class="fa fa-circle-o"></i>Log in users</a>
+                        <a href="{{action('Admin\AccountController@index')}}"><i class="fa fa-circle-o"></i>Log in users</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account','applicant')}}"><i
@@ -79,29 +80,24 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                 </a>
                 <ul class="treeview-menu">
                     <?php if(checkUser('superadmin') ): ?>
-                    <li>
-                        <a href=" {{action('Admin\PersonController@create')}}"><i class="fa fa-circle-o"></i>User
-                            profile</a>
+                    <li class="text-uppercase">
+                        <a href="{{action('Admin\PersonController@edit', $user_id)}}">
+                            <i class="fa fa-user"></i>
+                            <span>Update your profile</span>
+                            <span class="pull-right-container">
+                            </span>
+                        </a>
                     </li>
                     <?php else:?>
-                        <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change
-                            your Password</a></li>
-                        <li><a href="{{action('Admin\PersonController@edit', personidforuser($u_id))}}"><i class="fa fa-circle-o"></i>Edit
-                            your Profile</a></li>
-                    <li class="treeview" style="margin-left:20px;">
-                        <a href="#">
-                            <span>Phone numbers/Emails</span>
+                    <li class="text-uppercase">
+                        <a href="{{action('Admin\PersonController@edit', $user_id)}}">
+                            <i class="fa fa-user"></i>
+                            <span>Update your profile</span>
                             <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                    </span>
+                            </span>
                         </a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{action('Admin\PhoneController@index')}}">
-                                    Phone numbers</a></li>
-                            <li><a href="{{action('Admin\EmailController@index')}}">
-                                    Emails</a></li>
-                        </ul>
-                    </li>
+                        </li>
+                        <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change your Password</a></li>
                     <?php endif?>
                 </ul>
             </li>

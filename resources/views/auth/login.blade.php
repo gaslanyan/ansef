@@ -70,8 +70,8 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
-                                    @if(get_Cookie() !== "superadmin")
-                                        <a href="/register/{{ get_Cookie() }}"
+                                    @if(get_role_cookie() !== "superadmin")
+                                        <a href="/register/{{ get_role_cookie() }}"
                                            class="btn btn-primary">{{ __('Register')}}</a>
                                     @endif
                                 </div>

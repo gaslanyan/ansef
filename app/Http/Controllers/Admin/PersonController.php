@@ -34,170 +34,68 @@ use Illuminate\Validation\ValidationException;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {
-            $persons = User::with('role')->get();
-
-            $roles = Role::all();
-
-            return view('admin.person.index', compact('persons', 'roles'));
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/person')->with('error', getMessage("wrong"));
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        try {
-            $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-            $institutions = Institution::all()->pluck('content', 'id')->toArray();
-            return view('admin.person.create', compact('countries', 'institutions'));
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/person')->with('error', getMessage("wrong"));
-        }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(Request $request)
-    {
-        if (!$request->isMethod('post'))
-            return view('admin.person.create');
-        else {
-            $user_type = get_Cookie();
-            $user = Auth::guard($user_type)->user();
-
-            $v = Validator::make($request->all(), [
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-                'birthdate' => 'required|date|date_format:Y-m-d',
-                'nationality' => 'required|max:255',
-                'sex' => 'required|max:15',
-                'countries.*' => 'required|max:255',
-                'provence.*' => 'required|max:255',
-                'street.*' => 'required|max:255',
-            ]);
-            if (!$v->fails()) {
-
-                DB::beginTransaction();
-                try {
-                    $person = new Person;
-                    $person->first_name = $request->first_name;
-                    $person->last_name = $request->last_name;
-                    if (!empty($request->birthdate)) {
-                        $time = strtotime($request->birthdate);
-                        $newformat = date('Y-m-d', $time);
-                        $person->birthdate = $newformat;
-                    }
-
-                    $person->birthplace = $request->birthplace;
-                    $person->nationality = $request->nationality;
-                    $person->sex = $request->sex;
-                    //            $person->state = $request->state;
-                    $person->type = 'admin';
-                    $person->user_id = $user->id;
-                    $person->save();
-                    $person_id = $person->id;
-                } catch (ValidationException $e) {
-                    // Rollback and then redirect
-                    // back to form with errors
-                    DB::rollback();
-                    return redirect()->back()
-                        ->withErrors($e->getErrors())
-                        ->withInput();
-                } catch (\Exception $exception) {
-                    DB::rollBack();
-                    logger()->error($exception);
-                    return redirect()->back()->with('error', getMessage("wrong"));
-                }
-            } else
-                return redirect()->back()->withErrors($v->errors());
-        }
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         try {
-            $person = Person::find($id);
-            $address = $person->addresses()->first();
-            if (empty($address)) {
-                $address = new Address();
-                $address->country_id = 0;
-                $address->save();
-                $person->addresses()->save($address);
-            }
-            $countries = Country::all()->sortBy('country_name')->keyBy('id');
-            $person_id = $person->id;
-            return view('admin.person.edit', compact('person', 'address', 'person_id', 'countries'));
+            $user_id = getUserIdByRole();
+            $countries = Country::all()->sort();
+
+            $person = Person::firstOrCreate(
+                [
+                    'user_id' => $user_id,
+                    'type' => get_role_cookie()
+                ],
+                []
+            );
+            $person->save();
+
+            $address = Address::firstOrCreate([
+                'addressable_id' => $person->id,
+                'addressable_type' => 'App\Models\Person'
+            ], []);
+            $address->save();
+
+            $id = $person->id;
+
+            return view('admin.person.create', compact('countries', 'person', 'address', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/person')->with('error', getMessage("wrong"));
         }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
+        $user_id = getUserIdByRole();
+        $validatedData = $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'country' => 'required|not_in:0'
+        ]);
         try {
-            $v = Validator::make($request->all(), [
-                'first_name' => 'required|max:255',
-                'last_name' => 'required|max:255',
-                'sex' => 'required|max:15'
-            ]);
-            if (!$v->fails()) {
-                $person = Person::find($request->person_id);
-                $person->first_name = $request->first_name;
-                $person->last_name = $request->last_name;
-                $person->birthdate = $request->birthdate;
-                $person->birthplace = $request->birthplace;
-                $person->nationality = $request->nationality;
-                $person->sex = $request->sex;
-                $person->save();
+            $person = Person::where('user_id', '=', $user_id)->first();
+            $person->first_name = $request->first_name;
+            $person->last_name = $request->last_name;
+            $person->birthdate = $request->birthdate;
+            $person->birthplace = $request->birthplace;
+            $person->nationality = $request->nationality;
+            $person->sex = $request->sex;
+            $person->save();
 
-                $address = $person->addresses()->first();
-                $address->street = $request->street;
-                $address->city = $request->city;
-                $address->province = $request->provence;
-                $address->country_id = $request->country;
-                $address->save();
+            $address = Address::where('addressable_id', '=', $person->id)
+                ->where('addressable_type', '=', 'App\Models\Person')
+                ->first();
+            $address = $person->addresses()->first();
+            $address->street = $request->street;
+            $address->city = $request->city;
+            $address->province = $request->provence;
+            $address->country_id = $request->country;
+            $address->save();
 
-                return redirect('admin/person/' . $request->person_id . '/edit')->with('success', getMessage("success"));
-            } else
-                return redirect()->back()->withInput()->withErrors($v->errors());
+            return \Redirect::back()->with('success', 'Data saved.');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/person/' . $request->person_id . '/edit')->with('error', getMessage("wrong"));
+            return \Redirect::back()->with('wrong', 'Could not save')->withInput();
         }
     }
 

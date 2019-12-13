@@ -28,7 +28,7 @@ class ResearchBoardController extends Controller
     public function send(Request $request)
     {
         if (!empty($request->message)) {
-            $user_id = getUserIdByRole('applicant');
+            $user_id = getUserIdByRole();
             $user = User::find($user_id);
             $email = $user->email;
             $name = $user->email;

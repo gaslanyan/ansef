@@ -16,7 +16,7 @@
                         @include('partials.status_bar')
 
                         <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
-                            @if(get_Cookie() === "superadmin")
+                            @if(get_role_cookie() === "superadmin")
                                 <button type="button"
                                         title="check" onclick="check();"
                                         class="display float-lg-left btn-primary px-2 myButton">
@@ -44,7 +44,7 @@
                                     Assign Admin
                                 </button>
                             @endif
-                            @if(get_Cookie() === "superadmin" ||  get_Cookie() === "admin" )
+                            @if(get_role_cookie() === "superadmin" ||  get_role_cookie() === "admin" )
                                 <button type="button"
                                         title="add referee" onclick="open_container('referee');"
                                         class="display float-lg-left btn-primary px-2 myButton">
@@ -119,10 +119,8 @@
                             @foreach($admins as $i=>$a)
                                 <div class="row">
                                     <div class="form-group col-lg-1">
-                                        <label for="choose_person_name{{$i}}"
-                                               class="label">
-                                            <input type="checkbox" name="choose_person[]" id="choose_person_name{{$i}}"
-                                                   value="{{$a['id']}}"/>
+                                        <label for="choose_person_name{{$i}}" class="label">
+                                        <input type="checkbox" name="choose_person[]" id="choose_person_name{{$i}}" value="{{$a['id']}}"/>
                                         </label>
                                     </div>
                                     <div class="form-group col-lg-5">

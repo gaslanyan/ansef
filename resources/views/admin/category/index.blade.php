@@ -6,7 +6,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">List of categories
-                        @if(get_Cookie() == 'superadmin')
+                        @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\CategoryController@create')}}"
                                class="display float-lg-right btn-primary px-2 myButton">Add a category</a>
                         @endif

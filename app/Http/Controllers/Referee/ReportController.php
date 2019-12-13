@@ -129,6 +129,7 @@ class ReportController extends Controller
                 ], [
                     'value' => 0
                 ]);
+                $scores[$s->id]->save();
             }
             $overall = overallScore($id);
             return view('referee.report.edit', compact('report', 'scoreTypes', 'scores', 'overall'));

@@ -17,7 +17,7 @@ class PublicationsController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         $person_id = Person::where('user_id', $user_id)->get()->toArray();
         $publications = [];
         if (!empty($person_id[0]['id'])) {
@@ -55,7 +55,7 @@ class PublicationsController extends Controller
         ]);
 
         try {
-            $user_id = \Auth::guard(get_Cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
+            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
             /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
             $p_id  = $person_id[0]['id'];*/
 
@@ -116,7 +116,7 @@ class PublicationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_Cookie())->user()->id;
+        $user_id = \Auth::guard(get_role_cookie())->user()->id;
         /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
         $p_id  = $person_id[0]['id'];*/
         $validatedData = $request->validate([

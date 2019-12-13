@@ -16,20 +16,20 @@
                     <a href="#" id="dLabel" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
 
-                        <img src="{{asset('img/'.get_Cookie().'.png')}}" class="user-image" alt="User Image"/>
+                        <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="user-image" alt="User Image"/>
                         <span class="hidden-xs">
                          <?php
                             if (!empty($signUser) && !empty($signedUser)):?>
                             <?= mb_strtolower($signedUser->email); ?>
                             <?php else: ?>
-                            <?= get_Cookie(); ?>
+                            <?= get_role_cookie(); ?>
                             <?php endif;?>
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="{{asset('img/'.get_Cookie().'.png')}}" class="img-circle" alt="User Image"/>
+                            <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="User Image"/>
                             <p class="">
                                 <?php
                                 if (!empty($signUser) && !empty($signedUser)):?>
@@ -38,7 +38,7 @@
                                 "<br>Date: " . $signUser->updated_at;
                                     ?>
                             <?php else: ?>
-                            <?= get_Cookie(); ?>
+                            <?= get_role_cookie(); ?>
                             <?php endif;?>
                             </p>
                         </li>
