@@ -191,8 +191,8 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('/applicant/honors/delete/{id}', 'Applicant\HonorsController@destroy');
 
     Route::resource('/applicant/proposal', 'Applicant\ProposalController');
-    Route::get('/applicant/activeProposal', 'Applicant\ProposalController@activeProposal');
-    Route::get('/applicant/pastProposal', 'Applicant\ProposalController@pastProposal');
+    Route::get('/applicant/activeProposal', 'Applicant\ProposalController@activeProposal')->name('currentproposals');
+    Route::get('/applicant/pastProposal', 'Applicant\ProposalController@pastProposal')->name('pastproposals');
     Route::get('/applicant/downloadPDF', 'Applicant\ProposalController@downloadPDF');
     Route::get('/applicant/proposal/delete/{id}', 'Applicant\ProposalController@destroy');
     Route::get('/applicant/researchboard/{type}', 'Applicant\ResearchBoardController@index');

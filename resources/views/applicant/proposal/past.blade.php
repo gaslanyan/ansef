@@ -46,9 +46,16 @@
                                         </td>
                                         <td>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
-                                            <a href="{{action('Applicant\FileUploadController@uploadreport', $ap['id'])}}" title="View">
-                                                <span class="fas fa-file-upload myButton">&nbsp;Submit Reports</span>
+                                            @if($ap->competition->first_report >= date('Y-m-d'))
+                                            <a href="{{action('Applicant\FileUploadController@reportfile', $ap['id'])}}" title="View">
+                                                <span class="fas fa-file-upload myButton">&nbsp;Submit First Report</span>
                                             </a>
+                                            @endif
+                                            @if($ap->competition->second_report >= date('Y-m-d') && $ap->competition->first_report < date('Y-m-d'))
+                                            <a href="{{action('Applicant\FileUploadController@reportfile', $ap['id'])}}" title="View">
+                                                <span class="fas fa-file-upload myButton">&nbsp;Submit Second Report</span>
+                                            </a>
+                                            @endif
                                             <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
                                                 <span class="fa fa-eye myButton">&nbsp;View</span>
                                             </a>

@@ -45,9 +45,24 @@ class FileUploadController extends Controller
 
     function reportfile($id)
     {
-        $document = Proposal::find($id)->document;
+        $proposal = Proposal::find($id);
+        $due_date = date('Y-m-d');
+        if($proposal->competition->first_report >= date('Y-m-d'))
+            $due_date = $proposal->competition->first_report;
+        else if($proposal->competition->second_report >= date('Y-m-d') && $proposal->competition->first_report < date('Y-m-d'))
+            $due_date = $proposal->competition->second_report;
+        else $due_date = $proposal->competition->second_report;
 
-        return view('applicant.proposal.file_upload', compact('id', 'document'));
+        $due_date = $proposal->competition->first_report;
+        $report = ProposalReports::firstOrCreate([
+            'proposal_id' => $id,
+            'due_date' => $due_date
+        ], []);
+
+        $document = $report->document;
+        $repid = $report->id;
+
+        return view('applicant.proposal.report_upload', compact('id', 'repid', 'document'));
     }
 
     function upload(Request $request)
@@ -78,7 +93,7 @@ class FileUploadController extends Controller
             'pdf' => $new_name
         );
 
-        return response()->json($output);
+        return redirect()->back()->withErrors(['The file was uploaded successfully.']);;
     }
 
     function uploadletter(Request $request) {
@@ -106,45 +121,33 @@ class FileUploadController extends Controller
             'success' => 'Document uploaded successfully',
             'pdf' => $new_name
         );
-        return  redirect()->back()->withErrors(['Thank you, the file was uploaded successfully. You may now close the browser window.']);;
+        return  redirect()->back()->withErrors(['Thank you, the file was uploaded successfully. You may now close the browser window.']);
     }
 
     function uploadreport(Request $request)
     {
-
         $rules = array(
-            'report_file'  => 'required|mimes:pdf|max:12048'
+            'file'  => 'required|mimes:pdf|max:20480'
         );
 
         $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
-            return response()->json(['errors' => $error->errors()->all()]);
+        if ($error->fails()) {
+            return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact dopplerthepom@gmail.com for help.']);;
         }
 
-        $doc = $request->file('report_file');
-        $reportdesc = $request->report_description;
+        $image = $request->file('file');
+        $proposal = Proposal::find($request->prop_id);
+        $new_name = 'report-' . $request->rep_id . '.pdf';
+        $path = storage_path('/proposal/prop-' . $proposal->id . '/');
+        $image->move($path, $new_name);
 
-//        $new_name = rand() . '.' . $image->getClientOriginalExtension();
-        $new_name =$doc->getClientOriginalName();
-        $path = storage_path('/proposal/prop-' . $request->prop_id_file . '/');
-        //$image->move(public_path('images'), $new_name);
-        $doc->move($path, $new_name);
+        $report = ProposalReports::find($request->rep_id);
+        $report->document = $new_name;
+        $report->approved = '0';
+        $report->save();
 
-        $proposalrep = new ProposalReports();
-        $proposalrep->document = $new_name;
-        $proposalrep->description = $reportdesc;
-        $proposalrep->proposal_id = $request->prop_id_file;
-        $proposalrep->due_date	 = date("Y-m-d");
-        $proposalrep->save();
-        $output = array(
-            'success' => 'Document uploaded successfully',
-//          'image'  => '<img src="/images/'.$new_name.'" class="img-thumbnail" />'
-            'pdf' => $new_name
-        );
-
-        return response()->json($output);
+        return  redirect()->back()->withErrors(['The file was uploaded successfully.']);
     }
 
     public function remove(Request $request,$id)
@@ -183,19 +186,17 @@ class FileUploadController extends Controller
 
     public function removereport(Request $request,$id)
     {
-        if($request->file('report_file') != ""){
-        $proposal = ProposalReports::find($id);
-        if(is_file(storage_path('/proposal/prop-'.$proposal->id.'/'.$proposal->document)))
-        {
-            unlink(storage_path('/proposal/prop-'.$proposal->id.'/'.$proposal->document));
-        }
-        else
-        {
-            echo "File does not exist";
-        }
+        $report = ProposalReports::find($id);
+        if ($request->file('file') != "" || $report->document != "") {
 
-        $proposal->delete();;
+            if (is_file(storage_path('/proposal/prop-' . $report->proposal_id . '/' . $report->document))) {
+                unlink(storage_path('/proposal/prop-' . $report->proposal_id . '/' . $report->document));
+            } else {
+                echo "File does not exist";
+            }
+            $report->document = "";
+            $report->save();
         }
-      return  redirect()->action('Applicant\ProposalController@activeProposal');
+        return  redirect()->back();
     }
 }
