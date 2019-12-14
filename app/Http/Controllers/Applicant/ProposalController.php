@@ -98,7 +98,7 @@ class ProposalController extends Controller
     public function pastProposal()
     {
         $user_id = getUserID();
-        $proposals = User::find($user_id)->proposals()->get();
+        $proposals = User::find($user_id)->proposals()->get()->sortBy('updated_at');
         $pastproposals = $proposals->filter(function ($p, $key) {
             return  date('Y-m-d') > $p->competition->submission_end_date
                     && $p->state != 'awarded'
@@ -113,7 +113,26 @@ class ProposalController extends Controller
                 || $p->state == 'approved 2');
         });
 
-        return view('applicant.proposal.past', compact('pastproposals', 'awards'));
+        $firstreports = [];
+        $secondreports = [];
+        foreach($awards as $award) {
+            $first = $award->competition->first_report;
+            $second = $award->competition->second_report;
+            $firstreport = ProposalReports::where('proposal_id','=',$award->id)
+                        ->where('due_date','=',$first)
+                        ->first();
+            $secondreport = ProposalReports::where('proposal_id','=',$award->id)
+                        ->where('due_date','=',$second)
+                        ->first();
+            if(!empty($firstreport) && !empty($firstreport->document))
+                $firstreports[$award->id] = (true);
+            else $firstreports[$award->id] = (false);
+            if (!empty($secondreport) && !empty($secondreport->document))
+                $secondreports[$award->id] = (true);
+            else $secondreports[$award->id] = (false);
+        }
+
+        return view('applicant.proposal.past', compact('pastproposals', 'awards', 'firstreports', 'secondreports'));
     }
 
     /**

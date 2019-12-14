@@ -57,14 +57,6 @@
             <br />
             <div id="success">
             </div>
-            <div id="newmessage">
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank">
-                        <i class="fa fa-download"></i>&nbsp; Download and verify uploaded document
-                </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@remove', $id)}}">
-                        <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
-                </a>
-            </div>
             <br />
             <div class="row">
                 <div class="col-md-12">
@@ -93,24 +85,9 @@
             },
             success:function(data)
             {
-                console.log(data);
-                if(data.errors)
-                {
-                    $('.progress-bar').text('0%');
-                    $('.progress-bar').css('width', '0%');
-                    $('#success').html('<span class="text-danger"><b>'+data.errors+'</b></span>');
-                    $('#oldmessage').hide();
-                }
-                if(data.success)
-                {
-                    $('.progress-bar').text('Uploaded');
-                    $('.progress-bar').css('width', '100%');
-                    $('#success').html('<span class="text-success"><b>'+data.success+'</b></span><br /><br />');
-                    $('#oldmessage').hide();
-                    $('#uploadlater').hide();
-                    $('#newmessage').show();
-                    $('#uploaddone').show();
-                }
+                setTimeout(function(){
+                    window.location.href = '{{route("currentproposals")}}';
+                }, 1000);
             }
         });
 

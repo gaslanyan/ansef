@@ -48,12 +48,20 @@
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
                                             @if($ap->competition->first_report >= date('Y-m-d'))
                                             <a href="{{action('Applicant\FileUploadController@reportfile', $ap['id'])}}" title="View">
-                                                <span class="fas fa-file-upload myButton">&nbsp;Submit First Report</span>
+                                                @if($firstreports[$ap['id']])
+                                                <span class="fas fa-file-upload myButton">&nbsp;First Report</span>
+                                                @else
+                                                <span class="fas fa-file-upload myButton" style="color:#e00;">&nbsp;First Report</span>
+                                                @endif
                                             </a>
                                             @endif
                                             @if($ap->competition->second_report >= date('Y-m-d') && $ap->competition->first_report < date('Y-m-d'))
                                             <a href="{{action('Applicant\FileUploadController@reportfile', $ap['id'])}}" title="View">
-                                                <span class="fas fa-file-upload myButton">&nbsp;Submit Second Report</span>
+                                                @if($secondreports[$ap['id']])
+                                                <span class="fas fa-file-upload myButton">&nbsp;Second Report</span>
+                                                @else
+                                                <span class="fas fa-file-upload myButton" style="color:#e00;>&nbsp;Second Report</span>
+                                                @endif
                                             </a>
                                             @endif
                                             <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
