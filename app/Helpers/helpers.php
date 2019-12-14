@@ -629,6 +629,14 @@ function checkproposal($id)
     ];
 }
 
+function updateProposalScore($id) {
+    $p = Proposal::find($id);
+    $average = RefereeReport::where('proposal_id', '=', $id)->avg('overall_score');
+
+    $p->overall_score = $average;
+    $p->save();
+}
+
 function updateProposalState($id) {
     $p = Proposal::find($id);
     $reports = RefereeReport::where('proposal_id', '=', $id)->get();

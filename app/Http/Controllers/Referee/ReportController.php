@@ -165,6 +165,7 @@ class ReportController extends Controller
                 $s->save();
             }
             updateProposalState($report->proposal_id);
+            updateProposalScore($report->proposal_id);
             if($report->state == 'rejected') {
                 return redirect()->action('Referee\SendEmailController@showRejectedEmail', $report->id);
             }
@@ -255,10 +256,5 @@ class ReportController extends Controller
                 $message->from($email->email, $f_name);
             }
         );
-        //
-        //        } catch (\Exception $exception) {
-        //            logger()->error($exception);)
-        //            return redirect()->back()->with('error', getMessage("wrong"));
-        //        }
     }
 }

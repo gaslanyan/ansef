@@ -1,7 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php $signUser = signedPerson();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
-$user_id = getPersonIdByRole('referee');
+$user_id = getPersonIdByRole('superadmin');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">

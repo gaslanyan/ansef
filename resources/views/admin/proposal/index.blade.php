@@ -68,6 +68,7 @@
                                 <th>Referee</th>
                                 <th>Admin</th>
                                 <th width="100px">State</th>
+                                <th>Score</th>
                                 <th class="action long">Actions</th>
                             </tr>
                             </thead>
@@ -202,6 +203,7 @@
                         {"data": "refs"},
                         {"data": "admin"},
                         {"data": "state"},
+                        {"data": "score"},
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
@@ -221,7 +223,8 @@
                     { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
                     { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
                     { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true }
+                    { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "40px", "targets": 7, "searchable": true, "orderable": true, "visible": true }
                 ],
                 "select": true,
                 "scrollX": true,

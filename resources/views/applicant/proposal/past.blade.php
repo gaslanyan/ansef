@@ -46,8 +46,11 @@
                                         </td>
                                         <td>
                                             <input type="hidden" class="id" value="{{$ap['id']}}">
+                                            <a href="{{action('Applicant\FileUploadController@uploadreport', $ap['id'])}}" title="View">
+                                                <span class="fas fa-file-upload myButton">&nbsp;Submit Reports</span>
+                                            </a>
                                             <a href="{{action('Applicant\ProposalController@show', $ap['id'])}}" title="View">
-                                                <span class="fa fa-eye myButton">View</span>
+                                                <span class="fa fa-eye myButton">&nbsp;View</span>
                                             </a>
                                         </td>
 
@@ -85,14 +88,14 @@
                                                 Preparing for review
                                             @elseif($ap->state == 'in-review')
                                                 With referees
-                                            @elseif($ap->state == 'review complete')
+                                            @elseif($ap->state == 'complete')
                                                 Reviews complete
                                             @elseif($ap->state == 'unsuccessfull')
                                                 Unsuccessful
                                             @elseif($ap->state == 'disqualified')
                                                 Disqualified
                                             @elseif($ap->state == 'finalist')
-                                                Finalist but not awarded
+                                                Finalist
                                             @elseif($ap->state == 'awarded')
                                                 Awarded
                                             @elseif($ap->state == 'approved 1')

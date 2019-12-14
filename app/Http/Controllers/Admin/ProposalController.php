@@ -211,6 +211,7 @@ class ProposalController extends Controller
             $d['data'][$index]['tag'] = getProposalTag($pr->id);
             $d['data'][$index]['title'] = truncate($pr->title, 25);
             $d['data'][$index]['state'] = ($pr->state);
+            $d['data'][$index]['score'] = strval(round($pr->overall_score)) . "%";
             $pi = $pr->pi();
             $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,7) . " " . $pi->first_name : 'No PI';
             $refs = $pr->refereesasstring();

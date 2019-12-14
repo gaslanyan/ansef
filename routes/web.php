@@ -78,15 +78,15 @@ Route::get('/referee/sign/{id}', 'Referee\RefereeController@index', [
 // ---------------------------------- Admin routes ----------------------------------
    Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
-    Route::get('/admin/person/disable', 'Admin\PersonController@disable');
     Route::get('/admin/export', 'Admin\SettingsController@exportForm');
     Route::get('/admin/sql', 'Admin\SettingsController@sql');
     Route::post('/admin/backup', 'Admin\SettingsController@backup');
-    Route::get('/admin/person/{id}', 'Admin\PersonController@edit');
-    Route::post('/admin/update/{id}', 'Admin\PersonController@update');
-    Route::post('/admin/updatePassword', 'Admin\PersonController@updatePassword');
-    Route::get('/admin/changePassword', 'Admin\PersonController@changePassword');
-    Route::delete('/admin/person/{id}/{type}', 'Admin\PersonController@destroy');
+    Route::get('/admin/profile/edit', 'Admin\PersonController@edit');
+    Route::post('/admin/profile/update', 'Admin\PersonController@update');
+    Route::post('/admin/password/update', 'Admin\PersonController@updatePassword');
+    Route::get('/admin/password/change', 'Admin\PersonController@changePassword');
+    Route::delete('/admin/person/delete/{id}/{type}', 'Admin\PersonController@destroy');
+    Route::get('/admin/person/disable', 'Admin\PersonController@disable');
     Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
     Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
     Route::resource('/admin/account', 'Admin\AccountController');

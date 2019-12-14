@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                  <div class="card" >
-                    <div class="card-header">Create Your Profile
+                    <div class="card-header">Edit Your Profile
                         <br>
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>

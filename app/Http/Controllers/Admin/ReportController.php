@@ -25,10 +25,6 @@ class ReportController extends Controller
         try {
 
         $score_json = [];
-            //                foreach ($scores as $index => $score) {
-            //                    $score_json[$score->report->id]['name'][] = $score->scoreType->name;
-            //                    $score_json[$score->report->id]['value'][] = $score->value;
-            //                }
         $competitions = Competition::select('id', 'title')
             ->orderBy('submission_end_date', 'desc')
             ->get()->toArray();
@@ -135,7 +131,7 @@ class ReportController extends Controller
             $a = $pr->admin()->first();
             $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
             $d['data'][$index]['due_date'] = $report['due_date'];
-            $d['data'][$index]['overall_score'] = $report['overall_score'] . $comments;
+            $d['data'][$index]['overall_score'] = $report['overall_score'] . "% " . $comments . "";
             $d['data'][$index]['state'] = abbreviate($report['state']);
 
             if (!empty($scores)) {
@@ -158,6 +154,7 @@ class ReportController extends Controller
                 RefereeReport::where('id', $id)->delete();
                 Score::where('report_id', '=', $id)->delete();
                 updateProposalState($pid);
+                updateProposalScore($pid);
 
                 $response = [
                     'success' => true

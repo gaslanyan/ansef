@@ -17,7 +17,7 @@ class CreateProposalsTable extends Migration {
 			$table->integer('id', true);
 			$table->string('title', 1024)->nullable();
 			$table->text('abstract', 65535)->nullable();
-			$table->enum('state', array('in-progress','submitted','in-review','review complete','awarded','unsuccessfull','approved 1','approved 2','complete','disqualified','finalist'))->nullable();
+			$table->enum('state', array('in-progress','submitted','in-review','complete','awarded','unsuccessfull','approved 1','approved 2','disqualified','finalist'))->nullable();
 			$table->string('document', 512)->nullable();
 			$table->float('overall_score', 10, 0)->nullable();
 			$table->text('comment', 65535)->nullable();

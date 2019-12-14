@@ -34,7 +34,7 @@ use Illuminate\Validation\ValidationException;
 
 class PersonController extends Controller
 {
-    public function edit($id)
+    public function edit()
     {
         try {
             $user_id = getUserIdByRole();
@@ -88,7 +88,7 @@ class PersonController extends Controller
             $address = $person->addresses()->first();
             $address->street = $request->street;
             $address->city = $request->city;
-            $address->province = $request->provence;
+            $address->province = $request->province;
             $address->country_id = $request->country;
             $address->save();
 
