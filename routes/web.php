@@ -203,13 +203,17 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::post('/applicant/getsub', 'Applicant\ProposalController@subcategories');
 
     Route::get('file-upload/{id}', 'Applicant\FileUploadController@docfile');
-    Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
     Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
-    Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
     Route::get('file-upload/remove/{uuid}', 'Applicant\FileUploadController@remove')->name('deletefile');
     Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downloadfile')->name('download');
-    Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
-    Route::get('report-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
+
+    Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
+    Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
+    Route::get('report-upload/remove/{uuid}', 'Applicant\FileUploadController@removereport')->name('deletereport');
+    Route::get('report-upload/download/{uuid}', 'Applicant\FileUploadController@downloadreport')->name('downloadreport');
+
+    Route::get('letter-upload/remove/{uuid}', 'Applicant\FileUploadController@removeletter')->name('deleteletter');
+    Route::get('letter-upload/download/{uuid}', 'Applicant\FileUploadController@downloadletter')->name('downloadletter');
     Route::get('letter-upload/done', function () { return 'Thanks'; })->name('uploadthanks');
 
     Route::get('/support/{prop_id}/{person_id}', 'Applicant\SupportController@index');

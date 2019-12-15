@@ -23,9 +23,9 @@ class FileUploadController extends Controller
 
     function docfile($id)
     {
-        $proposal = Proposal::find($id);
+        $document = Proposal::find($id)->document;
 
-        return view('applicant.proposal.file_upload', compact('id', 'proposal'));
+        return view('applicant.proposal.file_upload', compact('id', 'document'));
     }
 
     function letterfile(Request $request)
@@ -79,9 +79,9 @@ class FileUploadController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $path = $request->file('file')->storeAs(
-            '/proposals/prop-' . $request->prop_id_file,
-            'document.pdf');
+        $request->file('file')->storeAs(
+                '/proposals/prop-' . $request->prop_id_file,
+                'document.pdf');
 
         $proposal = Proposal::find($request->prop_id_file);
         $proposal->document = Uuid::generate()->string;
@@ -101,20 +101,15 @@ class FileUploadController extends Controller
             return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact dopplerthepom@gmail.com for help.']);;
         }
 
-        $image = $request->file('file');
-        $prop = $request->prop_id_file;
-        $rec = $request->rec_id_file;
-        $new_name = 'letter-' . $rec . '.pdf';
-        $path = storage_path('/proposal/prop-' . $prop . '/');
-        $image->move($path, $new_name);
+        $request->file('file')->storeAs(
+            '/proposals/prop-' . $request->prop_id_file,
+            'letter-' . $request->rec_id_file . '.pdf'
+        );
 
         $recommendation = Recommendations::find($rec);
-        $recommendation->document = $new_name;
+        $recommendation->document = Uuid::generate()->string;
         $recommendation->save();
-        $output = array(
-            'success' => 'Document uploaded successfully',
-            'pdf' => $new_name
-        );
+
         return  redirect()->back()->withErrors(['Thank you, the file was uploaded successfully. You may now close the browser window.']);
     }
 
@@ -130,14 +125,13 @@ class FileUploadController extends Controller
             return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact dopplerthepom@gmail.com for help.']);;
         }
 
-        $image = $request->file('file');
-        $proposal = Proposal::find($request->prop_id);
-        $new_name = 'report-' . $request->rep_id . '.pdf';
-        $path = storage_path('/proposal/prop-' . $proposal->id . '/');
-        $image->move($path, $new_name);
+        $request->file('file')->storeAs(
+            '/proposals/prop-' . $request->prop_id,
+            'report-' . $request->rep_id . '.pdf'
+        );
 
         $report = ProposalReports::find($request->rep_id);
-        $report->document = $new_name;
+        $report->document = Uuid::generate()->string;
         $report->approved = '0';
         $report->save();
 
@@ -147,45 +141,50 @@ class FileUploadController extends Controller
     public function remove(Request $request, $uuid)
     {
         $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
-        Storage::delete(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));
+        if(Storage::has("proposals/prop-" . $proposal->id . "/document.pdf"))
+            Storage::delete("proposals/prop-" . $proposal->id . "/document.pdf");
         $proposal->document = "";
         $proposal->save();
         return  redirect()->action('Applicant\ProposalController@activeProposal');
     }
 
-    public function removeletter(Request $request, $id)
+    public function removeletter(Request $request, $uuid)
     {
-        $recommendation = Recommendations::find($id);
-        if ($request->file('file') != "" || $recommendation->document != "") {
-            if (is_file(storage_path('/proposal/prop-' . $recommendation->proposal_id . '/' . $recommendation->document))) {
-                unlink(storage_path('/proposal/prop-' . $recommendation->proposal_id . '/' . $recommendation->document));
-            } else {
-                echo "File does not exist";
-            }
-            $recommendation->document = null;
-            $recommendation->save();
-        }
+        $recommendation = Recommendations::where('document', '=', $uuid)->firstOrFail();
+        if (Storage::has("proposals/prop-" . $recommendation->proposal_id . "/letter-" . $recommendation->id . ".pdf"))
+            Storage::delete("proposals/prop-" . $recommendation->proposal_id . "/letter-" . $recommendation->id . ".pdf");
+
+        $recommendation->document = "";
+        $recommendation->save();
         return  redirect()->back();
     }
 
-    public function removereport(Request $request, $id)
+    public function removereport(Request $request, $uuid)
     {
-        $report = ProposalReports::find($id);
-        if ($request->file('file') != "" || $report->document != "") {
+        $report = ProposalReports::where('document', '=', $uuid)->firstOrFail();
 
-            if (is_file(storage_path('/proposal/prop-' . $report->proposal_id . '/' . $report->document))) {
-                unlink(storage_path('/proposal/prop-' . $report->proposal_id . '/' . $report->document));
-            } else {
-                echo "File does not exist";
-            }
-            $report->document = "";
-            $report->save();
-        }
+        if (Storage::has("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf"))
+            Storage::delete("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf");
+
+        $report->document = "";
+        $report->save();
         return  redirect()->back();
     }
 
     public function downloadfile($uuid) {
         $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
         return response()->download(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));
+    }
+
+    public function downloadreport($uuid)
+    {
+        $report = ProposalReports::where('document', '=', $uuid)->firstOrFail();
+        return response()->download(storage_path("app/proposals/prop-" . $report->proposal_id . "/report-" . $report->id . ".pdf"));
+    }
+
+    public function downloadletter($uuid)
+    {
+        $letter = Recommendations::where('document', '=', $uuid)->firstOrFail();
+        return response()->download(storage_path("app/proposals/prop-" . $letter->proposal_id . "/letter" . $letter->id . ".pdf"));
     }
 }
