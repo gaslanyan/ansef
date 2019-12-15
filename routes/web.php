@@ -206,7 +206,8 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
     Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
     Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
-    Route::get('file-upload/remove/{id}', 'Applicant\FileUploadController@remove');
+    Route::get('file-upload/remove/{uuid}', 'Applicant\FileUploadController@remove')->name('deletefile');
+    Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downloadfile')->name('download');
     Route::get('letter-upload/remove/{id}', 'Applicant\FileUploadController@removeletter');
     Route::get('report-upload/removereport/{id}', 'Applicant\FileUploadController@removereport');
     Route::get('letter-upload/done', function () { return 'Thanks'; })->name('uploadthanks');

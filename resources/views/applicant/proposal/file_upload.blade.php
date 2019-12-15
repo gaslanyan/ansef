@@ -16,18 +16,18 @@
 
         <div class="card-body card_body" style="overflow:auto;">
             <br />
-            <p>Click <b>'Choose File'</b> and select a PDF document that describes your proposal. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
+            <p>Click <b>'Choose File'</b> and select a PDF document that describes your proposal. Then click <b>{{!empty($proposal->document) ? 'Replace' : 'Upload'}}</b>
             to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.<br/>
             If you prefer to upload the document later, click <b>Upload later</b> below.</p>
             <p>To read the instructions for preparing the proposal document, <a href="{{action('Applicant\ProposalController@instructions', $id)}}">click here</a>.</p><br/>
 
             <div id="oldmessage" class="col-12">
-            @if(!empty($document))
+            @if(!empty($proposal->document))
                 You currently have an uploaded document. You can:<br/><br/>
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\document.pdf" target="_blank">
+            <a class="btn btn-primary" href="{{route('download', $proposal->document)}}" target="_blank">
                         <i class="fa fa-download"></i>&nbsp; Download uploaded document
                 </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@remove', $id)}}">
+                <a class="btn btn-secondary" href="{{route('deletefile', $proposal->document)}}">
                         <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
                 </a>
             @else
@@ -43,7 +43,7 @@
                         <input type="hidden" name="prop_id_file"  value="{{$id}}" />
                     </div>
                     <div class="col-md-6" align="right">
-                        <input type="submit" name="upload" value="{{!empty($document) ? 'Replace' : 'Upload'}}" class="btn btn-success" />
+                        <input type="submit" name="upload" value="{{!empty($proposal->document) ? 'Replace' : 'Upload'}}" class="btn btn-success" />
                     </div>
                 </div>
             </form>

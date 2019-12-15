@@ -8,7 +8,8 @@ use App\Models\ProposalReports;
 use App\Models\Recommendations;
 use App\Models\Person;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Webpatser\Uuid\Uuid;
 use Validator;
 
 class FileUploadController extends Controller
@@ -22,9 +23,9 @@ class FileUploadController extends Controller
 
     function docfile($id)
     {
-        $document = Proposal::find($id)->document;
+        $proposal = Proposal::find($id);
 
-        return view('applicant.proposal.file_upload', compact('id', 'document'));
+        return view('applicant.proposal.file_upload', compact('id', 'proposal'));
     }
 
     function letterfile(Request $request)
@@ -78,20 +79,13 @@ class FileUploadController extends Controller
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $image = $request->file('file');
-
-        // $new_name =$image->getClientOriginalName();
-        $new_name ='document.pdf';
-        $path = storage_path('/proposal/prop-' . $request->prop_id_file . '/');
-        $image->move($path, $new_name);
+        $path = $request->file('file')->storeAs(
+            '/proposals/prop-' . $request->prop_id_file,
+            'document.pdf');
 
         $proposal = Proposal::find($request->prop_id_file);
-        $proposal->document = $new_name;
+        $proposal->document = Uuid::generate()->string;
         $proposal->save();
-        $output = array(
-            'success' => 'Document uploaded successfully',
-            'pdf' => $new_name
-        );
 
         return redirect()->back()->withErrors(['The file was uploaded successfully.']);;
     }
@@ -150,23 +144,13 @@ class FileUploadController extends Controller
         return  redirect()->back()->withErrors(['The file was uploaded successfully.']);
     }
 
-    public function remove(Request $request,$id)
+    public function remove(Request $request, $uuid)
     {
-        $proposal = Proposal::find($id);
-        if($request->file('file') != "" || $proposal->document != ""){
-
-        if(is_file(storage_path('/proposal/prop-'.$proposal->id.'/'.$proposal->document)))
-        {
-            unlink(storage_path('/proposal/prop-'.$proposal->id.'/'.$proposal->document));
-        }
-        else
-        {
-            echo "File does not exist";
-        }
+        $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
+        Storage::delete(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));
         $proposal->document = "";
         $proposal->save();
-        }
-      return  redirect()->action('Applicant\ProposalController@activeProposal');
+        return  redirect()->action('Applicant\ProposalController@activeProposal');
     }
 
     public function removeletter(Request $request, $id)
@@ -184,7 +168,7 @@ class FileUploadController extends Controller
         return  redirect()->back();
     }
 
-    public function removereport(Request $request,$id)
+    public function removereport(Request $request, $id)
     {
         $report = ProposalReports::find($id);
         if ($request->file('file') != "" || $report->document != "") {
@@ -198,5 +182,10 @@ class FileUploadController extends Controller
             $report->save();
         }
         return  redirect()->back();
+    }
+
+    public function downloadfile($uuid) {
+        $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
+        return response()->download(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));
     }
 }
