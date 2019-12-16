@@ -110,7 +110,7 @@ class FileUploadController extends Controller
             'letter-' . $request->rec_id_file . '.pdf'
         );
 
-        $recommendation = Recommendations::find($rec);
+        $recommendation = Recommendations::find($request->rec_id_file);
         $recommendation->document = Uuid::generate()->string;
         $recommendation->save();
 
@@ -191,6 +191,6 @@ class FileUploadController extends Controller
     public function downloadletter($uuid)
     {
         $letter = Recommendations::where('document', '=', $uuid)->firstOrFail();
-        return response()->download(storage_path("app/proposals/prop-" . $letter->proposal_id . "/letter" . $letter->id . ".pdf"));
+        return response()->download(storage_path("app/proposals/prop-" . $letter->proposal_id . "/letter-" . $letter->id . ".pdf"));
     }
 }

@@ -211,10 +211,6 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('report-upload/remove/{uuid}', 'Applicant\FileUploadController@removereport')->name('deletereport');
     Route::get('report-upload/download/{uuid}', 'Applicant\FileUploadController@downloadreport')->name('downloadreport');
 
-    Route::get('letter-upload/remove/{uuid}', 'Applicant\FileUploadController@removeletter')->name('deleteletter');
-    Route::get('letter-upload/download/{uuid}', 'Applicant\FileUploadController@downloadletter')->name('downloadletter');
-    Route::get('letter-upload/done', function () { return 'Thanks'; })->name('uploadthanks');
-
     Route::get('/support/{prop_id}/{person_id}', 'Applicant\SupportController@index');
     Route::post('/support/save/{person_id}', 'Applicant\SupportController@save');
 });
@@ -249,6 +245,11 @@ Route::group(['middleware' => ['check-role:viewer|admin|superadmin']], function 
 
 Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter')->name('uploadletter');
 Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
+Route::get('letter-upload/remove/{uuid}', 'Applicant\FileUploadController@removeletter')->name('deleteletter');
+Route::get('letter-upload/download/{uuid}', 'Applicant\FileUploadController@downloadletter')->name('downloadletter');
+Route::get('letter-upload/done', function () {
+    return 'Thanks';
+})->name('uploadthanks');
 
 //base ajax
 

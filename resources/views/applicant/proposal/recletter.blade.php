@@ -17,8 +17,8 @@
     </style>
 
     @yield('stylesheets')
-    <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script> --}}
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -83,8 +83,9 @@
             @if($errors->any())
             <p style="color:indigo;font-size:22px;">{{$errors->first()}}</p>
             @endif
+            <div id="success"></div>
         </div>
-            </div>
+    </div>
 </div>
        </div>
 </div>
@@ -104,27 +105,11 @@
             },
             success:function(data)
             {
-                console.log(data);
-                if(data.errors)
-                {
-                    $('.progress-bar').text('0%');
-                    $('.progress-bar').css('width', '0%');
-                    $('#success').html('<span class="text-danger"><b>'+data.errors+'</b></span>');
-                    $('#oldmessage').hide();
-                }
-                if(data.success)
-                {
-                    $('.progress-bar').text('Uploaded');
-                    $('.progress-bar').css('width', '100%');
-                    $('#success').html('<span class="text-success"><b>'+data.success+'</b></span><br /><br />');
-                    $('#oldmessage').hide();
-                    $('#uploadlater').hide();
-                    $('#newmessage').show();
-                    $('#uploaddone').show();
-                }
+                setTimeout(function(){
+                    window.location.href = '{{Request::url()}}';
+                }, 1000);
             }
         });
-
     });
 </script>
 
