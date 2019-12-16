@@ -74,7 +74,7 @@
                     </div>
 
                      <div class="card-body card_body" style="overflow:auto;">
-                        @if(!empty($upcomingcompetitions))
+                        @if(count($upcomingcompetitions) > 0)
                             <p><b>Here's a list of upcoming competitions that you can apply for in the near future:</b></p>
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%"  valign="middle">
