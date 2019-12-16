@@ -64,8 +64,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <input type="file" name="file" id="file" />
-                        <input type="hidden" name="prop_id_file"  value="{{$prop}}" />
-                        <input type="hidden" name="rec_id_file"  value="{{$id}}" />
+                        <input type="hidden" name="pid"  value="{{$prop}}" />
+                        <input type="hidden" name="rid"  value="{{$rid}}" />
                     </div>
                     <div class="col-md-6" align="right">
                         <input type="submit" name="upload" value="{{!empty($document) ? 'Replace' : 'Upload'}}" class="btn btn-success" />
@@ -107,7 +107,7 @@
             success:function(data)
             {
                 setTimeout(function(){
-                    window.location.href = '{{Request::url()}}';
+                    window.location.href = 'letter-upload/success';
                 }, 1000);
             }
         });

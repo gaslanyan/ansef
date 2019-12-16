@@ -33,14 +33,14 @@ class FileUploadController extends Controller
     function letterfile(Request $request)
     {
         $input = $request->all();
-        $id = $input['rid'];
-        $rec = Recommendations::find($id);
+        $rid = $input['rid'];
+        $rec = Recommendations::find($rid);
         $pi = Person::find($rec->person_id);
         $prop = Proposal::find($rec->proposal_id)->id;
         if (!empty($rec)) {
             if ($rec->confirmation == $input['confirmation']) {
                 $document = $rec->document;
-                return view('applicant.proposal.recletter', compact('id', 'document', 'pi', 'prop'));
+                return view('applicant.proposal.recletter', compact('rid', 'document', 'pi', 'prop'));
             }
         }
         return view('applicant.proposal.recletterdeny');
@@ -106,15 +106,15 @@ class FileUploadController extends Controller
         }
 
         $request->file('file')->storeAs(
-            '/proposals/prop-' . $request->prop_id_file,
-            'letter-' . $request->rec_id_file . '.pdf'
+            '/proposals/prop-' . $request->pid,
+            'letter-' . $request->rid . '.pdf'
         );
 
         $recommendation = Recommendations::find($request->rec_id_file);
         $recommendation->document = Uuid::generate()->string;
         $recommendation->save();
 
-        return  redirect()->back()->withErrors(['Thank you, the file was uploaded successfully. You may now close the browser window.']);
+        // return  redirect()->back()->withErrors(['Thank you, the file was uploaded successfully. You may now close the browser window.'])->with('rid', $request->rid);
     }
 
     function uploadreport(Request $request)

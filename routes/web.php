@@ -247,9 +247,7 @@ Route::post('letter-upload/upload', 'Applicant\FileUploadController@uploadletter
 Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('submit-letter');
 Route::get('letter-upload/remove/{uuid}', 'Applicant\FileUploadController@removeletter')->name('deleteletter');
 Route::get('letter-upload/download/{uuid}', 'Applicant\FileUploadController@downloadletter')->name('downloadletter');
-Route::get('letter-upload/done', function () {
-    return 'Thanks';
-})->name('uploadthanks');
+Route::view('letter-upload/success', 'applicant.proposal.reclettersuccess');
 
 //base ajax
 
