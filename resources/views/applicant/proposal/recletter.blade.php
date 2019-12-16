@@ -18,6 +18,7 @@
 
     @yield('stylesheets')
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

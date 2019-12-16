@@ -71,7 +71,6 @@
             },
             uploadProgress:function(event, position, total, percentComplete)
             {
-                console.log(percentComplete + '%');
                 $('.progress-bar').text(percentComplete + '%');
                 $('.progress-bar').css('width', percentComplete + '%');
             },

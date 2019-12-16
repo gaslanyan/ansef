@@ -1,11 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script>
-
 <div class="container">
        <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
@@ -81,8 +76,6 @@
             {
                 setTimeout(function(){
                     window.location.href = '{{route("pastproposals")}}';
-                    // var newloc = 'http://' + window.location.host + '/report-upload/' + '{{$repid}}';
-                    // window.location.replace(newloc);
                 }, 1000);
 
             }
