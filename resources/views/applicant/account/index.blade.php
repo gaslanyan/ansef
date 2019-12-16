@@ -38,21 +38,13 @@
                                 <tr>
                                     <td></td>
                                     <td data-order="{{$applicant_person->first_name}}" data-search="{{$applicant_person->first_name}}"
-                                        class="email_field">
-                                        <input type="text" class="form-control" name="firstname"
-                                               value="{{$applicant_person->first_name}}" disabled>
+                                        class="">
+                                        {{$applicant_person->first_name}}
                                     </td>
                                     <td data-order="{{$applicant_person->last_name}}" data-search="{{$applicant_person->last_name}}"
-                                        class="email_field">
-                                        <input type="text" class="form-control" name="lastname"
-                                               value="{{$applicant_person->last_name}}" disabled>
+                                        class="">
+                                        {{$applicant_person->last_name}}
                                     </td>
-                                    <!--td data-order="{{$applicant_person->state}}" data-search="{{$applicant_person->state}}"
-                                        class="email_field">
-                                        <select id="type" class="form-control" name="type" disabled>
-                                            {{--<?php $enum = getEnumValues('persons', 'state');?>--}}
-                                        </select>
-                                    </td-->
                                     <td data-order="{{$applicant_person->type}}" data-search="{{$applicant_person->type}}" class="email_field">
                                         <?php {{echo($applicant_person->type == 'support' ? 'Support person' : 'Project participant');}}?>
                                         </input>
@@ -74,7 +66,39 @@
                                            onclick="return confirm('Are you sure you want to delete the person?')" >
                                             <span class="fa fa-trash myButton">Delete</span></a>
                                         @endif
-                                        </form>
+                                        <br/>
+                                        <a href="{{action('Applicant\AddressController@create', $applicant_person->id)}}" title="Show Addresses" class="add_address">
+                                            <?php if (empty(getAddressesByPersonID($applicant_person->id))) {
+                                                echo " <span class='fas fa-address-card myButton' style='color:#dd4b39 !important;'>Addresses</span>";
+                                            } else {
+                                                echo " <span class='fas fa-address-card myButton'>Addresses</span>";
+                                            } ?></a>
+
+                                        <a href="{{action('Applicant\EmailController@create', $applicant_person->id)}}" title="Show Emails" class="add_email">
+                                            <?php if (empty(getEmailByPersonID($applicant_person->id))) {
+                                                echo " <span class='fa fa-envelope-open myButton' style='color:#dd4b39 !important;'>Emails</span>";
+                                            } else {
+                                                echo " <span class='fa fa-envelope-open myButton'>Emails</span>";
+                                            } ?>
+                                        </a>
+                                        <a href="{{action('Applicant\PhoneController@create', $applicant_person->id)}}" title="Show Phones" class="add_phone"><span class="fa fa-phone myButton">Phone numbers</span>
+                                        </a>
+                                        <br />
+                                        <a href="{{action('Applicant\InstitutionController@create', $applicant_person->id)}}" title="Show Institutions" class="add_institutions"><span class="fa fa-university myButton">Employment</span>
+                                        </a>
+                                        @if($applicant_person->type =='participant')
+                                        <a href="{{action('Applicant\DegreePersonController@create', $applicant_person->id)}}" title="Show Degrees" class="add_degrees"><span class="fa fa-graduation-cap myButton">Education</span>
+                                        </a><br/>
+                                        <a href="{{action('Applicant\BookController@create', $applicant_person->id)}}" title="Show Books" class="add_institutions"><span class="fa fa-book myButton">Books</span>
+                                        </a>
+                                        <a href="{{action('Applicant\MeetingController@create', $applicant_person->id)}}" title="Show Meetings" class="add_meetings"><span class="fa fa-user-friends myButton">Meetings</span>
+
+                                        </a>
+                                        <a href="{{action('Applicant\PublicationsController@create', $applicant_person->id)}}" title="Show Publications" class="add_publications"><span class="fas fa-sticky-note myButton">Publications</span>
+                                        </a>
+                                        <a href="{{action('Applicant\HonorsController@create', $applicant_person->id)}}" title="Show Honors&Grants" class="add_honors"><span class="fa fa-trophy myButton">Honors</span>
+                                        </a>
+                                        @endif
                                     </td>
 
                                 </tr>

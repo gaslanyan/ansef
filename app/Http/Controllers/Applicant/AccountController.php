@@ -86,7 +86,7 @@ class AccountController extends Controller
             $person->user_id = $user_id;
             $person->save();
 
-            return redirect()->action('Applicant\InfoController@index');
+            return redirect()->action('Applicant\AccountController@index');
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();

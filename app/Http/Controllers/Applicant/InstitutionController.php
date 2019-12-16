@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers\Applicant;
 
-use App\Models\Address;
+use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\InstitutionPerson;
 use App\Models\Person;
-use App\Http\Controllers\Controller;
 use App\Models\Institution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

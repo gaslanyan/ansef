@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers\Applicant;
 
 use App\Models\Honors;
 use App\Models\Person;

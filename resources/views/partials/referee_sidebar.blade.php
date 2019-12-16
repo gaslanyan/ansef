@@ -6,19 +6,14 @@ $user_id = getPersonIdByRole('referee');
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left image d-inline-block">
-                <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="{{get_role_cookie()}} Image"/>
-            </div>
-            <div class="pull-left info d-inline-block">
-                <p class="text-capitalize">
-                <?php
-                if (!empty($signUser)):?>
-                            <?= $signUser->first_name . " " .
-                $signUser->last_name .
-                "<br>from: " . $signUser->domain; ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+            <div class="pull-left d-inline-block">
+                <p class="" style="colo:#999;">
+                <?php if (!empty($signUser)):?>
+                    <?= "Logged in as <b>" . $signUser->first_name . " " .
+                $signUser->last_name . "</b>"; ?>
+                <?php else: ?>
+                    <?= get_role_cookie(); ?>
+                <?php endif;?>
             </div>
         </div>
         <div class="figure-caption">

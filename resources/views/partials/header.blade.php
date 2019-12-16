@@ -16,37 +16,15 @@
                     <a href="#" id="dLabel" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false">
 
-                        <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="user-image" alt="User Image"/>
                         <span class="hidden-xs">
-                         <?php
-                            if (!empty($signUser) && !empty($signedUser)):?>
-                            <?= mb_strtolower($signedUser->email); ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+                            <?= ucwords(get_role_cookie()) . " logout"; ?>
                         </span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <!-- User image -->
-                        <li class="user-header">
-                            <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="User Image"/>
-                            <p class="">
-                                <?php
-                                if (!empty($signUser) && !empty($signedUser)):?>
-                            <?= mb_strtolower($signedUser->email) . " " .
-                                "<br>From: " . $signUser->domain .
-                                "<br>Date: " . $signUser->updated_at;
-                                    ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
-                            </p>
-                        </li>
                         <li class="user-footer">
                             <div class="pull-right">
                                 <a class="dropdown-item btn btn-default" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 

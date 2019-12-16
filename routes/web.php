@@ -65,12 +65,12 @@ Route::resource('/viewer', 'Viewer\ViewerController', [
     'middleware' => 'check-role:viewer'
 ]);
 
-Route::get('/applicant/sign/{id}', 'Applicant\ApplicantController@index', [
+Route::get('/applicant/sign', 'Applicant\ApplicantController@index', [
     'only' => ['index'],
     'middleware' => 'check-role:applicant|admin|superadmin'
 ]);
-Route::get('/referee/sign/{id}', 'Referee\RefereeController@index', [
-    // 'only' => ['index'],
+Route::get('/referee/sign', 'Referee\RefereeController@index', [
+    'only' => ['index'],
     'middleware' => 'check-role:referee|admin|superadmin'
 ]);
 
@@ -147,7 +147,6 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::resource('/applicant/honors', 'Applicant\HonorsController');
     Route::resource('/applicant/email', 'Applicant\EmailController');
     Route::resource('/applicant/address', 'Applicant\AddressController');
-    Route::resource('/applicant/info', 'Applicant\InfoController');
     Route::resource('/applicant/phone', 'Applicant\PhoneController');
     Route::resource('/applicant/budgetcategories', 'Applicant\BudgetCategoriesController');
     Route::resource('/applicant/publication', 'Applicant\PublicationsController');
@@ -261,6 +260,7 @@ Route::post('/deleteScores', 'Base\AjaxController@deleteScores');
 Route::post('/deleteRule', 'Base\AjaxController@deleteRule');
 Route::post('/deleteBudgets', 'Base\AjaxController@deleteBudgets');
 Route::post('/duplicateCats', 'Base\AjaxController@duplicateCats');
+
 Route::post('/getProposalByApplicant', 'Base\AjaxController@getProposalByApplicant');
 Route::post('/getProposalByReferee', 'Base\AjaxController@getProposalByReferee');
 Route::post('/getBudgetByCategory', 'Base\AjaxController@getBudgetByCategory');

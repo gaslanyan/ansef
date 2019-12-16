@@ -7,7 +7,7 @@
                  <div class="card" >
                         @include('partials.status_bar')
                     <div class="card-header">Edit the email
-                        <a href="{{ action('Applicant\InfoController@index') }}"
+                        <a href="{{ action('Applicant\AccountController@index') }}"
                            class="display float-lg-right btn-box-tool"> Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

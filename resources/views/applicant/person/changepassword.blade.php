@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">Change Your Password</div>
+                    <div class="card-header">Change Your Password
+                        <a href="{{ action('Applicant\ApplicantController@index') }}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
+                    </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 

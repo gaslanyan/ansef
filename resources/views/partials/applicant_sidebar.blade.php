@@ -6,9 +6,6 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left image d-inline-block">
-                <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="{{get_role_cookie()}} Image"/>
-            </div>
             <div class="pull-left info d-inline-block">
                 <p class="">
                 <?php
@@ -24,7 +21,7 @@
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
-                <a href="{{action('Applicant\ApplicantController@index',$id='null')}}">
+                <a href="{{action('Applicant\ApplicantController@index')}}">
                     <i class="fa fa-chart-bar"></i>
                     <span>Dashboard</span>
                     <span class="pull-right-container">
@@ -42,7 +39,7 @@
             </li>
             <?php }else {?>
             <li>
-                Your user ID is incorrect. Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
+                Your user ID is incorrect. <br/>Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
             </li>
             <?php } ?>
             <?php if(checkUser('applicant') != false ){ ?>
@@ -58,8 +55,6 @@
                             Persons</a></li>
                     <li><a href="{{action('Applicant\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add a New
                             Person</a>
-                    <li><a href="{{action('Applicant\InfoController@index')}}"><i class="fa fa-circle-o"></i>Update CV
-                            data for a person</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -85,7 +80,6 @@
                 <ul class="treeview-menu">
                     <li><a href="{{action('Applicant\ResearchBoardController@index','board')}}"><i class="fa fa-circle-o"></i>contact Research Board</a></li>
                     <li><a href="{{action('Applicant\ResearchBoardController@index','admin')}}"><i class="fa fa-circle-o"></i>contact Web Administrator</a></li>
-
                 </ul>
             </li>
             <?php  }?>

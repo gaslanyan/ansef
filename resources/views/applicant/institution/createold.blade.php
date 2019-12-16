@@ -11,7 +11,7 @@
             <div class="col-md-10 offset-md-2">
                  <div class="card" >
                     <div class="card-header">Institution
-                        <a href="{{ action('Applicant\InfoController@index') }}"
+                        <a href="{{ action('Applicant\AccountController@index') }}"
                            class="display float-lg-right btn-box-tool"> Back</a>
                     </div>
 

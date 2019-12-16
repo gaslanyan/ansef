@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Base;
+namespace App\Http\Controllers\Applicant;
 
 use App\Models\Meeting;
 use App\Models\Person;

@@ -1,24 +1,19 @@
 <!-- sidebar.blade.php -->
-<?php $signUser = signedPerson();
+<?php
+$signUser = signedPerson();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
 $user_id = getPersonIdByRole('superadmin');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left image d-inline-block">
-                <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="{{get_role_cookie()}} Image"/>
-            </div>
-            <div class="pull-left info d-inline-block">
-                <p class="text-capitalize">
-                    <?php
-                    if (!empty($signUser)):?>
-                            <?= $signUser->first_name . " " .
-                    $signUser->last_name .
-                    "<br>from: " . $signUser->domain; ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+            <div class="d-inline-block">
+                <p class="" style="color:#999;">
+                    <?php if (!empty($signUser)):?>
+                        <?= "<b>Logged in as " . $signUser->first_name . " " . $signUser->last_name . "</b>"; ?>
+                    <?php else: ?>
+                        <?= get_role_cookie(); ?>
+                    <?php endif;?>
                 </p>
             </div>
         </div>

@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Employment history
                         for {{$person[0]['first_name']." ".$person[0]['last_name']}}
-                        <a href="{{ action('Applicant\InfoController@index') }}"
+                        <a href="{{ action('Applicant\AccountController@index') }}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 

@@ -6,9 +6,6 @@ $user_id = getPersonIdByRole('viewer');
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left image d-inline-block">
-                <img src="{{asset('img/'.get_role_cookie().'.png')}}" class="img-circle" alt="{{get_role_cookie()}} Image"/>
-            </div>
             <div class="pull-left info d-inline-block">
                 <p class="text-capitalize">
                 <?php

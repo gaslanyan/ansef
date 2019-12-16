@@ -19,7 +19,8 @@ class SendEmailController extends Controller
         try {
             $pid = RefereeReport::select('proposal_id')->where('id', $id)->first()->proposal_id;
             $tag = getProposalTag($pid);
-            return view('referee.report.showEmail', compact('pid', 'tag', 'id'));
+            $rejected = null;
+            return view('referee.report.showEmail', compact('pid', 'tag', 'id', 'rejected'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/edit')->with('error', getMessage("wrong"));

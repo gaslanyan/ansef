@@ -306,19 +306,6 @@ class AjaxController extends Controller
         $p = Person::select('id')->where('user_id', $_id)->first();
         if (!empty($p)) {
             $arr = [];
-            // foreach ($pm as $index => $item) {
-            //     if (!empty($js['account_id']))
-            //         $arr[] = $js['account_id'];
-            // }
-            // if (in_array($p->id, $arr))
-            //     $response = [
-            //         'success' => true
-            //     ];
-            // else
-            //     $response = [
-            //         'success' => false,
-            //         'error' => 'Do not available'
-            //     ];
         } else {
             $response = [
                 'success' => false

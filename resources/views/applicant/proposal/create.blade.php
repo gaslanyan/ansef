@@ -6,8 +6,6 @@
             <div class="offset-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">Add A New Proposal
-                    <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
-                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
