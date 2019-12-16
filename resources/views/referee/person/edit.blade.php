@@ -40,11 +40,11 @@
                                     <option value="0">Select country</option>
                                     @if(!empty($countries))
                                         @foreach($countries as $item)
-                                            @if($item == $person['nationality'])
-                                                <option class="text-capitalize" value="{{$item}}"
-                                                        selected>{{$item}}</option>
+                                            @if($item->country_name == $person['nationality'])
+                                                <option class="text-capitalize" value="{{$item->country_name}}"
+                                                        selected>{{$item->country_name}}</option>
                                             @else
-                                                <option class="text-capitalize" value="{{$item}}">{{$item}}</option>
+                                                <option class="text-capitalize" value="{{$item->country_name}}">{{$item->country_name}}</option>
                                             @endif
                                         @endforeach
                                     @endif
