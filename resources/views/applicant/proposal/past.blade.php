@@ -60,7 +60,7 @@
                                                 @if($secondreports[$ap['id']])
                                                 <span class="fas fa-file-upload myButton">&nbsp;Second Report</span>
                                                 @else
-                                                <span class="fas fa-file-upload myButton" style="color:#e00;>&nbsp;Second Report</span>
+                                                <span class="fas fa-file-upload myButton" style="color:#e00;">&nbsp;Second Report</span>
                                                 @endif
                                             </a>
                                             @endif

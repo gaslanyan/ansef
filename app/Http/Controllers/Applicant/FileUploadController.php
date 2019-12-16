@@ -176,6 +176,7 @@ class FileUploadController extends Controller
         return  redirect()->back();
     }
 
+
     public function downloadfile($uuid) {
         $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
         return response()->download(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));

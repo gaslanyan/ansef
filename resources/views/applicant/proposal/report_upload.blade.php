@@ -19,10 +19,10 @@
             <div id="oldmessage" class="col-12">
             @if(!empty($document))
                 You currently have an uploaded document. You can:<br/><br/>
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$id}}\report-{{$repid}}.pdf" target="_blank">
+                <a class="btn btn-primary" href="{{route('downloadreport', $document)}}" target="_blank">
                         <i class="fa fa-download"></i>&nbsp; Download uploaded document
                 </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@removereport', $repid)}}">
+                <a class="btn btn-secondary" href="{{route('deletereport', $document)}}">
                         <i class="fa fa-trash"></i>&nbsp; Delete uploaded document
                 </a>
             @else

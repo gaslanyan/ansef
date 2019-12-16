@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Add Person</button>
-                                <a href = "{{ action('Admin\PersonController@index') }}" class="btn btn-secondary">Cancel</a>
+                                <a href = "{{ action('Admin\AdminController@index') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>
