@@ -16,6 +16,7 @@ class SendEmailController extends Controller
 {
     public function showEmail($id)
     {
+        $user_id = getUserID();
         try {
             $pid = RefereeReport::select('proposal_id')->where('id', $id)->first()->proposal_id;
             $tag = getProposalTag($pid);
@@ -29,6 +30,7 @@ class SendEmailController extends Controller
 
     public function showRejectedEmail($id)
     {
+        $user_id = getUserID();
         try {
             $pid = RefereeReport::select('proposal_id')->where('id', $id)->first()->proposal_id;
             $tag = getProposalTag($pid);
@@ -43,6 +45,7 @@ class SendEmailController extends Controller
     public function sendEmail(Request $request, $id)
     {
        try {
+        $user_id = getUserID();
         $person_id = getPersonIdByRole('referee');
         $person = Person::where('id', $person_id)->first();
         $email = User::where('id','=', $person->user_id)->first()->email;

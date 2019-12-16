@@ -21,7 +21,7 @@ class InstitutionController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
 
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         //$phones= [];
@@ -42,6 +42,7 @@ class InstitutionController extends Controller
      */
     public function create($id)
     {
+        $user_id = getUserID();
         $ins_array = [];
         $institutions_list = Institution::all()->toArray();
         $institution_person = InstitutionPerson::where('person_id','=', $id)->orderBy('start', 'DESC')->get()->sortBy('end');
@@ -59,6 +60,7 @@ class InstitutionController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $this->validate($request, [
             'i_title' => 'required',
             'i_type' => 'required',
@@ -109,6 +111,7 @@ class InstitutionController extends Controller
      */
     public function show($id)
     {
+        $user_id = getUserID();
         $institution = Institution::with('address')->find($id);
         $address = Country::with('address')->find($institution->address->country_id);
 
@@ -123,6 +126,7 @@ class InstitutionController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $institution = Institution::with('address')->find($id);
         $address = Country::with('address')->find($institution->address->country_id);
 
@@ -139,6 +143,7 @@ class InstitutionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         $this->validate($request, [
             'i_title.*' => 'required',
             'i_type.*' => 'required',
@@ -217,6 +222,7 @@ class InstitutionController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $template = Institution::find($id);
             $template->delete();
@@ -229,6 +235,7 @@ class InstitutionController extends Controller
 
     public function destroyemployment($id)
     {
+        $user_id = getUserID();
         try {
             $degree = InstitutionPerson::find($id);
             if(!empty($degree)) $degree->delete();

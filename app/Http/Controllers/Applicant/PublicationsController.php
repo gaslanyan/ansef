@@ -17,7 +17,7 @@ class PublicationsController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id)->get()->toArray();
         $publications = [];
         if (!empty($person_id[0]['id'])) {
@@ -34,6 +34,7 @@ class PublicationsController extends Controller
      */
     public function create($id)
     {
+        $user_id = getUserID();
         $person_id = Person::where('id', $id)->get()->toArray();
         $publications = Publications::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.publications.create', compact('id', 'publications','person_id'));
@@ -47,6 +48,7 @@ class PublicationsController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'title' => 'required|min:3',
             'year' => 'required|date_format:Y',
@@ -55,10 +57,6 @@ class PublicationsController extends Controller
         ]);
 
         try {
-            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
-            /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
-            $p_id  = $person_id[0]['id'];*/
-
             $p_id = $request->publication_add_hidden_id;
             $publication = new Publications;
             $publication->person_id = $p_id;
@@ -103,6 +101,7 @@ class PublicationsController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $publication = Publications::find($id);
         return view('base.publications.edit', compact('publication', 'id'));
     }
@@ -116,9 +115,7 @@ class PublicationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
-        /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
-        $p_id  = $person_id[0]['id'];*/
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'title.*' => 'required|min:3',
             'year.*' => 'required|date_format:Y',
@@ -165,6 +162,7 @@ class PublicationsController extends Controller
     public
     function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $publication = Publications::find($id);
             $publication->delete();

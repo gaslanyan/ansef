@@ -17,7 +17,7 @@ class HonorsController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         dd( $person_id);
         $honors= [];
@@ -35,6 +35,7 @@ class HonorsController extends Controller
      */
     public function create($id)
     {
+        $user_id = getUserID();
         $person_id = Person::where('id',$id )->get()->toArray();
         $honors = Honors::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.honors.create', compact('id','honors','person_id'));
@@ -48,8 +49,7 @@ class HonorsController extends Controller
      */
     public function store(Request $request)
     {
-
-        //dd($request->honor_hidden_id);
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'description' => 'required|min:3',
             'year' => 'required|date_format:Y'
@@ -91,6 +91,7 @@ class HonorsController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $honor = Honors::find($id);
         return view('base.honors.edit', compact('honor', 'id'));
     }
@@ -104,7 +105,7 @@ class HonorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $p_id  = $person_id[0]['id'];
 
@@ -138,6 +139,7 @@ class HonorsController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $honor = Honors::find($id);
             $honor->delete();

@@ -17,7 +17,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $books= [];
         if(!empty($person_id[0]['id'])) {
@@ -34,7 +34,6 @@ class BookController extends Controller
      */
     public function create($id)
     {
-
         $books = Book::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id )->get()->toArray();
 
@@ -55,9 +54,7 @@ class BookController extends Controller
             'year' => 'required',
         ]);
         try {
-            $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i stugum???*/
-            /*$person_id = Person::where('user_id', $user_id )->get()->toArray();
-            $p_id  = $person_id[0]['id'];*/
+                $user_id = getUserID();
 
                 $book = new Book;
                 $book->person_id = $request->book_add_hidden_id;
@@ -91,6 +88,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $book = Book::find($id);
         return view('base.book.edit', compact('book', 'id'));
     }
@@ -104,7 +102,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id )->get()->toArray();
         $p_id  = $person_id[0]['id'];
 
@@ -140,6 +138,7 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $book = Book::find($id);
             $book->delete();

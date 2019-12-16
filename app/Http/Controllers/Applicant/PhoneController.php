@@ -34,6 +34,7 @@ class PhoneController extends Controller
      */
     public function create($id)
     {
+        $user_id = getUserID();
         $persons_name = Person::where('id', $id)->where('type', '=', 'participant')->orWhere('type', '=', 'support')->first();
         $phone_list = Phone::where('person_id', '=', $id)->get()->toArray();
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
@@ -88,6 +89,7 @@ class PhoneController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $phone = Phone::find($id);
         return view('base.phone.edit', compact('phone', 'id'));
     }
@@ -101,6 +103,7 @@ class PhoneController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'country_code.*' => 'required|max:4',
             'phone.*' => 'required'
@@ -130,7 +133,7 @@ class PhoneController extends Controller
      */
     public function destroy($id)
     {
-
+        $user_id = getUserID();
         try {
             $phone = Phone::find($id);
             $phone->delete();

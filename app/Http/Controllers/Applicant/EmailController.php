@@ -56,6 +56,7 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $request->validate([
             'email.*' => 'email|max:255'
         ]);
@@ -91,6 +92,7 @@ class EmailController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
 
         $email = Email::where('person_id', '=', $id)->get()->toArray();
         return view('applicant.email.edit', compact('email', 'id'));
@@ -105,6 +107,7 @@ class EmailController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         try {
             $this->validate($request, [
                 'email_list.*' => 'required|email|max:255'
@@ -129,6 +132,7 @@ class EmailController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $email = Email::find($id);
             $email->delete();

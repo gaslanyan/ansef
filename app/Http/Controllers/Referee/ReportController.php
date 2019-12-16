@@ -30,6 +30,7 @@ class ReportController extends Controller
     public function state($state)
     {
         try {
+            $user_id = getUserID();
             $r_id = getPersonIdByRole('referee');
             $reports = RefereeReport::where('referee_id', '=', $r_id)
                 ->where('state', '=', $state)
@@ -72,6 +73,7 @@ class ReportController extends Controller
      */
     public function show($id)
     {
+        $user_id = getUserID();
         $report = RefereeReport::find($id);
         $pid = $report->proposal_id;
         $proposal = Proposal::find($pid);
@@ -118,6 +120,7 @@ class ReportController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         try {
             $report = RefereeReport::with('proposal')->find($id);
             $scoreTypes = ScoreType::with('score')->where('competition_id', $report->proposal->competition_id)->get();
@@ -148,6 +151,7 @@ class ReportController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         try {
             $report = RefereeReport::find($id);
             $scores = $request->name;
@@ -183,6 +187,7 @@ class ReportController extends Controller
 
     public function generatePDF($id)
     {
+        $user_id = getUserID();
         $report = RefereeReport::find($id);
         $pid = $report->proposal_id;
         $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
@@ -236,6 +241,7 @@ class ReportController extends Controller
 
     public function sendEmail($id)
     {
+        $user_id = getUserID();
         //        try {
         $title = Proposal::select('title')->where('id', $id)->first();
         $person_id = getPersonIdByRole('referee');

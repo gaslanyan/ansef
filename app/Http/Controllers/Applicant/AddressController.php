@@ -42,13 +42,15 @@ class AddressController extends Controller
 
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $request->validate([
             'street' => 'required|max:255',
             'province' => 'required|max:255',
             'city' => 'required|max:255',
         ]);
         try {
-            $person = Person::find($request->hidden_person_id);
+            $person = Person::where('id','=',$request->hidden_person_id)
+                            ->where('user_id','=', $user_id)->first();
             $address = new Address;
             $address->street = $request->street;
             $address->city = $request->city;
@@ -68,13 +70,16 @@ class AddressController extends Controller
 
     public function edit($id)
     {
-        $person = Person::find($id);
+        $user_id = getUserID();
+        $person = Person::where('id','=',$id)
+                        ->where('user_id','=', $user_id)->first();
         $addresses = $person->addresses()->toArray();
         return view('applicant.address.edit', compact('addresses', 'person'));
     }
 
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         try {
             $this->validate($request, [
                 'street.*' => 'required|max:255',
@@ -98,6 +103,7 @@ class AddressController extends Controller
 
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $address = Address::find($id);
             $address->delete();

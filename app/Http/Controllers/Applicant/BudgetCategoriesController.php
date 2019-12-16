@@ -20,12 +20,14 @@ class BudgetCategoriesController extends Controller
 {
     public function index()
     {
+        $user_id = getUserID();
         return view('applicant.budgetcategories.create');
     }
 
 
     public function create(Request $request, $id)
     {
+        $user_id = getUserID();
         $p = Proposal::find($id);
 
         if(!empty($p)) {
@@ -59,6 +61,7 @@ class BudgetCategoriesController extends Controller
 
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'bc' => 'required|not_in:0',
             'description' => 'required|min:5',
@@ -83,6 +86,7 @@ class BudgetCategoriesController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         try {
             $this->validate($request, [
                 'bc_list.*' => 'required|not_in:0',
@@ -113,6 +117,7 @@ class BudgetCategoriesController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $bi = BudgetItem::find($id);
             $bi->delete();

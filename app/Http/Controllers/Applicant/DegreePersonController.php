@@ -19,10 +19,9 @@ class DegreePersonController extends Controller
      */
     public function index()
     {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = getUserID();
         $person_id = Person::where('user_id', $user_id)->get()->toArray();
         $dp = DegreePerson::with('degree')->find();
-
 
         $degrees = [];
         if (!empty($person_id[0]['id'])) {
@@ -39,6 +38,7 @@ class DegreePersonController extends Controller
      */
     public function create($id)
     {
+        $user_id = getUserID();
         $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
         $degreesperson = DegreePerson::where('person_id','=',$id)->orderBy('year', 'DESC')->get();
         $degrees_list = Degree::all();
@@ -54,6 +54,7 @@ class DegreePersonController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'description' => 'required|numeric|min:0|not_in:0',
             'year' => 'required|numeric|min:1900|max:2030'
@@ -91,9 +92,8 @@ class DegreePersonController extends Controller
      */
     public function show($id)
     {
-        /* $person_id = Person::where('user_id', $id)->get()->toArray();
-        $dp = DegreePerson::with('degree')->find($person_id['id']);
-        dd($dp);*/ }
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -103,6 +103,7 @@ class DegreePersonController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
         $degree = DegreePerson::find($id);
         return view('applicant.degree.edit', compact('degree', 'id'));
     }
@@ -116,6 +117,7 @@ class DegreePersonController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'description.*' => 'required|numeric|min:0|not_in:0',
             'year.*' => 'required|numeric|min:1900|max:2030'
@@ -157,6 +159,7 @@ class DegreePersonController extends Controller
      */
     public function destroy($id)
     {
+        $user_id = getUserID();
         try {
             $degree = DegreePerson::find($id);
             $degree->delete();

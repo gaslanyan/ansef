@@ -16,6 +16,7 @@ class ResearchBoardController extends Controller
      */
     public function index($type)
     {
+        $user_id = getUserID();
          if($type=='board') {
             return view('applicant.email.board');
          }
@@ -28,7 +29,7 @@ class ResearchBoardController extends Controller
     public function send(Request $request)
     {
         if (!empty($request->message)) {
-            $user_id = getUserIdByRole();
+            $user_id = getUserID();
             $user = User::find($user_id);
             $email = $user->email;
             $name = $user->email;

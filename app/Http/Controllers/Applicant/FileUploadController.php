@@ -16,6 +16,7 @@ class FileUploadController extends Controller
 {
     function index($id)
     {
+        $user_id = getUserID();
         $document = Proposal::find($id)->document;
 
         return view('applicant.proposal.file_upload',compact('id', 'document'));
@@ -23,6 +24,7 @@ class FileUploadController extends Controller
 
     function docfile($id)
     {
+        $user_id = getUserID();
         $document = Proposal::find($id)->document;
 
         return view('applicant.proposal.file_upload', compact('id', 'document'));
@@ -46,6 +48,7 @@ class FileUploadController extends Controller
 
     function reportfile($id)
     {
+        $user_id = getUserID();
         $proposal = Proposal::find($id);
         $due_date = date('Y-m-d');
         if($proposal->competition->first_report >= date('Y-m-d'))
@@ -68,6 +71,7 @@ class FileUploadController extends Controller
 
     function upload(Request $request)
     {
+        $user_id = getUserID();
         $rules = array(
             'file'  => 'required|mimes:pdf|max:20480'
         );
@@ -115,6 +119,7 @@ class FileUploadController extends Controller
 
     function uploadreport(Request $request)
     {
+        $user_id = getUserID();
         $rules = array(
             'file'  => 'required|mimes:pdf|max:20480'
         );

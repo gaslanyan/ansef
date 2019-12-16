@@ -34,6 +34,7 @@ class PersonController extends Controller
 
     public function create()
     {
+        $user_id = getUserID();
         try {
             $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
 
@@ -47,6 +48,7 @@ class PersonController extends Controller
 
     public function edit($id)
     {
+        $user_id = getUserID();
         try {
             $person = Person::where('id', '=', $id)->first();
             $address = Address::firstOrCreate([
@@ -68,6 +70,7 @@ class PersonController extends Controller
 
     public function update(Request $request, $id)
     {
+        $user_id = getUserID();
         try {
             $v = Validator::make($request->all(), [
                 'first_name' => 'required|max:255',
@@ -107,13 +110,14 @@ class PersonController extends Controller
 
     public function changePassword()
     {
+        $user_id = getUserID();
         return view('referee.person.changepassword');
     }
 
     public function updatePassword(Request $request)
     {
         try {
-                $user_id = \Auth::guard('referee')->user()->id;
+                $user_id = getUserID();
                 $this->validate($request, [
                     'oldpassword' => 'required',
                     'newpassword' => 'required|min:8',

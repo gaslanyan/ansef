@@ -58,7 +58,6 @@ class AccountController extends Controller
     {
         $user_id = getUserID();
         // $person_id = Person::where('user_id', $user_id)->first();
-        $person_id = getPersonIdByRole(null);
         $validatedData = $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',
@@ -102,9 +101,11 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-
+        $user_id = getUserID();
         $user = User::find($id);
-        $person = Person::where('id', '=', $id)->get()->toArray();
+        $person = Person::where('id', '=', $id)
+                        ->where('user_id', '=', $user_id)
+                        ->get()->toArray();
         if (!empty($person)) {
             $person_id = $id;//$person[0]['id'];
             $emails = Email::where('person_id', $person_id)->get();

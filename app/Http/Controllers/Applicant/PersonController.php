@@ -43,6 +43,7 @@ class PersonController extends Controller
      */
     public function create()
     {
+        $user_id = getUserID();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.person.create', compact('countries', 'institutions'));
@@ -64,7 +65,7 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::guard('applicant')->user();
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',
@@ -91,7 +92,7 @@ class PersonController extends Controller
             $person->state = $request->state;
             $person->type = $request->type;
             $person->specialization = $request->specialization;
-            $person->user_id = $user->id;
+            $person->user_id = $user_id;
             $person->save();
             $person_id = $person->id;
         } catch (ValidationException $e) {
@@ -103,8 +104,6 @@ class PersonController extends Controller
             logger()->error($exception);
             return redirect('applicant/person')->with('wrong', getMessage("wrong"));
         }
-
-
 
         try {
             foreach ($request->institution as $key => $val) {
@@ -200,6 +199,7 @@ class PersonController extends Controller
      */
     public function edit($id)
     {
+        $user_id = getUserID();
 
         $person = Person::where('id', '=', $id)->first();
         $fulladdress = [];
@@ -275,6 +275,7 @@ class PersonController extends Controller
 
     public function changePassword()
     {
+        $user_id = getUserID();
 
         try {
             return view('applicant.person.changepassword');
