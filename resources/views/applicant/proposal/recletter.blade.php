@@ -30,7 +30,7 @@
        <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
              <div class="card" >
-                <div class="card-header">Recommendation Letter for {{$pi->first_name}} {{$pi->last_name}}
+                <div class="card-header">Recommendation letter for {{$pi->first_name}} {{$pi->last_name}}
                 </div>
 
         <div class="card-body card_body" style="overflow:auto;">
@@ -47,10 +47,10 @@
             <div id="oldmessage" class="col-12">
             @if(!empty($document))
                 You currently have an uploaded letter. You can:<br/><br/>
-                <a class="btn btn-primary" href="\storage\proposal\prop-{{$prop}}\letter-{{$id}}.pdf" target="_blank">
+                <a class="btn btn-primary" href="{{route('downloadletter', $document)}}" target="_blank">
                         <i class="fa fa-download"></i>&nbsp; Download uploaded letter to verify content
                 </a><br/><br/>
-                <a class="btn btn-secondary" href="{{action('Applicant\FileUploadController@removeletter', $id)}}">
+                <a class="btn btn-secondary" href="{{route('deleteletter', $document)}}">
                         <i class="fa fa-trash"></i>&nbsp; Delete uploaded letter
                 </a>
             @else
@@ -58,7 +58,7 @@
             @endif
             </div><br/><br/>
 
-            <form method="post" action="{{ route('uploadletter') }}" enctype="multipart/form-data">
+            <form method="post" action="{{route('uploadletter')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
@@ -93,9 +93,6 @@
 
 <script>
     $(document).ready(function(){
-        $('#uploaddone').hide();
-        $('#newmessage').hide();
-
         $('form').ajaxForm({
             beforeSend:function(){
                 $('#success').empty();
