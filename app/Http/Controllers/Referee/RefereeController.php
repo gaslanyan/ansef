@@ -22,7 +22,7 @@ class RefereeController extends Controller
             redirect(\Illuminate\Support\Facades\Request::url());
         }
 
-        $user_id = \Auth::guard('referee')->user()->id;
+        $user_id = getUserID();
         createperson($user_id, 'referee');
 
         return view("referee.dashboard", compact('user_id'));
