@@ -99,6 +99,7 @@ class FileUploadController extends Controller
             'file'  => 'required|mimes:pdf|max:20480'
         );
 
+
         $error = Validator::make($request->all(), $rules);
 
         if ($error->fails()) {

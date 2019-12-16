@@ -76,7 +76,7 @@ Route::get('/referee/sign', 'Referee\RefereeController@index', [
 
 
 // ---------------------------------- Admin routes ----------------------------------
-   Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
+Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
     Route::get('/admin/export', 'Admin\SettingsController@exportForm');
     Route::get('/admin/sql', 'Admin\SettingsController@sql');
