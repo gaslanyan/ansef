@@ -6,6 +6,8 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Person details
+                        <a href="{{ action('Applicant\PersonController@index') }}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
@@ -295,7 +297,6 @@
                         </div>
                         <div class="col-lg-12" style="margin-top:30px;">
                             <a href="{{action('Applicant\PersonController@download', 1)}}" class="btn btn-primary">Download</a>
-                            <a href="{{action('Applicant\PersonController@index') }}" class="btn btn-secondary">Go Back</a>
                         </div>
 
                     </div>

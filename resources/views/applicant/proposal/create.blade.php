@@ -5,14 +5,16 @@
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
                 <div class="card" >
-                    <div class="card-header">Add A New Proposal</div>
+                    <div class="card-header">Add A New Proposal
+                    <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
+                    </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(count($competitions) == 0)
                             <h5>There are no competitions that you can apply to at this time. Check back again later.</h5>
                                 <br/>
-                                <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary">Go Back</a>
                         @else
                         <h5>Choose a competition first</h5>
                         <form method="post" action="{{action('Applicant\ProposalController@store')}}" class="row"

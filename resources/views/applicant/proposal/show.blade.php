@@ -6,7 +6,8 @@
             <div class="offset-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">View Proposal
-
+                        <a href="{{ action('Applicant\ProposalController@activeProposal') }}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
@@ -32,7 +33,6 @@
 
                         <div class="col-lg-12" style="margin-top:30px;">
                             <a href="{{action('Applicant\ProposalController@generatePDF', $proposal->id)}}" class="btn btn-primary">Download</a>
-                            <a href="{{action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary">Go Back</a>
                         </div>
 
                             </div>

@@ -6,6 +6,8 @@
         <div class="offset-2 col-md-10">
              <div class="card" >
                 <div class="card-header">Proposal Document
+                    <a href="{{ action('Applicant\ProposalController@activeProposal', $id) }}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                 </div>
 
         <div class="card-body card_body" style="overflow:auto;">
@@ -55,7 +57,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <div id="uploadlater"><a href="{{action('Applicant\ProposalController@activeProposal', $id)}}" class="btn btn-primary">Upload later</a></div>
-                    <div id="uploaddone"><a href="{{action('Applicant\ProposalController@activeProposal', $id)}}" class="btn btn-primary">Go back</a></div>
                 </div>
              </div>
         </div>
