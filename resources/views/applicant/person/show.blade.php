@@ -19,7 +19,8 @@
                 'honors' => $honors,
                 'books' => $books,
                 'meetings' => $meetings,
-                'publications' => $publications
+                'publications' => $publications,
+                'showdownloads' => true
                 ])
 
                 <div class="col-lg-12" style="margin-top:30px;">

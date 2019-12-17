@@ -25,7 +25,6 @@
                             'pi' => $pi,
                             'budget_items' => $budget_items,
                             'budget' => $budget,
-                            'admin' => false,
                             'showdownloads' => true
                         ])
 

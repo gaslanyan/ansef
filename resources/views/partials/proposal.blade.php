@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="form-group">
                     <strong><i class="fa fa-file margin-r-5"></i> Proposal Document:</strong><br/>
-                    <a href="\storage\proposal\prop-{{$pid}}\document.pdf" target="_blank" class="btn-link">
+                    <a href="{{route('download', $proposal->document)}}" target="_blank" class="btn-link">
                         <i class="fa fa-download"></i> Download proposal document</a>
                 </div>
             </div>
@@ -100,13 +100,11 @@
                         <strong>Role: </strong>
                         <p>{{ucfirst($person->pivot->subtype == 'supportletter' ? 'recommender' : $person->pivot->subtype)}}</p>
                     </div>
-                    @if(!$admin)
-                    <div class="form-group col-lg-2">
+                    {{-- <div class="form-group col-lg-2">
                         <a href="{{action('Applicant\PersonController@show', $person->id)}}" target="_blank" class="myButton" title="View">
                             <i class="fas fa-eye">View</i>
                         </a>
-                    </div>
-                    @endif
+                    </div> --}}
                 </div>
             </div>
         @endforeach
