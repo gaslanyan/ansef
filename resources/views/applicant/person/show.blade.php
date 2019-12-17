@@ -6,7 +6,7 @@
         <div class="offset-md-2 col-md-10">
             <div class="card">
                 <div class="card-header">Person details
-                    <a href="{{ action('Applicant\PersonController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
+                    <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
                 </div>
 
                 @include('partials.person',

@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-primary px-2">Add a ranking rule</a>
                         <a href="{{action('Admin\RankingRuleController@execute')}}"
                            class="display float-lg-right btn-primary mx-2 px-2">Execute ranking rules</a>
-                        <a href="{{action('Admin\RankingRuleController@index')}}"
+                        <a href="{{URL::previous()}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

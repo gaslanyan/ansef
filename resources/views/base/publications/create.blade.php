@@ -6,7 +6,7 @@
             <div class="col-md-10 offset-md-2">
                  <div class="card" >
                     <div class="card-header">Show Publications for  {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
-                        <a href="{{ action('Applicant\AccountController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
+                        <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>

@@ -6,7 +6,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card">
                     <div class="card-header">Instructions for proposal document
-                        <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="display float-lg-right btn-box-tool"> Go Back</a>
+                        <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool"> Go Back</a>
                     </div>
                     <div style="margin:20px;">
                     {!! $competition->instructions !!}

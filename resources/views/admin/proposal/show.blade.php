@@ -6,7 +6,8 @@
             <div class="offset-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">View Proposal
-
+                        <a href="{{URL::previous()}}"
+                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
@@ -30,20 +31,16 @@
                         @include('partials.proposaldetails',[
                             'persons' => $persons,
                             'recommendations' => $recommendations,
-                            'showdownloads' => false
+                            'showdownloads' => true
                         ])
 
+                        @include('partials.refereereports',[
+                            'reports' => $reports
+                        ])
                         <div class="box-primary">
-
-                        <div class="col-lg-12" style="margin-top:30px;">
-                            <a href="{{action('Applicant\ProposalController@generatePDF', $proposal->id)}}" class="btn btn-primary">Download</a>
-                        </div>
-
+                            <div class="col-lg-12" style="margin-top:30px;">
+                                <a href="{{action('Admin\ProposalController@generatePDF', $proposal->id)}}" class="btn btn-primary">Download PDF</a>
                             </div>
-
-
-
-
                         </div>
                     </div>
                 </div>

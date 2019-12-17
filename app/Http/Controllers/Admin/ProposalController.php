@@ -104,6 +104,8 @@ class ProposalController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
+        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
+        $reports = ProposalReports::where('proposal_id', '=', $pid)->get();
 
         return view('admin.proposal.show', compact(
             'pid',
@@ -120,28 +122,17 @@ class ProposalController extends Controller
             'cat_sec_sub',
             'pi',
             'budget_items',
-            'budget'
+            'budget',
+            'recommendations',
+            'reports'
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         try {
@@ -383,5 +374,62 @@ class ProposalController extends Controller
             }
             return response()->json($response);
         }
+    }
+
+    public function generatePDF($id)
+    {
+        $user_id = getUserID();
+        $proposal = Proposal::find($id);
+        $pid = $proposal->id;
+        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
+        $institution = $proposal->institution();
+        $competition = $proposal->competition;
+        $persons = $proposal->persons()->get()->sortBy('last_name');
+        $additional = json_decode($competition->additional);
+        $categories = json_decode($proposal->categories);
+        $cat_parent = Category::with('children')->where('id', $categories->parent)->get()->first();
+        $cat_sub = Category::with('children')->where('id', $categories->sub)->get()->first();;
+        $cat_sec_parent = property_exists($categories, 'sec_parent') ? Category::with('children')->where('id', $categories->sec_parent)->get()->first() : null;
+        $cat_sec_sub = property_exists($categories, 'sec_sub') ? Category::with('children')->where('id', $categories->sec_sub)->get()->first() : null;
+        $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
+        $budget_items = $proposal->budgetitems()->get();
+        $budget = $proposal->budget();
+        $reports = ProposalReports::where('proposal_id','=',$pid)->get();
+
+        $data = [
+            'id' => $id,
+            'pid' => $pid,
+            'proposal' => $proposal,
+            'institution' => $institution,
+            'competition' => $competition,
+            'persons' => $persons,
+            'additional' => $additional,
+            'categories' => $categories,
+            'proposal' => $proposal,
+            'cat_parent' => $cat_parent,
+            'cat_sub' => $cat_sub,
+            'cat_sec_parent' => $cat_sec_parent,
+            'cat_sec_sub' => $cat_sec_sub,
+            'pi' => $pi,
+            'budget_items' => $budget_items,
+            'budget' => $budget,
+            'recommendations' => $recommendations,
+            'reports' => $reports
+        ];
+
+        $pdf = PDF::loadView('admin.proposal.pdf', $data);
+        $pdf->save(storage_path('/proposal/prop-' . $pid . '/combined.pdf'));
+
+        $pdfMerge = PDFMerger::init();
+        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/document.pdf'), 'all');
+        foreach ($recommendations as $r) {
+            $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/letter-' . $r->id . '.pdf'), 'all');
+        }
+        $pdfMerge->merge();
+
+        $pdfMerge->save(storage_path('/proposal/prop-' . $pid . 'download.pdf'), 'download');
+
+        Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }
 }

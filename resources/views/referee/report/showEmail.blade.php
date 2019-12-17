@@ -7,8 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Communicate with Program Officer
                         @if(empty($rejected))
-                        <a href="{{'/referee/reports/' . $id . '/edit'}}"
-                           class="display float-lg-right btn-box-tool">Go Back</a>
+                        <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
                         @endif
                     </div>
 

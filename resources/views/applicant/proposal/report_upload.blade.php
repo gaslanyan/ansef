@@ -6,7 +6,7 @@
         <div class="offset-2 col-md-10">
              <div class="card" >
                 <div class="card-header">Upload Report Document
-                <a href="{{ action('Applicant\ProposalController@pastProposal') }}"
+                <a href="{{URL::previous()}}"
                     class="display float-lg-right btn-box-tool"> Go Back</a>
                 </div>
 

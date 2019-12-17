@@ -6,7 +6,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" style="margin-top:20px;">
                     <div class="card-header">Person details
-                        <a href="{{ action('Applicant\PersonController@index') }}"
+                        <a href="{{URL::previous()}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 

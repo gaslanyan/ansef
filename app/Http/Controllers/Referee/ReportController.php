@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
+use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
@@ -237,6 +238,8 @@ class ReportController extends Controller
         $pdfMerge->merge();
 
         $pdfMerge->save(storage_path('/proposal/prop-' . $pid . 'download.pdf'), 'download');
+
+        Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }
 
     public function sendEmail($id)

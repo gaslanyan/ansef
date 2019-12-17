@@ -31,6 +31,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NotifyRecommender;
+use LynX39\LaraPdfMerger\Facades\PdfMerger;
 
 class ProposalController extends Controller
 {
@@ -336,6 +337,7 @@ class ProposalController extends Controller
     {
         $user_id = getUserID();
         $proposal = Proposal::find($id);
+        $pid = $proposal->id;
         $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get()->sortBy('last_name');
@@ -349,25 +351,36 @@ class ProposalController extends Controller
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
 
-        $pdf = PDF::loadView('applicant.proposal.pdf', compact(
-            'id',
-            'proposal',
-            'institution',
-            'competition',
-            'persons',
-            'additional',
-            'categories',
-            'proposal',
-            'cat_parent',
-            'cat_sub',
-            'cat_sec_parent',
-            'cat_sec_sub',
-            'pi',
-            'budget_items',
-            'budget'
-        ));
+        $data = [
+            'id' => $id,
+            'pid' => $pid,
+            'proposal' => $proposal,
+            'institution' => $institution,
+            'competition' => $competition,
+            'persons' => $persons,
+            'additional' => $additional,
+            'categories' => $categories,
+            'proposal' => $proposal,
+            'cat_parent' => $cat_parent,
+            'cat_sub' => $cat_sub,
+            'cat_sec_parent' => $cat_sec_parent,
+            'cat_sec_sub' => $cat_sec_sub,
+            'pi' => $pi,
+            'budget_items' => $budget_items,
+            'budget' => $budget
+        ];
 
-        return $pdf->download('document.pdf');
+        $pdf = PDF::loadView('applicant.proposal.pdf', $data);
+        $pdf->save(storage_path('app/proposals/prop-' . $pid . '/combined.pdf'));
+
+        $pdfMerge = PDFMerger::init();
+        $pdfMerge->addPDF(storage_path('app/proposals/prop-' . $pid . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path('app/proposals/prop-' . $pid . '/document.pdf'), 'all');
+        $pdfMerge->merge();
+
+        $pdfMerge->save(storage_path('app/proposals/prop-' . $pid . 'download.pdf'), 'download');
+
+        Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }
 
     public function updatepersons(Request $request,$id)

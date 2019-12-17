@@ -33,6 +33,7 @@
     @endforeach
 
     <br/><br/><br/>
+    @if(!empty($recommendations))
     @if(count($recommendations) > 0 && $showdownloads)
     <div class="box-header with-border">
         <h4 class="row">  Recommendation letters </h4>
@@ -43,6 +44,7 @@
                 <i class="fa fa-download"></i> Download letter</a>
                 <hr>
     @endforeach
+    @endif
     @endif
 
 </div>

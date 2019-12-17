@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header">Show Past Honors and Grants
                         for {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
-                        <a href="{{ action('Applicant\AccountController@index') }}"
+                        <a href="{{URL::previous()}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
