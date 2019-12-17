@@ -41,7 +41,7 @@ class ReportController extends Controller
             return view('referee.report.index', compact('reports', 'state'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/' . $state)->with('error', getMessage("wrong"));
+            return redirect('referee/' . $state)->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -139,7 +139,7 @@ class ReportController extends Controller
             return view('referee.report.edit', compact('report', 'scoreTypes', 'scores', 'overall'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/edit')->with('error', getMessage("wrong"));
+            return redirect('referee/edit')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -177,7 +177,7 @@ class ReportController extends Controller
             else return redirect()->action('Referee\ReportController@state', 'in-progress');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage("wrong"))->withInput();
+            return redirect()->back()->with('error', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -254,7 +254,7 @@ class ReportController extends Controller
             $f_name = $full_name->first_name . " " . $full_name->last_name;
         else
             $f_name = 'Referee by ' . $email->email;
-        $data = ['name' => getMessage('reject') . " " . $title->title];
+        $data = ['name' => messageFromTemplate('reject') . " " . $title->title];
 
         Mail::send(
             ['text' => 'referee.report.mail'],

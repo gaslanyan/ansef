@@ -23,7 +23,7 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('proposals'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/index')->with('error', getMessage("wrong"));
+            return redirect('admin/index')->with('error', messageFromTemplate("wrong"));
         }
 
     }

@@ -23,7 +23,7 @@ class TemplateController extends Controller
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/template')->with('error', getMessage("wrong"));
+            return redirect('admin/template')->with('error', messageFromTemplate("wrong"));
 
         }
 
@@ -58,13 +58,13 @@ class TemplateController extends Controller
                     $templates->name = $request->name;
                     $templates->text = $request->text;
                     $templates->save();
-                    return redirect('admin/template')->with('success', getMessage("success"));
+                    return redirect('admin/template')->with('success', messageFromTemplate("success"));
                 }
                 else return redirect()->back()->withErrors($val->errors())->withInput();
 
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/template')->with('error', getMessage("wrong"));;
+                return redirect('admin/template')->with('error', messageFromTemplate("wrong"));;
 
             }
 
@@ -94,7 +94,7 @@ class TemplateController extends Controller
             return view('admin.template.edit', compact('template', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/template')->with('error', getMessage("wrong"));
+            return redirect('admin/template')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -110,11 +110,11 @@ class TemplateController extends Controller
                 $templates->name = $request->name;
                 $templates->text = htmlentities($request->text, ENT_QUOTES);
                 $templates->save();
-                return redirect('admin/template')->with('success', getMessage("update"));
+                return redirect('admin/template')->with('success', messageFromTemplate("update"));
             } else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 
@@ -123,10 +123,10 @@ class TemplateController extends Controller
         try {
             $template = Template::find($id);
             $template->delete();
-            return redirect('admin/template')->with('delete', getMessage('deleted'));
+            return redirect('admin/template')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/template')->with('wrong', getMessage('wrong'));
+            return redirect('admin/template')->with('wrong', messageFromTemplate('wrong'));
         }
     }
 }

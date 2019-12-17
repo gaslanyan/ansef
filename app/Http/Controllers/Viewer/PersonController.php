@@ -97,11 +97,11 @@ class PersonController extends Controller
         } catch (ValidationException $e) {
             // Rollback and then redirect back to form with errors
             DB::rollback();
-            return redirect('viewer/person')->with('wrong', getMessage("wrong"));
+            return redirect('viewer/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('viewer/person')->with('wrong', getMessage("wrong"));
+            return redirect('viewer/person')->with('wrong', messageFromTemplate("wrong"));
         }
 
 
@@ -122,16 +122,16 @@ class PersonController extends Controller
             // Rollback and then redirect
             // back to form with errors
             DB::rollback();
-            return redirect('viewer/person')->with('wrong', getMessage("wrong"));
+            return redirect('viewer/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
 
         DB::commit();
-        return redirect('viewer/person')->with('success', getMessage("success"));
+        return redirect('viewer/person')->with('success', messageFromTemplate("success"));
 
     }
 
@@ -244,11 +244,11 @@ class PersonController extends Controller
             // Rollback and then redirect
             // back to form with errors
             DB::rollback();
-            return redirect('viewer/person')->with('wrong', getMessage("wrong"));
+            return redirect('viewer/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
         /*  try {
@@ -267,15 +267,15 @@ class PersonController extends Controller
               // Rollback and then redirect
               // back to form with errors
               DB::rollback();
-              return redirect('applicant/person')->with('wrong', getMessage("wrong"));
+              return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
           } catch (\Exception $exception) {
               DB::rollBack();
               logger()->error($exception);
-              return getMessage("wrong");
+              return messageFromTemplate("wrong");
           }*/
         DB::commit();
-        /*return redirect('applicant/person')->with('success', getMessage("success"));*/
-        return redirect('viewer/account')->with('success', getMessage("success"));
+        /*return redirect('applicant/person')->with('success', messageFromTemplate("success"));*/
+        return redirect('viewer/account')->with('success', messageFromTemplate("success"));
 
     }
 
@@ -319,10 +319,10 @@ class PersonController extends Controller
         try {
             $person = Person::find($id);
             $person->delete();
-            return redirect('viewer/account')->with('delete', getMessage('deleted'));
+            return redirect('viewer/account')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
     }

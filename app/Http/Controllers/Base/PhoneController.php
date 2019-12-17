@@ -62,13 +62,13 @@ class PhoneController extends Controller
                 $phone->number = $item;
                 $phone->save();
             }
-            return Redirect::back()->with('success', getMessage("success"));
-            //return redirect('admin/phone')->with('success', getMessage("success"));
+            return Redirect::back()->with('success', messageFromTemplate("success"));
+            //return redirect('admin/phone')->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-            //return redirect('admin/phone')->with('error', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
+            //return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
 
         }
     }
@@ -126,13 +126,13 @@ class PhoneController extends Controller
                  $phones->number = $item;
                  $phones->save();
              }
-            return Redirect::back()->with('success', getMessage("success"));
-            //return redirect('admin/phone')->with('success', getMessage("update"));
+            return Redirect::back()->with('success', messageFromTemplate("success"));
+            //return redirect('admin/phone')->with('success', messageFromTemplate("update"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
-            //return redirect('admin/phone')->with('error', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
+            //return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -147,12 +147,12 @@ class PhoneController extends Controller
         try {
             $phone = Phone::find($id);
             $phone->delete();
-            return Redirect::back()->with('deleted', getMessage("deleted"));
-            //return redirect('admin/phone')->with('success', getMessage('deleted'));
+            return Redirect::back()->with('deleted', messageFromTemplate("deleted"));
+            //return redirect('admin/phone')->with('success', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"));
-            //return redirect('admin/phone')->with('error', getMessage('wrong'));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
+            //return redirect('admin/phone')->with('error', messageFromTemplate('wrong'));
         }
     }
 }

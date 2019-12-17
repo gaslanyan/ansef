@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = signedPerson();
+$signUser = loggedPerson();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
 $user_id = getPersonIdByRole('superadmin');
 ?>
@@ -74,7 +74,7 @@ $user_id = getPersonIdByRole('superadmin');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <?php if(checkUser('superadmin') ): ?>
+                    <?php if(userHasPerson()): ?>
                     <li class="text-uppercase">
                         <a href="{{action('Admin\PersonController@edit', $user_id)}}">
                             <i class="fa fa-user"></i>

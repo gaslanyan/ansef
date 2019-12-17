@@ -28,7 +28,7 @@ class PersonController extends Controller
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/person')->with('error', getMessage("wrong"));
+            return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -42,7 +42,7 @@ class PersonController extends Controller
             return view('referee.person.create', compact('countries', 'institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/person')->with('error', getMessage("wrong"));
+            return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -64,7 +64,7 @@ class PersonController extends Controller
             return view('referee.person.edit', compact('address', 'person', 'id', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/person')->with('error', getMessage("wrong"));
+            return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -131,11 +131,11 @@ class PersonController extends Controller
                 } else {
                     $user->password = bcrypt($request->newpassword);
                     $user->save();
-                    return \Redirect::to('logout')->with('success', getMessage("success"));
+                    return \Redirect::to('logout')->with('success', messageFromTemplate("success"));
                 }
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/person')->with('error', getMessage("wrong"));
+            return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
         }
     }
 }

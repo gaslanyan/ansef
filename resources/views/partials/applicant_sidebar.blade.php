@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-    $signUser = signedApplicant();
+    $signUser = loggedPerson();
     $user_id = getPersonIdByRole('applicant');
 ?>
 <aside class="main-sidebar">
@@ -28,7 +28,7 @@
                     </span>
                 </a>
             </li>
-            <?php if(checkUser('applicant') != false ){ ?>
+            <?php if(userHasPerson()){ ?>
             <li class="text-uppercase">
                 <a href="{{action('Applicant\PersonController@changePassword')}}">
                     <i class="fas fa-key"></i>
@@ -42,7 +42,7 @@
                 Your user ID is incorrect. <br/>Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
             </li>
             <?php } ?>
-            <?php if(checkUser('applicant') != false ){ ?>
+            <?php if(userHasPerson()){ ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-users"></i> <span>Persons</span>

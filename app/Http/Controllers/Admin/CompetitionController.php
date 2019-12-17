@@ -39,7 +39,7 @@ class CompetitionController extends Controller
                 compact('coms', 'categories'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/competition')->with('error', getMessage("wrong"));
+            return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -56,7 +56,7 @@ class CompetitionController extends Controller
             return view("admin.competition.create", compact('degrees', 'categories'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/competition')->with('error', getMessage("wrong"));
+            return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -139,12 +139,12 @@ class CompetitionController extends Controller
                         'instructions' => $request->instructions
                     ]);
 
-                    return redirect('admin/competition')->with('success', getMessage("success"));
+                    return redirect('admin/competition')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/competition')->with('error', getMessage("wrong"));
+                return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
             }
         }
     }
@@ -185,7 +185,7 @@ class CompetitionController extends Controller
                 'st', 'rr', 'bc'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/competition')->with('error', getMessage("wrong"));
+            return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -218,7 +218,7 @@ class CompetitionController extends Controller
             Competition::destroy($id);
 
             DB::commit();
-            return redirect('admin/competition')->with('delete', getMessage('deleted'));
+            return redirect('admin/competition')->with('delete', messageFromTemplate('deleted'));
         } catch (ValidationException $e) {
             // Rollback and then redirect
             // back to form with errors
@@ -229,7 +229,7 @@ class CompetitionController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('admin/competition')->with('error', getMessage("wrong"));
+            return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
         }
     }
 

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
-// JSON 
+// JSON
 //  {
 //      'min_pi_age': 0,
 //      'max_pi_age': 100,
@@ -62,7 +62,7 @@ class RankingRuleController extends Controller
                 compact('rules'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', getMessage("wrong"));
+            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -85,7 +85,7 @@ class RankingRuleController extends Controller
                 compact('competition', 'users', 'rr'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', getMessage("wrong"));
+            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -107,13 +107,13 @@ class RankingRuleController extends Controller
             if (!$v->fails()) {
                 RankingRule::create($request->all());
 
-                return redirect('admin/rank')->with('success', getMessage("success"));
+                return redirect('admin/rank')->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
 
             logger()->error($exception);
-            return redirect('admin/rank')->with('errors', getMessage("wrong"));
+            return redirect('admin/rank')->with('errors', messageFromTemplate("wrong"));
         }
     }
 
@@ -146,7 +146,7 @@ class RankingRuleController extends Controller
             return view('admin.ranking_rule.edit', compact('rank', 'competition', 'users'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', getMessage("wrong"));
+            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
 
     }
@@ -170,12 +170,12 @@ class RankingRuleController extends Controller
                 if (!$v->fails()) {
                     $rank = RankingRule::findOrFail($id);
                     $rank->fill($request->all())->save();
-                    return redirect('admin/rank')->with('success', getMessage("success"));
+                    return redirect('admin/rank')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/rank')->with('error', getMessage("wrong"));
+                return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
             }
     }
 
@@ -188,7 +188,7 @@ class RankingRuleController extends Controller
             return view('admin.ranking_rule.execute', compact('competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', getMessage('wrong'));
+            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -258,7 +258,7 @@ class RankingRuleController extends Controller
         return view('admin.ranking_rule.result', compact('tables', 'results'));
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);
-//            return redirect('admin/rank')->with('error', getMessage('wrong'));
+//            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
 //        }
     }
 
@@ -273,10 +273,10 @@ class RankingRuleController extends Controller
         try {
             $scoreType = RankingRule::find($id);
             $scoreType->delete();
-            return redirect('admin/rank')->with('delete', getMessage('deleted'));
+            return redirect('admin/rank')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', getMessage('wrong'));
+            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
         }
     }
 

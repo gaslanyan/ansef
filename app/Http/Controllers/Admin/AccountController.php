@@ -35,7 +35,7 @@ class AccountController extends Controller
             return view('admin.person.index', compact('persons', 'roles'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/person')->with('error', getMessage("wrong"));
+            return redirect('admin/person')->with('error', messageFromTemplate("wrong"));
         }
     }
     /**
@@ -88,7 +88,7 @@ class AccountController extends Controller
             return view('admin.account.list', compact('persons', 'type', 'ip', 'institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/account')->with('error', getMessage('wrong'));
+            return redirect('admin/account')->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -105,13 +105,13 @@ class AccountController extends Controller
             $user->password = bcrypt($generate_password);
             if ($user->save()) {
                 $user->notify(new GeneratePasswordSend($user, $generate_password));
-                $request->session()->flash('success', getMessage('generated_password') . " " . $user->email);
+                $request->session()->flash('success', messageFromTemplate('generated_password') . " " . $user->email);
             } else
-                $request->session()->flash('error', getMessage('wrong'));
+                $request->session()->flash('error', messageFromTemplate('wrong'));
             return redirect()->back();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage('check_email'));
+            return redirect()->back()->with('error', messageFromTemplate('check_email'));
         }
     }
 
@@ -128,7 +128,7 @@ class AccountController extends Controller
             return view('admin.account.create', compact('roles'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage('wrong'));
+            return redirect()->back()->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -164,7 +164,7 @@ class AccountController extends Controller
                 } else return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect()->back()->with('error', getMessage('wrong'));
+                return redirect()->back()->with('error', messageFromTemplate('wrong'));
             }
         }
     }
@@ -219,7 +219,7 @@ class AccountController extends Controller
             'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'institution'));
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);
-//            return redirect()->back()->with('error', getMessage('wrong'));
+//            return redirect()->back()->with('error', messageFromTemplate('wrong'));
 //        }
     }
 
@@ -268,7 +268,7 @@ class AccountController extends Controller
             return response()->json($response);
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage('wrong'));
+            return redirect()->back()->with('error', messageFromTemplate('wrong'));
         }
 
     }

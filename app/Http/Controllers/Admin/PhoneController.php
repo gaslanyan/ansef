@@ -28,7 +28,7 @@ class PhoneController extends Controller
             return view('admin.phone.index', compact('phones'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/phone')->with('error', getMessage("wrong"));
+            return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -67,11 +67,11 @@ class PhoneController extends Controller
                 $phone->number = $item;
                 $phone->save();
             }
-            return redirect('admin/phone')->with('success', getMessage("success"));
+            return redirect('admin/phone')->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/phone')->with('error', getMessage("wrong"));
+            return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
 
         }
         }
@@ -102,7 +102,7 @@ class PhoneController extends Controller
                 compact('phone', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/phone')->with('error', getMessage("wrong"));
+            return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -138,11 +138,11 @@ class PhoneController extends Controller
                 $phones->number = $item;
                 $phones->save();
             }
-            return redirect('admin/phone')->with('success', getMessage("update"));
+            return redirect('admin/phone')->with('success', messageFromTemplate("update"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/phone')->with('wrong', getMessage("wrong"));
+            return redirect('admin/phone')->with('wrong', messageFromTemplate("wrong"));
         }
         }
     }
@@ -158,10 +158,10 @@ class PhoneController extends Controller
         try {
             $phone = Phone::find($id);
             $phone->delete();
-            return redirect('admin/phone')->with('success', getMessage('deleted'));
+            return redirect('admin/phone')->with('success', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/phone')->with('error', getMessage('wrong'));
+            return redirect('admin/phone')->with('error', messageFromTemplate('wrong'));
         }
     }
 }

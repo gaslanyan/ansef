@@ -12,9 +12,9 @@ use App\Models\Score;
 
 function checkPermission($permissions)
 {
-    $user = \Illuminate\Support\Facades\Auth::guard($_COOKIE['user_role'])->user();
+    $user = \Illuminate\Support\Facades\Auth::guard(get_role_cookie())->user();
     if (empty($user)) return false;
-    $userAccess = $_COOKIE['user_role'];
+    $userAccess = get_role_cookie();
     if($userAccess == "superadmin") return true;
     foreach ($permissions as $value) {
         if ($value == $userAccess) {
@@ -24,7 +24,7 @@ function checkPermission($permissions)
     return false;
 }
 
-function getMessage($name)
+function messageFromTemplate($name)
 {
     $message = \App\Models\Template::where('name', '=', $name)->first();
     return $message->text;
@@ -51,28 +51,20 @@ function getEnumValues($table, $column)
     return $enum;
 }
 
-/* Check and find if user_id is exists */
-function checkUser($role)
+function userHasPerson()
 {
-    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
-        $table = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
+    $role = get_role_cookie();
+    if (!empty(Auth::guard($role)->user())) {
+        $user_id = \Auth::guard($role)->user()->id;
+        $person = \App\Models\Person::where('user_id', $user_id)
+                                    ->where('type', $role)
+                                    ->first();
 
-        if (!empty($table)) {
+        if (!empty($person)) {
             return true;
         } else {
-            return false;
+            return view('errors.404');
         }
-    } else {
-        return false;
-    }
-}
-
-function getUserIdByRole()
-{
-    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
-        return $user_id;
     } else {
         return view('errors.404');
     }
@@ -87,7 +79,7 @@ function getPersonIdByRole($role)
             return $person->id;
 
         } else {
-            return false;
+            return view('errors.404');
         }
     } else {
         return view('errors.404');
@@ -136,31 +128,24 @@ function getTableColumns($items)
     }
 }
 
-// function signUser()
-// {
-//     return \App\Models\Person::select('persons.*', 'persons.id as pid', 'sessions.*')->where('persons.user_id', '=', \Illuminate\Support\Facades\Session::get('u_id'))
-//         ->join('sessions', 'sessions.user_id', '=', 'persons.user_id')
-//         ->first();
-// }
-
-function signedApplicant() {
+function loggedPerson() {
     $user_id = \Auth::guard(get_role_cookie())->user()->id;
     return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
 }
 
-function signedPerson()
-{
-    $user_id = \Auth::guard(get_role_cookie())->user()->id;
-    return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['superadmin', 'admin','referee', 'viewer', 'applicant'])->first();
-}
-
 function getUserID()
 {
-    if (empty($_COOKIE['sign_id']))
+    if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
         $user_id = \Auth::guard(get_role_cookie())->user()->id;
-    else
-        $user_id = $_COOKIE['sign_id'];
-    return $user_id;
+        return $user_id;
+    } else {
+        return view('errors.404');
+    }
+    // if (empty($_COOKIE['sign_id']))
+    //     $user_id = \Auth::guard(get_role_cookie())->user()->id;
+    // else
+    //     $user_id = $_COOKIE['sign_id'];
+    // return $user_id;
 }
 
 function getPerson($id)

@@ -22,7 +22,7 @@ class MessageController extends Controller
             return view('admin.message.index', compact('messages'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/message')->with('error', getMessage("wrong"));
+            return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -52,12 +52,12 @@ class MessageController extends Controller
                 $messages = new Message();
                 $messages->text = $request->text;
                 $messages->save();
-                return redirect('admin/message')->with('success', getMessage("success"));
+                return redirect('admin/message')->with('success', messageFromTemplate("success"));
             }
             else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/message')->with('error', getMessage("wrong"));
+            return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -85,7 +85,7 @@ class MessageController extends Controller
             return view('admin.message.edit', compact('message', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/message')->with('error', getMessage("wrong"));
+            return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -107,12 +107,12 @@ class MessageController extends Controller
                 $messages = Message::find($id);
                 $messages->text = $request->text;
                 $messages->save();
-                return redirect('admin/message')->with('success', getMessage("update"));
+                return redirect('admin/message')->with('success', messageFromTemplate("update"));
             }
             else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/message')->with('error', getMessage("wrong"));
+            return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -127,10 +127,10 @@ class MessageController extends Controller
         try {
             $message = Message::find($id);
             $message->delete();
-            return redirect('admin/message')->with('delete', getMessage('deleted'));
+            return redirect('admin/message')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/message')->with('error', getMessage("wrong"));
+            return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
         }
     }
 }

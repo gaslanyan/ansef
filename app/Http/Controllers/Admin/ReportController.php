@@ -33,7 +33,7 @@ class ReportController extends Controller
         return view('admin.report.index', compact('score_json', 'competitions', 'cid'));
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/report')->with('error', getMessage("wrong"));
+                return redirect('admin/report')->with('error', messageFromTemplate("wrong"));
             }
     }
 
@@ -54,10 +54,10 @@ class ReportController extends Controller
             $scores = Score::where('report_id','=',$id)->get();
             $scores->delete();
             $report->delete();
-            return redirect('admin/report/list/' . $cid)->with('delete', getMessage('deleted'));
+            return redirect('admin/report/list/' . $cid)->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/report/list/' . $cid)->with('error', getMessage('wrong'));
+            return redirect('admin/report/list/' . $cid)->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -77,7 +77,7 @@ class ReportController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('admin/proposal')->with('error', getMessage('wrong'));
+            return redirect('admin/proposal')->with('error', messageFromTemplate('wrong'));
         }
 
     }

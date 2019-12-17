@@ -48,7 +48,7 @@ class ProposalController extends Controller
             return view('admin.proposal.index', compact('referees', 'admins', 'messages', 'enumvals', 'competitions', 'cid'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal/list/1')->with('error', getMessage("wrong"));
+            return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -67,7 +67,7 @@ class ProposalController extends Controller
             return view("admin.proposal.create", compact('title'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal')->with('error', getMessage("wrong"));
+            return redirect('admin/proposal')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -148,12 +148,12 @@ class ProposalController extends Controller
                 $proposal->comment = $request->comment;
                 $proposal->save();
 
-                return redirect('admin/proposal/' . $id)->with('success', getMessage("success"));
+                return redirect('admin/proposal/' . $id)->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal')->with('error', getMessage("wrong"));
+            return redirect('admin/proposal')->with('error', messageFromTemplate("wrong"));
 //        }
         }
     }
@@ -179,11 +179,11 @@ class ProposalController extends Controller
                 File::deleteDirectory($file_path);
             Proposal::find($p_id)->delete();
             DB::commit();
-            return redirect('admin/proposal')->with('delete', getMessage('deleted'));
+            return redirect('admin/proposal')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('admin/proposal')->with('error', getMessage('wrong'));
+            return redirect('admin/proposal')->with('error', messageFromTemplate('wrong'));
         }
     }
 

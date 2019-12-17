@@ -85,16 +85,16 @@ class InstitutionController extends Controller
             }
 
             $institution->save();
-            return Redirect::back()->with('success', getMessage("success"));
+            return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (ValidationException $e) {
             // Rollback and then redirect
             // back to form with errors
             DB::rollback();
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"))->withInput();
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"))->withInput();
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"))->withInput();
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
 
 
@@ -174,13 +174,13 @@ class InstitutionController extends Controller
                 $inspers->save();
             }
 
-            return \Redirect::back()->with('success', getMessage("success"));
+            return \Redirect::back()->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
             //            throw $exception;
-            return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
 
         }
     }
@@ -205,12 +205,12 @@ class InstitutionController extends Controller
     //             $institution->save();
     //         }
 
-    //         return \Redirect::back()->with('success', getMessage("success"));
+    //         return \Redirect::back()->with('success', messageFromTemplate("success"));
     //     } catch (\Exception $exception) {
     //         DB::rollBack();
     //         logger()->error($exception);
     //         //            throw $exception;
-    //         return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+    //         return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
     //     }
     // }
 
@@ -226,10 +226,10 @@ class InstitutionController extends Controller
         try {
             $template = Institution::find($id);
             $template->delete();
-            return redirect('admin/institution')->with('success', getMessage('deleted'));
+            return redirect('admin/institution')->with('success', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 
@@ -239,10 +239,10 @@ class InstitutionController extends Controller
         try {
             $degree = InstitutionPerson::find($id);
             if(!empty($degree)) $degree->delete();
-            return Redirect::back()->with('delete', getMessage("deleted"));
+            return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 

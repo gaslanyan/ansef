@@ -24,7 +24,7 @@ class ScoreTypeController extends Controller
             return view('admin.scoreType.index', compact('scoreTypes', 'competition'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/score')->with('error', getMessage("wrong"));
+            return redirect('admin/score')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -42,7 +42,7 @@ class ScoreTypeController extends Controller
                 compact('competition', 'st'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/score')->with('error', getMessage("wrong"));
+            return redirect('admin/score')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -70,15 +70,15 @@ class ScoreTypeController extends Controller
                     $count = ScoreType::where('competition_id', $request->competition_id)->get()->count();
                     if ($count <= 7) {
                         ScoreType::create($request->all());
-                        return redirect('admin/score')->with('success', getMessage("success"));
+                        return redirect('admin/score')->with('success', messageFromTemplate("success"));
                     } else {
-                        return redirect('admin/score')->with('error', getMessage("score_count"));
+                        return redirect('admin/score')->with('error', messageFromTemplate("score_count"));
                     }
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/score')->with('errors', getMessage("wrong"));
+                return redirect('admin/score')->with('errors', messageFromTemplate("wrong"));
             }
         }
     }
@@ -99,7 +99,7 @@ class ScoreTypeController extends Controller
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/score')->with('error', getMessage("wrong"));
+            return redirect('admin/score')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -124,13 +124,13 @@ class ScoreTypeController extends Controller
             if (!$v->fails()) {
                 $scoreType = ScoreType::findOrFail($id);
                 $scoreType->fill($request->all())->save();
-                return redirect('admin/score')->with('success', getMessage("update"));
+                return redirect('admin/score')->with('success', messageFromTemplate("update"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
 
             logger()->error($exception);
-            return redirect()->back()->with('errors', getMessage("wrong"));
+            return redirect()->back()->with('errors', messageFromTemplate("wrong"));
         }
     }
 
@@ -147,14 +147,14 @@ class ScoreTypeController extends Controller
             $score = Score::where('score_type_id', $id)->get()->toArray();
             if (empty($score)) {
                 ScoreType::where('id', $id)->delete();
-                return redirect('admin/score')->with('delete', getMessage('deleted'));
+                return redirect('admin/score')->with('delete', messageFromTemplate('deleted'));
             } else {
-                return redirect('admin/score')->with('error', getMessage('dont_deleted'));
+                return redirect('admin/score')->with('error', messageFromTemplate('dont_deleted'));
             }
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/score')->with('error', getMessage('wrong'));
+            return redirect('admin/score')->with('error', messageFromTemplate('wrong'));
         }
     }
 }

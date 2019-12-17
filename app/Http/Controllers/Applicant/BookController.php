@@ -62,10 +62,10 @@ class BookController extends Controller
                 $book->publisher = $request->publisher;
                 $book->year = $request->year;
                 $book->save();
-                return \Redirect::back()->with('success', getMessage("success"));
+                return \Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -122,11 +122,11 @@ class BookController extends Controller
                 $book->year = $request->year[$i];  /* vercnel miayn tarin te tuyl tal amboxy date mutqagrel?*/;
                 $book->save();
             }
-            return \Redirect::back()->with('success', getMessage("success"));
+            return \Redirect::back()->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -142,10 +142,10 @@ class BookController extends Controller
         try {
             $book = Book::find($id);
             $book->delete();
-            return \Redirect::back()->with('delete', getMessage("deleted"));
+            return \Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 }

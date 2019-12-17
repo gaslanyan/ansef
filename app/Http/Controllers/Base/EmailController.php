@@ -50,11 +50,11 @@ class EmailController extends Controller
                 $email->save();
             }
 
-            return redirect('admin/email')->with('success', getMessage("success"));
+            return redirect('admin/email')->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/email')->with('error', getMessage("wrong"));
+            return redirect('admin/email')->with('error', messageFromTemplate("wrong"));
 
         }
     }
@@ -100,11 +100,11 @@ class EmailController extends Controller
             $email = Email::find($id);
             $email->email = $request->email;
             $email->save();
-            return redirect('admin/email')->with('success', getMessage("update"));
+            return redirect('admin/email')->with('success', messageFromTemplate("update"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/email')->with('error', getMessage('wrong'));
+            return redirect('admin/email')->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -119,10 +119,10 @@ class EmailController extends Controller
         try {
             $email = Email::find($id);
             $email->delete();
-            return redirect('admin/email')->with('success', getMessage('deleted'));
+            return redirect('admin/email')->with('success', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/email')->with('error', getMessage('wrong'));
+            return redirect('admin/email')->with('error', messageFromTemplate('wrong'));
         }
     }
 }

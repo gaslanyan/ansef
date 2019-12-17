@@ -24,7 +24,7 @@ class SendEmailController extends Controller
             return view('referee.report.showEmail', compact('pid', 'tag', 'id', 'rejected'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/edit')->with('error', getMessage("wrong"));
+            return redirect('referee/edit')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -38,7 +38,7 @@ class SendEmailController extends Controller
             return view('referee.report.showEmail', compact('pid', 'tag', 'id', 'rejected'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('referee/edit')->with('error', getMessage("wrong"));
+            return redirect('referee/edit')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -69,7 +69,7 @@ class SendEmailController extends Controller
             return redirect()->back()->with('success', "Email sent to ANSEF Program Officer.");
        } catch (\Exception $exception) {
            logger()->error($exception);
-           return redirect()->back()->with('error', getMessage("wrong"));
+           return redirect()->back()->with('error', messageFromTemplate("wrong"));
        }
     }
 }

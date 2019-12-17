@@ -79,7 +79,7 @@ class RegisterController extends Controller
             return redirect()->back()->with('status', 'Unable to create new user.');
         }
         $user->notify(new UserRegisteredSuccessfully($user));
-        $request->session()->flash('success', getMessage('email_sent'));
+        $request->session()->flash('success', messageFromTemplate('email_sent'));
         return redirect()->route('login.' . $role);
     }
 
@@ -130,7 +130,7 @@ class RegisterController extends Controller
 
                 if($role->name === "applicant")
                 {
-                    return redirect()->route('login.' . $role->name)->with('success',getMessage('send_applicant'));
+                    return redirect()->route('login.' . $role->name)->with('success',messageFromTemplate('send_applicant'));
                 }
                 else{
                     $objSend = new \stdClass();
@@ -140,7 +140,7 @@ class RegisterController extends Controller
 
                     Mail::to('dopplerthepom@gmail.com')->send(new \App\Mail\SendToAdmin($objSend));
 
-                    return redirect()->route('login.' . $role->name)->with('success',getMessage('email_other'));
+                    return redirect()->route('login.' . $role->name)->with('success',messageFromTemplate('email_other'));
                 }
             }
             else {
@@ -148,7 +148,7 @@ class RegisterController extends Controller
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage('wrong');
+            return messageFromTemplate('wrong');
         }
 //        return redirect()->to('/home');
     }

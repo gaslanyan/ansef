@@ -67,10 +67,10 @@ class EmailController extends Controller
                 $email->email = $item;
                 $email->save();
             }
-            return Redirect::back()->with('success', getMessage("success"));
+            return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -117,10 +117,10 @@ class EmailController extends Controller
                 $email->email = $request->email_list[$i];
                 $email->save();
             }
-            return \Redirect::back()->with('success', getMessage("success"));
+            return \Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -136,10 +136,10 @@ class EmailController extends Controller
         try {
             $email = Email::find($id);
             $email->delete();
-            return Redirect::back()->with('delete', getMessage("deleted"));
+            return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
         }
     }
 }

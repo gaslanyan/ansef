@@ -24,7 +24,7 @@ class InvitationController extends Controller
             return view('admin.invitation.create', compact('messages'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/invitation')->with('error', getMessage("wrong"));
+            return redirect('admin/invitation')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -54,13 +54,13 @@ class InvitationController extends Controller
                     $objSend->receiver = 'collages';
                     Mail::to($item)->send(new \App\Mail\Invitation($objSend));
                 }
-                return redirect()->back()->with('success', htmlspecialchars_decode(getMessage("send_email")));
+                return redirect()->back()->with('success', htmlspecialchars_decode(messageFromTemplate("send_email")));
             } else
                 return redirect()->back()->withErrors($val->errors())->withInput();
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage("wrong"));
+            return redirect()->back()->with('error', messageFromTemplate("wrong"));
         }
     }
 

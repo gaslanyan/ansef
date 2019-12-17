@@ -156,10 +156,10 @@ class ProposalController extends Controller
                 $institution->save();
             }
 
-          return Redirect::back()->with('success', getMessage("success"));
+          return Redirect::back()->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
-            return Redirect::back()->with('wrong', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
 
         }
 

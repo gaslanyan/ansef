@@ -22,7 +22,7 @@ class CategoryController extends Controller
             return view('admin.category.index', compact('categories', 'parents'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/category')->with('error', getMessage('wrong'));
+            return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -38,7 +38,7 @@ class CategoryController extends Controller
             return view('admin.category.create', compact('parents'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/category')->with('error', getMessage('wrong'));
+            return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
         }
     }
 
@@ -68,12 +68,12 @@ class CategoryController extends Controller
                     $category->title = $request->title;
                     $category->weight = 1.0;
                     $category->save();
-                    return redirect('admin/category')->with('success', getMessage("success"));
+                    return redirect('admin/category')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/category')->with('error', getMessage('wrong'));
+                return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
             }
         }
 
@@ -141,7 +141,7 @@ class CategoryController extends Controller
 //            if (!in_array($category->id, $selected_cat)) {
 //
 //                Category::where('id', $category->id)->delete();
-                return redirect('admin/category')->with('delete', getMessage('deleted'));
+                return redirect('admin/category')->with('delete', messageFromTemplate('deleted'));
 //            } else {
 //
 //            }
@@ -149,7 +149,7 @@ class CategoryController extends Controller
 //        } catch
 //        (\Exception $exception) {
 //            logger()->error($exception);
-//            return redirect('admin/category')->with('error', getMessage('wrong'));
+//            return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
 //        }
     }
 

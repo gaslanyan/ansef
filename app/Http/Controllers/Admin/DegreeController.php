@@ -21,7 +21,7 @@ class DegreeController extends Controller
             return view('admin.degree.index', compact('degrees'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/degree')->with('error', getMessage("wrong"));
+            return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -54,12 +54,12 @@ class DegreeController extends Controller
                     $degrees = new Degree();
                     $degrees->text = $request->text;
                     $degrees->save();
-                    return redirect('admin/degree')->with('success', getMessage("success"));
+                    return redirect('admin/degree')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($val->errors())->withInput();
             } catch (\Exception $exception) {
                 logger()->error($exception);
-                return redirect('admin/degree')->with('error', getMessage("wrong"));
+                return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
             }
         }
     }
@@ -88,7 +88,7 @@ class DegreeController extends Controller
             return view('admin.degree.edit', compact('degree', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/degree')->with('error', getMessage("wrong"));
+            return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -109,13 +109,13 @@ class DegreeController extends Controller
                 $degrees = Degree::find($id);
                 $degrees->text = $request->text;
                 $degrees->save();
-                return redirect('admin/degree')->with('success', getMessage("update"));
+                return redirect('admin/degree')->with('success', messageFromTemplate("update"));
             } else
                 return redirect()->back()->withErrors($val->errors())->withInput();
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/degree')->with('error', getMessage("wrong"));
+            return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -130,10 +130,10 @@ class DegreeController extends Controller
         try {
             $degree = Degree::find($id);
             $degree->delete();
-            return redirect('admin/degree')->with('delete', getMessage('deleted'));
+            return redirect('admin/degree')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/degree')->with('error', getMessage("wrong"));
+            return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
         }
     }
 }

@@ -67,14 +67,14 @@ class BudgetCategoryController extends Controller
                 ]);
                 if (!$v->fails()) {
                     BudgetCategory::create($request->all());
-                    return redirect('admin/budget')->with('success', getMessage("success"));
+                    return redirect('admin/budget')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
 
             } catch (\Exception $exception) {
                 dd($exception);
                 logger()->error($exception);
-                return redirect('admin/budget')->with('errors', getMessage("wrong"));
+                return redirect('admin/budget')->with('errors', messageFromTemplate("wrong"));
             }
         }
     }
@@ -130,12 +130,12 @@ class BudgetCategoryController extends Controller
             if (!$v->fails()) {
                 $bcUpdate = BudgetCategory::findOrFail($id);
                 $bcUpdate->fill($request->all())->save();
-                return redirect('admin/budget')->with('success', getMessage("update"));
+                return redirect('admin/budget')->with('success', messageFromTemplate("update"));
             } else
                 return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/budget')->with('errors', getMessage("wrong"));
+            return redirect('admin/budget')->with('errors', messageFromTemplate("wrong"));
         }
     }
 
@@ -156,10 +156,10 @@ class BudgetCategoryController extends Controller
 
         }
         BudgetCategory::where('id', $id)->delete();
-        return redirect('admin/budget')->with('delete', getMessage('deleted'));
+        return redirect('admin/budget')->with('delete', messageFromTemplate('deleted'));
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);
-//            return redirect('admin/budget')->with('error', getMessage('wrong'));
+//            return redirect('admin/budget')->with('error', messageFromTemplate('wrong'));
 //        }
     }
 }

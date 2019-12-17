@@ -329,7 +329,7 @@ class ProposalController extends Controller
 
             return redirect()->action('Applicant\ProposalController@activeProposal');
         } catch (\Exception $exception) {
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -452,7 +452,7 @@ class ProposalController extends Controller
             return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
         }
     }
 
@@ -491,19 +491,19 @@ class ProposalController extends Controller
             if($person->type == 'participant') {
                 $persontype->subtype = $request->subtypeparticipant;
                 $persontype->save();
-                return Redirect::back()->with('success', getMessage("success"));
+                return Redirect::back()->with('success', messageFromTemplate("success"));
             }
             else if($person->type == 'support') {
                 $persontype->subtype = $request->subtypesupport;
                 $persontype->save();
-                return Redirect::back()->with('success', getMessage("success"));
+                return Redirect::back()->with('success', messageFromTemplate("success"));
             }
             else {
-                return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+                return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -624,10 +624,10 @@ class ProposalController extends Controller
 
             $proposal->delete();
 
-            return Redirect::back()->with('delete', getMessage("deleted"));
+            return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"));
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
         }
     }
 

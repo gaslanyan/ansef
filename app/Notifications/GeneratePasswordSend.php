@@ -53,7 +53,7 @@ class GeneratePasswordSend extends Notification
         if(!empty($person))
         $name = $person->first_name . " " .$person->last_name;
         else
-            $name = getMessage('account');
+            $name = messageFromTemplate('account');
 
         $message = '';
         if (!empty(Auth::guard('superadmin')->user()) ||

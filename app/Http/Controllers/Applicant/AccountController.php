@@ -88,7 +88,7 @@ class AccountController extends Controller
             return redirect()->action('Applicant\AccountController@index');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return Redirect::back()->with('wrong', getMessage("wrong"))->withInput();
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
 
     }

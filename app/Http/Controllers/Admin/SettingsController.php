@@ -30,7 +30,7 @@ class SettingsController extends Controller
             return view('admin.settings.export');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('settings/export')->with('error', getMessage("wrong"));
+            return redirect('settings/export')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -47,7 +47,7 @@ class SettingsController extends Controller
                 return redirect()->back()->withErrors($v->errors())->withInput();
 //        } catch (\Exception $exception) {
 //            logger()->error($exception);
-//            return redirect('settings/export')->with('error', getMessage("wrong"));
+//            return redirect('settings/export')->with('error', messageFromTemplate("wrong"));
 //        }
     }
 
@@ -57,7 +57,7 @@ class SettingsController extends Controller
             return view('admin.settings.sql');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('settings/sql')->with('error', getMessage("wrong"));
+            return redirect('settings/sql')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -95,7 +95,7 @@ class SettingsController extends Controller
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('settings/sql')->with('error', getMessage("wrong"));
+            return redirect('settings/sql')->with('error', messageFromTemplate("wrong"));
         }
     }
 }

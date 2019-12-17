@@ -37,7 +37,7 @@ class PersonController extends Controller
     public function edit()
     {
         try {
-            $user_id = getUserIdByRole();
+            $user_id = getUserId();
             $countries = Country::all()->sort();
 
             $person = Person::firstOrCreate(
@@ -60,13 +60,13 @@ class PersonController extends Controller
             return view('admin.person.create', compact('countries', 'person', 'address', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/person')->with('error', getMessage("wrong"));
+            return redirect('admin/person')->with('error', messageFromTemplate("wrong"));
         }
     }
 
     public function update(Request $request)
     {
-        $user_id = getUserIdByRole();
+        $user_id = getUserId();
         $validatedData = $request->validate([
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -166,10 +166,10 @@ class PersonController extends Controller
             }
 
 
-            return redirect()->back()->with('delete', getMessage('deleted'));
+            return redirect()->back()->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/person')->with('wrong', getMessage('wrong'));
+            return redirect('admin/person')->with('wrong', messageFromTemplate('wrong'));
         }
     }
 
@@ -227,13 +227,13 @@ class PersonController extends Controller
 
                     $user->user->password = bcrypt($request->newpassword);
                     $user->user->save();
-                    return \Redirect::to('logout')->with('success', getMessage("success"));
+                    return \Redirect::to('logout')->with('success', messageFromTemplate("success"));
                 }
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', getMessage("wrong"));
+            return redirect()->back()->with('error', messageFromTemplate("wrong"));
         }
     }
 

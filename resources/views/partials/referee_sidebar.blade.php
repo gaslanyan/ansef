@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = signedPerson();
+$signUser = loggedPerson();
 $user_id = getPersonIdByRole('referee');
 ?>
 <aside class="main-sidebar">
@@ -26,7 +26,7 @@ $user_id = getPersonIdByRole('referee');
                     <span>Dashboard</span>
                 </a>
             </li>
-            <?php if(checkUser('referee') != false ){ ?>
+            <?php if(userHasPerson()){ ?>
             <li class="text-uppercase">
                 <a href="{{action('Referee\PersonController@changePassword')}}">
                     <i class="fas fa-key"></i>

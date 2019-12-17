@@ -25,7 +25,7 @@ class InstitutionController extends Controller
             return view('admin.institution.index', compact('institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/institution')->with('error', getMessage("wrong"));
+            return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -41,7 +41,7 @@ class InstitutionController extends Controller
             return view('admin.institution.create', compact('countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/institution')->with('error', getMessage("wrong"));
+            return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -72,10 +72,10 @@ class InstitutionController extends Controller
             } catch (\Exception $exception) {
                 DB::rollBack();
                 logger()->error($exception);
-                return redirect('admin/institution')->with('error', getMessage("wrong"));
+                return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
             }
             DB::commit();
-            return redirect('admin/institution')->with('success', getMessage("success"));
+            return redirect('admin/institution')->with('success', messageFromTemplate("success"));
         } else
             return redirect()->back()->withErrors($v->errors())->withInput();
         // }
@@ -96,7 +96,7 @@ class InstitutionController extends Controller
             return view('admin.institution.view', compact('institution', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/institution')->with('error', getMessage("wrong"));
+            return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -116,7 +116,7 @@ class InstitutionController extends Controller
             return view('admin.institution.edit', compact('institution', 'address', 'countries', 'id'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/institution')->with('error', getMessage("wrong"));
+            return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -145,13 +145,13 @@ class InstitutionController extends Controller
                 $address->street = $request->street;
                 $address->province = $request->provence;
                 $address->save();
-                return redirect('admin/institution')->with('success', getMessage("update"));
+                return redirect('admin/institution')->with('success', messageFromTemplate("update"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('admin/institution')->with('error', getMessage("wrong"));
+            return redirect('admin/institution')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -172,7 +172,7 @@ class InstitutionController extends Controller
             }
             $ins->delete();
             DB::commit();
-            return redirect('admin/institution')->with('success', getMessage('deleted'));
+            return redirect('admin/institution')->with('success', messageFromTemplate('deleted'));
         } catch (ValidationException $e) {
             DB::rollback();
             return redirect()->back()
@@ -180,7 +180,7 @@ class InstitutionController extends Controller
                 ->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 }

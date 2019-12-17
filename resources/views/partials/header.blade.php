@@ -1,5 +1,5 @@
 <!-- header.blade.php -->
-<?php $signedUser = signedApplicant();?>
+<?php $signedUser = loggedPerson();?>
 <header class="main-header">
     <a href="" class="logo">
         <span class="logo-mini"><b>Ansef</b></span>

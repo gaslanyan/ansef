@@ -84,12 +84,12 @@ class LoginController extends Controller
                 if(Auth::guard($role)->attempt([ 'email' => $request->email, 'password' => $request->password ]))
                 {
                     Auth::guard($role)->logout();
-                    return Redirect::back()->with('status', getMessage("waiting"));
+                    return Redirect::back()->with('status', messageFromTemplate("waiting"));
                 }
 
                 else return Redirect::back()->with('status', "Email or password is incorrect.");
             }
-            else return Redirect::back()->with('status', getMessage("status"));
+            else return Redirect::back()->with('status', messageFromTemplate("status"));
         }
     }
 
@@ -107,7 +107,7 @@ class LoginController extends Controller
     {
         $request->session()->flush();
         $request->session()->regenerate();
-        $role = $_COOKIE['user_role'];
+        $role = get_role_cookie();
         if(!empty($role)) setcookie('user_role', $role, time() - 31556926, '/');
         return redirect('/');
     }

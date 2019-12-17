@@ -98,11 +98,11 @@ class PersonController extends Controller
         } catch (ValidationException $e) {
             // Rollback and then redirect back to form with errors
             DB::rollback();
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"));
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"));
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
         }
 
         try {
@@ -121,16 +121,16 @@ class PersonController extends Controller
             // Rollback and then redirect
             // back to form with errors
             DB::rollback();
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"))->withInput();
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"))->withInput();
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
 
         DB::commit();
-        return redirect('applicant/account')->with('success', getMessage("success"));
+        return redirect('applicant/account')->with('success', messageFromTemplate("success"));
 
     }
 
@@ -261,15 +261,15 @@ class PersonController extends Controller
             // Rollback and then redirect
             // back to form with errors
             DB::rollback();
-            return redirect('applicant/person')->with('wrong', getMessage("wrong"));
+            return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
-        /*return redirect('applicant/person')->with('success', getMessage("success"));*/
-        return redirect('applicant/account')->with('success', getMessage("success"));
+        /*return redirect('applicant/person')->with('success', messageFromTemplate("success"));*/
+        return redirect('applicant/account')->with('success', messageFromTemplate("success"));
 
     }
 
@@ -281,7 +281,7 @@ class PersonController extends Controller
             return view('applicant.person.changepassword');
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
     }
 
@@ -323,14 +323,14 @@ class PersonController extends Controller
             if($flag) {
                 $person = Person::find($id);
                 $person->delete();
-                return redirect('applicant/account')->with('delete', getMessage('deleted'));
+                return redirect('applicant/account')->with('delete', messageFromTemplate('deleted'));
             }
             else {
                 return redirect('applicant/account')->with('wrong', "Person is member of a project and cannot be deleted.");
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return getMessage("wrong");
+            return messageFromTemplate("wrong");
         }
 
     }
