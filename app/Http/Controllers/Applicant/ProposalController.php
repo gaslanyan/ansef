@@ -371,17 +371,18 @@ class ProposalController extends Controller
         ];
 
         $pdf = PDF::loadView('applicant.proposal.pdf', $data);
-        $pdf->save(storage_path('app/proposals/prop-' . $pid . '/combined.pdf'));
+        $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path('app/proposals/prop-' . $pid . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path('app/proposals/prop-' . $pid . '/document.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         $pdfMerge->merge();
 
-        $pdfMerge->save(storage_path('app/proposals/prop-' . $pid . 'download.pdf'), 'download');
+        $pdfMerge->save(storage_path(proppath($pid) . '/download.pdf'), 'download');
 
         Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }
+
 
     public function updatepersons(Request $request,$id)
     {

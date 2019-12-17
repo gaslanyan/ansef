@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade as PDF;
+use LynX39\LaraPdfMerger\Facades\PdfMerger;
+use Illuminate\Support\Facades\Storage;
 
 class ProposalController extends Controller
 {
@@ -105,7 +108,7 @@ class ProposalController extends Controller
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
         $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
-        $reports = ProposalReports::where('proposal_id', '=', $pid)->get();
+        $reports = RefereeReport::where('proposal_id', '=', $pid)->get();
 
         return view('admin.proposal.show', compact(
             'pid',
@@ -394,7 +397,7 @@ class ProposalController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
-        $reports = ProposalReports::where('proposal_id','=',$pid)->get();
+        $reports = RefereeReport::where('proposal_id', '=', $pid)->get();
 
         $data = [
             'id' => $id,
@@ -418,17 +421,17 @@ class ProposalController extends Controller
         ];
 
         $pdf = PDF::loadView('admin.proposal.pdf', $data);
-        $pdf->save(storage_path('/proposal/prop-' . $pid . '/combined.pdf'));
+        $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/document.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         foreach ($recommendations as $r) {
-            $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/letter-' . $r->id . '.pdf'), 'all');
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
         }
         $pdfMerge->merge();
 
-        $pdfMerge->save(storage_path('/proposal/prop-' . $pid . 'download.pdf'), 'download');
+        $pdfMerge->save(storage_path(proppath($pid) . '/download.pdf'), 'download');
 
         Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }

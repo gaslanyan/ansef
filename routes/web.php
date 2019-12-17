@@ -137,6 +137,8 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
 
     Route::get('/admin/migrate', 'JobsController@migrate');
     Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
+
+    Route::get('/admin/downloadPDF/{id}', 'Admin\ProposalController@generatePDF');
 });
 
 // ---------------------------------- Applicant routes ----------------------------------
@@ -204,7 +206,6 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
     Route::get('file-upload/{id}', 'Applicant\FileUploadController@docfile');
     Route::post('file-upload/upload', 'Applicant\FileUploadController@upload')->name('upload');
     Route::get('file-upload/remove/{uuid}', 'Applicant\FileUploadController@remove')->name('deletefile');
-    Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downloadfile')->name('download');
 
     Route::get('report-upload/{id}', 'Applicant\FileUploadController@reportfile');
     Route::post('report-upload/upload', 'Applicant\FileUploadController@uploadreport')->name('uploadreport');
@@ -248,6 +249,7 @@ Route::get('letter-upload', 'Applicant\FileUploadController@letterfile')->name('
 Route::get('letter-upload/remove/{uuid}', 'Applicant\FileUploadController@removeletter')->name('deleteletter');
 Route::get('letter-upload/download/{uuid}', 'Applicant\FileUploadController@downloadletter')->name('downloadletter');
 Route::view('letter-upload/success', 'applicant.proposal.reclettersuccess');
+Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downloadfile')->name('download');
 
 //base ajax
 

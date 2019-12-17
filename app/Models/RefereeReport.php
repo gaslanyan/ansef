@@ -23,8 +23,8 @@ class RefereeReport extends Model
     {
         return $this->belongsTo('App\Models\Person', 'referee_id', 'id');
     }
-    public function score()
+    public function scores()
     {
-        return $this->hasOne(Score::class);
+        return $this->hasMany(Score::class);
     }
 }

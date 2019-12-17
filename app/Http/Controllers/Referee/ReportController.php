@@ -227,17 +227,17 @@ class ReportController extends Controller
         ];
 
         $pdf = PDF::loadView('referee.report.pdf', $data);
-        $pdf->save(storage_path('/proposal/prop-' . $pid . '/combined.pdf'));
+        $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/document.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         foreach ($recommendations as $r) {
-            $pdfMerge->addPDF(storage_path('/proposal/prop-' . $pid . '/letter-' . $r->id . '.pdf'), 'all');
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
         }
         $pdfMerge->merge();
 
-        $pdfMerge->save(storage_path('/proposal/prop-' . $pid . 'download.pdf'), 'download');
+        $pdfMerge->save(storage_path(proppath($pid) . '/download.pdf'), 'download');
 
         Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
     }

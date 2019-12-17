@@ -1,5 +1,6 @@
 <div class="box-body col-md-12">
 
+    @if(!empty($persons) && count($persons) > 0)
     <div class="box-header with-border">
        <h4>  Biographical sketches </h4>
     </div>
@@ -31,7 +32,7 @@
                 'showdownloads' => $showdownloads
             ])
     @endforeach
-
+    @endif
     <br/><br/><br/>
     @if(!empty($recommendations))
     @if(count($recommendations) > 0 && $showdownloads)

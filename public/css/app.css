@@ -2858,11 +2858,8 @@ fieldset:disabled a.btn {
 }
 
 .btn-link {
-    /*font-weight: 400;
-    color: #3490dc;
-    font-weight: 400;*/
-    color: #81868a;
-    font-size: 22px;
+    color: #cc7400;
+    font-size: 18px;
     background-color: transparent
 }
 
@@ -8872,7 +8869,7 @@ td .cancel {
 
 .box-body strong,
 #on {
-    color: #00c0ef;
+    color: #647c97;
     font-size: 16px;
     white-space: nowrap;
     text-transform: capitalize;

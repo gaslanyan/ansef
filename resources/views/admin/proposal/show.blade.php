@@ -11,8 +11,6 @@
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
-                        @include('partials.status_bar')
-
                         @include('partials.proposal',[
                             'pid' => $pid,
                             'proposal' => $proposal,

@@ -655,3 +655,7 @@ function updateProposalState($id) {
     }
     $p->save();
 }
+
+function proppath($pid) {
+    return 'app/proposals/prop-' . $pid;
+}

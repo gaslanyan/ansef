@@ -19,11 +19,11 @@
     @if(!empty($cat_sec_parent))
         <div class="row">
             <div class="col-md-6">
-                <strong><i class="fa fa-heading margin-r-5"></i> Secondary Category:</strong>
+                <strong><i class="fa fa-list-alt margin-r-5"></i> Secondary Category:</strong>
                 <p>{{$cat_sec_parent->title}}</p>
             </div>
             <div class="col-md-6">
-                <strong><i class="fa fa-heading margin-r-5"></i> Secondary Subcategory:</strong>
+                <strong><i class="fa fa-list-alt margin-r-5"></i> Secondary Subcategory:</strong>
                 <p>{{$cat_sec_sub->title}}</p>
             </div>
         </div>
