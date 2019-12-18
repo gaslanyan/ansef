@@ -9,10 +9,11 @@ use App\Models\InstitutionPerson;
 use App\Models\Recommendations;
 use App\Models\RefereeReport;
 use App\Models\Score;
+use \Illuminate\Support\Facades\Auth;
 
 function checkPermission($permissions)
 {
-    $user = \Illuminate\Support\Facades\Auth::guard(get_role_cookie())->user();
+    $user = Auth::guard(get_role_cookie())->user();
     if (empty($user)) return false;
     $userAccess = get_role_cookie();
     if($userAccess == "superadmin") return true;
@@ -55,7 +56,7 @@ function userHasPerson()
 {
     $role = get_role_cookie();
     if (!empty(Auth::guard($role)->user())) {
-        $user_id = \Auth::guard($role)->user()->id;
+        $user_id = Auth::guard($role)->user()->id;
         $person = \App\Models\Person::where('user_id', $user_id)
                                     ->where('type', $role)
                                     ->first();
@@ -73,7 +74,7 @@ function userHasPerson()
 function getPersonIdByRole($role)
 {
     if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = Auth::guard(get_role_cookie())->user()->id;
         $person = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
         if (!empty($person)) {
             return $person->id;
@@ -128,15 +129,19 @@ function getTableColumns($items)
     }
 }
 
-function loggedPerson() {
-    $user_id = \Auth::guard(get_role_cookie())->user()->id;
-    return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
+function loggedApplicant() {
+    if (!empty(Auth::guard(get_role_cookie())->user())) {
+        $user_id = Auth::guard(get_role_cookie())->user()->id;
+        return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
+    } else {
+        return view('errors.404');
+    }
 }
 
 function getUserID()
 {
     if (!empty(Auth::guard(get_role_cookie())->user()->id)) {
-        $user_id = \Auth::guard(get_role_cookie())->user()->id;
+        $user_id = Auth::guard(get_role_cookie())->user()->id;
         return $user_id;
     } else {
         return view('errors.404');
@@ -148,57 +153,18 @@ function getUserID()
     // return $user_id;
 }
 
-function getPerson($id)
+function isPerson($id)
 {
-    $person = \App\Models\Person::select('persons.*', 'users.email')
-        ->join('users', 'users.id', '=', 'persons.user_id')
-        ->whereIn('persons.type',['referee','admin','viewer','applicant'])
-        ->where('persons.id', '=', $id)->first();
-    if ($person)
-        return $person;
-    else
-        return false;
+    return \App\Models\Person::whereIn('persons.type',['referee','admin','viewer','applicant'])
+                            ->where('persons.id', '=', $id)->exists();
 }
 
-function getPersonNameByPI($id)
-{
-
-    $pi = \App\Models\Person::select('persons.first_name', 'persons.last_name')
-        ->where('persons.id', '=', $id)->first();
-    if (!empty($pi)) {
-        return $pi->first_name . " " . $pi->last_name;
-    } else {
-        return null;
-    }
-
-}
-
-function getEmailByID($id)
-{
-
-    $pi = \App\Models\User::select('email')
-        ->where('id', '=', $id)->first();
-    if (!empty($pi)) {
-        return $pi->email;
-    } else {
-        return null;
-    }
-
-}
 
 function getEmailByPersonID($pid)
 {
-    $pi = \App\Models\Email::select('email')
-        ->where('person_id', '=', $pid)->first();
-    if (!empty($pi)) {
-        return $pi->email;
-    } else {
-        return null;
-    }
-
+    return \App\Models\Person::find($pid)->emails()->first();
 }
 
-// VVS
 function getAddressesByPersonID($pid)
 {
     return \App\Models\Person::find($pid)->addresses()->first();
@@ -219,106 +185,6 @@ function getCategoriesNameByID($id)
 
 }
 
-function getAddressByPivot($id)
-{
-    $address = \App\Models\Person::find($id)
-        ->address()
-        ->with('person')->first();
-    if (!empty($address))
-        return $address;
-    return null;
-}
-
-function getLocationInfoByIp($ip)
-{
-    $details = json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip={$ip}"));
-    dd($details);
-    return $details->country;
-}
-
-function getScoreTypeNames()
-{
-    return ['Significance', 'Approach', 'Innovation',
-        'Investigator', 'Budget', 'Proposal', 'Overall Score'];
-}
-
-function getScoreTypeValues()
-{
-    return [0 => 'Select a value', 1 => 'None', 2 => 'Poor', 3 => 'Fair',
-        4 => 'Good', 5 => 'Very Good',
-        6 => 'Excellent', 7 => 'Outstanding'];
-}
-
-function printUser($user, $accounts)
-{
-
-    $add = getAddressByPivot($user['id']);
-    $email = \App\Models\User::select('email')->where('id', '=', $accounts->person_pi_id)->first();
-    return '
-            <div class="col-md-12">
-                <strong><i class="fa fa-user-check margin-r-5"></i>'
-        . $user["type"] . ':</strong>
-
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="col-md-12">
-                                <strong>Name:</strong>
-                            </div>
-                            <div class="col-md-12">
-                                <p>' . $user["last_name"] . " " . $user["first_name"] . '</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="col-md-12">
-                                <strong>Address:</strong>
-                            </div>
-                            <div class="col-md-12">
-
-                                <p>' . $add["province"] . "," . $add["street"] . '</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-
-                            <div class="col-md-12">
-                                <strong>Phone:</strong>
-                            </div>
-                            <div class="col-md-12">
-                                <p>+' . $user["phone"]["country_code"] .
-        "-" . $user["phone"]["number"] . '</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="col-md-12">
-                                <strong>Email:</strong>
-                            </div>
-                            <div class="col-md-12">
-                                <p>' . $email['email'] . '</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="col-md-12">
-                                <strong>Birthdate:</strong>
-                            </div>
-                            <div class="col-md-12">
-                                <p>' . $user["birthdate"] . '</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="col-md-12">
-                                <strong>Type:</strong>
-                            </div>
-                            <div class="col-md-12">
-                                <p>' . $user["state"] . '</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>';
-
-}
-
-//get selected value for filter and search into datatable
 function getSelectedValue($select, $option)
 {
     $option_value = "";
@@ -339,65 +205,29 @@ function getSelectedValueByKey($select, $option)
     return $option_value;
 }
 
-//export excel or csv
 function exportExcelOrCsv($name, $type)
 {
     $queryBuilder = \Illuminate\Support\Facades\DB::table($name)->select('*');
 
-//    $fromDate = $request->input('from_date');
-//    $toDate = $request->input('to_date');
-//    $sortBy = $request->input('sort_by');
-
     $title = str_replace('_', ' ', strtoupper($name)) . ' TABLE DATA.';
 
-    $meta = [ // For displaying filters description on header
-//        'Registered on' => $fromDate . ' To ' . $toDate,
-//        'Sort By' => $sortBy
+    $meta = [
     ];
 
-//    $queryBuilder = User::select(['name', 'balance', 'registered_at']); // Do some querying..
-//    ->whereBetween('registered_at', [$fromDate, $toDate])
-//        ->orderBy($sortBy);
     $columns = [];
     $fields = \Illuminate\Support\Facades\Schema::getColumnListing($name);
     foreach ($fields as $index => $field) {
         $columns[str_replace('_', ' ', strtoupper($field))] = $field;
     }
 
-    // Generate Report with flexibility to manipulate column class even manipulate column value (using Carbon, etc).
     $export = '';
     if ($type !== "csv")
         $export = \Jimmyjs\ReportGenerator\Facades\ExcelReportFacade::of($title, $meta, $queryBuilder, $columns)
-//        ->editColumn('Registered At', [ // Change column class or manipulate its data for displaying to report
-//            'displayAs' => function ($result) {
-//                return $result->registered_at->format('d M Y');
-//            },
-//            'class' => 'left'
-//        ])
-//        ->editColumns(['Total Balance', 'Status'], [ // Mass edit column
-//            'class' => 'right bold'
-//        ])
-//        ->showTotal([ // Used to sum all value on specified column on the last table (except using groupBy method). 'point' is a type for displaying total with a thousand separator
-//            'Total Balance' => 'point' // if you want to show dollar sign ($) then use 'Total Balance' => '$'
-//        ])
-            ->limit(20)// Limit record to be showed
+            ->limit(20)
             ->download($name);
     else
 
         $export = \Jimmyjs\ReportGenerator\Facades\CSVReportFacade::of($title, $meta, $queryBuilder, $columns)
-//        ->editColumn('Registered At', [ // Change column class or manipulate its data for displaying to report
-//            'displayAs' => function ($result) {
-//                return $result->registered_at->format('d M Y');
-//            },
-//            'class' => 'left'
-//        ])
-//        ->editColumns(['Total Balance', 'Status'], [ // Mass edit column
-//            'class' => 'right bold'
-//        ])
-//        ->showTotal([ // Used to sum all value on specified column on the last table (except using groupBy method). 'point' is a type for displaying total with a thousand separator
-//            'Total Balance' => 'point' // if you want to show dollar sign ($) then use 'Total Balance' => '$'
-//        ])
-//            ->limit(20)// Limit record to be showed
             ->download($name);
     return $export;
 }

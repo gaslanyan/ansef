@@ -52,6 +52,31 @@ class ProposalController extends Controller
         }
     }
 
+    public function awardslist($cid)
+    {
+        try {
+            $competitions = Competition::select('id', 'title')
+                ->orderBy('submission_end_date', 'desc')
+                ->get()->toArray();
+
+            $referee = Role::where('name', '=', 'referee')->first();
+            $admin = Role::where('name', '=', 'admin')->first();
+            $superadmin = Role::where('name', '=', 'superadmin')->first();
+
+            $referees = $referee->persons;
+            $adminpersons = $admin->persons;
+            $superadminpersons = $superadmin->persons;
+            $admins = $adminpersons->concat($superadminpersons)->all();
+            $messages = Message::all();
+            $enumvals = getEnumValues('proposals', 'state');
+
+            return view('admin.proposal.awardsindex', compact('referees', 'admins', 'messages', 'enumvals', 'competitions', 'cid'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
+        }
+    }
+
     public function index() {
 
     }
@@ -212,6 +237,37 @@ class ProposalController extends Controller
             $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
             $a = $pr->admin()->first();
             $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name,0,4).'.' : 'None';
+        }
+
+        return Response::json($d);
+    }
+
+    public function listawards($cid, Request $request)
+    {
+        // ini_set('memory_limit', '384M');
+        $d['data'] = [];
+
+        if ($cid == -1) {
+            $proposals = Proposal::whereIn('state',['awarded', 'approved 1', 'approved 2'])
+                ->sortBy('id');
+        } else {
+            $proposals = Proposal::where('competition_id', '=', $cid)
+                ->whereIn('state', ['awarded', 'approved 1', 'approved 2'])
+                ->orderBy('id', 'asc')
+                ->get();
+        }
+        foreach ($proposals as $index => $pr) {
+            $d['data'][$index]['id'] = $pr->id;
+            $d['data'][$index]['tag'] = getProposalTag($pr->id);
+            $d['data'][$index]['title'] = truncate($pr->title, 25);
+            $d['data'][$index]['state'] = ($pr->state);
+            $d['data'][$index]['score'] = strval(round($pr->overall_score)) . "%";
+            $pi = $pr->pi();
+            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name, 7) . " " . $pi->first_name : 'No PI';
+            $refs = $pr->refereesasstring();
+            $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
+            $a = $pr->admin()->first();
+            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
         }
 
         return Response::json($d);

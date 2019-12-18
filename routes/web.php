@@ -103,6 +103,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/execute', 'Admin\RankingRuleController@execute');
     Route::post('/admin/execute', 'Admin\RankingRuleController@executeQuery');
     Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
+    Route::get('/admin/proposal/awardslist/{id}', 'Admin\ProposalController@awardslist')->name('awards_list');
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
     Route::resource('/admin/proposal', 'Admin\ProposalController');
     Route::get('/admin/approve', 'Admin\ReportController@approve');
@@ -133,6 +134,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/changeState', 'Admin\ProposalController@changeState');
     Route::get('/admin/listreports/{id}', 'Admin\ReportController@listreports');
     Route::get('/admin/listproposals/{id}', 'Admin\ProposalController@listproposals');
+    Route::get('/admin/listawards/{id}', 'Admin\ProposalController@listawards');
     Route::post('/admin/updateCom', 'Admin\CompetitionController@updateCompetition');
 
     Route::get('/admin/migrate', 'JobsController@migrate');

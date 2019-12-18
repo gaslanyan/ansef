@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = loggedPerson();
+$signUser = loggedApplicant();
 $user_id = getPersonIdByRole('referee');
 ?>
 <aside class="main-sidebar">

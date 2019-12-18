@@ -611,13 +611,13 @@ class ProposalController extends Controller
             }
 
             //
-            if (is_file(storage_path('proposal/prop-' . $proposal['id'] . '/' . $proposal['document']))) {
-                unlink(storage_path('proposal/prop-' . $proposal['id'] . '/' . $proposal['document']));
+            if (is_file(storage_path(proppath($proposal['id']) . '/' . $proposal['document']))) {
+                unlink(storage_path(proppath($proposal['id']) . '/' . $proposal['document']));
             } else {
                 echo "File does not exist";
             }
-            if (is_dir_empty(storage_path('proposal/prop-' . $proposal['id']))) {
-                File::deleteDirectory(storage_path('proposal/prop-' . $proposal['id']));
+            if (is_dir_empty(storage_path(proppath($proposal['id'])))) {
+                File::deleteDirectory(storage_path(proppath($proposal['id'])));
             } else {
                 echo "the folder is NOT empty";
             }

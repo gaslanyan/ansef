@@ -123,7 +123,6 @@ class AccountController extends Controller
     public function create()
     {
         try {
-
             $roles = Role::all();
             return view('admin.account.create', compact('roles'));
         } catch (\Exception $exception) {
@@ -132,40 +131,30 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.account.create');
-        else {
-            $generate_password = randomPassword();
+        $generate_password = randomPassword();
 
-            try {
-                $v = Validator::make($request->all(), [
-                    'email' => 'required|email',
-                    'role' => 'required|numeric',
-                ]);
+        try {
+            $v = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'role' => 'required|numeric',
+            ]);
 
-                if (!$v->fails()) {
-                    $validatedData['email'] = $request->email;
-                    $validatedData['password'] = bcrypt($generate_password);
-                    $validatedData['confirmation'] = str_random(30) . time();
-                    $validatedData['password_salt'] = "10";
-                    $validatedData['requested_role_id'] = $request->role;
-                    $validatedData['state'] = "inactive";
-                    $user = app(User::class)->create($validatedData);
-                    $user->notify(new UserRegisteredSuccessfully($user));
-                    return redirect()->action('PersonController@index');
-                } else return redirect()->back()->withErrors($v->errors())->withInput();
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect()->back()->with('error', messageFromTemplate('wrong'));
-            }
+            if (!$v->fails()) {
+                $validatedData['email'] = $request->email;
+                $validatedData['password'] = bcrypt($generate_password);
+                $validatedData['confirmation'] = str_random(30) . time();
+                $validatedData['password_salt'] = "10";
+                $validatedData['requested_role_id'] = $request->role;
+                $validatedData['state'] = "inactive";
+                $user = User::create($validatedData);
+                $user->notify(new UserRegisteredSuccessfully($user));
+                return redirect()->action('Admin\AccountController@index');
+            } else return redirect()->back()->withErrors($v->errors())->withInput();
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect()->back()->with('error', messageFromTemplate('wrong'));
         }
     }
 

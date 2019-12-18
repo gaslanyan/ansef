@@ -54,7 +54,7 @@ class BookController extends Controller
             'year' => 'required',
         ]);
         try {
-                $user_id = getUserID();
+                $person = loggedApplicant();
 
                 $book = new Book;
                 $book->person_id = $request->book_add_hidden_id;
@@ -62,10 +62,10 @@ class BookController extends Controller
                 $book->publisher = $request->publisher;
                 $book->year = $request->year;
                 $book->save();
-                return \Redirect::back()->with('success', messageFromTemplate("success"));
+                return redirect()->back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
+            return redirect()->back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -80,15 +80,9 @@ class BookController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user_id = getUserID();
+        $person = loggedApplicant();
         $book = Book::find($id);
         return view('base.book.edit', compact('book', 'id'));
     }
@@ -122,11 +116,11 @@ class BookController extends Controller
                 $book->year = $request->year[$i];  /* vercnel miayn tarin te tuyl tal amboxy date mutqagrel?*/;
                 $book->save();
             }
-            return \Redirect::back()->with('success', messageFromTemplate("success"));
+            return redirect()->back()->with('success', messageFromTemplate("success"));
 
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
+            return redirect()->back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
     }
 
@@ -138,11 +132,11 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $user_id = getUserID();
+        $person = loggedApplicant();
         try {
             $book = Book::find($id);
-            $book->delete();
-            return \Redirect::back()->with('delete', messageFromTemplate("deleted"));
+            if(!empty($book)) $book->delete();
+            return redirect()->back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return messageFromTemplate("wrong");

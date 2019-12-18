@@ -79,7 +79,7 @@ class AddressController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user_id = getUserID();
+        $person = loggedApplicant();
         try {
             $this->validate($request, [
                 'street.*' => 'required|max:255',
@@ -103,10 +103,10 @@ class AddressController extends Controller
 
     public function destroy($id)
     {
-        $user_id = getUserID();
+        getUserID();
         try {
             $address = Address::find($id);
-            $address->delete();
+            if(!empty($address)) $address->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);

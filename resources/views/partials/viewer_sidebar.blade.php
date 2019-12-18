@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = loggedPerson();
+$signUser = loggedApplicant();
 $user_id = getPersonIdByRole('viewer');
 ?>
 <aside class="main-sidebar">

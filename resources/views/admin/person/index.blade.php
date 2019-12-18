@@ -83,7 +83,7 @@
                                                 </button>
                                             </form>
 
-                                            @if(getPerson($person->id))
+                                            @if(isPerson($person->id))
                                                 <a href="{{action('Admin\AccountController@show', $person->id)}}"
                                                    class="view" title="View"><i class="fa fa-eye"></i>
                                                 </a>

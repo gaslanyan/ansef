@@ -30,7 +30,7 @@ class BudgetCategoriesController extends Controller
         $user_id = getUserID();
         $p = Proposal::find($id);
 
-        if(!empty($p)) {
+        if(!empty($p) && $p->user_id == $user_id) {
             $competition = $p->competition()->first();
             $bc = $competition->budgetcategories()->get();
             $bi = $p->budgetItems()->get();

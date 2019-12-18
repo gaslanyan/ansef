@@ -1,6 +1,6 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = loggedPerson();
+$signUser = loggedApplicant();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
 $user_id = getPersonIdByRole('superadmin');
 ?>
@@ -40,7 +40,7 @@ $user_id = getPersonIdByRole('superadmin');
                     <li>
                         <a href="{{action('Admin\AccountController@account','applicant')}}"><i
                                     class="fa fa-circle-o"></i>List of
-                            applicants</a>
+                            persons</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account','referee')}}"><i class="fa fa-circle-o"></i>List
@@ -158,13 +158,14 @@ $user_id = getPersonIdByRole('superadmin');
                     <i class="fa fa-sticky-note"></i>
                     <span>Proposals</span>
                     <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-            </span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\ProposalController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
                         Show proposals</a></li>
-
+                    <li><a href="{{action('Admin\ProposalController@awardslist', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                        Show awards</a></li>
                 </ul>
             </li>
             <li class="treeview">

@@ -57,7 +57,6 @@ class AccountController extends Controller
     public function store(Request $request)
     {
         $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id)->first();
         $validatedData = $request->validate([
             'first_name' => 'required|min:3',
             'last_name' => 'required|min:3',

@@ -180,18 +180,18 @@ class FileUploadController extends Controller
 
     public function downloadfile($uuid) {
         $proposal = Proposal::where('document','=', $uuid)->firstOrFail();
-        return response()->download(storage_path("app/proposals/prop-" . $proposal->id . "/document.pdf"));
+        return response()->download(storage_path(proppath($proposal->id) . "/document.pdf"));
     }
 
     public function downloadreport($uuid)
     {
         $report = ProposalReports::where('document', '=', $uuid)->firstOrFail();
-        return response()->download(storage_path("app/proposals/prop-" . $report->proposal_id . "/report-" . $report->id . ".pdf"));
+        return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
     }
 
     public function downloadletter($uuid)
     {
         $letter = Recommendations::where('document', '=', $uuid)->firstOrFail();
-        return response()->download(storage_path("app/proposals/prop-" . $letter->proposal_id . "/letter-" . $letter->id . ".pdf"));
+        return response()->download(storage_path(proppath($letter->proposal_id) . "/letter-" . $letter->id . ".pdf"));
     }
 }
