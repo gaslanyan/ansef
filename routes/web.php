@@ -105,6 +105,8 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
     Route::get('/admin/proposal/awardslist/{id}', 'Admin\ProposalController@awardslist')->name('awards_list');
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
+    Route::post('/admin/proposal/downloadfirst', 'Admin\ProposalController@downloadfirstreport');
+    Route::post('/admin/proposal/downloadsecond', 'Admin\ProposalController@downloadsecondreport');
     Route::resource('/admin/proposal', 'Admin\ProposalController');
     Route::get('/admin/approve', 'Admin\ReportController@approve');
     Route::get('/admin/report/list/{id}', 'Admin\ReportController@list')->name('report_list');

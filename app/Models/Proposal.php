@@ -53,6 +53,11 @@ class Proposal extends Model
         return $this->hasMany('App\Models\RefereeReport');
     }
 
+    function propreports()
+    {
+        return $this->hasMany('App\Models\ProposalReports');
+    }
+
     function persons()
     {
         return $this->belongsToMany(Person::class , 'person_type', 'proposal_id', 'person_id')->withPivot('subtype');

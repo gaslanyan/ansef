@@ -110,12 +110,7 @@ class ProposalController extends Controller
     public function show($id) {
 
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function display(Request $request)
     {
         $pid = $request['id'];
@@ -219,7 +214,7 @@ class ProposalController extends Controller
 
         if ($cid == -1) {
             $proposals = Proposal::all()
-                ->sortBy('id');
+                ->get()->sortBy('id');
         } else {
             $proposals = Proposal::where('competition_id', '=', $cid)
                 ->orderBy('id', 'asc')
@@ -242,6 +237,33 @@ class ProposalController extends Controller
         return Response::json($d);
     }
 
+    public function downloadfirstreport(Request $request)
+    {
+        $pid = $request['id'];
+        $pr = Proposal::find($pid);
+        $propreports = $pr->propreports;
+        foreach ($propreports as $propreport) {
+            if ($propreport->due_date == $pr->competition->first_report) {
+                return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+            } else {
+                return response()->json(new \stdClass());
+            }
+        }
+    }
+
+    public function downloadsecondreport(Request $request)
+    {
+        $pid = $request['id'];
+        $pr = Proposal::find($pid);
+        $propreports = $pr->propreports;
+        foreach ($propreports as $propreport) {
+            if ($propreport->due_date == $pr->competition->second_report) {
+                return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+            }
+        }
+        return response()->json(new \stdClass());
+    }
+
     public function listawards($cid, Request $request)
     {
         // ini_set('memory_limit', '384M');
@@ -249,7 +271,7 @@ class ProposalController extends Controller
 
         if ($cid == -1) {
             $proposals = Proposal::whereIn('state',['awarded', 'approved 1', 'approved 2'])
-                ->sortBy('id');
+                ->get()->sortBy('id');
         } else {
             $proposals = Proposal::where('competition_id', '=', $cid)
                 ->whereIn('state', ['awarded', 'approved 1', 'approved 2'])
@@ -264,10 +286,19 @@ class ProposalController extends Controller
             $d['data'][$index]['score'] = strval(round($pr->overall_score)) . "%";
             $pi = $pr->pi();
             $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name, 7) . " " . $pi->first_name : 'No PI';
-            $refs = $pr->refereesasstring();
-            $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
-            $a = $pr->admin()->first();
-            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
+            $propreports = $pr->propreports;
+            $d['data'][$index]['first'] = false;
+            $d['data'][$index]['second'] = false;
+            foreach($propreports as $propreport) {
+                if($propreport->due_date == $pr->competition->first_report) {
+                    $d['data'][$index]['first'] = true;
+                }
+                else if ($propreport->due_date == $pr->competition->second_report) {
+                    $d['data'][$index]['second'] = true;
+                }
+                else {
+                }
+            }
         }
 
         return Response::json($d);

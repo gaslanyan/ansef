@@ -38,7 +38,7 @@
                                 <th>ID</th>
                                 <th>Proposal Title</th>
                                 <th>Proposal PI</th>
-                                <th width="100px">State</th>
+                                <th>State</th>
                                 <th>Score</th>
                                 <th class="action long">Actions</th>
                             </tr>
@@ -140,22 +140,43 @@
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
-                                return '<form action= "<?= action('Admin\ProposalController@display', '')?>" method="post"> ' +
+                                var viewbutton = '<form action= "<?= action('Admin\ProposalController@display', '')?>" method="post"> ' +
                                     '<input name="_method" type="hidden" value="POST">' +
                                     '<input type="hidden" name="_token" value="{!! csrf_token() !!}">'+
                                     '<input name="id" type="hidden" value="' + ID + '">' +
-                                    '<button class="btn btn-link" type="submit">' +
+                                    '<button class="btn btn-link myButton" type="submit">' +
                                     '<i class="fa fa-eye"></i></button></form>';
+                                var firstreportbutton = '';
+                                if(full['first'])
+                                    firstreportbutton = '<form action= "<?= action('Admin\ProposalController@downloadfirstreport', '')?>" method="post"> ' +
+                                    '<input name="_method" type="hidden" value="POST">' +
+                                    '<input type="hidden" name="_token" value="{!! csrf_token() !!}">'+
+                                    '<input name="id" type="hidden" value="' + ID + '">' +
+                                    '<button class="btn btn-link myButton" type="submit">' +
+                                    '<i class="fas fa-italic "></i></button></form>';
+
+                                var secondreportbutton = '';
+                                if(full['second'])
+                                    secondreportbutton = '<form action= "<?= action('Admin\ProposalController@downloadsecondreport', '')?>" method="post"> ' +
+                                    '<input name="_method" type="hidden" value="POST">' +
+                                    '<input type="hidden" name="_token" value="{!! csrf_token() !!}">'+
+                                    '<input name="id" type="hidden" value="' + ID + '">' +
+                                    '<button class="btn btn-link myButton" type="submit">' +
+                                    '<i class="fas fa-italic"></i><i class="fas fa-italic"></i></button></form>';
+
+                                return  viewbutton +
+                                        firstreportbutton +
+                                        secondreportbutton;
                             }
                         }
                     ],
                     "columnDefs": [
                     { "width": "120px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
                     { "width": "175px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "120px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "150px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "100px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
                     { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "300px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
                 ],
                 "select": true,
                 "scrollX": true,
