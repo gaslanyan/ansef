@@ -27,7 +27,6 @@
                                        id="email">
                                 <button type="submit" class="btn btn-primary">Add new email</button>
                             </div>
-
                         </form>
                     </div>
                     @include('partials.status_bar')

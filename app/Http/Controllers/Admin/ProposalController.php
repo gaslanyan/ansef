@@ -396,6 +396,10 @@ class ProposalController extends Controller
     public function sendEmail(Request $request)
     {
         $IDs = json_decode($request->ids);
+        $content = $request->content;
+        $subject = $request->subject;
+
+        \Debugbar::error($IDs . " " . $content . " " . $subject);
 
         $message = Message::where('id', '=', $request->t_id)->first();
         $objSend = new \stdClass();

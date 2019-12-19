@@ -60,7 +60,7 @@
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2></h2>
+                    <h3></h3>
                     <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&times;</span><span
                                 class="sr-only">Close</span></button>
@@ -68,22 +68,32 @@
                 </div>
                 <div class="modal-body" id="modal-bodyku">
                     <div id="email">
-                        @if(!empty($messages))
                             <div class="row">
                                 <div class="form-group col-lg-6">
-                                    <label for="choose_person_email"
-                                           class="label">
-                                        <select name="message" id="choose_person_email">
-                                            <option>Select tamplate</option>
+                                    <label for="message" class="label"></label>
+                                        <select name="message" id="message">
+                                            <option>Select template</option>
+                                            @if(!empty($messages))
                                             @foreach($messages as $m)
-                                                <option value="{{$m->id}}">{{$m->text}}</option>
+                                            <option value="{{$m->id}}" subject="{{$m->subject}}" content="{{$m->text}}">{{$m->title}}</option>
                                             @endforeach
+                                            @endif
                                         </select>
-                                    </label>
-
+                                    <br/><br/>
+                                    <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="subject">Subject:</label>
+                                        <input class="form-control" type="text" name="subject" id="subject">
+                                    </div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="form-group col-12">
+                                        <label for="messagecontent">Message:</label><br/>
+                                        <textarea name="messagecontent" id="messagecontent" cols="70" rows="5"></textarea>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                        @endif
                     </div>
                     <div id="state">
                         <div class="row">
@@ -105,9 +115,6 @@
 
                     </div>
                     <div class="modal-footer" id="modal-footerq">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal">Close
-                        </button>
                         <button type="button" class="btn btn-primary"
                                 data-dismiss="modal" id="choose">Choose
                         </button>
@@ -206,6 +213,12 @@
             $('#competition').change(function() {
                 reloadtable('admin/listawards');
             });
+            $('#message').change(function() {
+                var subject = $('option:selected', this).attr('subject');
+                var content = $('option:selected', this).attr('content');
+                $('#subject').val(subject);
+                $('#messagecontent').val(content);
+            });
 
 
         });
@@ -233,16 +246,18 @@ function change_state(checkedIDss) {
         alert('Please choose a proposal');
 }
 
-function send_email(checkedIDss) {
-    var selected = $('[name=message]').val();
-    if (selected)
+function send_email(checkedIDss, subject, content) {
+    // alert(subject + ': ' + content);
+    if (content != "" && subject != "")
         $.ajax({
             url: '/admin/sendEmail',
             type: 'POST',
             data: {
                 _token: CSRF_TOKEN,
                 t_id: selected,
-                ids: JSON.stringify(checkedIDss)
+                ids: JSON.stringify(checkedIDss),
+                subject: subject,
+                content: content
             },
             dataType: 'JSON',
             success: function(data) {
@@ -263,7 +278,7 @@ function send_email(checkedIDss) {
         function open_container(type) {
             var size = 'small',
                 content = '',
-                title = 'Choose a ' + type,
+                title = 'Compose message',
                 footer = '';
             _type = type;
             jQuery.noConflict();
@@ -278,7 +293,7 @@ function send_email(checkedIDss) {
         }
 
         function setModalBox(title, content, footer, $size) {
-            jQuery('#myModal').find('.modal-header h2').text(title);
+            jQuery('#myModal').find('.modal-header h3').text(title);
             $('#admin, #referee, #email, #state').css('display', 'none');
             $('#' + _type).css('display', 'block');
             if ($size === 'small') {
@@ -301,8 +316,11 @@ function send_email(checkedIDss) {
                 checkedIDss.push(data[i].id);
             }
             var CSRF_TOKEN = $('input[name="_token"]').val();
-            if (_type === "email")
-                send_email(checkedIDss);
+            if (_type === "email") {
+                var content = $('#messagecontent').val();
+                var subject = $('#subject').val();
+                send_email(checkedIDss, subject, content);
+            }
             else if (_type === "state") {
                 change_state(checkedIDss);
             }
