@@ -18,7 +18,7 @@ class RefereeController extends Controller
     {
 
         if ($id !== "null") {
-            setcookie('sign_id', $id, 0, '/referee');
+            // setcookie('sign_id', $id, 0, '/referee');
             redirect(\Illuminate\Support\Facades\Request::url());
         }
 
@@ -26,6 +26,10 @@ class RefereeController extends Controller
         createperson($user_id, 'referee');
 
         return view("referee.dashboard", compact('user_id'));
+    }
+
+    public function loginAs($id = null) {
+
     }
 
     /**

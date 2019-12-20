@@ -13,6 +13,7 @@ use App\Models\ProposalReports;
 use App\Models\Recommendations;
 use App\Models\RefereeReport;
 use App\Models\Role;
+use App\Models\Email;
 use App\Models\Score;
 use App\Models\ScoreType;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Response;
 use Barryvdh\DomPDF\Facade as PDF;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class ProposalController extends Controller
 {
@@ -396,24 +398,35 @@ class ProposalController extends Controller
     public function sendEmail(Request $request)
     {
         $IDs = json_decode($request->ids);
-        $content = $request->content;
-        $subject = $request->subject;
+        $counter = 0;
+        foreach ($IDs as $ID) {
+            $prop = Proposal::find($ID);
+            if(!empty($prop)) {
+                $pi = $prop->pi();
+                if(!empty($pi)) {
+                    $to = Email::where('person_id','=',$pi->id)->first();
+                    $name = $pi->first_name . " " . $pi->last_name;
+                    $tag = getProposalTag($prop->id);
+                    if(!empty($to)) {
+                        $subject = $request->subject;
+                        $data = ['tag' =>$tag, 'name' => $name, 'content' => $request->content];
+                        $counter++;
+                        // \Debugbar::error('Message ' . $counter);
+                        Mail::send(
+                            ['text' => 'admin.email.emailtemplate'],
+                            $data,
+                            function ($message) use ($subject, $to) {
+                                $message->to('sahakian@hmc.edu')
+                                        ->subject($subject);
+                                $message->from('dopplerthepom@gmail.com', 'ANSEF Research Board');
+                            }
+                        );
+                    }
+                }
+            }
+        }
 
-        \Debugbar::error($IDs . " " . $content . " " . $subject);
-
-        $message = Message::where('id', '=', $request->t_id)->first();
-        $objSend = new \stdClass();
-        $objSend->message = $message->text;
-        $objSend->sender = 'Ansef';
-        $objSend->receiver = 'collages';
-
-        $items = [];
-        // foreach ($pi_json as $index => $json) {
-        //     $email = Person::with('user')->where('id', $pi->person_pi_id)->first();
-        //     //             $email->user->email;
-        //     Mail::to($email->user->email)->send(new \App\Mail\Invitation($objSend));
-        //     return response()->json('ok');
-        // }
+        return response()->json('Sent ' . $counter . ' of ' . count($IDs) . ' emails.');
     }
 
     public function addUsers(Request $request)

@@ -16,9 +16,9 @@ class ApplicantController extends Controller
      */
     public function index($id = null)
     {
-        redirect(\Illuminate\Support\Facades\Request::url());
         if ($id !== "null") {
-            setcookie('sign_id', $id, 0, '/applicant');
+            // setcookie('sign_id', $id, 0, '/applicant');
+            redirect(\Illuminate\Support\Facades\Request::url());
         }
 
         $competitionlist = Competition::where('submission_end_date','>=',date('Y-m-d'))
@@ -37,6 +37,9 @@ class ApplicantController extends Controller
         return view("applicant.dashboard", compact('competitionlist', 'upcomingcompetitions', 'id'));
     }
 
+    public function loginAs($id = null)
+    {
+    }
 
     public function __construct()
     {

@@ -39,10 +39,12 @@ Route::post('/register/applicant', 'Auth\RegisterController@register');
 Route::post('/register/viewer', 'Auth\RegisterController@register');
 Route::post('/register/referee', 'Auth\RegisterController@register');
 Route::post('/register/admin', 'Auth\RegisterController@register');
+Route::post('/register/set', 'Auth\RegisterController@setPassword')->name('password.set');
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/verify-user/{email}/code/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
+Route::get('/verify-addeduser/{email}/code/{code}', 'Auth\RegisterController@activateAddedUser')->name('activate.addeduser');
 
 Route::resource('/admin', 'Admin\AdminController', [
     'only' => ['index'],
@@ -73,7 +75,6 @@ Route::get('/referee/sign', 'Referee\RefereeController@index', [
     'only' => ['index'],
     'middleware' => 'check-role:referee|admin|superadmin'
 ]);
-
 
 // ---------------------------------- Admin routes ----------------------------------
 Route::group(['middleware' => ['check-role:admin|superadmin']], function () {

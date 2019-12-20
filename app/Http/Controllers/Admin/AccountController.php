@@ -16,7 +16,7 @@ use App\Models\Person;
 use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\UserRegisteredSuccessfully;
+use App\Notifications\UserAddedSuccessfully;
 use App\Notifications\GeneratePasswordSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -29,7 +29,6 @@ class AccountController extends Controller
     public function index() {
         try {
             $persons = User::with('role')->get();
-
             $roles = Role::all();
 
             return view('admin.person.index', compact('persons', 'roles'));
@@ -85,6 +84,7 @@ class AccountController extends Controller
             }
 
             $institutions = Institution::all();
+
             return view('admin.account.list', compact('persons', 'type', 'ip', 'institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -149,7 +149,7 @@ class AccountController extends Controller
                 $validatedData['requested_role_id'] = $request->role;
                 $validatedData['state'] = "inactive";
                 $user = User::create($validatedData);
-                $user->notify(new UserRegisteredSuccessfully($user));
+                $user->notify(new UserAddedSuccessfully($user));
                 return redirect()->action('Admin\AccountController@index');
             } else return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {

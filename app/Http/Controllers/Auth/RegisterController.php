@@ -10,6 +10,7 @@ use App\Notifications\UserRegisteredSuccessfully;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -151,5 +152,73 @@ class RegisterController extends Controller
             return messageFromTemplate('wrong');
         }
 //        return redirect()->to('/home');
+    }
+
+    public function activateAddedUser(string $useremail, string $activationCode)
+    {
+        try {
+            $user = app(User::class)->where('email', $useremail)->first();
+            if (!$user) {
+                return redirect()->route('login.' . 'applicant')->with('status',"Email not registered.");
+            }
+            $role = Role::where('id', '=', $user->requested_role_id)->first();
+            if($user->state === "active") {
+                $role = Role::where('id', '=', $user->role_id)->first();
+                return redirect()->route('login.' . $role->name)->with('status',"Your account is active. You may now log in.");
+            }
+            if($user->state === "waiting") {
+                $role = Role::where('id', '=', $user->role_id)->first();
+                return redirect()->route('login.' . $role->name)->with('status',"Your account is awaiting activation by the portal administrator. Try again later, or contact admin@ansef.org.");
+            }
+
+            if ($user->confirmation != $activationCode) {
+                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact dopplerthepom@gmail.com.");
+            }
+
+            if ($user->state === "inactive") {
+                return view("auth.passwords.set", ['token' => $user->confirmation, 'id' => $user->id, 'email' => $user->email, 'role' => $role->name]);
+            }
+            else {
+                return redirect()->route('login.' . $role->name)->with('',"Your account is active. You may now log in.");
+            }
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return messageFromTemplate('wrong');
+        }
+//        return redirect()->to('/home');
+    }
+
+    public function setPassword(Request $request) {
+        try {
+            $v = Validator::make($request->all(), [
+                'password' => 'required|min:8|same:password_confirmation'
+            ]);
+
+            if (!$v->fails()) {
+                $user = User::find($request->id);
+                if(!empty($user)) {
+                    if($user->confirmation == $request->token) {
+                        $user->state = "active";
+                        $user->role_id = $user->requested_role_id;
+                        $user->requested_role_id = 0;
+                        $user->confirmation = 1;
+                        $user->password = bcrypt($request->password);
+                        $user->save();
+
+                        $person = new Person;
+                        $person->user_id = $user->id;
+                        $person->first_name = "";
+                        $person->last_name = "";
+                        $person->specialization = "";
+                        $person->type = $role->name;
+                        $person->save();
+                    }
+                }
+                return redirect()->route('login.' . $request->role)->with('', "Your account is active. You may now log in.");
+            } else return redirect()->back()->withErrors($v->errors());
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect()->back()->with('error', messageFromTemplate('wrong'));
+        }
     }
 }

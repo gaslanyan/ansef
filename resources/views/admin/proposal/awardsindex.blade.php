@@ -171,9 +171,9 @@
                                     '<button class="btn btn-link myButton" type="submit">' +
                                     '<i class="fas fa-italic"></i><i class="fas fa-italic"></i></button></form>';
 
-                                return  viewbutton +
+                                return  '<div style="margin:0px;padding:0px;">' + viewbutton +
                                         firstreportbutton +
-                                        secondreportbutton;
+                                        secondreportbutton + '</div>';
                             }
                         }
                     ],
@@ -247,27 +247,27 @@ function change_state(checkedIDss) {
 }
 
 function send_email(checkedIDss, subject, content) {
-    // alert(subject + ': ' + content);
-    if (content != "" && subject != "")
+    if (content != "" && subject != "") {
+        // alert(subject + ': ' + content);
         $.ajax({
             url: '/admin/sendEmail',
             type: 'POST',
             data: {
                 _token: CSRF_TOKEN,
-                t_id: selected,
                 ids: JSON.stringify(checkedIDss),
                 subject: subject,
                 content: content
             },
             dataType: 'JSON',
             success: function(data) {
-                alert('Emails sent.');
+                alert(data);
             },
             error: function(data) {
                 alert('Error occured. No emails were sent.');
                 console.log(data);
             }
         });
+    }
     else
         alert('Please Choose Proposal!')
 

@@ -35,7 +35,7 @@ class PhoneController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $persons_name = Person::where('id', $id)->where('type', '=', 'participant')->orWhere('type', '=', 'support')->first();
+        $persons_name = Person::where('id', $id)->whereIn('type', ['participant', 'support'])->first();
         $phone_list = Phone::where('person_id', '=', $id)->get()->toArray();
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
     }

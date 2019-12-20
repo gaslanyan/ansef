@@ -29,8 +29,7 @@ class AccountController extends Controller
     {
         $user_id = getUserID();
         $applicant_persons = Person::where('user_id', '=', $user_id)
-            ->where('type', '=', 'support')
-            ->orWhere('type', '=', 'participant')
+            ->whereIn('type', ['support', 'participant'])
             ->get();
 
         return view("applicant.account.index", compact('applicant_persons'));

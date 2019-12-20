@@ -146,11 +146,6 @@ function getUserID()
     } else {
         return view('errors.404');
     }
-    // if (empty($_COOKIE['sign_id']))
-    //     $user_id = \Auth::guard(get_role_cookie())->user()->id;
-    // else
-    //     $user_id = $_COOKIE['sign_id'];
-    // return $user_id;
 }
 
 function isPerson($id)
