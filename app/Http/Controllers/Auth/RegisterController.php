@@ -154,7 +154,7 @@ class RegisterController extends Controller
 //        return redirect()->to('/home');
     }
 
-    public function activateAddedUser(string $useremail, string $activationCode)
+    public function activateAddedUser(string $useremail, string $activationCode, string $admin)
     {
         try {
             $user = app(User::class)->where('email', $useremail)->first();
@@ -176,7 +176,7 @@ class RegisterController extends Controller
             }
 
             if ($user->state === "inactive") {
-                return view("auth.passwords.set", ['token' => $user->confirmation, 'id' => $user->id, 'email' => $user->email, 'role' => $role->name]);
+                return view("auth.passwords.set", ['token' => $user->confirmation, 'id' => $user->id, 'email' => $user->email, 'role' => $role->name, 'admin' => $admin]);
             }
             else {
                 return redirect()->route('login.' . $role->name)->with('',"Your account is active. You may now log in.");
@@ -205,6 +205,7 @@ class RegisterController extends Controller
                         $user->password = bcrypt($request->password);
                         $user->save();
 
+                        $role = Role::find($user->role_id);
                         $person = new Person;
                         $person->user_id = $user->id;
                         $person->first_name = "";
@@ -214,7 +215,10 @@ class RegisterController extends Controller
                         $person->save();
                     }
                 }
-                return redirect()->route('login.' . $request->role)->with('', "Your account is active. You may now log in.");
+                if($request->admin == "true")
+                    return redirect()->action('Admin\AccountController@index');
+                else
+                    return redirect()->route('login.' . $request->role)->with('', "Your account is active. You may now log in.");
             } else return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $exception) {
             logger()->error($exception);

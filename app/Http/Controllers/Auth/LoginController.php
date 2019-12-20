@@ -108,6 +108,7 @@ class LoginController extends Controller
         $request->session()->flush();
         $request->session()->regenerate();
         $role = get_role_cookie();
+        Auth::guard($role)->logout();
         if(!empty($role)) setcookie('user_role', $role, time() - 31556926, '/');
         return redirect('/');
     }

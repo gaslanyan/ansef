@@ -3,33 +3,50 @@
 namespace App\Http\Controllers\Referee;
 
 use App\Models\Person;
-use Request;
+use App\Models\Session;
 use App\Http\Controllers\Controller;
+use \Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class RefereeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index($id = null)
     {
-
-        if ($id !== "null") {
-            // setcookie('sign_id', $id, 0, '/referee');
-            redirect(\Illuminate\Support\Facades\Request::url());
-        }
-
         $user_id = getUserID();
         createperson($user_id, 'referee');
 
         return view("referee.dashboard", compact('user_id'));
     }
 
-    public function loginAs($id = null) {
+    public function signAs($id) {
+        $newperson = Person::find($id);
+        $newuser = $newperson->user;
+        $newrole = $newperson->type;
 
+        Request::session()->flush();
+        Request::session()->regenerate();
+        $role = get_role_cookie();
+        Auth::guard($role)->logout();
+        if (!empty($role)) setcookie('user_role', $role, time() - 31556926, '/');
+
+        setcookie('user_role', $newuser->role->name, 0, '/');
+        Auth::guard($newrole)->loginUsingId($newuser->id, true);
+        $session = Session::where('user_id', $newuser->id)->first();
+
+        if (empty($session))
+            $s_user = new Session;
+        else
+            $s_user = Session::find($session->id);
+        $s_user->user_id = $newuser->id;
+        $s_user->domain = $_SERVER['REMOTE_ADDR'];
+
+        $s_user->save();
+        $s_user->touch();
+        Request::session()->put('u_id', $newuser->id);
+        $user_id = $newuser->id;
+        createperson($user_id, 'applicant');
+        return Redirect::to($newrole);
     }
 
     /**

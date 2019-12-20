@@ -89,16 +89,10 @@
                                                 </a>
                                             @endif
                                             @if($person->role->name == 'applicant' || $person->role->name == 'referee')
-
-                                                <a target="_blank" href="{{action(ucfirst($person->role->name).'\\'.ucfirst($person->role->name).'Controller@index',
-                                                          $person->id)}}"
-                                                   class="login" title="Login"><i class="fa fa-sign-in-alt"></i>
+                                                <a href="{{URL('/'.$person->role->name.'/signas/'.$person->id )}}">
+                                                <i class="fa fa-sign-in-alt"></i>
                                                 </a>
-                                                <input type="hidden" class="id" name="{{$person->role->name}}"
-                                                       value="{{$person->id}}">
                                             @endif
-
-
                                         </td>
 
                                     </tr>

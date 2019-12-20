@@ -44,7 +44,7 @@ Route::post('/register/set', 'Auth\RegisterController@setPassword')->name('passw
 Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/verify-user/{email}/code/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
-Route::get('/verify-addeduser/{email}/code/{code}', 'Auth\RegisterController@activateAddedUser')->name('activate.addeduser');
+Route::get('/verify-addeduser/{email}/code/{code}/admin/{admin}', 'Auth\RegisterController@activateAddedUser')->name('activate.addeduser');
 
 Route::resource('/admin', 'Admin\AdminController', [
     'only' => ['index'],
@@ -71,7 +71,15 @@ Route::get('/applicant/sign', 'Applicant\ApplicantController@index', [
     'only' => ['index'],
     'middleware' => 'check-role:applicant|admin|superadmin'
 ]);
+Route::get('/applicant/signas/{id}', 'Applicant\ApplicantController@signAs', [
+    'only' => ['index'],
+    'middleware' => 'check-role:applicant|admin|superadmin'
+]);
 Route::get('/referee/sign', 'Referee\RefereeController@index', [
+    'only' => ['index'],
+    'middleware' => 'check-role:referee|admin|superadmin'
+]);
+Route::get('/referee/signas/{id}', 'Referee\RefereeController@signAs', [
     'only' => ['index'],
     'middleware' => 'check-role:referee|admin|superadmin'
 ]);

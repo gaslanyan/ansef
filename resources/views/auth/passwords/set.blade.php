@@ -14,6 +14,7 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <input type="hidden" name="id" value="{{ $id }}">
                         <input type="hidden" name="role" value="{{ $role }}">
+                        <input type="hidden" name="admin" value="{{ $admin }}">
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>

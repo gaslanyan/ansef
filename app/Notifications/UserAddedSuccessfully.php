@@ -59,7 +59,7 @@ class UserAddedSuccessfully extends Notification
                                 ->greeting(sprintf('Dear ANSEF %s,', $role->name))
                                 ->line('The ANSEF administrator registered you to the ANSEF portal as a ' . $role->name . '.')
                                 ->line('You will need to confirm the registration and choose a password so that you can log into the ANSEF portal.')
-                                ->action('Click here to activate your account and choose a password', route('activate.addeduser', ['email'=>$user->email, 'code'=>$user->confirmation]))
+                                ->action('Click here to choose a password', route('activate.addeduser', ['email'=>$user->email, 'code'=>$user->confirmation, 'admin' => 'false']))
                                 ->line('Thank you on behald of the ANSEF Research Board.');
 
     }

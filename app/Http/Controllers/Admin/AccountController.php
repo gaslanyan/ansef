@@ -92,26 +92,20 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * Generating a new password for account.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function generatePassword(Request $request, $id)
     {
         try {
-            $generate_password = randomPassword();
-            $user = User::find($id);
-            $user->password = bcrypt($generate_password);
-            if ($user->save()) {
-                $user->notify(new GeneratePasswordSend($user, $generate_password));
-                $request->session()->flash('success', messageFromTemplate('generated_password') . " " . $user->email);
-            } else
-                $request->session()->flash('error', messageFromTemplate('wrong'));
-            return redirect()->back();
+            $user = Person::find($id)->user;
+            $user->confirmation = str_random(30) . time();
+            $user->password_salt = 10;
+            $user->requested_role_id = $user->role_id;
+            $user->state = "inactive";
+            $user->save();
+
+            return redirect()->route('activate.addeduser', ['email' => $user->email, 'code' => $user->confirmation, 'admin' => 'true']);
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect()->back()->with('error', messageFromTemplate('check_email'));
+            return redirect()->back()->with('error', 'Error setting password.');
         }
     }
 
