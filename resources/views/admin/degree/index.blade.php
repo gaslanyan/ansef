@@ -6,8 +6,10 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">List of possible degrees
+                    @if(get_role_cookie() == 'superadmin')
                         <a href="{{action('Admin\DegreeController@create')}}"
                            class="display float-lg-right btn-primary px-2 myButton">Add a degree</a>
+                    @endif
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">

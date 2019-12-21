@@ -90,7 +90,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/export', 'Admin\SettingsController@exportForm');
     Route::get('/admin/sql', 'Admin\SettingsController@sql');
     Route::post('/admin/backup', 'Admin\SettingsController@backup');
-    Route::get('/admin/profile/edit', 'Admin\PersonController@edit');
+    Route::get('/admin/profile/edit/{id}', 'Admin\PersonController@edit');
     Route::post('/admin/profile/update', 'Admin\PersonController@update');
     Route::post('/admin/password/update', 'Admin\PersonController@updatePassword');
     Route::get('/admin/password/change', 'Admin\PersonController@changePassword');

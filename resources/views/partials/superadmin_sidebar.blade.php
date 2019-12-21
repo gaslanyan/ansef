@@ -1,8 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php
 $signUser = loggedApplicant();
-$u_id = \Illuminate\Support\Facades\Session::get('u_id');
-$user_id = getPersonIdByRole('superadmin');
+$user_id = getUserID();
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -19,7 +18,7 @@ $user_id = getPersonIdByRole('superadmin');
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
-                <a href="{{action('Admin\AdminController@index')}}">
+                <a href="/superadmin">
                     <i class="fa fa-chart-bar"></i>
                     <span>Dashboard</span>
 

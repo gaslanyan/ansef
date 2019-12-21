@@ -138,6 +138,16 @@ function loggedApplicant() {
     }
 }
 
+function loggedPerson()
+{
+    if (!empty(Auth::guard(get_role_cookie())->user())) {
+        $user_id = Auth::guard(get_role_cookie())->user()->id;
+        return \App\Models\Person::where('user_id', '=', $user_id)->whereNotIn('type', ['participants','support'])->first();
+    } else {
+        return view('errors.404');
+    }
+}
+
 function getUserID()
 {
     if (!empty(Auth::guard(get_role_cookie())->user()->id)) {

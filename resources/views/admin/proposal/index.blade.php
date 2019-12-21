@@ -50,12 +50,14 @@
                                     Add Referee
                                 </button>
                             @endif
+                            @if(get_role_cookie() == 'superadmin')
                                 <button type="button"
                                         title="delete" onclick="deleteproposals();"
                                         class="display float-lg-right btn-primary px-2 myButton">
                                         <i class="fa fa-trash-alt" ></i>
                                     Delete
                                 </button>
+                            @endif
                         </div>
                         <table class="table table-bordered display compact" id="datatable">
                             <thead>

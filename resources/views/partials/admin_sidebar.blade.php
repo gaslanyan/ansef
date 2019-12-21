@@ -1,16 +1,15 @@
 <!-- sidebar.blade.php -->
 <?php
-$signUser = loggedApplicant();
-$u_id = \Illuminate\Support\Facades\Session::get('u_id');
-$user_id = getPersonIdByRole('superadmin');
+$signedPerson = loggedPerson();
+$user_id = getUserID();
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
             <div class="d-inline-block">
                 <p class="" style="color:#999;">
-                    <?php if (!empty($signUser)):?>
-                        <?= "<b>Logged in as " . $signUser->first_name . " " . $signUser->last_name . "</b>"; ?>
+                    <?php if (!empty($signedPerson)):?>
+                        <?= "<b>Logged in as " . $signedPerson->first_name . " " . $signedPerson->last_name . "</b>"; ?>
                     <?php else: ?>
                         <?= get_role_cookie(); ?>
                     <?php endif;?>
@@ -19,7 +18,7 @@ $user_id = getPersonIdByRole('superadmin');
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
-                <a href="{{action('Admin\AdminController@index')}}">
+                <a href="/admin">
                     <i class="fa fa-chart-bar"></i>
                     <span>Dashboard</span>
 
@@ -52,16 +51,17 @@ $user_id = getPersonIdByRole('superadmin');
                             of
                             viewers</a>
                     </li>
+                    @if(get_role_cookie() == 'superadmin')
                     <li>
                         <a href="{{action('Admin\AccountController@account','admin')}}"><i class="fa fa-circle-o"></i>List
                             of
                             administrators</a>
                     </li>
-
-                        <li>
-                            <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add
-                                a person</a>
-                        </li>
+                    @endif
+                    <li>
+                        <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add
+                            a person</a>
+                    </li>
 
                 </ul>
             </li>
@@ -74,7 +74,6 @@ $user_id = getPersonIdByRole('superadmin');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <?php if(userHasPerson()): ?>
                     <li class="text-uppercase">
                         <a href="{{action('Admin\PersonController@edit', $user_id)}}">
                             <i class="fa fa-user"></i>
@@ -83,17 +82,7 @@ $user_id = getPersonIdByRole('superadmin');
                             </span>
                         </a>
                     </li>
-                    <?php else:?>
-                    <li class="text-uppercase">
-                        <a href="{{action('Admin\PersonController@edit', $user_id)}}">
-                            <i class="fa fa-user"></i>
-                            <span>Update your profile</span>
-                            <span class="pull-right-container">
-                            </span>
-                        </a>
-                        </li>
-                        <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change your Password</a></li>
-                    <?php endif?>
+                    <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change your Password</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -234,6 +223,7 @@ $user_id = getPersonIdByRole('superadmin');
                         @endif
                 </ul>
             </li>
+            @if(get_role_cookie() == 'superadmin')
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-comments"></i> <span>Auto. Messages</span>
@@ -250,6 +240,7 @@ $user_id = getPersonIdByRole('superadmin');
                         @endif
                 </ul>
             </li>
+            @endif
         </ul>
         <div class="line"></div>
         @if(get_role_cookie() === "superadmin")
