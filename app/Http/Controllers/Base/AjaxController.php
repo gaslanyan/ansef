@@ -4,29 +4,13 @@ namespace App\Http\Controllers\Base;
 
 use App\Http\Controllers\Controller;
 use App\Models\BudgetCategory;
-use App\Models\BudgetItem;
 use App\Models\Category;
 use App\Models\Competition;
-use App\Models\Country;
-use App\Models\Email;
-use App\Models\Institution;
-use App\Models\InstitutionPerson;
-use App\Models\Message;
 use App\Models\Person;
 use App\Models\Proposal;
-use App\Models\ProposalInstitution;
-use App\Models\ProposalReports;
-use App\Models\RankingRule;
-use App\Models\Recommendations;
-use App\Models\RefereeReport;
-use App\Models\Score;
 use App\Models\ScoreType;
-use App\Models\User;
-use App\Notifications\ActivatedUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Response;
 
 class AjaxController extends Controller
 {

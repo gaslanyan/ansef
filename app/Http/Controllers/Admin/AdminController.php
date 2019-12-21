@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
-use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {

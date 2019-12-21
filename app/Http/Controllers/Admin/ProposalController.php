@@ -15,8 +15,6 @@ use App\Models\Recommendations;
 use App\Models\RefereeReport;
 use App\Models\Role;
 use App\Models\Email;
-use App\Models\Score;
-use App\Models\ScoreType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;

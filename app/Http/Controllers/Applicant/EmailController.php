@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Applicant;
 use App\Models\Email;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 

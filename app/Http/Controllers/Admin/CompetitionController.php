@@ -15,12 +15,10 @@ use App\Models\RankingRule;
 use App\Models\RefereeReport;
 use App\Models\ScoreType;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Arr;
 
 class CompetitionController extends Controller
 {

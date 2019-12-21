@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Viewer;
 
-use App\Models\Address;
 use App\Models\Country;
 use App\Http\Controllers\Controller;
 use App\Models\Institution;
 use App\Models\InstitutionPerson;
-use App\Notifications\UserRegisteredSuccessfully;
 use App\Models\Person;
-use App\Models\Role;
 use App\Models\User;
 use App\Models\Email;
 use App\Models\Phone;

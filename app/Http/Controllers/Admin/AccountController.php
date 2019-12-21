@@ -17,7 +17,6 @@ use App\Models\Phone;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\UserAddedSuccessfully;
-use App\Notifications\GeneratePasswordSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;

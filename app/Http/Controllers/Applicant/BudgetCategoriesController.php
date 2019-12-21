@@ -3,17 +3,10 @@
 namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
-use App\Models\BudgetCategory;
 use App\Models\BudgetItem;
-use App\Models\Category;
-use App\Models\Competition;
-use App\Models\Person;
 use App\Models\Proposal;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Barryvdh\DomPDF\Facade as PDF;
-use Illuminate\Support\Facades\Storage;
 
 
 class BudgetCategoriesController extends Controller

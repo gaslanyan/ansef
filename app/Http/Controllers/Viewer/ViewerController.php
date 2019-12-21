@@ -6,7 +6,6 @@ use App\Models\Competition;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class ViewerController extends Controller
 {

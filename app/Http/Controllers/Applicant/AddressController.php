@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Person;
 use App\Models\Country;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 

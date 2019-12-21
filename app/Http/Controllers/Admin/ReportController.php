@@ -9,7 +9,6 @@ use App\Models\Competition;
 use App\Models\Proposal;
 use App\Models\Score;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 

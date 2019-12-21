@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Applicant;
 use App\Models\Honors;
 use App\Models\Person;
 use Illuminate\Http\Request;
-use Redirect;
 use App\Http\Controllers\Controller;
+use Redirect;
 
 class HonorsController extends Controller
 {
