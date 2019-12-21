@@ -280,5 +280,55 @@ class RankingRuleController extends Controller
         }
     }
 
+    public function deleteRule(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            //        if (isset($request->_token)) {
+            $rule_ids = $request->id;
 
+            foreach ($rule_ids as $index => $cat) {
+                RankingRule::where('id', $cat)->delete();
+                $response = [
+                    'success' => true
+                ];
+            }
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        //        }
+        DB::commit();
+        return response()->json($response);
+    }
+
+    public function getRR(Request $request)
+    {
+        try {
+            $_id = $request->id;
+            $rs = RankingRule::select('id', 'sql')->where('competition_id', $_id)->get();
+            if (!empty($rs))
+                $response = [
+                    'rs' => json_encode($rs, true),
+                    'success' => true
+                ];
+            else
+                $response = [
+                    'success' => false,
+                    'count' => 0
+                ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+
+            logger()->error($exception);
+        }
+        return response()->json($response);
+    }
 }

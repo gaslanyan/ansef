@@ -152,6 +152,24 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
 
     Route::get('/admin/downloadPDF/{id}', 'Admin\ProposalController@generatePDF');
+
+    Route::post('/admin/deleteBudgets', 'Admin\BudgetCategoryController@deleteBudgets');
+    Route::post('/admin/deleteCats', 'Admin\CategoryController@deleteCats');
+    Route::post('/admin/duplicateCats', 'Admin\BudgetCategoryController@duplicateCats');
+    Route::post('/admin/deleteScores', 'Admin\ScoreTypeController@deleteScores');
+    Route::post('/admin/deleteRule', 'Admin\RankingRuleController@deleteRule');
+
+    Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
+    Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
+    Route::post('/admin/getProposalByApplicant', 'Admin\ProposalController@getProposalByApplicant');
+    Route::post('/admin/getProposalByReferee', 'Admin\ProposalController@getProposalByReferee');
+    Route::post('/admin/getProposalByCategory', 'Admin\ProposalController@getProposalByCategory');
+    Route::post('/admin/getProposal', 'Admin\ProposalController@getProposal');
+    Route::post('/admin/getBudgetByCategory', 'Admin\BudgetCategoryController@getBudgetByCategory');
+    Route::post('/admin/getSTypeCount', 'Admin\ScoreTypeController@getSTypeCount');
+    Route::post('/admin/getRR', 'Admin\RankingRuleController@getRR');
+    Route::post('/admin/approve', 'Admin\ReportController@approvePR');
+
 });
 
 // ---------------------------------- Applicant routes ----------------------------------
@@ -266,22 +284,5 @@ Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downlo
 
 //base ajax
 
-Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
-Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
-
-Route::post('/deleteCats', 'Base\AjaxController@deleteCats');
-Route::post('/deleteScores', 'Base\AjaxController@deleteScores');
-Route::post('/deleteRule', 'Base\AjaxController@deleteRule');
-Route::post('/deleteBudgets', 'Base\AjaxController@deleteBudgets');
-Route::post('/duplicateCats', 'Base\AjaxController@duplicateCats');
-
-Route::post('/getProposalByApplicant', 'Base\AjaxController@getProposalByApplicant');
-Route::post('/getProposalByReferee', 'Base\AjaxController@getProposalByReferee');
-Route::post('/getBudgetByCategory', 'Base\AjaxController@getBudgetByCategory');
-Route::post('/getProposal', 'Base\AjaxController@getProposal');
-Route::post('/getProposalByCategory', 'Base\AjaxController@getProposalByCategory');
-Route::post('/getSTypeCount', 'Base\AjaxController@getSTypeCount');
-Route::post('/getRR', 'Base\AjaxController@getRR');
-Route::post('/approve', 'Base\AjaxController@approve');
 Route::post('/gclfs', 'Base\AjaxController@getCompetitionsListForStatistics');
 Route::post('/gccbi', 'Base\AjaxController@getCompetitionContentByID');

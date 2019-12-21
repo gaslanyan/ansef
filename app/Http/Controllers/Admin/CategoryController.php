@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -175,6 +176,40 @@ class CategoryController extends Controller
                 'success' => false,
                 'error' => 'Do not save'
             ];
+        return response()->json($response);
+    }
+
+    public function deleteCats(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            //        if (isset($request->_token)) {
+            $cat_ids = $request->id;
+            $cats = Proposal::select('categories')->get();
+            $selected_cat = [];
+            foreach ($cats as $index => $cat) {
+                $j_c = json_decode($cat->categories, true);
+                foreach ($j_c as $i => $item) {
+                    $selected_cat[] = $item[0];
+                }
+            }
+            foreach ($cat_ids as $ii => $c) {
+                if (!in_array($c, $selected_cat))
+                    Category::where('id', $c)->delete();
+            }
+            $response = [
+                'success' => true
+            ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        //        }
+        DB::commit();
         return response()->json($response);
     }
 }

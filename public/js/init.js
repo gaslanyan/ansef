@@ -429,7 +429,7 @@ $(document).ready(function() {
                         dataType: 'JSON',
                         success: function(data) {
                             if (data.success) {
-                                $conf2 = confirm("Account has created proposals. Are you sure?");
+                                $conf2 = confirm("Account has associated proposals. Are you sure?");
                                 if ($conf)
                                     this.element.parent().submit();
                             } else {
@@ -450,7 +450,7 @@ $(document).ready(function() {
                         dataType: 'JSON',
                         success: function(data) {
                             if (data.success) {
-                                $conf2 = confirm("Referee has created report. Are you sure?");
+                                $conf2 = confirm("Referee has associated reports. Are you sure?");
                                 if ($conf2)
                                     this.element.parent().submit();
                             } else {
@@ -471,7 +471,7 @@ $(document).ready(function() {
                         dataType: 'JSON',
                         success: function(data) {
                             if (data.success) {
-                                $conf2 = confirm("Budget has created by Category. Are you sure?");
+                                $conf2 = confirm("Budget category has associated items. Are you sure?");
                                 if ($conf2)
                                     this.element.parent().submit();
                             } else {
@@ -502,7 +502,7 @@ $(document).ready(function() {
                         success: function(data) {
                             console.log(data.success);
                             if (data.success) {
-                                alert("You cannot remove a category because it is used in competitions!");
+                                alert("You cannot remove the category because it is used in a competition.");
                             } else {
                                 this.element.parent().submit();
                             }
@@ -579,7 +579,7 @@ $(document).ready(function() {
                         }
                     });
                     $.ajax({
-                        url: '/' + $url,
+                        url: '/admin/' + $url,
                         type: 'POST',
                         context: { element: $pattern },
                         data: {
@@ -706,4 +706,3 @@ function getSegmentUrl(_url) {
     var segment = window.location.pathname.split('/');
     var newURL = window.location.protocol + "//" + window.location.host + "/";
     return newURL + segment[1] + "/" + segment[2];
-}

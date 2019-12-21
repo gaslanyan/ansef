@@ -82,6 +82,39 @@ class ReportController extends Controller
 
     }
 
+    public function approvePR(Request $request)
+    {
+        try {
+            $r = json_decode($request->form, true);
+            $response = "";
+
+            if (!empty($r['id']) && !empty($r['approve'])) {
+
+                $approve = ProposalReports::find($r['id']);
+
+                $approve->approved = $r['approve'];
+                if ($approve->save())
+                    $response = [
+                        'success' => true
+                    ];
+                else
+                    $response = [
+                        'success' => false,
+
+                    ];
+            }
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+
+            logger()->error($exception);
+        }
+        return response()->json($response);
+    }
+
+
     public function listreports($cid, Request $request)
     {
         $d['data'] = [];

@@ -8,6 +8,7 @@ use App\Models\Score;
 use App\Models\ScoreType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ScoreTypeController extends Controller
 {
@@ -157,4 +158,67 @@ class ScoreTypeController extends Controller
             return redirect('admin/score')->with('error', messageFromTemplate('wrong'));
         }
     }
+
+    public function deleteScores(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            //        if (isset($request->_token)) {
+            $response = [];
+            $score_ids = $request->id;
+            $score = Score::whereIn(
+                'score_type_id',
+                (array) $score_ids
+            )->get()->toArray();
+
+            if (empty($score)) {
+                foreach ($score_ids as $index => $cat) {
+                    ScoreType::where('id', $cat)->delete();
+                }
+                $response = [
+                    'success' => true
+                ];
+            } else {
+                $response = [
+                    'success' => -1
+                ];
+            }
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        DB::commit();
+        return response()->json($response);
+    }
+
+    public function getSTypeCount(Request $request)
+    {
+        try {
+            $_id = $request->id;
+            $count = ScoreType::where('competition_id', $_id)->get()->count();
+            if (!empty($count))
+                $response = [
+                    'count' => $count,
+                    'success' => true
+                ];
+            else
+                $response = [
+                    'success' => false,
+                    'count' => 0
+                ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+
+            logger()->error($exception);
+        }
+        return response()->json($response);
+    }
+
 }

@@ -16,7 +16,6 @@
                         @include('partials.status_bar')
 
                         <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
-                            @if(get_role_cookie() === "superadmin")
                                 <button type="button"
                                         title="change state" onclick="open_container('state');"
                                         class="display float-lg-left btn-primary px-2 myButton">
@@ -30,7 +29,6 @@
                                         <i class="fa fa-envelope-open"></i>
                                     Send Email
                                 </button>
-                            @endif
                         </div>
                         <table class="table table-bordered display compact" id="datatable">
                             <thead>

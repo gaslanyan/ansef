@@ -7,6 +7,7 @@ use App\Models\BudgetItem;
 use App\Models\Category;
 use App\Models\Competition;
 use App\Models\Message;
+use App\Models\Person;
 use App\Models\Proposal;
 use App\Models\ProposalInstitution;
 use App\Models\ProposalReports;
@@ -538,5 +539,107 @@ class ProposalController extends Controller
         $pdfMerge->save(storage_path(proppath($pid) . '/download.pdf'), 'download');
 
         Storage::delete('proposals/prop-' . $pid . '/combined.pdf');
+    }
+
+    public function getProposalByApplicant(Request $request)
+    {
+        $_id = $request->id;
+
+        $p = Person::select('id')->where('user_id', $_id)->first();
+        if (!empty($p)) {
+            $arr = [];
+        } else {
+            $response = [
+                'success' => false
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function getProposalByReferee(Request $request)
+    {
+        $_id = $request->id;
+        $isJoined = false;
+        $p = Person::select('id')->where('user_id', $_id)->first();
+        if (!empty($p)) {
+            $pm = Proposal::select('proposal_referees')->get();
+
+            foreach ($pm as $index => $item) {
+                $js = json_decode($item->proposal_referees, true);
+                if (in_array($p->id, $js)) {
+                    $response = [
+                        'success' => true
+                    ];
+                    $isJoined = true;
+                }
+                break;
+            }
+            if (!$isJoined)
+                $response = [
+                    'success' => false,
+                    'error' => 'Do not available'
+                ];
+        } else {
+            $response = [
+                'success' => false
+            ];
+        }
+        return response()->json($response);
+    }
+
+    public function getProposal(Request $request)
+    {
+        $_id = $request->id;
+
+        $count = Proposal::where('competition_id', $_id)->count();
+
+        if ($count > 0)
+            $response = [
+                'success' => true
+            ];
+        else
+            $response = [
+                'success' => false,
+                'error' => 'Do not available'
+            ];
+
+        return response()->json($response);
+    }
+
+    public function getProposalByCategory(Request $request)
+    {
+        try {
+            if (isset($request->_token)) {
+                $cat_id = $request->id;
+
+                $sub_cat = Category::where('parent_id', $cat_id)->exists();
+                $cats = Proposal::select('categories')->get();
+                $selected_cat = [];
+                foreach ($cats as $index => $cat) {
+                    $j_c = json_decode($cat->categories, true);
+                    foreach ($j_c as $i => $item) {
+                        $selected_cat[] = $item[0];
+                    }
+                }
+
+                if (in_array($cat_id, $selected_cat) && $sub_cat)
+                    $response = [
+                        'success' => true
+                    ];
+                else
+                    $response = [
+                        'success' => false,
+                        'error' => 'Do not save'
+                    ];
+            }
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        return response()->json($response);
     }
 }

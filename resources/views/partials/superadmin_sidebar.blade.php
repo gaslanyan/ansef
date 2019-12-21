@@ -106,8 +106,10 @@ $user_id = getPersonIdByRole('superadmin');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\CategoryController@index')}}"><i class="fa fa-circle-o"></i>Show
                             categories</a></li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\CategoryController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a category</a></li>
+                        @endif
                 </ul>
             </li>
             <li class="treeview">
@@ -120,8 +122,10 @@ $user_id = getPersonIdByRole('superadmin');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\DegreeController@index')}}"><i class="fa fa-circle-o"></i>Show degrees</a>
                     </li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\DegreeController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a degree</a></li>
+                        @endif
                 </ul>
             </li>
             <li class="treeview">
@@ -192,10 +196,6 @@ $user_id = getPersonIdByRole('superadmin');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <!--<li>-->
-                    <!--    <a href="{{action('Admin\InvitationController@create')}}">-->
-                    <!--        <i class="fa fa-circle-o"></i>Add an invitation</a>-->
-                    <!--</li>-->
                     <li>
                         <a href="{{action('Admin\InvitationController@send')}}">
                             <i class="fa fa-circle-o"></i>Send emails</a>
@@ -212,8 +212,10 @@ $user_id = getPersonIdByRole('superadmin');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\InstitutionController@index')}}"><i class="fa fa-circle-o"></i>List of
                             institutions</a></li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\InstitutionController@create')}}"><i class="fa fa-circle-o"></i>Add
                             an institution</a></li>
+                        @endif
                 </ul>
             </li>
             <li class="treeview">
@@ -226,8 +228,10 @@ $user_id = getPersonIdByRole('superadmin');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\MessageController@index')}}"><i class="fa fa-circle-o"></i>Show
                             templates</a></li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\MessageController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a template</a></li>
+                        @endif
                 </ul>
             </li>
             <li class="treeview">
@@ -240,12 +244,15 @@ $user_id = getPersonIdByRole('superadmin');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\TemplateController@index')}}"><i class="fa fa-circle-o"></i>Show
                             messages</a></li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\TemplateController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a message</a></li>
+                        @endif
                 </ul>
             </li>
         </ul>
         <div class="line"></div>
+        @if(get_role_cookie() === "superadmin")
         <ul class="sidebar-menu" data-widget="tree">
             <li class="treeview">
                 <a href="#">
@@ -277,5 +284,6 @@ $user_id = getPersonIdByRole('superadmin');
                 </a>
             </li>
         </ul>
+        @endif
     </section>
 </aside>

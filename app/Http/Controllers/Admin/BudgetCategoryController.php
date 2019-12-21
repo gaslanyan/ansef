@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\BudgetCategory;
 use App\Models\BudgetItem;
 use App\Models\Competition;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class BudgetCategoryController extends Controller
 {
@@ -161,5 +163,89 @@ class BudgetCategoryController extends Controller
 //            logger()->error($exception);
 //            return redirect('admin/budget')->with('error', messageFromTemplate('wrong'));
 //        }
+    }
+
+    public function deleteBudgets(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            //        if (isset($request->_token)) {
+            $budget_ids = $request->id;
+            $items = BudgetItem::select('budget_cat_id')->groupBy('budget_cat_id')->get()->toArray();
+            $items = array_column($items, 'budget_cat_id');
+            foreach ($budget_ids as $index => $item) {
+                if (!in_array($item, $items)) {
+                    BudgetCategory::where('id', $item)->delete();
+                }
+            }
+            $response = [
+                'success' => true
+            ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        //        }
+        DB::commit();
+        return response()->json($response);
+    }
+
+    public function duplicateCats(Request $request)
+    {
+
+        DB::beginTransaction();
+        try {
+            $cats = Category::select('*')->whereIn(
+                    'id',
+                    (array) ($request->id)
+                )->get()->toArray();
+            $_cats = [];
+            foreach ($cats as $key => $cat) {
+                //            unset($cat['id']);
+                if (empty($cat['parent_id'])) {
+                    $cat['parent_id'] = null;
+                }
+                $_cats[$key]['abbreviation'] = $cat['abbreviation'];
+                $_cats[$key]['title'] = $cat['title'];
+                $_cats[$key]['weight'] = $cat['weight'];
+                $_cats[$key]['parent_id'] = $cat['parent_id'];
+                $_cats[$key]['created_at'] = $cat['created_at'];
+                $_cats[$key]['updated_at'] = $cat['updated_at'];
+            }
+            Category::insert($_cats);
+            $response = [
+                'success' => true
+            ];
+        } catch (\Exception $exception) {
+            $response = [
+                'success' => false,
+                'error' => 'Do not save'
+            ];
+            DB::rollBack();
+            logger()->error($exception);
+        }
+        DB::commit();
+        return response()->json($response);
+        exit();
+    }
+
+    public function getBudgetByCategory(Request $request)
+    {
+        $_id = $request->id;
+        $bi = BudgetItem::where('budget_cat_id', $_id)->first();
+        if (!empty($bi)) {
+            $response = [
+                'success' => true,
+            ];
+        } else {
+            $response = [
+                'success' => false
+            ];
+        }
+        return response()->json($response);
     }
 }
