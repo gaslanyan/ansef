@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
-use App\Models\Recommendations;
+use App\Models\Recommendation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class SupportController extends Controller
     {
 
         $person_id = $person_id;
-        $rec = Recommendations::select('text','proposal_id')->where('person_id',$person_id)
+        $rec = Recommendation::select('text','proposal_id')->where('person_id',$person_id)
                                               ->where('proposal_id',$prop_id)->get()->first();
         return view("support", compact('person_id','rec'));
 

@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Honors extends Model
+class Honor extends Model
 {
     protected $table = 'honors';
 
     protected $fillable = [
         'description', 'year','person_id'
     ];
-    
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person');

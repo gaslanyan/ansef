@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Person;
-use App\Models\Publications;
+use App\Models\Publication;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -26,7 +26,7 @@ class PublicationsController extends Controller
     {
         $user_id = getUserID();
         $person_id = Person::where('id', $id)->get()->toArray();
-        $publications = Publications::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
+        $publications = Publication::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.publications.create', compact('id', 'publications','person_id'));
     }
 
@@ -42,7 +42,7 @@ class PublicationsController extends Controller
 
         try {
             $p_id = $request->publication_add_hidden_id;
-            $publication = new Publications;
+            $publication = new Publication;
             $publication->person_id = $p_id;
             $publication->title = $request->title;
             $publication->journal = $request->journal;
@@ -93,7 +93,7 @@ class PublicationsController extends Controller
             for ($i = 0; $i < $count; $i++) {
                 $ansef_supported = '0';
                 $domestic = '0';
-                $publication = Publications::where("id", $request->publication_hidden_id[$i])->first();
+                $publication = Publication::where("id", $request->publication_hidden_id[$i])->first();
 
                 $publication->title = $request->title[$i];
                 $publication->journal = $request->journal[$i];
@@ -122,7 +122,7 @@ class PublicationsController extends Controller
     {
         $user_id = getUserID();
         try {
-            $publication = Publications::find($id);
+            $publication = Publication::find($id);
             $publication->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

@@ -6,7 +6,7 @@ use App\Models\Email;
 use App\Models\Address;
 use App\Models\DegreePerson;
 use App\Models\InstitutionPerson;
-use App\Models\Recommendations;
+use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Score;
 use \Illuminate\Support\Facades\Auth;
@@ -430,7 +430,7 @@ function checkproposal($id)
         foreach($recommenders as $recommender) {
             $email = Email::where('person_id','=',$recommender->person_id)->first();
 
-            if(Recommendations::where('proposal_id','=',$p->id)->where('document','!=',null)->where('person_id','=',$recommender->person_id)->exists()) {
+            if(Recommendation::where('proposal_id','=',$p->id)->where('document','!=',null)->where('person_id','=',$recommender->person_id)->exists()) {
                 array_push($submittedrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
             }
             else {

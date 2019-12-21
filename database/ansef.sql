@@ -6008,8 +6008,8 @@ INSERT INTO `person_groups` (`id`, `parent_person_id`, `group_person_id`, `creat
 -- Table structure for table `person_types`
 --
 
-DROP TABLE IF EXISTS `person_type`;
-CREATE TABLE `person_type` (
+DROP TABLE IF EXISTS `person_types`;
+CREATE TABLE `person_types` (
   `id` int(11) NOT NULL,
   `person_id` int(11) NOT NULL,
   `proposal_id` int(11) NOT NULL,
@@ -6019,10 +6019,10 @@ CREATE TABLE `person_type` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `person_type`
+-- Dumping data for table `person_types`
 --
 
-INSERT INTO `person_type` (`id`, `person_id`, `proposal_id`, `subtype`, `created_at`, `updated_at`) VALUES
+INSERT INTO `person_types` (`id`, `person_id`, `proposal_id`, `subtype`, `created_at`, `updated_at`) VALUES
 (19, 89, 17, 'external_support', '2019-11-03 17:36:32', '2019-11-03 17:36:32'),
 (18, 88, 17, 'PI', '2019-11-02 21:17:58', '2019-11-02 21:17:58'),
 (20, 89, 17, 'external_support', '2019-11-03 17:37:36', '2019-11-03 17:37:36'),
@@ -6627,9 +6627,9 @@ ALTER TABLE `person_groups`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `person_type`
+-- Indexes for table `person_types`
 --
-ALTER TABLE `person_type`
+ALTER TABLE `person_types`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -6864,9 +6864,9 @@ ALTER TABLE `person_groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT for table `person_type`
+-- AUTO_INCREMENT for table `person_types`
 --
-ALTER TABLE `person_type`
+ALTER TABLE `person_types`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --

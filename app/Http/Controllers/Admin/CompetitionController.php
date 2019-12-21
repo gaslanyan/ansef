@@ -10,7 +10,7 @@ use App\Models\Competition;
 use App\Models\Degree;
 use App\Models\Proposal;
 use App\Models\ProposalInstitution;
-use App\Models\ProposalReports;
+use App\Models\ProposalReport;
 use App\Models\RankingRule;
 use App\Models\RefereeReport;
 use App\Models\ScoreType;
@@ -206,7 +206,7 @@ class CompetitionController extends Controller
 
             foreach ($p_isd as $index => $item) {
                 ProposalInstitution::where('proposal_id', '=', $item)->delete();
-                ProposalReports::where('proposal_id', '=', $item)->delete();
+                ProposalReport::where('proposal_id', '=', $item)->delete();
                 BudgetItem::where('proposal_id', '=', $item)->delete();
                 RefereeReport::where('proposal_id', '=', $item)->delete();
 //                Recomendation::where('proposal_id','=',$item)->delete();

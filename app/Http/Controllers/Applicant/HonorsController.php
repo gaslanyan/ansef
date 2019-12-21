@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Applicant;
 
-use App\Models\Honors;
+use App\Models\Honor;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,7 +27,7 @@ class HonorsController extends Controller
     {
         $user_id = getUserID();
         $person_id = Person::where('id',$id )->get()->toArray();
-        $honors = Honors::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
+        $honors = Honor::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         return view('base.honors.create', compact('id','honors','person_id'));
     }
 
@@ -43,7 +43,7 @@ class HonorsController extends Controller
             $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i(ka te chka) stugum???*/
             //$person_id = Person::where('user_id', $user_id )->get()->toArray();
           //  $p_id  = $person_id[0]['id'];
-            $honors = new Honors;
+            $honors = new Honor;
             $honors->person_id = $request->honor_hidden_id[0];
             $honors->description = $request->description;
             $honors->year =$request->year;
@@ -82,7 +82,7 @@ class HonorsController extends Controller
         try {
 
              for($i=0; $i <= count($request->honor_hidden_id)-1; $i++) {
-                 $honor = Honors::find(($request->honor_hidden_id)[$i]);
+                 $honor = Honor::find(($request->honor_hidden_id)[$i]);
                  $honor->description = ($request->description)[$i];
                  $honor->year = ($request->year)[$i];
                  $honor->person_id = $id;
@@ -101,7 +101,7 @@ class HonorsController extends Controller
     {
         $user_id = getUserID();
         try {
-            $honor = Honors::find($id);
+            $honor = ::find($id);
             $honor->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

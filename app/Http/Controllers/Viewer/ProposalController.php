@@ -12,7 +12,7 @@ use App\Models\Institution;
 use App\Models\ProposalInstitution;
 use App\Models\Proposal;
 use App\Models\Country;
-use App\Models\ProposalReports;
+use App\Models\ProposalReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
@@ -188,7 +188,7 @@ class ProposalController extends Controller
             ->join('budget_categories', 'budget_categories.id', '=', 'budget_item.budget_cat_id')
             ->where('proposal_id', '=', $id)
             ->get()->toArray();
-        $proposalreports = ProposalReports::where('proposal_id','=',$id)->get()->toArray();
+        $proposalreports = ProposalReport::where('proposal_id','=',$id)->get()->toArray();
 
         $persons = Person::where('user_id', $user_id)->get()->toArray();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();

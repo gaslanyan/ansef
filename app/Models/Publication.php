@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Publications extends Model
+class Publication extends Model
 {
     /**
      * The table associated with the model.
@@ -21,7 +21,7 @@ class Publications extends Model
     protected $fillable = [
         'person_id','journal','title', 'year','ansef_supported','domestic'
     ];
-    
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person');

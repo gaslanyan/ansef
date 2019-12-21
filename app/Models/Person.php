@@ -55,7 +55,7 @@ class Person extends Model
     }
     public function honors()
     {
-        return $this->hasMany('App\Models\Honors');
+        return $this->hasMany('App\Models\Honor');
     }
     public function books()
     {
@@ -67,7 +67,7 @@ class Person extends Model
     }
     public function publications()
     {
-        return $this->hasMany('App\Models\Publications');
+        return $this->hasMany('App\Models\Publication');
     }
 
     public function getAssignedAttribute()

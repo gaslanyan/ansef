@@ -35,12 +35,12 @@ class Proposal extends Model
 
     function proposalReport()
     {
-        return $this->hasOne(ProposalReports::class);
+        return $this->hasOne(ProposalReport::class);
     }
 
     function proposalReports()
     {
-        return $this->hasMany(ProposalReports::class);
+        return $this->hasMany(ProposalReport::class);
     }
 
     function budgetItems()
@@ -55,7 +55,7 @@ class Proposal extends Model
 
     function propreports()
     {
-        return $this->hasMany('App\Models\ProposalReports');
+        return $this->hasMany('App\Models\ProposalReport');
     }
 
     function persons()

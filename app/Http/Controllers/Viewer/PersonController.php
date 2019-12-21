@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Models\Email;
 use App\Models\Phone;
 use App\Models\Book;
-use App\Models\Honors;
+use App\Models\Honor;
 use App\Models\Meeting;
 
 use Illuminate\Http\Request;
@@ -161,7 +161,7 @@ class PersonController extends Controller
                 ->select('degrees_persons.year','degrees.text','degrees_persons.id')
                 ->join('degrees','degrees_persons.degree_id','=','degrees.id')
                 ->where('degrees_persons.person_id','=',$id)->get()->toArray();
-            $honors = Honors::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
+            $honors = Honor::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
             return view('viewer.person.show', compact('person',

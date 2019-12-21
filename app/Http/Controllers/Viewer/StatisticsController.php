@@ -13,7 +13,7 @@ use App\Models\ProposalInstitution;
 use App\Models\Proposal;
 use App\Models\Address;
 use App\Models\Country;
-use App\Models\ProposalReports;
+use App\Models\ProposalReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;

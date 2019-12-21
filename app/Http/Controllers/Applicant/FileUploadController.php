@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Proposal;
-use App\Models\ProposalReports;
-use App\Models\Recommendations;
+use App\Models\ProposalReport;
+use App\Models\Recommendation;
 use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +34,7 @@ class FileUploadController extends Controller
     {
         $input = $request->all();
         $rid = $input['rid'];
-        $rec = Recommendations::find($rid);
+        $rec = Recommendation::find($rid);
         $pi = Person::find($rec->person_id);
         $prop = Proposal::find($rec->proposal_id)->id;
         if (!empty($rec)) {
@@ -58,7 +58,7 @@ class FileUploadController extends Controller
         else $due_date = $proposal->competition->second_report;
 
         $due_date = $proposal->competition->first_report;
-        $report = ProposalReports::firstOrCreate([
+        $report = ProposalReport::firstOrCreate([
             'proposal_id' => $id,
             'due_date' => $due_date
         ], []);
@@ -111,7 +111,7 @@ class FileUploadController extends Controller
             'letter-' . $request->rid . '.pdf'
         );
 
-        $recommendation = Recommendations::find($request->rec_id_file);
+        $recommendation = Recommendation::find($request->rec_id_file);
         $recommendation->document = Uuid::generate()->string;
         $recommendation->save();
 
@@ -136,7 +136,7 @@ class FileUploadController extends Controller
             'report-' . $request->rep_id . '.pdf'
         );
 
-        $report = ProposalReports::find($request->rep_id);
+        $report = ProposalReport::find($request->rep_id);
         $report->document = Uuid::generate()->string;
         $report->approved = '0';
         $report->save();
@@ -156,7 +156,7 @@ class FileUploadController extends Controller
 
     public function removeletter(Request $request, $uuid)
     {
-        $recommendation = Recommendations::where('document', '=', $uuid)->firstOrFail();
+        $recommendation = Recommendation::where('document', '=', $uuid)->firstOrFail();
         if (Storage::has("proposals/prop-" . $recommendation->proposal_id . "/letter-" . $recommendation->id . ".pdf"))
             Storage::delete("proposals/prop-" . $recommendation->proposal_id . "/letter-" . $recommendation->id . ".pdf");
 
@@ -167,7 +167,7 @@ class FileUploadController extends Controller
 
     public function removereport(Request $request, $uuid)
     {
-        $report = ProposalReports::where('document', '=', $uuid)->firstOrFail();
+        $report = ProposalReport::where('document', '=', $uuid)->firstOrFail();
 
         if (Storage::has("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf"))
             Storage::delete("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf");
@@ -185,13 +185,13 @@ class FileUploadController extends Controller
 
     public function downloadreport($uuid)
     {
-        $report = ProposalReports::where('document', '=', $uuid)->firstOrFail();
+        $report = ProposalReport::where('document', '=', $uuid)->firstOrFail();
         return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
     }
 
     public function downloadletter($uuid)
     {
-        $letter = Recommendations::where('document', '=', $uuid)->firstOrFail();
+        $letter = Recommendation::where('document', '=', $uuid)->firstOrFail();
         return response()->download(storage_path(proppath($letter->proposal_id) . "/letter-" . $letter->id . ".pdf"));
     }
 }

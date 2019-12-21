@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Models\PersonType;
-use App\Models\ProposalReports;
+use App\Models\ProposalReport;
 use App\Models\BudgetItem;
 use App\Models\Category;
 use App\Models\Competition;
@@ -14,7 +14,7 @@ use App\Models\ProposalInstitution;
 use App\Models\Proposal;
 use App\Models\Email;
 use App\Models\Country;
-use App\Models\Recommendations;
+use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -112,10 +112,10 @@ class ProposalController extends Controller
         foreach($awards as $award) {
             $first = $award->competition->first_report;
             $second = $award->competition->second_report;
-            $firstreport = ProposalReports::where('proposal_id','=',$award->id)
+            $firstreport = ProposalReport::where('proposal_id','=',$award->id)
                         ->where('due_date','=',$first)
                         ->first();
-            $secondreport = ProposalReports::where('proposal_id','=',$award->id)
+            $secondreport = ProposalReport::where('proposal_id','=',$award->id)
                         ->where('due_date','=',$second)
                         ->first();
             if(!empty($firstreport) && !empty($firstreport->document))
@@ -528,7 +528,7 @@ class ProposalController extends Controller
         foreach ($recommenders as $recommender) {
             $email = Email::where('person_id', '=', $recommender->person_id)->first();
 
-            if (!Recommendations::where('proposal_id', '=', $id)->where('document','!=',null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
+            if (!Recommendation::where('proposal_id', '=', $id)->where('document','!=',null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
                 array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
             }
         }
@@ -541,7 +541,7 @@ class ProposalController extends Controller
 
         foreach ($missingrecs as $missingrec) {
             $confirmation = randomPassword();
-            $r = Recommendations::firstOrCreate([
+            $r = Recommendation::firstOrCreate([
                 'proposal_id' => $p->id,
                 'person_id' => $missingrec['id']] , [
                 'confirmation' => $confirmation
@@ -574,7 +574,7 @@ class ProposalController extends Controller
                 $persons->delete();
             }
 
-            $recs = Recommendations::where('proposal_id', '=', $id);
+            $recs = Recommendation::where('proposal_id', '=', $id);
             if (!empty($recs)) {
                 $recs->delete();
             }
@@ -586,7 +586,7 @@ class ProposalController extends Controller
                 $proposal_institutions->delete();
             }
 
-            $proposal_reports = ProposalReports::where('proposal_id', '=', $id);
+            $proposal_reports = ProposalReport::where('proposal_id', '=', $id);
             if (!empty($proposal_reports)) {
                 foreach ($proposal_reports->get()->toArray() as $pr) {
                     if (is_file(storage_path('proposal/prop-' . $pr['proposal_id'] . '/' . $pr['document']))) {

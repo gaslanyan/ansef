@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProposalReports;
+use App\Models\ProposalReport;
 use App\Models\RefereeReport;
 use App\Models\Competition;
 use App\Models\Proposal;
@@ -68,7 +68,7 @@ class ReportController extends Controller
     public function approve()
     {
         try {
-            $reports = ProposalReports::with(['proposal' => function ($query) {
+            $reports = ProposalReport::with(['proposal' => function ($query) {
                 $query->select('id', 'title');
             }])->get();
 //dd($reports);
@@ -89,7 +89,7 @@ class ReportController extends Controller
 
             if (!empty($r['id']) && !empty($r['approve'])) {
 
-                $approve = ProposalReports::find($r['id']);
+                $approve = ProposalReport::find($r['id']);
 
                 $approve->approved = $r['approve'];
                 if ($approve->save())

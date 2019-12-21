@@ -7,13 +7,13 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\DegreePerson;
 use App\Models\Email;
-use App\Models\Honors;
+use App\Models\Honor;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
 use App\Models\Proposal;
-use App\Models\Publications;
-use App\Models\Recommendations;
+use App\Models\Publication;
+use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -129,12 +129,12 @@ class PersonController extends Controller
 
                             DegreePerson::where('person_id', $persons->id)->delete();
                             Email::where('person_id', $persons->id)->delete();
-                            Honors::where('person_id', $persons->id)->delete();
+                            Honor::where('person_id', $persons->id)->delete();
                             Address::where('id', $a->address_id)->delete();
                             Meeting::where('person_id', $persons->id)->delete();
                             InstitutionPerson::where('person_id', $persons->id)->delete();
-                            Publications::where('person_id', $persons->id)->delete();
-                            Recommendations::where('person_id', $persons->id)->delete();
+                            Publication::where('person_id', $persons->id)->delete();
+                            Recommendation::where('person_id', $persons->id)->delete();
                             Person::where('id', $person->id)->delete();
                             User::where('id', $id)->delete();
                         }

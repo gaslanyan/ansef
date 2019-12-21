@@ -18,14 +18,14 @@ use App\Models\Competition;
 use App\Models\Degree;
 use App\Models\DegreePerson;
 use App\Models\Email;
-use App\Models\Honors;
+use App\Models\Honor;
 use App\Models\InstitutionPerson;
 use App\Models\Person;
 use App\Models\PersonType;
 use App\Models\Phone;
 use App\Models\Proposal;
-use App\Models\ProposalReports;
-use App\Models\Publications;
+use App\Models\ProposalReport;
+use App\Models\Publication;
 use App\Models\RefereeReport;
 use App\Models\Role;
 use App\Models\Score;
@@ -345,7 +345,7 @@ class MigrateANSEF implements ShouldQueue
             ->where('investigator_id', '=', $investigator->id)->get();
 
         foreach ($honors as $honor) {
-            Honors::create([
+            Honor::create([
                 'description' => getCleanString($honor->hon_title),
                 'year' => strval($honor->hon_year),
                 'person_id' => $pi->id
@@ -353,7 +353,7 @@ class MigrateANSEF implements ShouldQueue
         }
         // \Debugbar::error('Added pi honors.');
         foreach ($grants as $grant) {
-            Honors::create([
+            Honor::create([
                 'description' => $grant->grant_title . ", " . $grant->grant_type,
                 'year' => $grant->grant_year,
                 'person_id' => $pi->id
@@ -383,7 +383,7 @@ class MigrateANSEF implements ShouldQueue
         }
         // \Debugbar::error('Added pi degrees.');
         foreach ($publications as $publication) {
-            Publications::create([
+            Publication::create([
                 'person_id' => $pi->id,
                 'journal' => $publication->publication_reference,
                 'title' => getCleanString($publication->publication_title),
@@ -394,7 +394,7 @@ class MigrateANSEF implements ShouldQueue
         }
         // \Debugbar::error('Added pi publications.');
         foreach ($ansefpublications as $ansefpublication) {
-            Publications::create([
+            Publication::create([
                 'person_id' => $pi->id,
                 'journal' => $ansefpublication->reference . ", " . $ansefpublication->authors . ": " . $ansefpublication->link,
                 'title' => getCleanString($ansefpublication->title),
@@ -683,14 +683,14 @@ class MigrateANSEF implements ShouldQueue
         if (!empty($award)) {
             // \Debugbar::error('Adding award id ' . $award->id);
             $compyear = date('Y', strtotime($p->date)) + 1;
-            ProposalReports::create([
+            ProposalReport::create([
                 'description' => 'Midterm report',
                 'document' => $award->midterm_full_url,
                 'proposal_id' => $p->id,
                 'due_date' => date($compyear . '-07-01'),
                 'approved' => '1'
             ]);
-            ProposalReports::create([
+            ProposalReport::create([
                 'description' => 'Final report',
                 'document' => $award->final_full_url,
                 'proposal_id' => $p->id,

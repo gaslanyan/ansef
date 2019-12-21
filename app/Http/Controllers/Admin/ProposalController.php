@@ -10,8 +10,8 @@ use App\Models\Message;
 use App\Models\Person;
 use App\Models\Proposal;
 use App\Models\ProposalInstitution;
-use App\Models\ProposalReports;
-use App\Models\Recommendations;
+use App\Models\ProposalReport;
+use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Role;
 use App\Models\Email;
@@ -128,7 +128,7 @@ class ProposalController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
-        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
+        $recommendations = Recommendation::where('proposal_id', '=', $pid)->get();
         $reports = RefereeReport::where('proposal_id', '=', $pid)->get();
 
         return view('admin.proposal.show', compact(
@@ -191,8 +191,8 @@ class ProposalController extends Controller
         try {
             BudgetItem::where('proposal_id', $p_id)->delete();
             ProposalInstitution::where('proposal_id', $p_id)->delete();
-            ProposalReports::where('proposal_id', $p_id)->delete();
-            Recommendations::where('proposal_id', $p_id)->delete();
+            ProposalReport::where('proposal_id', $p_id)->delete();
+            Recommendation::where('proposal_id', $p_id)->delete();
             RefereeReport::where('proposal_id', $p_id)->delete();
 
             $file_path = storage_path('proposal/prop-' . $p_id);
@@ -347,8 +347,8 @@ class ProposalController extends Controller
             foreach ($proposal_ids as $index => $p_id) {
                 BudgetItem::where('proposal_id', $p_id)->delete();
                 ProposalInstitution::where('proposal_id', $p_id)->delete();
-                ProposalReports::where('proposal_id', $p_id)->delete();
-                Recommendations::where('proposal_id', $p_id)->delete();
+                ProposalReport::where('proposal_id', $p_id)->delete();
+                Recommendation::where('proposal_id', $p_id)->delete();
                 RefereeReport::where('proposal_id', $p_id)->delete();
                 $file_path = storage_path('proposal/prop-' . $p_id);
                 if (is_dir($file_path))
@@ -487,7 +487,7 @@ class ProposalController extends Controller
         $user_id = getUserID();
         $proposal = Proposal::find($id);
         $pid = $proposal->id;
-        $recommendations = Recommendations::where('proposal_id', '=', $pid)->get();
+        $recommendations = Recommendation::where('proposal_id', '=', $pid)->get();
         $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get()->sortBy('last_name');

@@ -8,7 +8,7 @@ use App\Models\Book;
 use App\Models\Country;
 use App\Models\DegreePerson;
 use App\Models\Email;
-use App\Models\Honors;
+use App\Models\Honor;
 use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
@@ -194,7 +194,7 @@ class AccountController extends Controller
 
         $degrees = DegreePerson::select('degree_id', 'year')->with('degree')->where('person_id', $person_id)->get()->toArray();
 
-        $honors = Honors::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
+        $honors = Honor::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
         $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
         return view('admin.account.show', compact('person',
