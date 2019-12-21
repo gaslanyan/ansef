@@ -1,20 +1,19 @@
 <!-- sidebar.blade.php -->
-<?php $signUser = signPerson();
+<?php
+$signUser = loggedApplicant();
 $u_id = \Illuminate\Support\Facades\Session::get('u_id');
+$user_id = getPersonIdByRole('superadmin');
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left info d-inline-block">
-                <p class="text-capitalize">
-                    <?php
-                    if (!empty($signUser)):?>
-                            <?= $signUser->first_name . " " .
-                    $signUser->last_name .
-                    "<br>from: " . $signUser->domain; ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+            <div class="d-inline-block">
+                <p class="" style="color:#999;">
+                    <?php if (!empty($signUser)):?>
+                        <?= "<b>Logged in as " . $signUser->first_name . " " . $signUser->last_name . "</b>"; ?>
+                    <?php else: ?>
+                        <?= get_role_cookie(); ?>
+                    <?php endif;?>
                 </p>
             </div>
         </div>
@@ -36,13 +35,12 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                 </a>
                 <ul class="treeview-menu">
                     <li>
-                        <a href="{{action('Admin\PersonController@index')}}"><i class="fa fa-circle-o"></i>List of
-                            all users</a>
+                        <a href="{{action('Admin\AccountController@index')}}"><i class="fa fa-circle-o"></i>Log in users</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account','applicant')}}"><i
                                     class="fa fa-circle-o"></i>List of
-                            applicants</a>
+                            persons</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account','referee')}}"><i class="fa fa-circle-o"></i>List
@@ -60,6 +58,11 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                             administrators</a>
                     </li>
 
+                        <li>
+                            <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add
+                                a person</a>
+                        </li>
+
                 </ul>
             </li>
             <li class="treeview">
@@ -71,30 +74,60 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li>
-                        <a href="{{action('Admin\PersonController@edit', personidforuser($u_id))}}"><i class="fa fa-circle-o"></i>Edit
-                            your Profile</a></li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa"></i>
-                            <span>Phones/Emails</span>
+                    <?php if(userHasPerson()): ?>
+                    <li class="text-uppercase">
+                        <a href="{{action('Admin\PersonController@edit', $user_id)}}">
+                            <i class="fa fa-user"></i>
+                            <span>Update your profile</span>
                             <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                    </span>
+                            </span>
                         </a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{action('Admin\PhoneController@index')}}"><i class="fa fa-circle-o"></i>Show
-                                    phone numbers</a></li>
-                            <li><a href="{{action('Admin\EmailController@index')}}"><i class="fa fa-circle-o"></i>Show
-                                    emails</a></li>
-                        </ul>
                     </li>
-
-                    <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change
-                            your Password</a></li>
+                    <?php else:?>
+                    <li class="text-uppercase">
+                        <a href="{{action('Admin\PersonController@edit', $user_id)}}">
+                            <i class="fa fa-user"></i>
+                            <span>Update your profile</span>
+                            <span class="pull-right-container">
+                            </span>
+                        </a>
+                        </li>
+                        <li><a href="{{action('Admin\PersonController@changePassword')}}"><i class="fa fa-circle-o"></i>Change your Password</a></li>
+                    <?php endif?>
                 </ul>
             </li>
-
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-list-alt"></i> <span>Categories</span>
+                    <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{action('Admin\CategoryController@index')}}"><i class="fa fa-circle-o"></i>Show
+                            categories</a></li>
+                        @if(get_role_cookie() === "superadmin")
+                    <li><a href="{{action('Admin\CategoryController@create')}}"><i class="fa fa-circle-o"></i>Add
+                            a category</a></li>
+                        @endif
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-graduation-cap"></i> <span>Degrees</span>
+                    <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{action('Admin\DegreeController@index')}}"><i class="fa fa-circle-o"></i>Show degrees</a>
+                    </li>
+                        @if(get_role_cookie() === "superadmin")
+                    <li><a href="{{action('Admin\DegreeController@create')}}"><i class="fa fa-circle-o"></i>Add
+                            a degree</a></li>
+                        @endif
+                </ul>
+            </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-trophy"></i> <span>Competition</span>
@@ -118,71 +151,60 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                             rules
                         </a>
                     </li>
-                </ul>
-            </li>
-            {{--            <div class="line"></div>--}}
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-list-alt"></i> <span>Categories</span>
-                    <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\CategoryController@index')}}"><i class="fa fa-circle-o"></i>Show
-                            categories</a></li>
 
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-graduation-cap"></i> <span>Degrees</span>
-                    <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\DegreeController@index')}}"><i class="fa fa-circle-o"></i>Show Degrees</a>
-                    </li>
-                    <li><a href="{{action('Admin\DegreeController@create')}}"><i class="fa fa-circle-o"></i>Add
-                            a degree</a></li>
-                </ul>
-            </li>
+            {{--            <div class="line"></div>--}}
+
+
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-sticky-note"></i>
                     <span>Proposals</span>
                     <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{action('Admin\ProposalController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                        Show proposals</a></li>
+                    <li><a href="{{action('Admin\ProposalController@awardslist', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                        Show awards</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-chart-bar"></i>
+                    <span>Reports</span>
+                    <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ProposalController@index')}}"><i class="fa fa-circle-o"></i>Show
-                            Proposals</a></li>
+                    <li><a href="{{action('Admin\ReportController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>Show
+                             referee reports</a></li>
+                    <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI
+                            reports</a></li>
 
                 </ul>
             </li>
-            {{--<li class="treeview">--}}
-                {{--<a href="#">--}}
-                    {{--<i class="fa fa-mail-bulk"></i> <span>Send Emails</span>--}}
-                    {{--<span class="pull-right-container">--}}
-                    {{--<i class="fa fa-angle-left pull-right"></i>--}}
-                    {{--</span>--}}
-                {{--</a>--}}
-                {{--<ul class="treeview-menu">--}}
-                    {{--<li>--}}
-                        {{--<a href="{{action('Admin\InvitationController@create')}}">--}}
-                            {{--<i class="fa fa-circle-o"></i>Add an invitation</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="{{action('Admin\InvitationController@send')}}">--}}
-                            {{--<i class="fa fa-circle-o"></i>Send email(s)</a>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</li>--}}
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>Institution</span>
+                    <i class="fa fa-mail-bulk"></i> <span>Send emails</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="{{action('Admin\InvitationController@send')}}">
+                            <i class="fa fa-circle-o"></i>Send emails</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-home"></i> <span>Institutions</span>
                     <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -190,13 +212,78 @@ $u_id = \Illuminate\Support\Facades\Session::get('u_id');
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\InstitutionController@index')}}"><i class="fa fa-circle-o"></i>List of
                             institutions</a></li>
+                        @if(get_role_cookie() === "superadmin")
                     <li><a href="{{action('Admin\InstitutionController@create')}}"><i class="fa fa-circle-o"></i>Add
                             an institution</a></li>
+                        @endif
                 </ul>
             </li>
-
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-comments"></i> <span>Email Templates</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{action('Admin\MessageController@index')}}"><i class="fa fa-circle-o"></i>Show
+                            templates</a></li>
+                        @if(get_role_cookie() === "superadmin")
+                    <li><a href="{{action('Admin\MessageController@create')}}"><i class="fa fa-circle-o"></i>Add
+                            a template</a></li>
+                        @endif
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-comments"></i> <span>Auto. Messages</span>
+                    <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{action('Admin\TemplateController@index')}}"><i class="fa fa-circle-o"></i>Show
+                            messages</a></li>
+                        @if(get_role_cookie() === "superadmin")
+                    <li><a href="{{action('Admin\TemplateController@create')}}"><i class="fa fa-circle-o"></i>Add
+                            a message</a></li>
+                        @endif
+                </ul>
+            </li>
         </ul>
         <div class="line"></div>
+        @if(get_role_cookie() === "superadmin")
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-eye-slash"></i>
+                    <span>Toggle Portal</span>
+                    <?php $content = \Illuminate\Support\Facades\Storage::disk('local')->get('lock.json');
+                    $content = json_decode($content);
 
+                    ?>
+                    <span class="pull-right-container">
+                    <i class="fa  fa-toggle-off" id="off"
+                       style="display:<?= (!empty($content) && $content->lock === 'on') ? 'block' : 'none'?>"></i>
+                    <i class="fa fa-toggle-on"
+                       style="display: <?= (!empty($content) && $content->lock === 'off') ? 'block' : 'none'?>"
+                       id="on"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="">
+                <a href="{{action('Admin\SettingsController@sql')}}">
+                    <i class="fa fa-database"></i>
+                    <span>Backup database</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="{{action('Admin\SettingsController@exportForm')}}">
+                    <i class="fa fa-database"></i>
+                    <span>Export database tables</span>
+                </a>
+            </li>
+        </ul>
+        @endif
     </section>
 </aside>
