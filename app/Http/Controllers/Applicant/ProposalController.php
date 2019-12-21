@@ -380,7 +380,7 @@ class ProposalController extends Controller
     public function updatepersons(Request $request,$id)
     {
         $user_id = getUserID();
-        $enum = getEnumValues('person_type', 'subtype');
+        $enum = getEnumValues('person_types', 'subtype');
         $participant = [];
         $support = [];
         foreach($enum as $item) {
@@ -403,7 +403,7 @@ class ProposalController extends Controller
     public function savepersons(Request $request, $id)
     {
         $user_id = getUserID();
-        $enum = getEnumValues('person_type', 'subtype');
+        $enum = getEnumValues('person_types', 'subtype');
         $participant = [];
         $support = [];
         foreach ($enum as $item) {

@@ -8,7 +8,7 @@ class PersonType extends Model
 {
 
 
-    protected $table = 'person_type';
+    protected $table = 'person_types';
     protected $fillable = [
         'id','person_id', 'proposal_id','subtype'
     ];

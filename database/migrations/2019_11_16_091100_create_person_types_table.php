@@ -12,7 +12,7 @@ class CreatePersonTypesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('person_type', function(Blueprint $table)
+		Schema::create('person_types', function(Blueprint $table)
 		{
 			$table->integer('id', true);
 			$table->integer('person_id');
@@ -30,7 +30,7 @@ class CreatePersonTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('person_type');
+		Schema::drop('person_types');
 	}
 
 }

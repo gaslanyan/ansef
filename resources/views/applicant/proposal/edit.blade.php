@@ -204,7 +204,7 @@
             jQuery("input:checkbox:checked").each(function (i, val) {
                 // console.log($(this).parent().parent().next().next().find('select').val());
                 chp['fullname' + step] = jQuery("#choose_person_name" + step).val();
-                chp['type' + step] = jQuery("#choose_person_type" + step).val();
+                chp['type' + step] = jQuery("#choose_person_types" + step).val();
                 chp['p_id' + step] = jQuery("#person_id" + step).val();
                 $g = "/applicant/person/" + ($(this).val()).split('_')[0] + "/edit";
                 var id =($(this).val()).split('_')[0];
@@ -214,9 +214,7 @@
 
                 if(persontype != "None")
                     jQuery('#prop_person').append('<p><input type="hidden"  value = "' + personname + '"  id = \'prop_person_name\' disabled class="form-control form-check-inline form-group col-lg-5" name="prop_person_name[]"><b>' + personname + ': </b>' +
-                        // '                          <input type="text"  value = "' + $(this).next().next().val() + '"  id = \'prop_person_type\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_type">' +
                         '                          <input type="hidden"  value = "' + persontype + '"  id = \'prop_person_stype\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_stype[]">' + persontype.charAt(0).toUpperCase() + persontype.slice(1) +
-                        // '                          <a href="' + $g + '" title="Edit" class="btn-link full_edit" target="_blank"><i class="fa fa-edit"></i> </a> ' +
                         '&nbsp;&nbsp;<div title="Delete" class="btn-link unchecked" id = "'+id+'" ><i class="fa fa-trash"></i></div></p> ');
 
 

@@ -6005,7 +6005,7 @@ INSERT INTO `person_groups` (`id`, `parent_person_id`, `group_person_id`, `creat
 -- --------------------------------------------------------
 
 --
--- Table structure for table `person_type`
+-- Table structure for table `person_types`
 --
 
 DROP TABLE IF EXISTS `person_type`;

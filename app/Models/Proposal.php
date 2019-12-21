@@ -60,7 +60,7 @@ class Proposal extends Model
 
     function persons()
     {
-        return $this->belongsToMany(Person::class , 'person_type', 'proposal_id', 'person_id')->withPivot('subtype');
+        return $this->belongsToMany(Person::class , 'person_types', 'proposal_id', 'person_id')->withPivot('subtype');
     }
 
     function user() {
