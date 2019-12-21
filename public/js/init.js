@@ -49,12 +49,9 @@ $(document).ready(function() {
 
     //create editable rows
     $(document).on('click', '.edit', function() {
-
         $(this).parent().siblings('td').children().attr('disabled', false);
         $(this).nextAll().css('display', 'none');
         $(this).siblings('.save').css('display', 'inline-block');
-
-
         $(this).siblings('.cancel').css('display', 'inline-block');
         $(this).css('display', 'none');
     });
@@ -70,7 +67,7 @@ $(document).ready(function() {
                 $form[name] = $(this).val();
         });
         $form = JSON.stringify($form);
-        console.log($form);
+        console.log($url);
         $.ajax({
             url: $url,
             type: 'POST',
@@ -706,3 +703,4 @@ function getSegmentUrl(_url) {
     var segment = window.location.pathname.split('/');
     var newURL = window.location.protocol + "//" + window.location.host + "/";
     return newURL + segment[1] + "/" + segment[2];
+}

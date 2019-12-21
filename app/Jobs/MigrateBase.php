@@ -54,7 +54,6 @@ class MigrateBase implements ShouldQueue
             Category::firstOrCreate([ 'abbreviation' => $category->label ],
             [
                 'title' => $category->description,
-                'weight' => 1
             ]);
         }
 
@@ -64,7 +63,6 @@ class MigrateBase implements ShouldQueue
             Category::firstOrCreate([ 'abbreviation' => $subcategory->label ],
             [
                 'title' => $subcategory->description,
-                'weight' => 1,
                 'parent_id' => $pc->id
             ]);
         }

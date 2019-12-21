@@ -133,28 +133,24 @@ class InitializationSeeder extends Seeder
             'id' => 1,
             'abbreviation' => 'PS',
             'title' => 'Physical Sciences',
-            'weight' => 1,
             'parent_id' => null
         ]);
         App\Models\Category::create([
             'id' => 2,
             'abbreviation' => 'NS',
             'title' => 'Natural Sciences',
-            'weight' => 1,
             'parent_id' => null
         ]);
         App\Models\Category::create([
             'id' => 3,
             'abbreviation' => 'astroex',
             'title' => 'Experimental astrophysics',
-            'weight' => 1,
             'parent_id' => 1
         ]);
         App\Models\Category::create([
             'id' => 4,
             'abbreviation' => 'bio',
             'title' => 'Biology',
-            'weight' => 1,
             'parent_id' => 2
         ]);
         App\Models\Competition::create([

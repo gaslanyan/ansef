@@ -12,33 +12,22 @@ use Illuminate\Http\Request;
 
 class EmailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $user_id = getUserID();
-        $persons = Person::where('user_id', $user_id)
-                            ->where('persons.type', '!=', null)
-                            ->get()->toArray();
-        $persons_email = [];
-        foreach ($persons as $item) {
-            if (!empty($item['id'])) {
-                $p_id = $item['id'];
+        // $user_id = getUserID();
+        // $persons = Person::where('user_id', $user_id)
+        //                     ->where('persons.type', '!=', null)
+        //                     ->get()->toArray();
+        // $persons_email = [];
+        // foreach ($persons as $item) {
+        //     if (!empty($item['id'])) {
+        //         $p_id = $item['id'];
 
-            }
-            //$persons_email = Person::where();
-        }
-        return view('applicant.email.index', compact('persons'));
+        //     }
+        //     //$persons_email = Person::where();
+        // }
+        // return view('applicant.email.index', compact('persons'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function create($id)
     {
@@ -48,12 +37,6 @@ class EmailController extends Controller
         return view('applicant.email.create', compact('persons_name', 'email_list', 'id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $user_id = getUserID();
@@ -74,37 +57,18 @@ class EmailController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user_id = getUserID();
+        // $user_id = getUserID();
 
-        $email = Email::where('person_id', '=', $id)->get()->toArray();
-        return view('applicant.email.edit', compact('email', 'id'));
+        // $email = Email::where('person_id', '=', $id)->get()->toArray();
+        // return view('applicant.email.edit', compact('email', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -124,12 +88,6 @@ class EmailController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $user_id = getUserID();

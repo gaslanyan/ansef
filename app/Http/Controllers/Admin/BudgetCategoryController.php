@@ -211,7 +211,6 @@ class BudgetCategoryController extends Controller
                 }
                 $_cats[$key]['abbreviation'] = $cat['abbreviation'];
                 $_cats[$key]['title'] = $cat['title'];
-                $_cats[$key]['weight'] = $cat['weight'];
                 $_cats[$key]['parent_id'] = $cat['parent_id'];
                 $_cats[$key]['created_at'] = $cat['created_at'];
                 $_cats[$key]['updated_at'] = $cat['updated_at'];

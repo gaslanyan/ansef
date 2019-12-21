@@ -67,7 +67,6 @@ class CategoryController extends Controller
                         $category->parent_id = $request->parent_id;
                     $category->abbreviation = $request->abbreviation;
                     $category->title = $request->title;
-                    $category->weight = 1.0;
                     $category->save();
                     return redirect('admin/category')->with('success', messageFromTemplate("success"));
                 } else
@@ -156,7 +155,6 @@ class CategoryController extends Controller
 
     public function updateCategory(Request $request)
     {
-        //        if ($request->_token === Session::token()) {
         $items = json_decode($request->form);
         $category = Category::where('id', '=', $items->id)->first();
         $category->id = $items->id;
@@ -166,7 +164,6 @@ class CategoryController extends Controller
             $category->parent_id = $items->parent_id;
         $category->abbreviation = $items->abbreviation;
         $category->title = $items->title;
-        $category->weight = $items->weight;
         if ($category->save()) {
             $response = [
                 'success' => true

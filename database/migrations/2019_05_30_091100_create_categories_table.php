@@ -17,7 +17,6 @@ class CreateCategoriesTable extends Migration {
 			$table->integer('id', true);
 			$table->string('abbreviation', 15)->nullable();
 			$table->string('title', 191)->nullable();
-			$table->integer('weight')->nullable();
 			$table->integer('parent_id')->nullable();
 			$table->timestamps();
 		});

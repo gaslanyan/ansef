@@ -19,7 +19,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'title','abbreviation','weight', 'parent_id'
+        'title','abbreviation','parent_id'
     ];
     public function children(){
         return $this->hasMany( Category::class, 'parent_id', 'id' );

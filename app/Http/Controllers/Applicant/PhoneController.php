@@ -10,28 +10,18 @@ use Redirect;
 
 class PhoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $user_id = getUserID();
-        $person_id = Person::where('user_id', $user_id)->first()->toArray();
-        $phones = [];
-        if (!empty($person_id[0]['id'])) {
-            $p_id = $person_id[0]['id'];
-            $phones = Phone::where('person_id', $p_id)->get()->toArray();
-        }
-        return view('base.phone.index', compact('phones'));
+        // $user_id = getUserID();
+        // $person_id = Person::where('user_id', $user_id)->first()->toArray();
+        // $phones = [];
+        // if (!empty($person_id[0]['id'])) {
+        //     $p_id = $person_id[0]['id'];
+        //     $phones = Phone::where('person_id', $p_id)->get()->toArray();
+        // }
+        // return view('base.phone.index', compact('phones'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
         $user_id = getUserID();
@@ -40,13 +30,6 @@ class PhoneController extends Controller
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -70,37 +53,18 @@ class PhoneController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Phone $phone
-     * @return \Illuminate\Http\Response
-     */
     public function show(Phone $phone)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Phone $phone
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user_id = getUserID();
-        $phone = Phone::find($id);
-        return view('base.phone.edit', compact('phone', 'id'));
+        // $user_id = getUserID();
+        // $phone = Phone::find($id);
+        // return view('base.phone.edit', compact('phone', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Phone $phone
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -125,12 +89,6 @@ class PhoneController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Phone $phone
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $user_id = getUserID();

@@ -10,28 +10,18 @@ use Redirect;
 
 class PublicationsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $user_id = getUserID();
-        $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        $publications = [];
-        if (!empty($person_id[0]['id'])) {
-            $p_id = $person_id[0]['id'];
-            $publications = Publications::where('person_id', $p_id)->get()->toArray();
-        }
-        return view('base.publications.index', compact('publications'));
+        // $user_id = getUserID();
+        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
+        // $publications = [];
+        // if (!empty($person_id[0]['id'])) {
+        //     $p_id = $person_id[0]['id'];
+        //     $publications = Publications::where('person_id', $p_id)->get()->toArray();
+        // }
+        // return view('base.publications.index', compact('publications'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
         $user_id = getUserID();
@@ -40,12 +30,6 @@ class PublicationsController extends Controller
         return view('base.publications.create', compact('id', 'publications','person_id'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $user_id = getUserID();
@@ -82,37 +66,18 @@ class PublicationsController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user_id = getUserID();
-        $publication = Publications::find($id);
-        return view('base.publications.edit', compact('publication', 'id'));
+        // $user_id = getUserID();
+        // $publication = Publications::find($id);
+        // return view('base.publications.edit', compact('publication', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -153,14 +118,7 @@ class PublicationsController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function destroy($id)
+    public function destroy($id)
     {
         $user_id = getUserID();
         try {

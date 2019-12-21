@@ -14,32 +14,22 @@ use Illuminate\Validation\ValidationException;
 
 class InstitutionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $user_id = getUserID();
+        // $user_id = getUserID();
 
-        $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        //$phones= [];
-        if(!empty($person_id[0]['id'])) {
-            $p_id  = $person_id[0]['id'];
-            //$phones = Phone::where('person_id', $p_id)->get()->toArray();
-        }
+        // $person_id = Person::where('user_id', $user_id )->get()->toArray();
+        // //$phones= [];
+        // if(!empty($person_id[0]['id'])) {
+        //     $p_id  = $person_id[0]['id'];
+        //     //$phones = Phone::where('person_id', $p_id)->get()->toArray();
+        // }
 
-        $institutions = Institution::with('address')->get();
-        $address = Country::with('address')->get();
-        return view('institution.index', compact('institutions', 'address', 'cities'));
+        // $institutions = Institution::with('address')->get();
+        // $address = Country::with('address')->get();
+        // return view('institution.index', compact('institutions', 'address', 'cities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
         $user_id = getUserID();
@@ -52,12 +42,6 @@ class InstitutionController extends Controller
         return view('applicant.institution.create', compact('id','institutions_list','person','ins_array','institution_person'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function store(Request $request)
     {
         $user_id = getUserID();
@@ -96,51 +80,27 @@ class InstitutionController extends Controller
             logger()->error($exception);
             return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
-
-
-
-
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        $user_id = getUserID();
-        $institution = Institution::with('address')->find($id);
-        $address = Country::with('address')->find($institution->address->country_id);
+        // $user_id = getUserID();
+        // $institution = Institution::with('address')->find($id);
+        // $address = Country::with('address')->find($institution->address->country_id);
 
-        return view('institution.view', compact('institution', 'address'));
+        // return view('institution.view', compact('institution', 'address'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $user_id = getUserID();
-        $institution = Institution::with('address')->find($id);
-        $address = Country::with('address')->find($institution->address->country_id);
+        // $user_id = getUserID();
+        // $institution = Institution::with('address')->find($id);
+        // $address = Country::with('address')->find($institution->address->country_id);
 
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-        return view('institution.edit', compact('institution', 'address', 'countries', 'id'));
+        // $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        // return view('institution.edit', compact('institution', 'address', 'countries', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -185,41 +145,7 @@ class InstitutionController extends Controller
         }
     }
 
-    // public function update(Request $request, $id)
-    // {
-    //     try {
-    //         $this->validate($request, [
-    //             'content' => 'required|min:3',
-    //         ]);
 
-    //         $institutions = Institution::find($id);
-
-    //         foreach ($request->institution as $key => $val) {
-    //             $institution = new InstitutionPerson();
-    //             $institution->person_id = $request->institution_creare_hidden;
-    //             $institution->institution_id = (int) $request->institution[$key];;
-    //             $institution->title = $request->i_title[$key];
-    //             $institution->type = $request->i_type[$key];
-    //             $institution->start = $request->start[$key];
-    //             $institution->end = $request->end[$key];
-    //             $institution->save();
-    //         }
-
-    //         return \Redirect::back()->with('success', messageFromTemplate("success"));
-    //     } catch (\Exception $exception) {
-    //         DB::rollBack();
-    //         logger()->error($exception);
-    //         //            throw $exception;
-    //         return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
-    //     }
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $user_id = getUserID();

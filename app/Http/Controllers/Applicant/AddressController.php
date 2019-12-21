@@ -19,19 +19,14 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $user_id = getUserID();
-        $persons = Person::where('user_id', $user_id)
-            ->where('persons.type', '!=', null)
-            ->get()->toArray();
+        // $user_id = getUserID();
+        // $persons = Person::where('user_id', $user_id)
+        //     ->where('persons.type', '!=', null)
+        //     ->get()->toArray();
 
-        return view('applicant.address.index', compact('persons'));
+        // return view('applicant.address.index', compact('persons'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
         $person = Person::where('id', $id)->first();
@@ -70,11 +65,11 @@ class AddressController extends Controller
 
     public function edit($id)
     {
-        $user_id = getUserID();
-        $person = Person::where('id','=',$id)
-                        ->where('user_id','=', $user_id)->first();
-        $addresses = $person->addresses()->toArray();
-        return view('applicant.address.edit', compact('addresses', 'person'));
+        // $user_id = getUserID();
+        // $person = Person::where('id','=',$id)
+        //                 ->where('user_id','=', $user_id)->first();
+        // $addresses = $person->addresses()->toArray();
+        // return view('applicant.address.edit', compact('addresses', 'person'));
     }
 
     public function update(Request $request, $id)

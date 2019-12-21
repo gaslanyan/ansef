@@ -17,21 +17,16 @@ class BookController extends Controller
      */
     public function index()
     {
-        $user_id = getUserID();
-        $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        $books= [];
-        if(!empty($person_id[0]['id'])) {
-            $p_id  = $person_id[0]['id'];
-            $books = Book::where('person_id', $p_id)->get()->toArray();
-        }
-        return view('base.book.index', compact('books'));
+        // $user_id = getUserID();
+        // $person_id = Person::where('user_id', $user_id )->get()->toArray();
+        // $books= [];
+        // if(!empty($person_id[0]['id'])) {
+        //     $p_id  = $person_id[0]['id'];
+        //     $books = Book::where('person_id', $p_id)->get()->toArray();
+        // }
+        // return view('base.book.index', compact('books'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create($id)
     {
         $books = Book::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
@@ -40,12 +35,6 @@ class BookController extends Controller
         return view('base.book.create',compact('id','books','person'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -69,12 +58,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
@@ -82,23 +65,14 @@ class BookController extends Controller
 
     public function edit($id)
     {
-        $person = loggedApplicant();
-        $book = Book::find($id);
-        return view('base.book.edit', compact('book', 'id'));
+        // $person = loggedApplicant();
+        // $book = Book::find($id);
+        // return view('base.book.edit', compact('book', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
-        $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        $p_id  = $person_id[0]['id'];
 
         $validatedData = $request->validate([
             'title.*' => 'required|min:3',
@@ -108,12 +82,10 @@ class BookController extends Controller
         try {
             $count = count($request->book_edit_hidden_id);
             for ($i = 0; $i < $count; $i++) {
-                $ansef_supported = '0';
-                $domestic = '0';
                 $book = Book::find($request->book_edit_hidden_id[$i]);
                 $book->title = $request->title[$i];
                 $book->publisher = $request->publisher[$i];
-                $book->year = $request->year[$i];  /* vercnel miayn tarin te tuyl tal amboxy date mutqagrel?*/;
+                $book->year = $request->year[$i];
                 $book->save();
             }
             return redirect()->back()->with('success', messageFromTemplate("success"));
@@ -124,12 +96,6 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $person = loggedApplicant();
