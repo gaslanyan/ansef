@@ -109,6 +109,7 @@ class MigrateANSEF implements ShouldQueue
                 'description' => $compyear . ' traditional ANSEF competition',
                 'submission_start_date' => $propyear . '-06-01',
                 'submission_end_date' => $propyear . '-09-01',
+                'results_date' => $propyear . '-12-22',
                 'announcement_date' => $propyear . '-05-20',
                 'project_start_date' => $compyear . '-01-01',
                 'duration' => 12,

@@ -68,23 +68,28 @@
                                 <label for="instructions">Instructions:</label>
                                 <textarea rows="4" class="form-control" name="instructions" id="instructions">@if(isset($old)){{$old}} @endif</textarea>
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="announcement_date">Announcement Date *:</label>
+                            <div class="form-group col-lg-2">
+                                <label for="announcement_date">Announcement *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="announcement_date" id="announcement_date" value="{{old('announcement_date')}}">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="submission_start_date">Submission Start Date *:</label>
+                                <label for="submission_start_date">Submission Start *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="submission_start_date" id="submission_start_date" value="{{old('submission_start_date')}}">
                             </div>
                             <div class="form-group col-lg-3">
-                                <label for="submission_end_date">Submission End Date *:</label>
+                                <label for="submission_end_date">Submission End *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="submission_end_date" id="submission_end_date" value="{{old('submission_end_date')}}">
                             </div>
-                            <div class="form-group col-lg-3">
-                                <label for="project_start_date">Project Start Date *:</label>
+                            <div class="form-group col-lg-2">
+                                <label for="submission_end_date">Results *:</label>
+                                <input type="text" class="form-control date datepicker"
+                                       name="results_date" id="results_date" value="{{old('results_date')}}">
+                            </div>
+                            <div class="form-group col-lg-2">
+                                <label for="project_start_date">Project Start *:</label>
                                 <input type="text" class="form-control date datepicker"
                                        name="project_start_date" id="project_start_date" value="{{old('project_start_date')}}">
                             </div>

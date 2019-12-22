@@ -109,13 +109,10 @@
                                                 Unsuccessful
                                             @elseif($ap->state == 'disqualified')
                                                 Disqualified
-                                            @elseif($ap->state == 'finalist')
+                                            @elseif($ap->state == 'finalist' && $ap->competition->results_date < date('Y-m-d'))
                                                 Finalist
-                                            @elseif($ap->state == 'awarded')
-                                                Awarded
-                                            @elseif($ap->state == 'approved 1')
-                                            @elseif($ap->state == 'approved 2')
-                                            @elseif($ap->state == 'complete')
+                                            @elseif($ap->state == 'finalist' && $ap->competition->results_date >= date('Y-m-d'))
+                                                Reviews complete
                                             @else
                                             @endif
                                         </td>

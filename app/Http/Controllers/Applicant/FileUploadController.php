@@ -111,7 +111,7 @@ class FileUploadController extends Controller
             'letter-' . $request->rid . '.pdf'
         );
 
-        $recommendation = Recommendation::find($request->rec_id_file);
+        $recommendation = Recommendation::find($request->rid);
         $recommendation->document = Uuid::generate()->string;
         $recommendation->save();
 

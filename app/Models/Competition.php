@@ -19,7 +19,7 @@ class Competition extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description', 'submission_start_date', 'submission_end_date', 'announcement_date',
+        'title', 'description', 'submission_start_date', 'submission_end_date', 'results_date', 'announcement_date',
         'project_start_date', 'duration', 'min_budget', 'max_budget', 'min_level_deg_id', 'max_level_deg_id',
         'min_age', 'max_age', 'allow_foreign', 'comments', 'first_report', 'second_report', 'state',
         'recommendations', 'categories', 'additional', 'instructions'

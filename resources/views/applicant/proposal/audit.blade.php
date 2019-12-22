@@ -50,7 +50,7 @@
                         make sure you run this check again to assure the proposal is still complete.
                         </p>
                         <p>
-                        The results of the competition will be announced within 4 months of {{$competition->submission_end_date}} on the ANSEF website; and
+                        The results of the competition will be announced by {{$competition->results_date}} on the ANSEF website; and
                         the PI will be notified by email as well. If the
                         proposal is successful, the project should start on {{$competition->submission_start_date}}
                         with a duration of {{$competition->duration}} months.

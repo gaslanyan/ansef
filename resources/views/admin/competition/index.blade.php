@@ -28,6 +28,7 @@
                                 <th>Announced</th>
                                 <th>Open date</th>
                                 <th>Close date</th>
+                                <th>Results date</th>
                                 <th>Project date</th>
                                 <th>First report</th>
                                 <th>Second report</th>
@@ -80,8 +81,16 @@
                                             data-search="@if(!empty($com->submission_end_date)){{$com->submission_end_date}}@endif"
                                             class="sed_field">
                                             <input type="text" class="form-control
-                        date datepicker" name="submission_end_date"
+                                                    date datepicker" name="submission_end_date"
                                                    value="@if(!empty($com->submission_end_date)){{$com->submission_end_date}}@endif"
+                                                   disabled>
+                                        </td>
+                                        <td data-order="@if(!empty($com->results_date)){{$com->results_date}}@endif"
+                                            data-search="@if(!empty($com->results_date)){{$com->results_date}}@endif"
+                                            class="sed_field">
+                                            <input type="text" class="form-control
+                                                    date datepicker" name="results_date"
+                                                   value="@if(!empty($com->results_date)){{$com->results_date}}@endif"
                                                    disabled>
                                         </td>
                                         <td data-order="@if(!empty($com->project_start_date)){{$com->project_start_date}}@endif"
