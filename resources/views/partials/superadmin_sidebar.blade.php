@@ -46,16 +46,6 @@ $user_id = getUserID();
                             of
                             referees</a>
                     </li>
-                    <li>
-                        <a href="{{action('Admin\AccountController@account','viewer')}}"><i class="fa fa-circle-o"></i>List
-                            of
-                            viewers</a>
-                    </li>
-                    <li>
-                        <a href="{{action('Admin\AccountController@account','admin')}}"><i class="fa fa-circle-o"></i>List
-                            of
-                            administrators</a>
-                    </li>
 
                         <li>
                             <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add

@@ -240,7 +240,7 @@ class MigrateANSEF implements ShouldQueue
         Person::firstOrCreate(
             [
                 'user_id' => $user->id,
-                'type' => null
+                'type' => 'applicant'
             ],
             [
                 'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
@@ -250,7 +250,7 @@ class MigrateANSEF implements ShouldQueue
                 'first_name' => getCleanString($investigator->first_name),
                 'last_name' => getCleanString($investigator->last_name),
                 'nationality' => ucfirst($investigator->nationality),
-                'type' => null,
+                'type' => 'applicant',
                 'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
                 'user_id' => $user->id
             ]
@@ -258,7 +258,7 @@ class MigrateANSEF implements ShouldQueue
         else Person::firstOrCreate(
                 [
                     'user_id' => $user->id,
-                    'type' => null
+                    'type' => 'applicant'
                 ],
                 [
                     'birthdate' => date('1970-07-02'),
@@ -268,7 +268,7 @@ class MigrateANSEF implements ShouldQueue
                     'first_name' => '',
                     'last_name' => '',
                     'nationality' => 'Armenia',
-                    'type' => null,
+                    'type' => 'applicant',
                     'specialization' => 'None',
                     'user_id' => $user->id
                 ]

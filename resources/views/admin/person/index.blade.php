@@ -93,6 +93,17 @@
                                                 <i class="fa fa-sign-in-alt"></i>
                                                 </a>
                                             @endif
+                                            @if(get_role_cookie() == 'superadmin')
+                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$person->id, 'type'=>$person->type])}}"
+                                                        method="post">
+                                                    @csrf
+                                                    <input name="_method" type="hidden" value="DELETE">
+                                                    <input name="_id" type="hidden" value="{{$person->id}}">
+                                                    <button class="btn-link delete" type="button" data-title="{{$person->type}}">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
 
                                     </tr>

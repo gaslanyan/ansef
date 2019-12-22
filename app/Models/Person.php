@@ -33,7 +33,6 @@ class Person extends Model
         return $this->hasMany('App\Models\Proposal');
     }
 
-
     public function emails()
     {
         return $this->hasMany('App\Models\Email');

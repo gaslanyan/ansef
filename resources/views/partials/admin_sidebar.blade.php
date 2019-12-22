@@ -47,18 +47,6 @@ $user_id = getUserID();
                             referees</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account','viewer')}}"><i class="fa fa-circle-o"></i>List
-                            of
-                            viewers</a>
-                    </li>
-                    @if(get_role_cookie() == 'superadmin')
-                    <li>
-                        <a href="{{action('Admin\AccountController@account','admin')}}"><i class="fa fa-circle-o"></i>List
-                            of
-                            administrators</a>
-                    </li>
-                    @endif
-                    <li>
                         <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a person</a>
                     </li>

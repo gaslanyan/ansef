@@ -168,7 +168,7 @@ $(document).ready(function() {
         $category = $(this).val();
 
         $.ajax({
-            url: '/getSTypeCount',
+            url: '/admin/getSTypeCount',
             type: 'POST',
             context: { element: $(this) },
             data: { _token: CSRF_TOKEN, id: $category },
@@ -188,7 +188,7 @@ $(document).ready(function() {
     $(document).on("change", '#rule_com', function() {
         $id = $(this).val();
         $.ajax({
-            url: '/getRR',
+            url: '/admin/getRR',
             type: 'POST',
             context: { element: $(this) },
             data: { _token: CSRF_TOKEN, id: $id },
@@ -366,7 +366,7 @@ $(document).ready(function() {
         $approve = $(this).val();
 
         $.ajax({
-            url: '/approve',
+            url: '/admin/approve',
             type: 'POST',
             context: { element: $(this) },
             data: {
@@ -400,14 +400,14 @@ $(document).ready(function() {
             switch ($title) {
                 case 'competition':
                     $.ajax({
-                        url: '/getProposal',
+                        url: '/admin/getProposal',
                         type: 'POST',
                         context: { element: $(this) },
                         data: { _token: CSRF_TOKEN, id: $_id },
                         dataType: 'JSON',
                         success: function(data) {
                             if (data.success) {
-                                $conf2 = alert("Deletion is not possible. ");
+                                $conf2 = alert("Competition has proposals. Deletion is not possible.");
                             } else {
                                 this.element.parent().submit();
                             }
@@ -419,7 +419,7 @@ $(document).ready(function() {
                     break;
                 case 'applicant':
                     $.ajax({
-                        url: '/getProposalByApplicant',
+                        url: '/admin/getProposalByApplicant',
                         type: 'POST',
                         context: { element: $(this) },
                         data: { _token: CSRF_TOKEN, id: $_id, type: $title },
@@ -440,7 +440,7 @@ $(document).ready(function() {
                     break;
                 case "referee":
                     $.ajax({
-                        url: '/getProposalByReferee',
+                        url: '/admin/getProposalByReferee',
                         type: 'POST',
                         context: { element: $(this) },
                         data: { _token: CSRF_TOKEN, id: $_id, type: $title },
@@ -461,7 +461,7 @@ $(document).ready(function() {
                     break;
                 case "budget":
                     $.ajax({
-                        url: '/getBudgetByCategory',
+                        url: '/admin/getBudgetByCategory',
                         type: 'POST',
                         context: { element: $(this) },
                         data: { _token: CSRF_TOKEN, id: $_id, type: $title },
@@ -487,11 +487,10 @@ $(document).ready(function() {
                     $conf2 = confirm($title + " type has competition. Are you sure?");
                     if ($conf2)
                         $(this).parent().submit();
-
                     break;
                 case "category":
                     $.ajax({
-                        url: '/getProposalByCategory',
+                        url: '/admin/getProposalByCategory',
                         type: 'POST',
                         context: { element: $(this) },
                         data: { _token: CSRF_TOKEN, id: $_id, type: $title },
@@ -511,7 +510,7 @@ $(document).ready(function() {
                     break;
                 case "report":
                     $action = $(this).parent().attr('action');
-                    $url = $action + "/" + $(this).prev().val();
+                    $url = "/admin" + $action + "/" + $(this).prev().val();
                     $(this).parent().attr('action', $url);
                     $title = $title.charAt(0).toUpperCase() + $title.slice(1);
                     $conf2 = confirm($title + " type has competition. Are you sure?");
@@ -531,7 +530,7 @@ $(document).ready(function() {
         $category = $(this).val();
 
         $.ajax({
-            url: '/getbudgetcategoriesamount',
+            url: '/admin/getbudgetcategoriesamount',
             type: 'POST',
             context: { element: $(this) },
             data: { _token: CSRF_TOKEN, id: $category },

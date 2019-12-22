@@ -105,10 +105,10 @@ class ProposalController extends Controller
             $proposal->document = $request->prop_document->getClientOriginalName();
             $user_id = getUserID();
 //            $persons = Person::where('user_id', $user_id)->get()->toArray();
-            $folder = storage_path('/app/proposal/' . $user_id . '/');
+            // $folder = storage_path('/app/proposal/' . $user_id . '/');
 //            if (!File::exists($folder)) {
 //                File::makeDirectory($folder, 0775, true, true);
-            $request->prop_document->storeAs('/app/proposal/' . $user_id . '/', $request->prop_document->getClientOriginalName());
+            // $request->prop_document->storeAs('/app/proposal/' . $user_id . '/', $request->prop_document->getClientOriginalName());
             // }
 
             $proposal->competition_id = $request->comp_prop;

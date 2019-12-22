@@ -80,7 +80,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/profile/update', 'Admin\PersonController@update');
     Route::post('/admin/password/update', 'Admin\PersonController@updatePassword');
     Route::get('/admin/password/change', 'Admin\PersonController@changePassword');
-    Route::delete('/admin/person/delete/{id}/{type}', 'Admin\PersonController@destroy');
+    Route::delete('/admin/account/delete/{id}', 'Admin\AccountController@destroy');
     Route::get('/admin/person/disable', 'Admin\PersonController@disable');
     Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
     Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');

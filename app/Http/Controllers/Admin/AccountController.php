@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\BudgetItem;
 use App\Models\Book;
+use App\Models\Competition;
 use App\Models\Country;
 use App\Models\DegreePerson;
 use App\Models\Email;
@@ -13,14 +15,22 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
+use App\Models\PersonType;
 use App\Models\Phone;
+use App\Models\Proposal;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Publication;
+use App\Models\Recommendation;
+use App\Models\ProposalReport;
+use App\Models\RefereeReport;
+use App\Models\ProposalInstitution;
 use App\Notifications\UserAddedSuccessfully;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\File;
 
 class AccountController extends Controller
 {
@@ -36,55 +46,43 @@ class AccountController extends Controller
             return redirect('admin/person')->with('error', messageFromTemplate("wrong"));
         }
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function account($type)
     {
         try {
-            $get_role = Role::where('name', '=', $type)->first();
-            $users = User::select('id')
-                ->where('role_id', '=', $get_role->id)
-                ->get()->toArray();
-            $persons = [];
-            $ip = [];
-            foreach ($users as $index => $user) {
-                $person = Person::where('user_id', '=', $user['id'])->first();
-                if (!empty($person)) {
-                    $persons[$user['id']] = Person::with('user')
-                        ->select('persons.*')
-                        ->join('users', 'users.id', '=', 'persons.user_id')
-                        ->where('users.role_id', '=', $get_role->id)
-                        ->where('persons.user_id', '=', $user['id'])
-                        ->where(function ($query) use ($type) {
-                            if ($type == 'applicant')
-                                $query->where('persons.type', 'participant')
-                                    ->orWhere('persons.type', 'support');
-                        })
-                        ->get()->toArray();
-
-                } else {
-                    $persons[$user['id']] = User::where('id', $user['id'])->get()->toArray();
+            if ($type == 'referee') {
+                $ps = Person::where('type','referee')->get();
+            }
+            elseif ($type == 'applicant') {
+                $ps = Person::whereIn('type',['participant', 'support'])->get();
+            }
+            else {
+            }
+            $persons = collect([]);
+            foreach($ps as $p) {
+                $awards = '';
+                if ($type == 'referee') {
+                    $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
                 }
-
-
-                foreach ($persons as $p) {
-                    if (!empty($p)) {
-
-                        if (!empty($p[0]['id']))
-                            $ip[$p[0]['id']] = InstitutionPerson::with('iperson')
-                                ->join('institutions', 'institutions.id', '=', 'institutions_persons.institution_id')
-                                ->where('institutions_persons.person_id', '=', $p[0]['id'])
-                                ->first();
+                else {
+                    $propcount = PersonType::where('person_id', '=', $p->id)->count();
+                    $as = PersonType::join('proposals', 'proposals.id', '=', 'proposal_id')
+                            ->where('person_id', '=', $p->id)
+                            ->whereIn('proposals.state',['awarded','approved 1','approved 2', 'finalist'])
+                            ->get();
+                    foreach($as as $award) {
+                        $awards .= (Competition::find($award->competition_id)->title . " ");
                     }
                 }
+                $persons->push(['first_name' => $p->first_name,
+                                'last_name' => $p->last_name,
+                                'email' => $type == 'referee' ? $p->user->email : (!empty($p->emails()->first()) ? $p->emails()->first()->email : ''),
+                                'propcount' => $propcount,
+                                'awards' => $awards
+                                ]);
             }
 
-            $institutions = Institution::all();
-
-            return view('admin.account.list', compact('persons', 'type', 'ip', 'institutions'));
+            return view('admin.account.list', compact('persons', 'type'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/account')->with('error', messageFromTemplate('wrong'));
@@ -255,15 +253,62 @@ class AccountController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try {
+            $p = Person::find($id);
+            $type = $p->type;
+            switch ($type) {
+                case 'applicant':
+                    $persons = Person::where('user_id', $p->user_id)->get();
+                    foreach ($persons as $person) {
+                        DegreePerson::where('person_id', $person->id)->delete();
+                        Email::where('person_id', $person->id)->delete();
+                        Honor::where('person_id', $person->id)->delete();
+                        Address::where('addressable_id', $person->id)
+                                ->where('addressable_type','App\Models\Person')->delete();
+                        Meeting::where('person_id', $person->id)->delete();
+                        InstitutionPerson::where('person_id', $person->id)->delete();
+                        Publication::where('person_id', $person->id)->delete();
+                        Recommendation::where('person_id', $person->id)->delete();
+                        $proposals = Proposal::where('user_id', $p->user_id)->get();
+                        foreach($proposals as $proposal) {
+                            BudgetItem::where('proposal_id', $proposal->id)->delete();
+                            ProposalInstitution::where('proposal_id', $proposal->id)->delete();
+                            ProposalReport::where('proposal_id', $proposal->id)->delete();
+                            Recommendation::where('proposal_id', $proposal->id)->delete();
+                            RefereeReport::where('proposal_id', $proposal->id)->delete();
+                            $file_path = storage_path(proppath($proposal->id));
+                            if (is_dir($file_path)) File::deleteDirectory($file_path);
+                            Proposal::find($proposal->id)->delete();
+                        }
+                        Person::where('id', $person->id)->delete();
+                        User::where('id', $p->user_id)->delete();
+                    }
+                    break;
+                case 'viewer';
+                    $person = Person::where('user_id', $p->user_id)->first();
+                    $person->delete();
+                    User::where('id', $p->user_id)->delete();
+                    break;
+                case  'admin':
+                    $person = Person::where('user_id', $p->user_id)->first();
+                    $person->delete();
+                    User::where('id', $p->user_id)->delete();
+                    break;
+                case 'referee':
+                    $person = Person::where('user_id', $p->user_id)->first();
+                    RefereeReport::where('referee_id', $person->id)->delete();
+                    $person->delete();
+                    User::where('id', $p->user_id)->delete();
+                    break;
+            }
+
+            return redirect()->back()->with('delete', messageFromTemplate('deleted'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/person')->with('wrong', messageFromTemplate('wrong'));
+        }
     }
 
     public function mailreferee($id)

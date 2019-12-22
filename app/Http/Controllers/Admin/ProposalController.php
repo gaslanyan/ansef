@@ -195,9 +195,8 @@ class ProposalController extends Controller
             Recommendation::where('proposal_id', $p_id)->delete();
             RefereeReport::where('proposal_id', $p_id)->delete();
 
-            $file_path = storage_path('proposal/prop-' . $p_id);
-            if (is_dir($file_path))
-                File::deleteDirectory($file_path);
+            $file_path = storage_path(proppath($p_id));
+            if (is_dir($file_path)) File::deleteDirectory($file_path);
             Proposal::find($p_id)->delete();
             DB::commit();
             return redirect('admin/proposal')->with('delete', messageFromTemplate('deleted'));
@@ -350,9 +349,8 @@ class ProposalController extends Controller
                 ProposalReport::where('proposal_id', $p_id)->delete();
                 Recommendation::where('proposal_id', $p_id)->delete();
                 RefereeReport::where('proposal_id', $p_id)->delete();
-                $file_path = storage_path('proposal/prop-' . $p_id);
-                if (is_dir($file_path))
-                    File::deleteDirectory($file_path);
+                $file_path = storage_path(proppath($p_id));
+                if (is_dir($file_path)) File::deleteDirectory($file_path);
                 Proposal::find($p_id)->delete();
             }
             $response = [
