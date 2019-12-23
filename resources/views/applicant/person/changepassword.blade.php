@@ -1,13 +1,10 @@
 @extends('layouts.master')
-<?php $user_id = getPersonIdByRole(null); ?>
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Change Your Password
-                        <a href="{{URL::previous()}}"
-                           class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')

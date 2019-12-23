@@ -6,7 +6,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">Update participants for {{$proposaltag}}
-                        <a href="{{URL::previous()}}"
+                        <a href="{{action('Applicant\ProposalController@activeProposal')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
