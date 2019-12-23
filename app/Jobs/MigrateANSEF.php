@@ -561,6 +561,8 @@ class MigrateANSEF implements ShouldQueue
         }
         // \Debugbar::error('Added collaborators.');
 
+        if($this->proposal_id < 5393) {
+
         // Add referee reports
         $reports = DB::connection('mysqlold')->table('reports')
             ->where('proposal_id', '=', $this->proposal_id)->get();
@@ -659,6 +661,7 @@ class MigrateANSEF implements ShouldQueue
                 'value' => $report->score,
                 'report_id' => $rep->id
             ]);
+        }
         }
         // \Debugbar::error('Added reports.');
 
