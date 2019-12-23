@@ -39,7 +39,7 @@
             </li>
             <?php }else {?>
             <li>
-                Your user ID is incorrect. <br/>Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
+                Your user ID is incorrect. <br/>Contact <a href="mailto:{{config('emails.webmaster')}}">{{config('emails.webmaster')}}</a>
             </li>
             <?php } ?>
             <?php if(userHasPerson()){ ?>

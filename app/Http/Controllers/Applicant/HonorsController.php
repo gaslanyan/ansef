@@ -12,15 +12,6 @@ class HonorsController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        // dd( $person_id);
-        // $honors= [];
-        // if(!empty($person_id[0]['id'])) {
-        //     $p_id  = $person_id[0]['id'];
-        //     $honors = Honors::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('base.honors.index', compact('honors','person_id'));
     }
 
     public function create($id)
@@ -28,7 +19,7 @@ class HonorsController extends Controller
         $user_id = getUserID();
         $person_id = Person::where('id',$id )->get()->toArray();
         $honors = Honor::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
-        return view('base.honors.create', compact('id','honors','person_id'));
+        return view('applicant.honors.create', compact('id','honors','person_id'));
     }
 
     public function store(Request $request)
@@ -63,9 +54,6 @@ class HonorsController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $honor = Honors::find($id);
-        // return view('base.honors.edit', compact('honor', 'id'));
     }
 
 
@@ -101,7 +89,7 @@ class HonorsController extends Controller
     {
         $user_id = getUserID();
         try {
-            $honor = ::find($id);
+            $honor = Honor::find($id);
             $honor->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

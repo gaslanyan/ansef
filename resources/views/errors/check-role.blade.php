@@ -9,7 +9,7 @@
                     <div class="card-header">Dashboard</div>
 
                     <div class="card-body">
-                        <h3>You don't have permission to access this page <br/> Please contact webmaster@ansef.org.</h3>
+                        <h3>You don't have permission to access this page. <br/> Please contact {{config('emails.webmaster')}}.</h3>
                     </div>
                 </div>
             </div>

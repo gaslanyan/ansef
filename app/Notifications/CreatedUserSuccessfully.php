@@ -50,7 +50,7 @@ class CreatedUserSuccessfully extends Notification
         $role = Role::where('id', '=', $user->requested_role_id)->first();
         $message = "Your password: $this->password";
         return (new MailMessage)
-                ->from('dopplerthepom@gmail.com')
+                ->from(config('emails.webmaster'))
                 ->subject($template->new_account)
                 ->greeting(sprintf('Hello %s,', $role->name))
                 ->line($template->registered_by_admin)

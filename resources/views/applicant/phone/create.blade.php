@@ -6,7 +6,7 @@
             <div class="col-md-10 offset-md-2">
                 <div class="card" >
                     <div class="card-header">Update phone numbers for {{$persons_name['first_name']}} {{$persons_name['last_name']}}
-                        <a href="{{URL::previous()}}"
+                        <a href="{{action('Applicant\AccountController@index')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 

@@ -28,7 +28,7 @@ class ChooseBoard extends Mailable
      */
     public function build()
     {
-        return $this->from('dopplerthepom@gmail.com')
+        return $this->from(config('emails.webmaster'))
             ->view('mails.member')
             ->text('mails.member_plain')
             ->with(

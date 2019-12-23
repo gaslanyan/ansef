@@ -26,7 +26,7 @@
                                     <th width="100px">First Name</th>
                                     <th width="100px">Last Name</th>
                                     <th width="100px">Email</th>
-                                    <th>Statistics</th>
+                                    <th># &laquo;award&raquo;&laquo;finalist&raquo; </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,7 +57,7 @@
                                         <td>
                                             #:{{$p['propcount']}}
                                         @if($type != 'referee')
-                                            <{{$p['awards']}}>
+                                            <b>&laquo; {{$p['awards']}}&raquo;</b> &laquo; {{$p['finalists']}}&raquo;
                                         @endif
                                         </td>
                                     </tr>

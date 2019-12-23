@@ -28,7 +28,7 @@ class SupportPerson extends Mailable
      */
     public function build()
     {
-        return $this->from('dopplerthepom@gmail.com')
+        return $this->from(config('emails.webmaster'))
             ->view('mails.support')
             ->text('mails.support_plain')
             ->with(

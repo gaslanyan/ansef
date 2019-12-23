@@ -209,6 +209,7 @@ class ProposalController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
+        $reports = RefereeReport::where('proposal_id', '=', $pid)->get();
 
         return view('applicant.proposal.show', compact(
             'pid',
@@ -225,7 +226,8 @@ class ProposalController extends Controller
             'cat_sec_sub',
             'pi',
             'budget_items',
-            'budget'
+            'budget',
+            'reports'
         ));
     }
 
@@ -343,6 +345,7 @@ class ProposalController extends Controller
         $pi = $proposal->persons()->where('subtype', '=', 'PI')->first();
         $budget_items = $proposal->budgetitems()->get();
         $budget = $proposal->budget();
+        $reports = RefereeReport::where('proposal_id', '=', $pid)->get();
 
         $data = [
             'id' => $id,
@@ -360,7 +363,8 @@ class ProposalController extends Controller
             'cat_sec_sub' => $cat_sec_sub,
             'pi' => $pi,
             'budget_items' => $budget_items,
-            'budget' => $budget
+            'budget' => $budget,
+            'reports' => $reports
         ];
 
         $pdf = PDF::loadView('applicant.proposal.pdf', $data);
@@ -541,7 +545,7 @@ class ProposalController extends Controller
 
         foreach ($missingrecs as $missingrec) {
             $confirmation = randomPassword();
-            $r = Recommendation::firstOrCreate([
+            $r = Recommendation::updateOrCreate([
                 'proposal_id' => $p->id,
                 'person_id' => $missingrec['id']] , [
                 'confirmation' => $confirmation

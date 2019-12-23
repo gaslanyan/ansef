@@ -103,7 +103,7 @@ class MigrateANSEF implements ShouldQueue
             $compcategories .= ('"' . $mc->abbreviation . '",');
         }
         $compcategories = substr($compcategories, 0, -1) . "]";
-        $competition = Competition::firstOrCreate(
+        $competition = Competition::updateOrCreate(
             ['title' => substr(strval($compyear), -2) . 'AN'],
             [
                 'description' => $compyear . ' traditional ANSEF competition',
@@ -132,14 +132,14 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added competition.');
         // Add score types
         $scoretype = [];
-        $scoretype['Significance'] = ScoreType::firstOrCreate(['name' => 'Significance'], [
+        $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance'], [
             'description' => 'Does this study address an important problem?',
             'min' => 0,
             'max' => 7,
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['Approach'] = ScoreType::firstOrCreate(['name' => 'Approach'], [
+        $scoretype['Approach'] = ScoreType::updateOrCreate(['name' => 'Approach'], [
             'name' => 'Approach',
             'description' => 'Are the concepts and design of methods and analysis adequately developed and appropriate to the aim of the project?',
             'min' => 0,
@@ -147,7 +147,7 @@ class MigrateANSEF implements ShouldQueue
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['Innovation'] = ScoreType::firstOrCreate(['name' => 'Innovation'], [
+        $scoretype['Innovation'] = ScoreType::updateOrCreate(['name' => 'Innovation'], [
             'name' => 'Innovation',
             'description' => 'Does the project employ novel concepts, approaches or methods? Are the aims original and innovative? Does the project challenge existing paradigms or develop new methodologies or technologies?',
             'min' => 0,
@@ -155,28 +155,28 @@ class MigrateANSEF implements ShouldQueue
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['Investigator'] = ScoreType::firstOrCreate(['name' => 'Investigator'], [
+        $scoretype['Investigator'] = ScoreType::updateOrCreate(['name' => 'Investigator'], [
             'description' => 'Is the investigator appropriately trained and well-suited to carry out this work? Is the work proposed appropriate to the experience level of the principal investigator and other researchers?',
             'min' => 0,
             'max' => 7,
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['Budget'] = ScoreType::firstOrCreate(['name' => 'Budget'], [
+        $scoretype['Budget'] = ScoreType::updateOrCreate(['name' => 'Budget'], [
             'description' => 'Is the budget appropriate for the proposed project?',
             'min' => 0,
             'max' => 7,
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['Proposal'] = ScoreType::firstOrCreate(['name' => 'Proposal'], [
+        $scoretype['Proposal'] = ScoreType::updateOrCreate(['name' => 'Proposal'], [
             'description' => 'How well conceived and organized is the proposed activity? Is the review of the current state of knowledge in the field adequate?',
             'min' => 0,
             'max' => 7,
             'weight' => 1,
             'competition_id' => $competition->id
         ]);
-        $scoretype['OverallScore'] = ScoreType::firstOrCreate(['name' => 'Overall Score'], [
+        $scoretype['OverallScore'] = ScoreType::updateOrCreate(['name' => 'Overall Score'], [
             'description' => 'How would you rate the proposal overall? Please note that ANSEF grants are very competitive. It is rare that a proposal that is not deemed Outstanding in this category would get funded. On the other hand, there should be good reason to consider a proposal Outstanding, based on your assessment of the previous six criteria.',
             'min' => 0,
             'max' => 7,
@@ -187,7 +187,7 @@ class MigrateANSEF implements ShouldQueue
 
         // Add budget categories
         foreach ($expense_types as $expense_type) {
-            BudgetCategory::firstOrCreate(['name' => $expense_type->label], [
+            BudgetCategory::updateOrCreate(['name' => $expense_type->label], [
                 'min' => 0,
                 'max' => 5000,
                 'weight' => 1,
@@ -208,7 +208,7 @@ class MigrateANSEF implements ShouldQueue
         }
         $generate_password = randomPassword();
         if($account != null)
-        $user = User::firstOrCreate(
+        $user = User::updateOrCreate(
             [
                 'email' => $account->username
             ],
@@ -222,7 +222,7 @@ class MigrateANSEF implements ShouldQueue
                 'state' => 'active'
             ]
         );
-        else $user = User::firstOrCreate(
+        else $user = User::updateOrCreate(
             [
                 'email' => 'applicant@ansef.org'
             ],
@@ -238,7 +238,7 @@ class MigrateANSEF implements ShouldQueue
         );
 
         if($investigator != null)
-        Person::firstOrCreate(
+        Person::updateOrCreate(
             [
                 'user_id' => $user->id,
                 'type' => 'applicant'
@@ -256,7 +256,7 @@ class MigrateANSEF implements ShouldQueue
                 'user_id' => $user->id
             ]
         );
-        else Person::firstOrCreate(
+        else Person::updateOrCreate(
                 [
                     'user_id' => $user->id,
                     'type' => 'applicant'
@@ -434,7 +434,7 @@ class MigrateANSEF implements ShouldQueue
                 $adminaccount = $accounts[922];
             }
         }
-        $adminuser = User::firstOrCreate(
+        $adminuser = User::updateOrCreate(
             [
                 'email' => $adminaccount->username
             ],
@@ -448,7 +448,7 @@ class MigrateANSEF implements ShouldQueue
                 'state' => 'active'
             ]
         );
-        $administrator = Person::firstOrCreate(
+        $administrator = Person::updateOrCreate(
             [
                 'first_name' => getCleanString($propadmin->first_name),
                 'last_name' => getCleanString($propadmin->last_name),
@@ -579,7 +579,7 @@ class MigrateANSEF implements ShouldQueue
                 }
             }
 
-            $refuser = User::firstOrCreate(
+            $refuser = User::updateOrCreate(
                 [
                     'email' => $refaccount->username
                 ],
@@ -593,10 +593,10 @@ class MigrateANSEF implements ShouldQueue
                     'state' => 'active'
                 ]
             );
-            if ($refuser->email == 'lilit@ansef.org')
-                \Debugbar::error('3 - Created user ' . $refuser->id . ' with role ' . $refuser->role_id);
+            // if ($refuser->email == 'lilit@ansef.org')
+            //     \Debugbar::error('3 - Created user ' . $refuser->id . ' with role ' . $refuser->role_id);
 
-            $ref = Person::firstOrCreate(
+            $ref = Person::updateOrCreate(
                 [
                     'first_name' => getCleanString($referee->first_name),
                     'last_name' => getCleanString($referee->last_name),

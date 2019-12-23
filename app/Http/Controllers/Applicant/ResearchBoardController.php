@@ -37,7 +37,7 @@ class ResearchBoardController extends Controller
                 $name = $person->first_name . " " . $person->last_name;
             }
             $data = ['email' => $email, 'name' => $name, 'content' => $request->message];
-            $to = $request->target == "board" ? "dopplerthepom@gmail.com" : "vvsahakian@me.com";
+            $to = $request->target == "board" ? config('emails.RB') : config('emails.webmaster');
 
             Mail::send(
                 ['text' => 'applicant.email.emailtemplate'],

@@ -6,7 +6,8 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Update Books for {{$person[0]['first_name']." ".$person[0]['last_name']}}
-                        <a href = "{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
+                        <a href="{{action('Applicant\AccountController@index')}}"
+                        class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                     <div class="card-body card_body" style="overflow:auto;">

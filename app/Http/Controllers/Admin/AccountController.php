@@ -61,6 +61,7 @@ class AccountController extends Controller
             $persons = collect([]);
             foreach($ps as $p) {
                 $awards = '';
+                $finalists = '';
                 if ($type == 'referee') {
                     $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
                 }
@@ -68,17 +69,25 @@ class AccountController extends Controller
                     $propcount = PersonType::where('person_id', '=', $p->id)->count();
                     $as = PersonType::join('proposals', 'proposals.id', '=', 'proposal_id')
                             ->where('person_id', '=', $p->id)
-                            ->whereIn('proposals.state',['awarded','approved 1','approved 2', 'finalist'])
+                            ->whereIn('proposals.state',['awarded','approved 1','approved 2'])
                             ->get();
+                    $asf = PersonType::join('proposals', 'proposals.id', '=', 'proposal_id')
+                        ->where('person_id', '=', $p->id)
+                        ->where('proposals.state', '=', 'finalist')
+                        ->get();
                     foreach($as as $award) {
                         $awards .= (Competition::find($award->competition_id)->title . " ");
+                    }
+                    foreach ($asf as $finalist) {
+                        $finalists .= (Competition::find($finalist->competition_id)->title . " ");
                     }
                 }
                 $persons->push(['first_name' => $p->first_name,
                                 'last_name' => $p->last_name,
                                 'email' => $type == 'referee' ? $p->user->email : (!empty($p->emails()->first()) ? $p->emails()->first()->email : ''),
                                 'propcount' => $propcount,
-                                'awards' => $awards
+                                'awards' => $awards,
+                                'finalists' => $finalists
                                 ]);
             }
 
@@ -316,8 +325,8 @@ class AccountController extends Controller
         $user = User::where('id', '=', $id)->first();
         $objSend = new \stdClass();
         $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
-        $objSend->sender = 'dopplerthepom@gmail.com';
-        $objSend->receiver = 'dopplerthepom@gmail.com';
+        $objSend->sender = config('emails.webmaster');
+        $objSend->receiver = config('emails.webmaster');
 
         Mail::to($user->email)->send(new \App\Mail\SendToUser($objSend));
 
@@ -329,8 +338,8 @@ class AccountController extends Controller
         $user = User::where('id', '=', $id)->first();
         $objSend = new \stdClass();
         $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
-        $objSend->sender = 'dopplerthepom@gmail.com';
-        $objSend->receiver = 'dopplerthepom@gmail.com';
+        $objSend->sender = config('emails.webmaster');
+        $objSend->receiver = config('emails.webmaster');
 
         Mail::to($user->email)->send(new \App\Mail\SendToUser($objSend));
 

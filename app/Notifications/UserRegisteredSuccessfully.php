@@ -54,8 +54,7 @@ class UserRegisteredSuccessfully extends Notification
         $role = Role::where('id', '=', $user->requested_role_id)->first();
         $message = "";
 
-        return (new MailMessage)->from('dopplerthepom@gmail.com')
-                                ->cc('dopplerthepom@gmail.com')
+        return (new MailMessage)->from(config('emails.webmaster'))
                                 ->subject($template['new_account'])
                                 ->greeting(sprintf('Dear ANSEF %s,', $role->name))
                                 ->line($template['successfully_registered'])

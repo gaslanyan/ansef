@@ -53,8 +53,7 @@ class UserAddedSuccessfully extends Notification
         $user = $this->user;
         $role = Role::where('id', '=', $user->requested_role_id)->first();
 
-        return (new MailMessage)->from('dopplerthepom@gmail.com')
-                                ->cc('dopplerthepom@gmail.com')
+        return (new MailMessage)->from(config('emails.webmaster'))
                                 ->subject('New ANSEF account created for you')
                                 ->greeting(sprintf('Dear ANSEF %s,', $role->name))
                                 ->line('The ANSEF administrator registered you to the ANSEF portal as a ' . $role->name . '.')

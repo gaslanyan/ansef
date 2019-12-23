@@ -12,14 +12,6 @@ class MeetingController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        // $meetings = [];
-        // if (!empty($person_id[0]['id'])) {
-        //     $p_id  = $person_id[0]['id'];
-        //     $meetings = Meeting::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('base.meeting.index', compact('meetings'));
     }
 
     public function create($id)
@@ -27,7 +19,7 @@ class MeetingController extends Controller
         $user_id = getUserID();
         $meetings = Meeting::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id)->get()->toArray();
-        return view('base.meeting.create', compact('id', 'meetings', 'person'));
+        return view('applicant.meeting.create', compact('id', 'meetings', 'person'));
     }
 
     public function store(Request $request)
@@ -69,9 +61,6 @@ class MeetingController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $meeting = Meeting::find($id);
-        // return view('base.meeting.edit', compact('meeting', 'id'));
     }
 
     public function update(Request $request, $id)

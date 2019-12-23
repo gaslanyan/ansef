@@ -45,7 +45,7 @@ $user_id = getPersonIdByRole('referee');
             </li>
             <?php }else {?>
             <li>
-                Your user ID is incorrect. Contact <a href="mailto:webmaster@ansef.org">webmaster@ansef.org</a>
+                Your user ID is incorrect. Contact <a href="mailto:{{config('emails.webmaster')}}">{{config('emails.webmaster')}}</a>
             </li>
             <?php } ?>
             <li class="treeview">

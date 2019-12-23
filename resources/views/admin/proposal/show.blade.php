@@ -33,7 +33,8 @@
                         ])
 
                         @include('partials.refereereports',[
-                            'reports' => $reports
+                            'reports' => $reports,
+                            'private' => true
                         ])
                         <div class="box-primary">
                             <div class="col-lg-12" style="margin-top:30px;">

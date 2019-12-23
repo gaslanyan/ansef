@@ -58,7 +58,7 @@ class FileUploadController extends Controller
         else $due_date = $proposal->competition->second_report;
 
         $due_date = $proposal->competition->first_report;
-        $report = ProposalReport::firstOrCreate([
+        $report = ProposalReport::updateOrCreate([
             'proposal_id' => $id,
             'due_date' => $due_date
         ], []);
@@ -103,7 +103,7 @@ class FileUploadController extends Controller
         $error = Validator::make($request->all(), $rules);
 
         if ($error->fails()) {
-            return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact dopplerthepom@gmail.com for help.']);;
+            return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact ' . config('emails.webmaster') . ' for help.']);;
         }
 
         $request->file('file')->storeAs(
@@ -128,7 +128,7 @@ class FileUploadController extends Controller
         $error = Validator::make($request->all(), $rules);
 
         if ($error->fails()) {
-            return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact dopplerthepom@gmail.com for help.']);;
+            return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact ' . config('emails.webmaster') . ' for help.']);;
         }
 
         $request->file('file')->storeAs(

@@ -17,14 +17,6 @@ class BookController extends Controller
      */
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        // $books= [];
-        // if(!empty($person_id[0]['id'])) {
-        //     $p_id  = $person_id[0]['id'];
-        //     $books = Book::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('base.book.index', compact('books'));
     }
 
     public function create($id)
@@ -32,7 +24,7 @@ class BookController extends Controller
         $books = Book::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id )->get()->toArray();
 
-        return view('base.book.create',compact('id','books','person'));
+        return view('applicant.book.create',compact('id','books','person'));
     }
 
     public function store(Request $request)
@@ -65,9 +57,6 @@ class BookController extends Controller
 
     public function edit($id)
     {
-        // $person = loggedApplicant();
-        // $book = Book::find($id);
-        // return view('base.book.edit', compact('book', 'id'));
     }
 
     public function update(Request $request, $id)

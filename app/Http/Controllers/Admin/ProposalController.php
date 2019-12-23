@@ -413,9 +413,9 @@ class ProposalController extends Controller
                             ['text' => 'admin.email.emailtemplate'],
                             $data,
                             function ($message) use ($subject, $to) {
-                                $message->to('sahakian@hmc.edu')
+                                $message->to(config('emails.webmaster'))
                                         ->subject($subject);
-                                $message->from('dopplerthepom@gmail.com', 'ANSEF Research Board');
+                                $message->from(config('emails.RB'), 'ANSEF Research Board');
                             }
                         );
                     }

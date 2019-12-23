@@ -49,7 +49,7 @@ class PersonController extends Controller
         $user_id = getUserID();
         try {
             $person = Person::where('id', '=', $id)->first();
-            $address = Address::firstOrCreate([
+            $address = Address::updateOrCreate([
                 'addressable_id' => $person->id,
                 'addressable_type' => 'App\Models\Person'
             ], [

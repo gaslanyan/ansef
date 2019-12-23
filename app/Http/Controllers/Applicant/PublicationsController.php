@@ -12,14 +12,6 @@ class PublicationsController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        // $publications = [];
-        // if (!empty($person_id[0]['id'])) {
-        //     $p_id = $person_id[0]['id'];
-        //     $publications = Publications::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('base.publications.index', compact('publications'));
     }
 
     public function create($id)
@@ -27,7 +19,7 @@ class PublicationsController extends Controller
         $user_id = getUserID();
         $person_id = Person::where('id', $id)->get()->toArray();
         $publications = Publication::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
-        return view('base.publications.create', compact('id', 'publications','person_id'));
+        return view('applicant.publications.create', compact('id', 'publications','person_id'));
     }
 
     public function store(Request $request)
@@ -73,9 +65,6 @@ class PublicationsController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $publication = Publications::find($id);
-        // return view('base.publications.edit', compact('publication', 'id'));
     }
 
     public function update(Request $request, $id)

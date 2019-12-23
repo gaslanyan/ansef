@@ -127,7 +127,7 @@ class ReportController extends Controller
             $scoreTypes = ScoreType::with('score')->where('competition_id', $report->proposal->competition_id)->get();
             $scores = [];
             foreach ($scoreTypes as $s) {
-                $scores[$s->id] = Score::firstOrCreate([
+                $scores[$s->id] = Score::updateOrCreate([
                     'score_type_id' => $s->id,
                     'report_id' => $id
                 ], [

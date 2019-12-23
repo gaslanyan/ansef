@@ -29,7 +29,7 @@ class NotifyRecommender extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                ->from('dopplerthepom@gmail.com')
+                ->from(config('emails.webmaster'))
                 ->subject('Recommendation letter for ' . $this->pi)
                 ->greeting(sprintf('Dear %s,', $this->name))
                 ->line($this->pi . ' is applying for a grant from the Armenian National Science and Education Fund (ANSEF) and has listed you as a person who can provide a letter of support for his application.')

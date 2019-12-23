@@ -107,7 +107,7 @@ class RegisterController extends Controller
             }
 
             if ($user->confirmation != $activationCode) {
-                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact dopplerthepom@gmail.com.");
+                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact " . config('emails.webmaster') . ".");
             }
 
             if ($user->state === "inactive") {
@@ -136,10 +136,10 @@ class RegisterController extends Controller
                 else{
                     $objSend = new \stdClass();
                     $objSend->message = "A person with email " . $user->email . " has requested access in the role of " . $role->name . ". Please log into the ANSEF portal to enable the account.";
-                    $objSend->sender = 'dopplerthepom@gmail.com';
-                    $objSend->receiver = 'dopplerthepom@gmail.com';
+                    $objSend->sender = config('emails.webmaster');
+                    $objSend->receiver = config('emails.webmaster');
 
-                    Mail::to('dopplerthepom@gmail.com')->send(new \App\Mail\SendToAdmin($objSend));
+                    Mail::to(config('emails.webmaster'))->send(new \App\Mail\SendToAdmin($objSend));
 
                     return redirect()->route('login.' . $role->name)->with('success',messageFromTemplate('email_other'));
                 }
@@ -172,7 +172,7 @@ class RegisterController extends Controller
             }
 
             if ($user->confirmation != $activationCode) {
-                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact dopplerthepom@gmail.com.");
+                return redirect()->route('register.' . $role->name)->with('status',"Registration code is invalid. Please contact " . config('emails.webmaster') . ".");
             }
 
             if ($user->state === "inactive") {

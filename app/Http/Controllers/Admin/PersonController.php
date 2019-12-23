@@ -28,7 +28,7 @@ class PersonController extends Controller
             $user_id = getUserId();
             $countries = Country::all()->sort();
 
-            $person = Person::firstOrCreate(
+            $person = Person::updateOrCreate(
                 [
                     'user_id' => $user_id,
                     'type' => get_role_cookie()
@@ -37,7 +37,7 @@ class PersonController extends Controller
             );
             $person->save();
 
-            $address = Address::firstOrCreate([
+            $address = Address::updateOrCreate([
                 'addressable_id' => $person->id,
                 'addressable_type' => 'App\Models\Person'
             ], []);

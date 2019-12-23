@@ -312,7 +312,7 @@ function createperson($user_id, $role) {
     $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=','applicant')->first();
 
     if(empty($person)) {
-        \App\Models\Person::firstOrCreate([
+        \App\Models\Person::updateOrCreate([
                         'user_id' => $user_id,
                         'type' => $role], [
                         'first_name' => '',

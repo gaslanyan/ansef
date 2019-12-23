@@ -32,7 +32,7 @@
                 <div class="card-header">Recommendation Letter
                 </div>
                 <div class="card-body card_body" style="overflow:auto;">
-                Incorrect confirmation code. Please contact <a href="mailto:dopplerthepom@gmail.com">dopplerthepom@gmail.com</a>.
+                Incorrect confirmation code. Please contact <a href="mailto:{{config('emails.webmaster')}}">{{config('emails.webmaster')}}</a>.
                 </div>
             </div>
         </div>

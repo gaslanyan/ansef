@@ -28,7 +28,7 @@ class SendToUser extends Mailable
      */
     public function build()
     {
-        return $this->from('dopplerthepom@gmail.com')
+        return $this->from(config('emails.webmaster'))
                     ->view('mails.sendtouser')
                     ->attach(public_path('/images') . '/logos/send_logo.png',
                         [

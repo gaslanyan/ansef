@@ -59,7 +59,7 @@ class SendEmailController extends Controller
         Mail::send(['text' => 'referee.report.mail'],
                     $data,
                     function ($message) use ($email, $f_name, $tag) {
-                        $message->to('dopplerthepom@gmail.com')
+                        $message->to(config('emails.RB'))
                                 ->subject('Referee communication about proposal ' . $tag);
                         $message->from($email, $f_name);
             });

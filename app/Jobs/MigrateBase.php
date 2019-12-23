@@ -36,12 +36,12 @@ class MigrateBase implements ShouldQueue
     public function handle()
     {
         // Create degrees
-        Degree::firstOrCreate(['text' => 'None'] , []);
-        Degree::firstOrCreate(['text' => 'High school'], []);
-        Degree::firstOrCreate(['text' => 'Bachelor (college)'], []);
-        Degree::firstOrCreate(['text' => 'Masters'], []);
-        Degree::firstOrCreate(['text' => 'Doctoral'], []);
-        Degree::firstOrCreate(['text' => 'Post-doctoral'], []);
+        Degree::updateOrCreate(['text' => 'None'] , []);
+        Degree::updateOrCreate(['text' => 'High school'], []);
+        Degree::updateOrCreate(['text' => 'Bachelor (college)'], []);
+        Degree::updateOrCreate(['text' => 'Masters'], []);
+        Degree::updateOrCreate(['text' => 'Doctoral'], []);
+        Degree::updateOrCreate(['text' => 'Post-doctoral'], []);
         \Debugbar::error('Created degrees.');
 
         // Migrate categories
@@ -51,7 +51,7 @@ class MigrateBase implements ShouldQueue
             ->get()->keyBy('id');
 
         foreach ($categories as $category) {
-            Category::firstOrCreate([ 'abbreviation' => $category->label ],
+            Category::updateOrCreate([ 'abbreviation' => $category->label ],
             [
                 'title' => $category->description,
             ]);
@@ -60,7 +60,7 @@ class MigrateBase implements ShouldQueue
         foreach ($subcategories as $subcategory) {
             $parentcategory = $categories[$subcategory->category_id];
             $pc = Category::where('abbreviation', '=', $parentcategory->label)->first();
-            Category::firstOrCreate([ 'abbreviation' => $subcategory->label ],
+            Category::updateOrCreate([ 'abbreviation' => $subcategory->label ],
             [
                 'title' => $subcategory->description,
                 'parent_id' => $pc->id

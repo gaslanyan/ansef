@@ -7,9 +7,13 @@
     <div class="box-header with-border">
        <h4>  Referee reports </h4>
     </div>
-    @foreach($reports as $report)
+    @foreach($reports as $index => $report)
         <h5 class="row col-12">
+        @if($private)
         Report from referee:&nbsp; <b>{{$report->person->first_name}} {{$report->person->last_name}}</b>
+        @else
+        Report from referee #{{$index+1}}
+        @endif
         </h5><br/>
         <table>
             @foreach($scoretypes as $scoretype)
@@ -29,13 +33,15 @@
             @endforeach
         </table><br/>
         <div class="row col-12">
-            <p><b>Public comments</b></p>
+            <p><b>Public comments: </b></p>
             <p>{{$report->public_comment}}</p>
         </div>
+        @if($private)
         <div class="row col-12">
-            <p><b>Private comments</b></p>
+            <p><b>Private comments: </b></p>
             <p>{{$report->private_comment}}</p>
         </div>
+        @endif
         <hr>
     @endforeach
     @endif

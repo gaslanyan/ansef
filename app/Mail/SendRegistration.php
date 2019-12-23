@@ -30,6 +30,6 @@ class SendRegistration extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name')->from('dopplerthepom@gmail.com')->to('sgayaneaslanyan@gmail.com');
+        return $this->view('view.name')->from(config('emails.webmaster'))->to('sgayaneaslanyan@gmail.com');
     }
 }

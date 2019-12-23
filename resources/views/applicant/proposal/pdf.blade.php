@@ -20,6 +20,14 @@
             <div class="offset-2 col-md-10">
                 <div class="card" >
                     <div class="card-body card_body" style="overflow:auto;">
+                        <h5>Proposal {{getProposalTag($id)}}</h5>
+                        @if($proposal->competition->results_date < date('Y-m-d'))
+                        @include('partials.refereereports',[
+                            'reports' => $reports,
+                            'private' => false
+                        ])
+                        @endif
+
                         @include('partials.proposal',[
                             'pid' => $pid,
                             'proposal' => $proposal,

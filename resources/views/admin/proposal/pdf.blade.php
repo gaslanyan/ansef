@@ -42,7 +42,8 @@
                     ])
 
                     @include('partials.refereereports',[
-                        'reports' => $reports
+                        'reports' => $reports,
+                        'private' => true
                     ])
                     </div>
                 </div>

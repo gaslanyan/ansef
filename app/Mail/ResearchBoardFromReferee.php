@@ -28,13 +28,13 @@ class ResearchBoardFromReferee extends Mailable
      */
     public function build()
     {
-        return $this->from('dopplerthepom@gmail.com')
+        return $this->from(config('emails.webmaster'))
             ->view('mails.board')
             ->text('mails.board_plain')
             ->with(
                 [
                     'testVarOne' => '1',
                     'testVarTwo' => '2',
-                ])->to('dopplerthepom@gmail.com');
+                ])->to(config('emails.webmaster'));
     }
 }

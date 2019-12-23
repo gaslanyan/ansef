@@ -12,14 +12,6 @@ class PhoneController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id)->first()->toArray();
-        // $phones = [];
-        // if (!empty($person_id[0]['id'])) {
-        //     $p_id = $person_id[0]['id'];
-        //     $phones = Phone::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('base.phone.index', compact('phones'));
     }
 
     public function create($id)
@@ -60,9 +52,6 @@ class PhoneController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $phone = Phone::find($id);
-        // return view('base.phone.edit', compact('phone', 'id'));
     }
 
     public function update(Request $request, $id)
