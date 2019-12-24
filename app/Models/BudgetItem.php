@@ -13,7 +13,7 @@ class BudgetItem extends Model
      * @var array
      */
     protected $fillable = [
-        'budget_cat_id', 'description', 'amount', 'proposal_id'];
+        'budget_cat_id', 'description', 'amount', 'proposal_id', 'user_id'];
 
     public function proposal()
     {

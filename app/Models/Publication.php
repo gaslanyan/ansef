@@ -19,7 +19,7 @@ class Publication extends Model
      * @var array
      */
     protected $fillable = [
-        'person_id','journal','title', 'year','ansef_supported','domestic'
+        'person_id','journal','title', 'year','ansef_supported', 'domestic', 'user_id'
     ];
 
     public function person()

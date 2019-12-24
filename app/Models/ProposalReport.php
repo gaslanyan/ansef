@@ -14,7 +14,7 @@ class ProposalReport extends Model
      * @var array
      */
     protected $fillable = [
-        'description', 'document', 'proposal_id', 'due_date', 'approved'
+        'description', 'document', 'proposal_id', 'due_date', 'approved', 'user_id'
     ];
     public function proposal()
     {

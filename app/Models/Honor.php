@@ -9,7 +9,7 @@ class Honor extends Model
     protected $table = 'honors';
 
     protected $fillable = [
-        'description', 'year','person_id'
+        'description', 'year', 'person_id', 'user_id'
     ];
 
     public function person()

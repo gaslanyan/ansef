@@ -107,7 +107,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/report/list/{id}', 'Admin\ReportController@list')->name('report_list');
     Route::resource('/admin/report', 'Admin\ReportController');
 
-    Route::get('/admin/show/{person}', 'Admin\AccountController@account', [
+    Route::get('/admin/show/{type}/competition/{cid}', 'Admin\AccountController@account', [
         'only' => ['index'],
         'middleware' => 'check-role:admin'
     ]);

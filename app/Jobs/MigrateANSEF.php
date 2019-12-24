@@ -276,29 +276,31 @@ class MigrateANSEF implements ShouldQueue
             );
 
         if ($investigator != null)
-        $pi = Person::create([
+        $pi = Person::updateOrCreate([
+            'user_id' => $user->id,
+            'type' => 'participant',
+            'first_name' => getCleanString($investigator->first_name),
+            'last_name' => getCleanString($investigator->last_name)
+        ],
+        [
             'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
             'birthplace' => ucfirst($investigator->birthplace),
             'sex' => 'neutral',
             'state' => 'domestic',
-            'first_name' => getCleanString($investigator->first_name),
-            'last_name' => getCleanString($investigator->last_name),
             'nationality' => ucfirst($investigator->nationality),
-            'type' => 'participant',
-            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
-            'user_id' => $user->id
+            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization)
         ]);
         else $pi = Person::create([
+            'user_id' => $user->id,
+            'type' => 'participant',
             'birthdate' => date('1970-07-02'),
             'birthplace' => 'Yerevan',
             'sex' => 'neutral',
             'state' => 'domestic',
             'first_name' => 'Applicant',
-            'last_name' => 'Applicantian',
+            'last_name' => 'Applicant',
             'nationality' => 'Armenia',
-            'type' => 'participant',
-            'specialization' => 'None',
-            'user_id' => $user->id
+            'specialization' => 'None'
         ]);
         // \Debugbar::error('Added pi user and person.');
 
@@ -417,18 +419,41 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added pi ansefpublications.');
 
         // Add director person
-        $director = Person::create([
+        if(getCleanString($proposal->director_first_name) != '' && getCleanString($proposal->director_last_name) != '')
+        $director = Person::updateOrCreate([
+            'type' => 'support',
+            'first_name' => getCleanString($proposal->director_first_name),
+            'last_name' => getCleanString($proposal->director_last_name),
+            'user_id' => $user->id
+        ],
+        [
             'birthdate' => null,
             'birthplace' => '',
             'sex' => 'neutral',
             'state' => 'domestic',
-            'first_name' => getCleanString($proposal->director_first_name),
-            'last_name' => getCleanString($proposal->director_last_name),
             'nationality' => '',
-            'type' => 'support',
-            'specialization' => '',
-            'user_id' => $user->id
+            'specialization' => ''
         ]);
+        else {
+            $director = Person::updateOrCreate(
+                [
+                    'type' => 'support',
+                    'user_id' => $user->id
+                ],
+                [
+                    'birthdate' => null,
+                    'birthplace' => '',
+                    'first_name' => getCleanString($proposal->director_first_name),
+                    'last_name' => getCleanString($proposal->director_last_name),
+                    'sex' => 'neutral',
+                    'state' => 'domestic',
+                    'nationality' => '',
+                    'specialization' => ''
+                ]
+            );
+        }
+
+
         // \Debugbar::error('Added director.');
 
         // Add user and person for admin
@@ -515,14 +540,14 @@ class MigrateANSEF implements ShouldQueue
             "person_id" => $pi->id,
             "proposal_id" => $p->id,
             "subtype" => 'PI',
-            "competition_id" => $p->competition->id
+            "competition_id" => $competition->id
         ]);
 
         ProposalPerson::create([
             "person_id" => $director->id,
             "proposal_id" => $p->id,
             "subtype" => 'director',
-            "competition_id" => $p->competition->id
+            "competition_id" => $competition->id
         ]);
         // \Debugbar::error('Added associations.');
 
@@ -531,17 +556,19 @@ class MigrateANSEF implements ShouldQueue
             ->where('proposal_id', '=', $this->proposal_id)->get();
         foreach ($collaborators as $collaborator) {
             // \Debugbar::error('Adding collaborator id ' . $collaborator->id);
-            $per = Person::create([
+            $per = Person::updateOrCreate([
+                'type' => 'participant',
+                'first_name' => getCleanString($collaborator->first_name),
+                'last_name' => getCleanString($collaborator->last_name),
+                'user_id' => $user->id
+            ],
+            [
                 'birthdate' => !empty($collaborator->birthdate) ? date($collaborator->birthdate) : null,
                 'birthplace' => '',
                 'sex' => 'neutral',
                 'state' => 'domestic',
-                'first_name' => getCleanString($collaborator->first_name),
-                'last_name' => getCleanString($collaborator->last_name),
                 'nationality' => $collaborator->foreign_status == 1 ? '' : 'Armenia',
-                'type' => 'participant',
                 'specialization' => '',
-                'user_id' => null
             ]);
 
             ProposalPerson::create([

@@ -9,7 +9,7 @@ class DegreePerson extends Model
     protected $table = 'degree_persons';
 
     protected $fillable = [
-        'degree_id', 'year', 'institution', 'institution_id', 'person_id'
+        'degree_id', 'year', 'institution', 'institution_id', 'person_id', 'user_id'
     ];
 
     public function degree()

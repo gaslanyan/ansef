@@ -15,7 +15,13 @@
                         </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
-
+                        @if($type == 'applicant')
+                        <p>
+                        @foreach($competitions as $comp)
+                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => $comp->id])}}">{{$comp->title}}</a> -
+                        @endforeach
+                        </p>
+                        @endif
                         @if(!empty($persons) && count($persons)>0)
 
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
@@ -26,7 +32,7 @@
                                     <th width="100px">First Name</th>
                                     <th width="100px">Last Name</th>
                                     <th width="100px">Email</th>
-                                    <th># @if($type == 'participant') &laquo;award&raquo;&laquo;finalist&raquo; @endif</th>
+                                    <th># @if($type == 'applicant') &laquo;award&raquo;&laquo;finalist&raquo; @endif</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -36,27 +42,24 @@
                                         <td data-order="@if(!empty($p['first_name'])){{$p['first_name']}}@endif"
                                             data-search="@if(!empty($p['first_name'])){{$p['first_name']}}@endif"
                                             class="f_name_field">
-                                            @if(!empty($p['first_name']))
                                                 {{$p['first_name']}}
-                                            @endif
                                         </td>
                                         <td data-order="@if(!empty($p['last_name'])){{$p['last_name']}} @endif"
                                             data-search="@if(!empty($p['last_name'])){{$p['last_name']}} @endif"
                                             class="l_name_field">
-                                            @if(!empty($p['last_name']))
                                                 {{$p['last_name']}}
-                                            @endif
                                         </td>
                                         <td data-order="@if(!empty($p['email'])) {{$p['email']}}@endif"
                                             data-search="@if(!empty($p['email'])) {{$p['email']}}@endif"
                                             class="">
-                                            @if(!empty($p['email']))
                                             <a href="mailto:{{$p['email']}}"><span style="color:#09b;">{{$p['email']}}</span></a>
-                                            @endif
                                         </td>
                                         <td>
                                             #:{{$p['propcount']}}
-                                        @if($type == 'participant')
+                                        @if($p['subtype'] != '')
+                                            - {{$p['subtype']}} -
+                                        @endif
+                                        @if($p['subtype'] == 'PI' && ($p['awards'] !='' || $p['finalists'] != ''))
                                             <b>&laquo; {{$p['awards']}}&raquo;</b> &laquo; {{$p['finalists']}}&raquo;
                                         @endif
                                         </td>

@@ -8,7 +8,7 @@ class Phone extends Model
 {
     protected $table = 'phones';
     protected $fillable = [
-        'country_code', 'number','person_id'
+        'country_code', 'number', 'person_id', 'user_id'
     ];
 
     public function person()

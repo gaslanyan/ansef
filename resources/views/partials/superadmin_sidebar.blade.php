@@ -34,24 +34,21 @@ $user_id = getUserID();
                 </a>
                 <ul class="treeview-menu">
                     <li>
-                        <a href="{{action('Admin\AccountController@index')}}"><i class="fa fa-circle-o"></i>Log in users</a>
+                        <a href="{{action('Admin\AccountController@index')}}">
+                            Log in users</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account','referee')}}"><i class="fa fa-circle-o"></i>List
-                            of
-                            referees</a>
+                        <a href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => (empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)])}}">
+                            List of participants</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account','participant')}}"><i
-                                    class="fa fa-circle-o"></i>List of
-                            participants</a>
+                        <a href="{{action('Admin\AccountController@account',['type' => 'referee', 'cid' => 0])}}">
+                            List of referees</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account','support')}}"><i
-                                    class="fa fa-circle-o"></i>List of
-                            support people</a>
+                        <a href="{{action('Admin\AccountController@create')}}">
+                            Add a person</a>
                     </li>
-
                 </ul>
             </li>
             <li class="treeview">

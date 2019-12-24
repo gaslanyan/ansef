@@ -19,10 +19,10 @@ class Meeting extends Model
      * @var array
      */
     protected $fillable = [
-        'person_id','description','year', 'ansef_supported','domestic'
+        'person_id','description','year', 'ansef_supported', 'domestic', 'user_id'
     ];
-    
-    
+
+
     public function person()
     {
         return $this->belongsTo('App\Models\Person');

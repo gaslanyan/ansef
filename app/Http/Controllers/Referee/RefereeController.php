@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Referee;
 
+use App\Models\User;
 use App\Models\Person;
 use App\Models\Session;
 use App\Http\Controllers\Controller;
@@ -20,9 +21,8 @@ class RefereeController extends Controller
     }
 
     public function signAs($id) {
-        $newperson = Person::find($id);
-        $newuser = $newperson->user;
-        $newrole = $newperson->type;
+        $newuser = User::find($id);
+        $newrole = $newuser->role->name;
 
         Request::session()->flush();
         Request::session()->regenerate();

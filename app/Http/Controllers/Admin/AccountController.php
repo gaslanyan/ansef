@@ -47,53 +47,64 @@ class AccountController extends Controller
         }
     }
 
-    public function account($type)
+    public function account($type, $cid)
     {
         ini_set('memory_limit', '2048M');
-
+        $competitions = Competition::select('id','title')->get();
         try {
             $persons = collect([]);
-            $total = Person::where('type', '=', $type)->count();
-
-            foreach(Person::where('type', '=', $type)->cursor() as $index => $p) {
-                $awards = '';
-                $finalists = '';
-                if ($type == 'referee') {
+            if ($type == 'referee') {
+                foreach (Person::where('type', '=', $type)->cursor() as $index => $p) {
                     $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
+                    $persons->push([
+                        'first_name' => $p->first_name,
+                        'last_name' => $p->last_name,
+                        'email' => $p->user->email,
+                        'propcount' => $propcount,
+                        'awards' => '',
+                        'finalists' => '',
+                        'subtype' => ''
+                    ]);
                 }
-                else if ($type == 'participant') {
-                    $propcount = ProposalPerson::where('person_id', '=', $p->id)->count();
+            }
+            else if ($type == 'applicant') {
+                foreach (ProposalPerson::where('competition_id', '=', 2)->cursor() as $index => $p) {
+                    $person = Person::find($p->person_id);
+                    $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
                     $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->select('proposals.competition_id')
-                            ->where('person_id', '=', $p->id)
-                            ->whereIn('proposals.state',['awarded','approved 1','approved 2'])
-                            ->get();
+                        ->select('proposals.competition_id')
+                        ->where('person_id', '=', $p->person_id)
+                        ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
+                        ->get();
                     $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->select('proposals.competition_id')
-                            ->where('person_id', '=', $p->id)
-                            ->where('proposals.state', '=', 'finalist')
-                            ->get();
-                    foreach($as as $award) {
+                        ->select('proposals.competition_id')
+                        ->where('person_id', '=', $p->person_id)
+                        ->where('proposals.state', '=', 'finalist')
+                        ->get();
+                    $awards = '';
+                    $finalists = '';
+                    foreach ($as as $award) {
                         $awards .= (Competition::find($award->competition_id)->title . " ");
                     }
                     foreach ($asf as $finalist) {
                         $finalists .= (Competition::find($finalist->competition_id)->title . " ");
                     }
+                    $persons->push([
+                        'first_name' => $person->first_name ?? '',
+                        'last_name' => $person->last_name ?? '',
+                        'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
+                        'propcount' => $propcount,
+                        'awards' => $awards,
+                        'finalists' => $finalists,
+                        'subtype' => $p->subtype
+                    ]);
                 }
-                else {
-                    $propcount = ProposalPerson::where('person_id', '=', $p->id)->count();
-                }
-                $persons->push(['first_name' => $p->first_name,
-                                'last_name' => $p->last_name,
-                                'email' => $type == 'referee' ? $p->user->email : (!empty($p->emails()->first()) ? $p->emails()->first()->email : ''),
-                                'propcount' => $propcount,
-                                'awards' => $awards,
-                                'finalists' => $finalists
-                                ]);
             }
-            // dd($persons);
+            else {
 
-            return view('admin.account.list', compact('persons', 'type'));
+            }
+
+            return view('admin.account.list', compact('persons', 'type', 'competitions', 'cid'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/account')->with('error', messageFromTemplate('wrong'));
