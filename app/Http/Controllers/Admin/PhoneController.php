@@ -65,6 +65,7 @@ class PhoneController extends Controller
                 $phone->person_id = $person_id;
                 $phone->country_code = ($request->country_code)[$key];
                 $phone->number = $item;
+                $phone->user = getUserID();
                 $phone->save();
             }
             return redirect('admin/phone')->with('success', messageFromTemplate("success"));

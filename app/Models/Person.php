@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\PersonType;
+use App\Models\ProposalPerson;
 
 class Person extends Model
 {
@@ -50,7 +50,7 @@ class Person extends Model
         return $this->belongsToMany('App\Models\Institution', 'institutions_persons')->withPivot('title', 'type', 'start', 'end');
     }
     public function degrees() {
-        return $this->belongsToMany('App\Models\Degree', 'degrees_persons')->withPivot('year');
+        return $this->belongsToMany('App\Models\Degree', 'degree_persons')->withPivot('year');
     }
     public function honors()
     {
@@ -71,7 +71,7 @@ class Person extends Model
 
     public function getAssignedAttribute()
     {
-        return (PersonType::where('person_id', '=', $this->id)->count() > 0);
+        return (ProposalPerson::where('person_id', '=', $this->id)->count() > 0);
     }
 
 }

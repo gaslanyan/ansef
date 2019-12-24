@@ -53,6 +53,7 @@ class EmailController extends Controller
                     $email = new Email;
                     $email->person_id = $pp_id;
                     $email->email = $item;
+                    $email->user_id = getUserID();
                     $email->save();
                 }
 

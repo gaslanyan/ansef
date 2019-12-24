@@ -144,6 +144,7 @@ class ProposalController extends Controller
                 $budget_item->description = $request->budget_categories_description[$key];
                 $budget_item->amount = $request->amount[$key];
                 $budget_item->proposal_id = $proposal_id;
+                $budget_item->user_id = getUserID();
                 $budget_item->save();
             }
 

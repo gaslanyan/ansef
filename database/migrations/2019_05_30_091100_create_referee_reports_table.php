@@ -22,6 +22,8 @@ class CreateRefereeReportsTable extends Migration {
             $table->integer('competition_id')->unsigned()->nullable();
 			$table->date('due_date')->nullable();
 			$table->float('overall_score', 10, 0)->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('referee_id')->nullable();
 			$table->timestamps();
 		});
 	}

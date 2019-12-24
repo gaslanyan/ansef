@@ -51,7 +51,8 @@ class PersonController extends Controller
             $person = Person::where('id', '=', $id)->first();
             $address = Address::updateOrCreate([
                 'addressable_id' => $person->id,
-                'addressable_type' => 'App\Models\Person'
+                'addressable_type' => 'App\Models\Person',
+                'user_id' => $user_id
             ], [
                 'street' => '',
                 'province' => '',

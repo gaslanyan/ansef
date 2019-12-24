@@ -16,6 +16,8 @@ class CreateMessagesTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->text('text', 65535);
+            $table->string('title', 255)->nullable();
+            $table->string('subject', 255)->nullable();
 			$table->timestamps();
 		});
 	}

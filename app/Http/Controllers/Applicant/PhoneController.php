@@ -36,7 +36,8 @@ class PhoneController extends Controller
                 $phone->person_id = $request->phone_create_hidden;
                 $phone->country_code = ($request->country_code)[$key];
                 $phone->number = $item;
-                $phone->save();
+                $phone->user = $user_id;
+               $phone->save();
             }
             return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {

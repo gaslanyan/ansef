@@ -154,7 +154,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <strong>Institution/Company:</strong>
-                                            <span>Need institution field in degrees_persons</span>
+                                            <span>{{$degree->institution != "" ? $degree->institution : Institution::find($degree->institution_id)->content}}</span>
                                     </div>
                                     <div class="col-md-4">
                                         <strong>Degree:</strong>

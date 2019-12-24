@@ -147,17 +147,17 @@
 
             jQuery("input:checkbox:checked").each(function (i, val) {
                 chp['fullname' + step] = jQuery("#choose_person_name" + step).val();
-                chp['type' + step] = jQuery("#choose_person_types" + step).val();
+                chp['type' + step] = jQuery("#choose_proposal_persons" + step).val();
                 chp['p_id' + step] = jQuery("#person_id" + step).val();
                 $g = "/applicant/person/" + ($(this).val()).split('_')[0] + "/edit";
                 var id =($(this).val()).split('_')[0];
 
                 var personname = $(this).next().val();
-                var persontype = $(this).parent().parent().next().next().find('select').val();
+                var proposalperson = $(this).parent().parent().next().next().find('select').val();
 
-                if(persontype != "None")
+                if(proposalperson != "None")
                 jQuery('#prop_person').append('<p><input type="hidden"  value = "' + personname + '"  id = \'prop_person_name\' disabled class="form-control form-check-inline form-group col-lg-5" name="prop_person_name[]"><b>' + personname + ': </b>' +
-                    '                          <input type="hidden"  value = "' + persontype + '"  id = \'prop_person_stype\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_stype[]">' + persontype.charAt(0).toUpperCase() + persontype.slice(1) +
+                    '                          <input type="hidden"  value = "' + proposalperson + '"  id = \'prop_person_stype\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_stype[]">' + proposalperson.charAt(0).toUpperCase() + proposalperson.slice(1) +
                     '&nbsp;&nbsp;<div title="Delete" class="btn-link unchecked" id = "'+id+'" ><i class="fa fa-trash"></i></div></p> ');
 
 

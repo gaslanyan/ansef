@@ -39,6 +39,7 @@ class PublicationsController extends Controller
             $publication->title = $request->title;
             $publication->journal = $request->journal;
             $publication->year = $request->year;
+            $publication->user_id = $user_id;
             if ($request->has('ansef_add') == true) {
                 $publication->ansef_supported = '1';
             } else {

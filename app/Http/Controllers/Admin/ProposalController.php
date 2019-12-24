@@ -455,6 +455,7 @@ class ProposalController extends Controller
                         $report->private_comment = "";
                         $report->public_comment = "";
                         $report->state = "in-progress";
+                        $report->user_id = getUserID();
                         $report->due_date = date('Y-m-d', strtotime('+3 months'));
                         $flag = $flag & $report->save();
                         if (!$flag) break;

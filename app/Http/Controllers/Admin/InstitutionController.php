@@ -61,6 +61,7 @@ class InstitutionController extends Controller
                 $address->province = $request->provence;
                 $address->street = $request->street;
                 $address->city = $request->city;
+                $address->user_id = getUserID();
                 $address->save();
                 $institution = new Institution();
                 $institution->content = $request->name;

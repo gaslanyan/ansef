@@ -21,6 +21,7 @@ class CreatePublicationsTable extends Migration {
 			$table->integer('year')->nullable();
 			$table->enum('domestic', array('0','1'))->nullable();
 			$table->enum('ansef_supported', array('0','1'))->nullable();
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

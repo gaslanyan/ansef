@@ -38,6 +38,7 @@ class HonorsController extends Controller
             $honors->person_id = $request->honor_hidden_id[0];
             $honors->description = $request->description;
             $honors->year =$request->year;
+            $honot->user_id = $user_id;
             $honors->save();
             return Redirect::back()->with('success', messageFromTemplate("success"));
 

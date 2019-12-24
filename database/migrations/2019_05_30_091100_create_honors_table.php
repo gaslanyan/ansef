@@ -18,6 +18,7 @@ class CreateHonorsTable extends Migration {
 			$table->text('description', 65535)->nullable();
 			$table->integer('year')->nullable();
 			$table->integer('person_id')->unsigned();
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

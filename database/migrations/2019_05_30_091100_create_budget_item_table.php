@@ -19,6 +19,7 @@ class CreateBudgetItemTable extends Migration {
 			$table->text('description', 65535)->nullable();
 			$table->integer('amount')->nullable();
 			$table->integer('proposal_id');
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

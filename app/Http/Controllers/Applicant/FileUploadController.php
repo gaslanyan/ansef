@@ -60,7 +60,8 @@ class FileUploadController extends Controller
         $due_date = $proposal->competition->first_report;
         $report = ProposalReport::updateOrCreate([
             'proposal_id' => $id,
-            'due_date' => $due_date
+            'due_date' => $due_date,
+            'user_id' => $user_id
         ], []);
 
         $document = $report->document;

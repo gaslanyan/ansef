@@ -15,7 +15,7 @@ use App\Models\Institution;
 use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
-use App\Models\PersonType;
+use App\Models\ProposalPerson;
 use App\Models\Phone;
 use App\Models\Proposal;
 use App\Models\Role;
@@ -49,38 +49,39 @@ class AccountController extends Controller
 
     public function account($type)
     {
+        ini_set('memory_limit', '2048M');
+
         try {
-            if ($type == 'referee') {
-                $ps = Person::where('type','referee')->get();
-            }
-            elseif ($type == 'applicant') {
-                $ps = Person::whereIn('type',['participant', 'support'])->get();
-            }
-            else {
-            }
             $persons = collect([]);
-            foreach($ps as $p) {
+            $total = Person::where('type', '=', $type)->count();
+
+            foreach(Person::where('type', '=', $type)->cursor() as $index => $p) {
                 $awards = '';
                 $finalists = '';
                 if ($type == 'referee') {
                     $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
                 }
-                else {
-                    $propcount = PersonType::where('person_id', '=', $p->id)->count();
-                    $as = PersonType::join('proposals', 'proposals.id', '=', 'proposal_id')
+                else if ($type == 'participant') {
+                    $propcount = ProposalPerson::where('person_id', '=', $p->id)->count();
+                    $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                            ->select('proposals.competition_id')
                             ->where('person_id', '=', $p->id)
                             ->whereIn('proposals.state',['awarded','approved 1','approved 2'])
                             ->get();
-                    $asf = PersonType::join('proposals', 'proposals.id', '=', 'proposal_id')
-                        ->where('person_id', '=', $p->id)
-                        ->where('proposals.state', '=', 'finalist')
-                        ->get();
+                    $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                            ->select('proposals.competition_id')
+                            ->where('person_id', '=', $p->id)
+                            ->where('proposals.state', '=', 'finalist')
+                            ->get();
                     foreach($as as $award) {
                         $awards .= (Competition::find($award->competition_id)->title . " ");
                     }
                     foreach ($asf as $finalist) {
                         $finalists .= (Competition::find($finalist->competition_id)->title . " ");
                     }
+                }
+                else {
+                    $propcount = ProposalPerson::where('person_id', '=', $p->id)->count();
                 }
                 $persons->push(['first_name' => $p->first_name,
                                 'last_name' => $p->last_name,
@@ -90,6 +91,7 @@ class AccountController extends Controller
                                 'finalists' => $finalists
                                 ]);
             }
+            // dd($persons);
 
             return view('admin.account.list', compact('persons', 'type'));
         } catch (\Exception $exception) {

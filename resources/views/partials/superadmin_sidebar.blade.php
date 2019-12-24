@@ -37,20 +37,20 @@ $user_id = getUserID();
                         <a href="{{action('Admin\AccountController@index')}}"><i class="fa fa-circle-o"></i>Log in users</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account','applicant')}}"><i
-                                    class="fa fa-circle-o"></i>List of
-                            persons</a>
-                    </li>
-                    <li>
                         <a href="{{action('Admin\AccountController@account','referee')}}"><i class="fa fa-circle-o"></i>List
                             of
                             referees</a>
                     </li>
-
-                        <li>
-                            <a href="{{action('Admin\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add
-                                a person</a>
-                        </li>
+                    <li>
+                        <a href="{{action('Admin\AccountController@account','participant')}}"><i
+                                    class="fa fa-circle-o"></i>List of
+                            participants</a>
+                    </li>
+                    <li>
+                        <a href="{{action('Admin\AccountController@account','support')}}"><i
+                                    class="fa fa-circle-o"></i>List of
+                            support people</a>
+                    </li>
 
                 </ul>
             </li>

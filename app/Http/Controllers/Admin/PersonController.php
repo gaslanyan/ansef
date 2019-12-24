@@ -39,7 +39,8 @@ class PersonController extends Controller
 
             $address = Address::updateOrCreate([
                 'addressable_id' => $person->id,
-                'addressable_type' => 'App\Models\Person'
+                'addressable_type' => 'App\Models\Person',
+                'user_id' => $user_id
             ], []);
             $address->save();
 

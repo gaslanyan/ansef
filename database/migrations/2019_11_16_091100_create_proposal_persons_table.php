@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreatePersonTypesTable extends Migration {
+class CreateProposalPersonsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,13 @@ class CreatePersonTypesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('person_types', function(Blueprint $table)
+		Schema::create('proposal_persons', function(Blueprint $table)
 		{
 			$table->integer('id', true);
 			$table->integer('person_id');
 			$table->integer('proposal_id');
 			$table->enum('subtype', array('PI','collaborator','director','supportletter','consultant'));
+            $table->integer('competition_id');
 			$table->timestamps();
 		});
 	}
@@ -30,7 +31,7 @@ class CreatePersonTypesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('person_types');
+		Schema::drop('proposal_persons');
 	}
 
 }

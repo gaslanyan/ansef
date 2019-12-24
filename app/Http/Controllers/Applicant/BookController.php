@@ -42,6 +42,7 @@ class BookController extends Controller
                 $book->title = $request->title;
                 $book->publisher = $request->publisher;
                 $book->year = $request->year;
+                $book->user_id = $person->user_id;
                 $book->save();
                 return redirect()->back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {

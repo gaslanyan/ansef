@@ -17,9 +17,10 @@ class CreateCompetitionsTable extends Migration {
 			$table->integer('id', true);
 			$table->string('title', 191)->nullable();
 			$table->text('description', 65535)->nullable();
+            $table->date('announcement_date')->nullable();
 			$table->date('submission_start_date')->nullable();
 			$table->date('submission_end_date')->nullable();
-			$table->date('announcement_date')->nullable();
+            $table->date('results_date')->nullable();
 			$table->date('project_start_date')->nullable();
 			$table->boolean('duration')->nullable();
 			$table->integer('min_budget')->nullable();
@@ -36,6 +37,7 @@ class CreateCompetitionsTable extends Migration {
 			$table->integer('recommendations')->nullable()->default(0);
 			$table->text('categories', 65535)->nullable();
 			$table->text('additional', 65535)->nullable()->comment('additional_charge_name,additional_charge, additional_percentage_name,additional_percentage');
+            $table->text('instructions');
 			$table->timestamps();
 		});
 	}

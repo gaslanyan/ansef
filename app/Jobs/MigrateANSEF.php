@@ -21,7 +21,7 @@ use App\Models\Email;
 use App\Models\Honor;
 use App\Models\InstitutionPerson;
 use App\Models\Person;
-use App\Models\PersonType;
+use App\Models\ProposalPerson;
 use App\Models\Phone;
 use App\Models\Proposal;
 use App\Models\ProposalReport;
@@ -306,13 +306,15 @@ class MigrateANSEF implements ShouldQueue
         Phone::create([
             "person_id" => $pi->id,
             "country_code" => 0,
-            "number" => $investigator->phone
+            "number" => $investigator->phone,
+            "user_id" => $user->id
         ]);
 
         if ($investigator != null)
         Email::create([
             "person_id" => $pi->id,
-            "email" => $investigator->email
+            "email" => $investigator->email,
+            "user_id" => $user->d
         ]);
         else Email::create([
             "person_id" => $pi->id,
@@ -326,7 +328,8 @@ class MigrateANSEF implements ShouldQueue
             'street' =>  $investigator->address,
             'addressable_id' => $pi->id,
             'addressable_type' => 'App\Models\Person',
-            'city' => ''
+            'city' => '',
+            'user_id' => $user->id
         ]);
         // \Debugbar::error('Added pi phone, email, and address.');
 
@@ -349,7 +352,8 @@ class MigrateANSEF implements ShouldQueue
             Honor::create([
                 'description' => getCleanString($honor->hon_title),
                 'year' => strval($honor->hon_year),
-                'person_id' => $pi->id
+                'person_id' => $pi->id,
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added pi honors.');
@@ -357,7 +361,8 @@ class MigrateANSEF implements ShouldQueue
             Honor::create([
                 'description' => $grant->grant_title . ", " . $grant->grant_type,
                 'year' => $grant->grant_year,
-                'person_id' => $pi->id
+                'person_id' => $pi->id,
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added pi grants.');
@@ -369,7 +374,8 @@ class MigrateANSEF implements ShouldQueue
                 'title' => ($employment->employment_position),
                 'start' => date($employment->employment_start_year . '-07-01'),
                 'end' => !empty($employment->employment_end_year) ? date($employment->employment_end_year . '-07-01') : null,
-                'type' => 'employment'
+                'type' => 'employment',
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added pi employments.');
@@ -379,7 +385,8 @@ class MigrateANSEF implements ShouldQueue
                 'degree_id' => $maxdegree->id,
                 'year' => $degree->degree_year,
                 'institution_id' => 0,
-                'institution' => $degree->degree_institution
+                'institution' => $degree->degree_institution,
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added pi degrees.');
@@ -390,7 +397,8 @@ class MigrateANSEF implements ShouldQueue
                 'title' => getCleanString($publication->publication_title),
                 'year' => $publication->publication_year,
                 'domestic' => '0',
-                'ansef_supported' => strval($publication->publication_ansef)
+                'ansef_supported' => strval($publication->publication_ansef),
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added pi publications.');
@@ -401,7 +409,8 @@ class MigrateANSEF implements ShouldQueue
                 'title' => getCleanString($ansefpublication->title),
                 'year' => 0,
                 'domestic' => '0',
-                'ansef_supported' => '1'
+                'ansef_supported' => '1',
+                'user_id' => $user->id
             ]);
         }
         }
@@ -502,16 +511,18 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added proposal.');
 
         // Associate PI and director
-        PersonType::create([
+        ProposalPerson::create([
             "person_id" => $pi->id,
             "proposal_id" => $p->id,
-            "subtype" => 'PI'
+            "subtype" => 'PI',
+            "competition_id" => $p->competition->id
         ]);
 
-        PersonType::create([
+        ProposalPerson::create([
             "person_id" => $director->id,
             "proposal_id" => $p->id,
-            "subtype" => 'director'
+            "subtype" => 'director',
+            "competition_id" => $p->competition->id
         ]);
         // \Debugbar::error('Added associations.');
 
@@ -533,21 +544,24 @@ class MigrateANSEF implements ShouldQueue
                 'user_id' => null
             ]);
 
-            PersonType::create([
+            ProposalPerson::create([
                 "person_id" => $per->id,
                 "proposal_id" => $p->id,
-                "subtype" => 'collaborator'
+                "subtype" => 'collaborator',
+                "competition_id" => $p->competition->id
             ]);
 
             Phone::create([
                 "person_id" => $per->id,
                 "country_code" => 0,
-                "number" => $collaborator->phone
+                "number" => $collaborator->phone,
+                "user_id" => $user->id
             ]);
 
             Email::create([
                 "person_id" => $per->id,
-                "email" => $collaborator->email
+                "email" => $collaborator->email,
+                "user_id" => $user->d
             ]);
 
             Address::create([
@@ -556,7 +570,8 @@ class MigrateANSEF implements ShouldQueue
                 'street' =>  $collaborator->address,
                 'addressable_id' => $per->id,
                 'addressable_type' => 'App\Models\Person',
-                'city' => ''
+                'city' => '',
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added collaborators.');
@@ -623,7 +638,8 @@ class MigrateANSEF implements ShouldQueue
                 "competition_id" => $competition->id,
                 "due_date" => date($compyear . "-12-30"),
                 "overall_score" => (int)(100*$report->score/7.0),
-                "referee_id" => $ref->id
+                "referee_id" => $ref->id,
+                "user_id" => 1
             ]);
 
             Score::create([
@@ -676,7 +692,8 @@ class MigrateANSEF implements ShouldQueue
                 'budget_cat_id' => $budcat->id,
                 'description' => $budget_item->detail,
                 'amount' => $budget_item->amount,
-                'proposal_id' => $p->id
+                'proposal_id' => $p->id,
+                'user_id' => $user->id
             ]);
         }
         // \Debugbar::error('Added budget items.');
@@ -692,14 +709,16 @@ class MigrateANSEF implements ShouldQueue
                 'document' => $award->midterm_full_url,
                 'proposal_id' => $p->id,
                 'due_date' => date($compyear . '-07-01'),
-                'approved' => '1'
+                'approved' => '1',
+                'user_d' => $user->id
             ]);
             ProposalReport::create([
                 'description' => 'Final report',
                 'document' => $award->final_full_url,
                 'proposal_id' => $p->id,
                 'due_date' => date($compyear . '-12-15'),
-                'approved' => '1'
+                'approved' => '1',
+                'user_d' => $user->id
             ]);
             $p->state = 'approved 2';
             $p->save();

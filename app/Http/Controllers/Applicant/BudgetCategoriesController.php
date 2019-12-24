@@ -68,6 +68,7 @@ class BudgetCategoriesController extends Controller
                 $budget_item->description = $request->description;
                 $budget_item->amount = $request->amount;
                 $budget_item->proposal_id = $request->prop_id;
+                $budget_item->user_id = $user_id;
                 $budget_item->save();
         }
         return Redirect::back()->with('success', messageFromTemplate("success"));

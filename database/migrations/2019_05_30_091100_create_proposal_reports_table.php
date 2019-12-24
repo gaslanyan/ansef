@@ -22,6 +22,7 @@ class CreateProposalReportsTable extends Migration {
 			$table->enum('approved', array('0','1'))->nullable();
 			$table->dateTime('created_at')->nullable();
 			$table->dateTime('updated_at')->nullable();
+            $table->integer('user_id')->nullable();
 		});
 	}
 

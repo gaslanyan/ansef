@@ -36,6 +36,7 @@ class MeetingController extends Controller
             $meeting->person_id = $p_id;
             $meeting->description = $request->description;
             $meeting->year = $request->year;
+            $meeting->user_id = $user_id;
             if ($request->has('ansef_add') == true) {
                 $meeting->ansef_supported = '1';
             } else {

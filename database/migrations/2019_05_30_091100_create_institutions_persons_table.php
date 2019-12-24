@@ -22,6 +22,7 @@ class CreateInstitutionsPersonsTable extends Migration {
 			$table->date('start')->nullable();
 			$table->date('end')->nullable();
 			$table->enum('type', array('affiliation','employment'))->nullable();
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

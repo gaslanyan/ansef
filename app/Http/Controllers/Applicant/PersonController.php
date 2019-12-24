@@ -113,6 +113,7 @@ class PersonController extends Controller
                 $institution->type = $request->i_type[$key];
                 $institution->start = $request->start[$key];
                 $institution->end = $request->end[$key];
+                $institution->user_id = getUserID();
                 $institution->save();
             }
         } catch (ValidationException $e) {

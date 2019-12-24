@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\PersonType;
+use App\Models\ProposalPerson;
 use App\Models\Proposal;
 use App\Models\Email;
 use App\Models\Address;
@@ -372,13 +372,13 @@ function checkproposal($id)
     if (empty($p->title) || $p->title == "") array_push($messages, "Proposal must have a title.");
     if (empty($p->abstract) || $p->abstract == "") array_push($messages, "Proposal must have an abstract.");
     if (empty($p->document) || $p->document == "") array_push($messages, "Proposal must have a document uploaded detailing the project.");
-    $pi = PersonType::where('proposal_id', '=', $id)
+    $pi = ProposalPerson::where('proposal_id', '=', $id)
             ->join('persons', 'persons.id', '=', 'person_id')
             ->where('subtype','=','PI')
             ->first();
     if (empty($pi)) array_push($messages, "Proposal must have one Principal Investigator (PI).");
     else {
-        $picount = PersonType::where('proposal_id', '=', $id)
+        $picount = ProposalPerson::where('proposal_id', '=', $id)
             ->where('subtype', '=', 'PI')
             ->count();
         if ($picount > 1) array_push($messages, "Proposal cannot have more than one Principal Investigator.");
@@ -388,7 +388,7 @@ function checkproposal($id)
                 array_push($messages, "This competition does not allow a PI (" . $pi->first_name . " " . $pi->last_name . ") that is not based in Armenia.");
         }
     }
-    $members = PersonType::where('proposal_id', '=', $id)
+    $members = ProposalPerson::where('proposal_id', '=', $id)
                 ->join('persons','persons.id','=','person_id')
                 ->get();
     foreach($members as $member) {
@@ -420,7 +420,7 @@ function checkproposal($id)
     $missingrecs = [];
     $submittedrecs = [];
     if($recs > 0) {
-        $recommenders = PersonType::where('proposal_id', '=', $id)
+        $recommenders = ProposalPerson::where('proposal_id', '=', $id)
         ->where('subtype','=','supportletter')
         ->join('persons','persons.id','=','person_id')
         ->get();

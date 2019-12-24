@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
-use App\Models\PersonType;
+use App\Models\ProposalPerson;
 use App\Models\ProposalReport;
 use App\Models\BudgetItem;
 use App\Models\Category;
@@ -384,7 +384,7 @@ class ProposalController extends Controller
     public function updatepersons(Request $request,$id)
     {
         $user_id = getUserID();
-        $enum = getEnumValues('person_types', 'subtype');
+        $enum = getEnumValues('proposal_persons', 'subtype');
         $participant = [];
         $support = [];
         foreach($enum as $item) {
@@ -398,7 +398,7 @@ class ProposalController extends Controller
             $query->orWhere('type', 'support');
         })->get()->keyBy('id')->toArray();
 
-        $added_persons = PersonType::where('proposal_id','=', $id)
+        $added_persons = ProposalPerson::where('proposal_id','=', $id)
             ->get()->toArray();
 
         return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
@@ -407,7 +407,7 @@ class ProposalController extends Controller
     public function savepersons(Request $request, $id)
     {
         $user_id = getUserID();
-        $enum = getEnumValues('person_types', 'subtype');
+        $enum = getEnumValues('proposal_persons', 'subtype');
         $participant = [];
         $support = [];
         foreach ($enum as $item) {
@@ -417,7 +417,7 @@ class ProposalController extends Controller
         $proposaltag = getProposalTag($id);
 
         for ($i = 0; $i <= count($request->person_list) - 1; $i++) {
-            $pt = PersonType::find($request->person_list_hidden[$i]);
+            $pt = ProposalPerson::find($request->person_list_hidden[$i]);
             if(!empty($pt)) {
                 $person = Person::find($pt->person_id);
                 if ($person->type == 'participant') {
@@ -435,7 +435,7 @@ class ProposalController extends Controller
             $query->orWhere('type', 'support');
         })->get()->keyBy('id')->toArray();
 
-        $added_persons = PersonType::where('proposal_id', '=', $id)
+        $added_persons = ProposalPerson::where('proposal_id', '=', $id)
             ->get()->toArray();
         return view('applicant.proposal.personedit', compact('proposaltag', 'id', 'persons', 'added_persons', 'participant', 'support'));
     }
@@ -444,7 +444,7 @@ class ProposalController extends Controller
     {
         $user_id = getUserID();
         try {
-            $added_person = PersonType::find($id);
+            $added_person = ProposalPerson::find($id);
             $added_person->delete();
             return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
         } catch (\Exception $exception) {
@@ -460,7 +460,7 @@ class ProposalController extends Controller
             return Redirect::back()->with('wrong', 'Please choose a person to add.')->withInput();
         }
         else {
-            $ptc = PersonType::where('proposal_id','=',$id)
+            $ptc = ProposalPerson::where('proposal_id','=',$id)
                     ->where('person_id','=', $request->theperson)->count();
             if($ptc != 0) {
                 return Redirect::back()->with('wrong', 'This person has already been added to the project.')->withInput();
@@ -481,18 +481,19 @@ class ProposalController extends Controller
         }
 
         try {
-            $persontype = new PersonType();
-            $persontype->person_id = $request->theperson;
-            $persontype->proposal_id = $id;
+            $proposalperson = new ProposalPerson();
+            $proposalperson->person_id = $request->theperson;
+            $proposalperson->proposal_id = $id;
+            $proposalperson->competition_id = Proposal::find($id)->competition->id;
             $person = Person::find($request->theperson);
             if($person->type == 'participant') {
-                $persontype->subtype = $request->subtypeparticipant;
-                $persontype->save();
+                $proposalperson->subtype = $request->subtypeparticipant;
+                $proposalperson->save();
                 return Redirect::back()->with('success', messageFromTemplate("success"));
             }
             else if($person->type == 'support') {
-                $persontype->subtype = $request->subtypesupport;
-                $persontype->save();
+                $proposalperson->subtype = $request->subtypesupport;
+                $proposalperson->save();
                 return Redirect::back()->with('success', messageFromTemplate("success"));
             }
             else {
@@ -524,7 +525,7 @@ class ProposalController extends Controller
     public function notifyrecommenders($id) {
         $user_id = getUserID();
         $missingrecs = [];
-        $recommenders = PersonType::where('proposal_id', '=', $id)
+        $recommenders = ProposalPerson::where('proposal_id', '=', $id)
             ->where('subtype', '=', 'supportletter')
             ->join('persons', 'persons.id', '=', 'person_id')
             ->get();
@@ -538,7 +539,7 @@ class ProposalController extends Controller
         }
 
         $p = Proposal::find($id);
-        $pi = PersonType::where('proposal_id', '=', $id)
+        $pi = ProposalPerson::where('proposal_id', '=', $id)
             ->join('persons', 'persons.id', '=', 'person_id')
             ->where('subtype', '=', 'PI')
             ->first();
@@ -573,7 +574,7 @@ class ProposalController extends Controller
                 $budget_item->delete();
             }
 
-            $persons = PersonType::where('proposal_id', '=', $id);
+            $persons = ProposalPerson::where('proposal_id', '=', $id);
             if (!empty($persons)) {
                 $persons->delete();
             }

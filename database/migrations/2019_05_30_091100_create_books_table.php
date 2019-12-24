@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration {
 			$table->string('publisher', 1024)->nullable();
 			$table->integer('year')->nullable();
 			$table->integer('person_id')->unsigned();
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

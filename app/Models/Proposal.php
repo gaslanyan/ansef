@@ -60,7 +60,7 @@ class Proposal extends Model
 
     function persons()
     {
-        return $this->belongsToMany(Person::class , 'person_types', 'proposal_id', 'person_id')->withPivot('subtype');
+        return $this->belongsToMany(Person::class , 'proposal_persons', 'proposal_id', 'person_id')->withPivot('subtype');
     }
 
     function user() {
@@ -80,7 +80,7 @@ class Proposal extends Model
     }
 
     function pi() {
-        $p = PersonType::where('proposal_id','=',$this->id)
+        $p = ProposalPerson::where('proposal_id','=',$this->id)
             ->where('subtype','=','PI')
             ->first();
         return !empty($p) ? Person::find($p->person_id) : null;

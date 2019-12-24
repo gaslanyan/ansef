@@ -113,6 +113,7 @@ class PersonController extends Controller
                 $institution->type = $request->i_type[$key];
                 $institution->start = $request->start[$key];
                 $institution->end = $request->end[$key];
+                $institution->user_id = getUserID();
                 $institution->save();
             }
         } catch (ValidationException $e) {
@@ -157,10 +158,10 @@ class PersonController extends Controller
 
             $degrees = [];
             //DegreePerson::select('text', 'year')->where('person_id', $person_id)->get()->toArray();
-            $degrees = \DB::table('degrees_persons')
-                ->select('degrees_persons.year','degrees.text','degrees_persons.id')
-                ->join('degrees','degrees_persons.degree_id','=','degrees.id')
-                ->where('degrees_persons.person_id','=',$id)->get()->toArray();
+            $degrees = \DB::table('degree_persons')
+                ->select('degree_persons.year','degrees.text','degree_persons.id')
+                ->join('degrees','degree_persons.degree_id','=','degrees.id')
+                ->where('degree_persons.person_id','=',$id)->get()->toArray();
             $honors = Honor::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 

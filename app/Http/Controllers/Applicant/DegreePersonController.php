@@ -50,6 +50,7 @@ class DegreePersonController extends Controller
             $degrees->person_id = $p_id;
             $degrees->degree_id = $request->description;
             $degrees->year = $request->year;
+            $degrees->user_id = $user_id;
 
             if (!empty($request->institution)) {
                 $degrees->institution = $request->institution;

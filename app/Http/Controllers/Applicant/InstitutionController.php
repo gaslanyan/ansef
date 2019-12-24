@@ -58,6 +58,7 @@ class InstitutionController extends Controller
             $institution->type = $request->i_type;
             $institution->start = $request->start;
             $institution->end = $request->end;
+            $institution->user_id = $user_id;
 
             if (!empty($request->institution)) {
                 $institution->institution = $request->institution;

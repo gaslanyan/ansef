@@ -78,7 +78,8 @@ class MigrateBase implements ShouldQueue
                     'province' => '',
                     'street' => '',
                     'addressable_type' => 'App\Models\Institution',
-                    'city' => ''
+                    'city' => '',
+                    'user_id' => 1
                 ]);
                 $i = Institution::create([
                     'content' => $affiliation->institution,

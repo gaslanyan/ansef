@@ -17,6 +17,7 @@ class CreateEmailsTable extends Migration {
 			$table->integer('id', true);
 			$table->integer('person_id')->unsigned()->index('emails_person_id_fk');
 			$table->text('email', 65535);
+            $table->integer('user_id')->nullable();
 			$table->timestamps();
 		});
 	}

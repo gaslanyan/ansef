@@ -47,6 +47,7 @@ class EmailController extends Controller
                 $email = new Email;
                 $email->person_id = $request->email_creare_hidden;
                 $email->email = $item;
+                $email->user_id = getUserID();
                 $email->save();
             }
             return Redirect::back()->with('success', messageFromTemplate("success"));

@@ -50,6 +50,7 @@ class AddressController extends Controller
             $address->city = $request->city;
             $address->province = $request->province;
             $address->country_id = $request->country;
+            $address->user_id = $user_id;
             $address->save();
             $person->addresses()->save($address);
             return Redirect::back()->with('success', messageFromTemplate("success"));
