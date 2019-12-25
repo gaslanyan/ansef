@@ -10,39 +10,38 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
     }
 
     public function create($id)
     {
-        $books = Book::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
-        $person = Person::where('id', $id )->get()->toArray();
+        $user_id = getUserID();
+        $books = Book::where('person_id','=',$id)
+                    ->where('user_id','=',$user_id)
+                    ->orderBy('year', 'DESC')->get()->toArray();
+        $person = Person::where('id', $id )
+                    ->where('user_id','=',$user_id)
+                    ->get()->toArray();
 
         return view('applicant.book.create',compact('id','books','person'));
     }
 
     public function store(Request $request)
     {
+        $user_id = getUserID();
         $validatedData = $request->validate([
             'title' => 'required|min:3',
             'publisher' => 'required|min:3',
             'year' => 'required',
         ]);
         try {
-                $person = loggedApplicant();
-
                 $book = new Book;
                 $book->person_id = $request->book_add_hidden_id;
                 $book->title = $request->title;
                 $book->publisher = $request->publisher;
                 $book->year = $request->year;
-                $book->user_id = $person->user_id;
+                $book->user_id = $user_id;
                 $book->save();
                 return redirect()->back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
@@ -53,7 +52,6 @@ class BookController extends Controller
 
     public function show($id)
     {
-        //
     }
 
     public function edit($id)
@@ -73,6 +71,7 @@ class BookController extends Controller
             $count = count($request->book_edit_hidden_id);
             for ($i = 0; $i < $count; $i++) {
                 $book = Book::find($request->book_edit_hidden_id[$i]);
+                if ($book->user_id != $user_id) continue;
                 $book->title = $request->title[$i];
                 $book->publisher = $request->publisher[$i];
                 $book->year = $request->year[$i];
@@ -88,9 +87,11 @@ class BookController extends Controller
 
     public function destroy($id)
     {
-        $person = loggedApplicant();
+        $user_id = getUserID();
         try {
-            $book = Book::find($id);
+            $book = Book::where('id','=',$id)
+                        ->where('user_id','=',$user_id)
+                        ->first();
             if(!empty($book)) $book->delete();
             return redirect()->back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

@@ -28,11 +28,6 @@ use LynX39\LaraPdfMerger\Facades\PdfMerger;
 
 class ProposalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user_id = getUserID();
@@ -40,11 +35,6 @@ class ProposalController extends Controller
         return view('applicant.proposal.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Request $request)
     {
         $competitions = [];
@@ -74,11 +64,6 @@ class ProposalController extends Controller
         return view('applicant.proposal.notice', compact('persons', 'competitions', 'countries', 'institutions'));
     }
 
-    /**
-     * Show the active Proposals.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function activeProposal()
     {
         $user_id = getUserID();
@@ -129,12 +114,6 @@ class ProposalController extends Controller
         return view('applicant.proposal.past', compact('pastproposals', 'awards', 'firstreports', 'secondreports'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $user_id = getUserID();
@@ -186,17 +165,11 @@ class ProposalController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user_id = getUserID();
         $pid = $id;
-        $proposal = Proposal::find($id);
+        $proposal = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
         $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get()->sortBy('last_name');
@@ -231,21 +204,11 @@ class ProposalController extends Controller
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user_id = getUserID();
-        $proposal = Proposal::find($id);
+        $proposal = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
         $competitions = Competition::all();
-        // $persons = Person::where('user_id', $user_id)->where(function ($query) {
-        //     $query->where('type', 'participant');
-        //     $query->orWhere('type', 'support');
-        // })->get()->toArray();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
         $additional = json_decode($competition_name->additional);
         $categories = json_decode($proposal->categories);
@@ -258,7 +221,8 @@ class ProposalController extends Controller
         if (property_exists($categories, 'sec_sub')) $cat_sec_sub = Category::with('children')->where('id', $categories->sec_sub)->get()->first();
         else $cat_sec_sub = '';
 
-        $proposalinstitution = ProposalInstitution::where('proposal_id', '=', $id)->first();
+        $proposalinstitution = ProposalInstitution::where('proposal_id', '=', $id)
+                                                ->first();
         if (!empty($proposalinstitution)) {
             if (!empty($proposalinstitution->institutionname)) {
                 $ins = ['id' => 0, 'name' => $proposalinstitution->institutionname];
@@ -301,7 +265,9 @@ class ProposalController extends Controller
         ]);
 
         try {
-            $proposal = Proposal::find($id);
+            $proposal = Proposal::where('id','=',$id)
+                                ->where('user_id','=',$user_id)
+                                ->first();
             $proposal->title = $request->title;
             $proposal->abstract = $request->abstract;
             $proposal->save();
@@ -331,7 +297,9 @@ class ProposalController extends Controller
     public function generatePDF($id)
     {
         $user_id = getUserID();
-        $proposal = Proposal::find($id);
+        $proposal = Proposal::where('id', '=', $id)
+                            ->where('user_id', '=', $user_id)
+                            ->first();
         $pid = $proposal->id;
         $institution = $proposal->institution();
         $competition = $proposal->competition;
@@ -392,14 +360,13 @@ class ProposalController extends Controller
             else array_push($support, $item);
         }
         $proposaltag = getProposalTag($id);
-        $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
             $query->orWhere('type', 'support');
         })->get()->keyBy('id')->toArray();
 
         $added_persons = ProposalPerson::where('proposal_id','=', $id)
-            ->get()->toArray();
+                        ->get()->toArray();
 
         return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
     }
@@ -419,7 +386,9 @@ class ProposalController extends Controller
         for ($i = 0; $i <= count($request->person_list) - 1; $i++) {
             $pt = ProposalPerson::find($request->person_list_hidden[$i]);
             if(!empty($pt)) {
-                $person = Person::find($pt->person_id);
+                $person = Person::where('id','=',$pt->person_id)
+                                ->where('user_id','=',$user_id)
+                                ->first();
                 if ($person->type == 'participant') {
                     $pt->subtype = $request->subtypeparticipant[$i];
                     $pt->save();
@@ -508,7 +477,7 @@ class ProposalController extends Controller
     public function check($id)
     {
         $user_id = getUserID();
-        $p = Proposal::find($id);
+        $p = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
         $proposaltag = getProposalTag($id);
         $competition = $p->competition;
 
@@ -531,14 +500,18 @@ class ProposalController extends Controller
             ->get();
 
         foreach ($recommenders as $recommender) {
-            $email = Email::where('person_id', '=', $recommender->person_id)->first();
+            $email = Email::where('person_id', '=', $recommender->person_id)
+                            ->where('user_id','=',$user_id)
+                            ->first();
 
             if (!Recommendation::where('proposal_id', '=', $id)->where('document','!=',null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
                 array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
             }
         }
 
-        $p = Proposal::find($id);
+        $p = Proposal::where('id','=',$id)
+                        ->where('user_id','=',$user_id)
+                        ->first();
         $pi = ProposalPerson::where('proposal_id', '=', $id)
             ->join('persons', 'persons.id', '=', 'person_id')
             ->where('subtype', '=', 'PI')
@@ -569,7 +542,9 @@ class ProposalController extends Controller
     {
         $user_id = getUserID();
         try {
-            $budget_item = BudgetItem::where('proposal_id', '=', $id);
+            $budget_item = BudgetItem::where('proposal_id', '=', $id)
+                                    ->where('user_id','=',$user_id)
+                                    ->get();
             if (!empty($budget_item)) {
                 $budget_item->delete();
             }
@@ -584,14 +559,18 @@ class ProposalController extends Controller
                 $recs->delete();
             }
 
-            $proposal = Proposal::find($id);
+            $proposal = Proposal::where('id','=',$id)
+                                ->where('user_id','=',$user_id)
+                                ->first();
 
             $proposal_institutions = ProposalInstitution::where('proposal_id', '=', $id);
             if (!empty($proposal_institutions)) {
                 $proposal_institutions->delete();
             }
 
-            $proposal_reports = ProposalReport::where('proposal_id', '=', $id);
+            $proposal_reports = ProposalReport::where('proposal_id', '=', $id)
+                                                ->where('user_id','=',$user_id)
+                                                ->get();
             if (!empty($proposal_reports)) {
                 foreach ($proposal_reports->get()->toArray() as $pr) {
                     if (is_file(storage_path('proposal/prop-' . $pr['proposal_id'] . '/' . $pr['document']))) {

@@ -704,6 +704,8 @@ class MigrateANSEF implements ShouldQueue
                 'value' => $report->score,
                 'report_id' => $rep->id
             ]);
+
+            updateProposalScore($p->id);
         }
         }
         // \Debugbar::error('Added reports.');

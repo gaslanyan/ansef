@@ -11,24 +11,14 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        // $user_id = getUserID();
-        // $persons = Person::where('user_id', $user_id)
-        //     ->where('persons.type', '!=', null)
-        //     ->get()->toArray();
-
-        // return view('applicant.address.index', compact('persons'));
     }
 
     public function create($id)
     {
-        $person = Person::where('id', $id)->first();
+        $user_id = getUserID();
+        $person = Person::where('id', $id)->where('user_id','=',$user_id)->first();
         $address_list = $person->addresses()->get()->toArray();
         $country_list = Country::all();
         return view('applicant.address.create', compact('person', 'address_list', 'id', 'country_list'));
@@ -65,16 +55,11 @@ class AddressController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $person = Person::where('id','=',$id)
-        //                 ->where('user_id','=', $user_id)->first();
-        // $addresses = $person->addresses()->toArray();
-        // return view('applicant.address.edit', compact('addresses', 'person'));
     }
 
     public function update(Request $request, $id)
     {
-        $person = loggedApplicant();
+        $user_id = getUserID();
         try {
             $this->validate($request, [
                 'street.*' => 'required|max:255',
@@ -83,6 +68,7 @@ class AddressController extends Controller
             ]);
             for ($i = 0; $i <= count($request->address_list_hidden) - 1; $i++) {
                 $address = Address::find($request->address_list_hidden[$i]);
+                if ($address->user_id != $user_id) continue;
                 $address->street = $request->street_list[$i];
                 $address->city = $request->city_list[$i];
                 $address->province = $request->province_list[$i];
@@ -98,9 +84,9 @@ class AddressController extends Controller
 
     public function destroy($id)
     {
-        getUserID();
+        $user_id = getUserID();
         try {
-            $address = Address::find($id);
+            $address = Address::where('id','=',$id)->where('user_id','=',$user_id)->first();
             if(!empty($address)) $address->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ApplicantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index($id = null)
     {
         $competitionlist = Competition::where('submission_end_date', '>=', date('Y-m-d'))
@@ -65,6 +60,5 @@ class ApplicantController extends Controller
 
     public function __construct()
     {
-        // $this->except('logout');
     }
 }

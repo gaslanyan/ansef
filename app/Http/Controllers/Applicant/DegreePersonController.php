@@ -14,23 +14,13 @@ class DegreePersonController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $person_id = Person::where('user_id', $user_id)->get()->toArray();
-        // $dp = DegreePerson::with('degree')->find();
-
-        // $degrees = [];
-        // if (!empty($person_id[0]['id'])) {
-        //     $p_id = $person_id[0]['id'];
-        //     $degrees = DegreePerson::where('person_id', $p_id)->get()->toArray();
-        // }
-        // return view('applicant.degree.index', compact('degrees'));
     }
 
     public function create($id)
     {
         $user_id = getUserID();
-        $persons_name = Person::where('id', $id)->where('type', '!=', null)->first();
-        $degreesperson = DegreePerson::where('person_id','=',$id)->orderBy('year', 'DESC')->get();
+        $persons_name = Person::where('id', $id)->where('user_id', '=', $user_id)->where('type', '!=', null)->first();
+        $degreesperson = DegreePerson::where('person_id','=',$id)->where('user_id', '=', $user_id)->orderBy('year', 'DESC')->get();
         $degrees_list = Degree::all();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name', 'institutions'));
@@ -76,9 +66,6 @@ class DegreePersonController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $degree = DegreePerson::find($id);
-        // return view('applicant.degree.edit', compact('degree', 'id'));
     }
 
     public function update(Request $request, $id)
@@ -92,6 +79,7 @@ class DegreePersonController extends Controller
         try {
             for ($i = 0; $i <= count($request->year) - 1; $i++) {
                 $degreeperson = DegreePerson::find($request->degree_hidden_id[$i]);
+                if ($degreeperson->user_id != $user_id) continue;
                 $degreeperson->year = ($request->year)[$i];
                 $degreeperson->degree_id = ($request->description)[$i];
 
@@ -106,7 +94,6 @@ class DegreePersonController extends Controller
                 else {
                     $degreeperson->institution = "";
                 }
-
                 $degreeperson->save();
             }
 
@@ -121,7 +108,9 @@ class DegreePersonController extends Controller
     {
         $user_id = getUserID();
         try {
-            $degree = DegreePerson::find($id);
+            $degree = DegreePerson::where('id','=',$id)
+                                    ->where('user_id','=',$user_id)
+                                    ->first();
             $degree->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

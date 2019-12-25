@@ -17,8 +17,8 @@ class PublicationsController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $person_id = Person::where('id', $id)->get()->toArray();
-        $publications = Publication::where('person_id', '=', $id)->orderBy('year', 'DESC')->get()->toArray();
+        $person_id = Person::where('id', $id)->where('user_id','=',$user_id)->get()->toArray();
+        $publications = Publication::where('person_id', '=', $id)->where('user_id', '=', $user_id)->orderBy('year', 'DESC')->get()->toArray();
         return view('applicant.publications.create', compact('id', 'publications','person_id'));
     }
 
@@ -84,7 +84,7 @@ class PublicationsController extends Controller
                 $ansef_supported = '0';
                 $domestic = '0';
                 $publication = Publication::where("id", $request->publication_hidden_id[$i])->first();
-
+                if($publication->user_id != $user_id) continue;
                 $publication->title = $request->title[$i];
                 $publication->journal = $request->journal[$i];
                 $publication->year = $request->year[$i];
@@ -112,7 +112,9 @@ class PublicationsController extends Controller
     {
         $user_id = getUserID();
         try {
-            $publication = Publication::find($id);
+            $publication = Publication::where('id','=',$id)
+                                    ->where('user_id', '=', $user_id)
+                                    ->first();
             $publication->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

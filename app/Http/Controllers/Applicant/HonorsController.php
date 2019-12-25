@@ -17,7 +17,9 @@ class HonorsController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $person_id = Person::where('id',$id )->get()->toArray();
+        $person_id = Person::where('id',$id )
+                            ->where('user_id','=',$user_id)
+                            ->get()->toArray();
         $honors = Honor::where('person_id','=',$id)->orderBy('year', 'DESC')->get()->toArray();
         return view('applicant.honors.create', compact('id','honors','person_id'));
     }
@@ -38,7 +40,7 @@ class HonorsController extends Controller
             $honors->person_id = $request->honor_hidden_id[0];
             $honors->description = $request->description;
             $honors->year =$request->year;
-            $honot->user_id = $user_id;
+            $honor->user_id = $user_id;
             $honors->save();
             return Redirect::back()->with('success', messageFromTemplate("success"));
 
@@ -72,6 +74,7 @@ class HonorsController extends Controller
 
              for($i=0; $i <= count($request->honor_hidden_id)-1; $i++) {
                  $honor = Honor::find(($request->honor_hidden_id)[$i]);
+                 if ($honor->user_id != $user_id) continue;
                  $honor->description = ($request->description)[$i];
                  $honor->year = ($request->year)[$i];
                  $honor->person_id = $id;
@@ -90,7 +93,9 @@ class HonorsController extends Controller
     {
         $user_id = getUserID();
         try {
-            $honor = Honor::find($id);
+            $honor = Honor::where('id','=',$id)
+                            ->where('user_id','=',$user_id)
+                            ->first();
             $honor->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

@@ -16,11 +16,6 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class PersonController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user_id = getUserID();
@@ -34,11 +29,6 @@ class PersonController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $user_id = getUserID();
@@ -48,19 +38,7 @@ class PersonController extends Controller
 
     }
 
-// VVS
-    // public function addresses($pid)
-    // {
-    //     $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-    //     $institutions = Institution::all()->pluck('content', 'id')->toArray();
-    //     return view('applicant.person.create', compact('countries', 'institutions'));
-    // }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $user_id = getUserID();
@@ -113,7 +91,7 @@ class PersonController extends Controller
                 $institution->type = $request->i_type[$key];
                 $institution->start = $request->start[$key];
                 $institution->end = $request->end[$key];
-                $institution->user_id = getUserID();
+                $institution->user_id = $user_id;
                 $institution->save();
             }
         } catch (ValidationException $e) {
@@ -133,17 +111,10 @@ class PersonController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function show(Person $person)
     {
         $user_id = getUserID();
         if($person->user_id != $user_id || $person->type == null) {
-            // Permission denied
             return redirect('applicant/account')->with('wrong', 'Permission denied');
         }
         else {
@@ -190,17 +161,11 @@ class PersonController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user_id = getUserID();
 
-        $person = Person::where('id', '=', $id)->first();
+        $person = Person::where('id', '=', $id)->where('user_id','=',$user_id)->first();
         $fulladdress = [];
         $getaddress = $person->addresses()->get();
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
@@ -215,13 +180,6 @@ class PersonController extends Controller
         return view('applicant.person.edit', compact('fulladdress', 'person', 'id', 'countries'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -238,6 +196,7 @@ class PersonController extends Controller
         DB::beginTransaction();
         try {
             $person = Person::find($id);
+            if ($person->user_id != $user_id) continue;
             $person->first_name = $request->first_name;
             $person->last_name = $request->last_name;
             if (!empty($request->birthdate)) {
@@ -250,15 +209,11 @@ class PersonController extends Controller
             $person->nationality = $request->nationality;
             $person->sex = $request->sex;
             $person->state = $request->state;
-            $person->user_id = $user_id;
             $person->specialization = $request->specialization;
             $person->save();
-            $person_id = $person->id;
         DB::commit();
 
         } catch (ValidationException $e) {
-            // Rollback and then redirect
-            // back to form with errors
             DB::rollback();
             return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
         } catch (\Exception $exception) {
@@ -267,7 +222,6 @@ class PersonController extends Controller
             return messageFromTemplate("wrong");
         }
 
-        /*return redirect('applicant/person')->with('success', messageFromTemplate("success"));*/
         return redirect('applicant/account')->with('success', messageFromTemplate("success"));
 
     }
@@ -297,7 +251,7 @@ class PersonController extends Controller
         if (!Hash::check($request->oldpassword, $user->password)) {
 
             return back()
-                ->with('error', 'The specified password does not match the database password');
+                    ->with('error', 'The specified password does not match the database password');
         } else {
 
             $user->password = bcrypt($request->newpassword);
@@ -307,12 +261,6 @@ class PersonController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Person $person
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
@@ -320,7 +268,9 @@ class PersonController extends Controller
             $proposals = User::find($user_id)->proposals();
             $flag = true;
             if($flag) {
-                $person = Person::find($id);
+                $person = Person::where('id','=',$id)
+                                ->where('user_id','=',$user_id)
+                                ->first();
                 $person->delete();
                 return redirect('applicant/account')->with('delete', messageFromTemplate('deleted'));
             }

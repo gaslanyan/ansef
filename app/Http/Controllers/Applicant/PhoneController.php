@@ -17,8 +17,12 @@ class PhoneController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $persons_name = Person::where('id', $id)->whereIn('type', ['participant', 'support'])->first();
-        $phone_list = Phone::where('person_id', '=', $id)->get()->toArray();
+        $persons_name = Person::where('id', $id)->whereIn('type', ['participant', 'support'])
+                                ->where('user_id','=',$user_id)
+                                ->first();
+        $phone_list = Phone::where('person_id', '=', $id)
+                            ->where('user_id','=',$user_id)
+                            ->get()->toArray();
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
     }
 
@@ -67,6 +71,7 @@ class PhoneController extends Controller
 
             for ($i = 0; $i <= count($request->phone_list) - 1; $i++) {
                 $phones = Phone::find($request->phone_list_hidden[$i]);
+                if ($phones->user_id != $user_id) continue;
                 $phones->country_code = ($request->country_code)[$i];
                 $phones->number = ($request->phone_list)[$i];
                 $phones->save();
@@ -83,7 +88,9 @@ class PhoneController extends Controller
     {
         $user_id = getUserID();
         try {
-            $phone = Phone::find($id);
+            $phone = Phone::where('id','=',$id)
+                            ->where('user_id','=',$user_id)
+                            ->first();
             $phone->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

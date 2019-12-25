@@ -89,6 +89,7 @@ class BudgetCategoriesController extends Controller
             ]);
             for ($i = 0; $i <= count($request->bi_list_hidden) - 1; $i++) {
                 $bi = BudgetItem::find($request->bi_list_hidden[$i]);
+                if ($bi->user_id != $user_id) continue;
                 $bi->budget_cat_id = $request->bc_list[$i];
                 $bi->description = $request->description_list[$i];
                 $bi->amount = $request->amount_list[$i];
@@ -103,17 +104,13 @@ class BudgetCategoriesController extends Controller
 
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $user_id = getUserID();
         try {
-            $bi = BudgetItem::find($id);
+            $bi = BudgetItem::where('id','=',$id)
+                            ->where('user_id','=',$user_id)
+                            ->first();
             $bi->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

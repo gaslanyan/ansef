@@ -13,26 +13,13 @@ class EmailController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-        // $persons = Person::where('user_id', $user_id)
-        //                     ->where('persons.type', '!=', null)
-        //                     ->get()->toArray();
-        // $persons_email = [];
-        // foreach ($persons as $item) {
-        //     if (!empty($item['id'])) {
-        //         $p_id = $item['id'];
-
-        //     }
-        //     //$persons_email = Person::where();
-        // }
-        // return view('applicant.email.index', compact('persons'));
     }
 
     public function create($id)
     {
         $user_id = getUserID();
-        $persons_name = Person::where('id', $id)->first()->toArray();
-        $email_list = Email::where('person_id', '=', $id)->get()->toArray();
+        $persons_name = Person::where('id', $id)->where('user_id','=',$user_id)->first()->toArray();
+        $email_list = Email::where('person_id', '=', $id)->where('user_id', '=', $user_id)->get()->toArray();
         return view('applicant.email.create', compact('persons_name', 'email_list', 'id'));
     }
 
@@ -47,7 +34,7 @@ class EmailController extends Controller
                 $email = new Email;
                 $email->person_id = $request->email_creare_hidden;
                 $email->email = $item;
-                $email->user_id = getUserID();
+                $email->user_id = $user_id;
                 $email->save();
             }
             return Redirect::back()->with('success', messageFromTemplate("success"));
@@ -63,10 +50,6 @@ class EmailController extends Controller
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-
-        // $email = Email::where('person_id', '=', $id)->get()->toArray();
-        // return view('applicant.email.edit', compact('email', 'id'));
     }
 
     public function update(Request $request, $id)
@@ -78,6 +61,7 @@ class EmailController extends Controller
             ]);
             for ($i = 0; $i <= count($request->email_list) - 1; $i++) {
                 $email = Email::find($request->email_list_hidden[$i]);
+                if ($email->user_id != $user_id) continue;
                 $email->email = $request->email_list[$i];
                 $email->save();
             }
@@ -92,7 +76,9 @@ class EmailController extends Controller
     {
         $user_id = getUserID();
         try {
-            $email = Email::find($id);
+            $email = Email::where('id','=',$id)
+                            ->where('user_id','=',$user_id)
+                            ->first();
             $email->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

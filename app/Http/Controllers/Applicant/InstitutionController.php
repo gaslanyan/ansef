@@ -16,18 +16,6 @@ class InstitutionController extends Controller
 {
     public function index()
     {
-        // $user_id = getUserID();
-
-        // $person_id = Person::where('user_id', $user_id )->get()->toArray();
-        // //$phones= [];
-        // if(!empty($person_id[0]['id'])) {
-        //     $p_id  = $person_id[0]['id'];
-        //     //$phones = Phone::where('person_id', $p_id)->get()->toArray();
-        // }
-
-        // $institutions = Institution::with('address')->get();
-        // $address = Country::with('address')->get();
-        // return view('institution.index', compact('institutions', 'address', 'cities'));
     }
 
     public function create($id)
@@ -35,10 +23,12 @@ class InstitutionController extends Controller
         $user_id = getUserID();
         $ins_array = [];
         $institutions_list = Institution::all()->toArray();
-        $institution_person = InstitutionPerson::where('person_id','=', $id)->orderBy('start', 'DESC')->get()->sortBy('end');
+        $institution_person = InstitutionPerson::where('person_id','=', $id)
+                                                ->where('user_id','=',$user_id)
+                                                ->orderBy('start', 'DESC')->get()->sortBy('end');
 
         $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-        $person = Person::where('id',$id )->get()->toArray();
+        $person = Person::where('id',$id )->where('user_id','=',$user_id)->get()->toArray();
         return view('applicant.institution.create', compact('id','institutions_list','person','ins_array','institution_person'));
     }
 
@@ -85,21 +75,10 @@ class InstitutionController extends Controller
 
     public function show($id)
     {
-        // $user_id = getUserID();
-        // $institution = Institution::with('address')->find($id);
-        // $address = Country::with('address')->find($institution->address->country_id);
-
-        // return view('institution.view', compact('institution', 'address'));
     }
 
     public function edit($id)
     {
-        // $user_id = getUserID();
-        // $institution = Institution::with('address')->find($id);
-        // $address = Country::with('address')->find($institution->address->country_id);
-
-        // $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
-        // return view('institution.edit', compact('institution', 'address', 'countries', 'id'));
     }
 
     public function update(Request $request, $id)
@@ -116,6 +95,7 @@ class InstitutionController extends Controller
             $count = count($request->inst_hidden_id);
             for ($i = 0; $i < $count; $i++) {
                 $inspers = InstitutionPerson::find(($request->inst_hidden_id)[$i]);
+                if ($inspers->user_id != $user_id) continue;
                 $inspers->title = ($request->i_title)[$i];
                 $inspers->start = ($request->start)[$i];
                 $inspers->end = ($request->end)[$i];
@@ -151,7 +131,10 @@ class InstitutionController extends Controller
     {
         $user_id = getUserID();
         try {
-            $template = Institution::find($id);
+            $template = Institution::where('id','=',$id)
+                                    ->where('user_id','=',$user_id)
+                                    ->first();
+
             $template->delete();
             return redirect('admin/institution')->with('success', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
@@ -164,7 +147,9 @@ class InstitutionController extends Controller
     {
         $user_id = getUserID();
         try {
-            $degree = InstitutionPerson::find($id);
+            $degree = InstitutionPerson::where('id','=',$id)
+                                        ->where('user_id','=',$user_id)
+                                        ->first();
             if(!empty($degree)) $degree->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

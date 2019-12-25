@@ -60,8 +60,13 @@
             <div class="row">
                 <div class="form-group">
                     <strong><i class="fa fa-file margin-r-5"></i> Proposal Document:</strong><br/>
+                    @if(strpos($proposal->document, 'http://') === 0)
+                    <a href="{{$proposal->document}}" target="_blank" class="btn-link">
+                        <i class="fa fa-download"></i> Download proposal document</a>
+                    @else
                     <a href="{{route('download', $proposal->document)}}" target="_blank" class="btn-link">
                         <i class="fa fa-download"></i> Download proposal document</a>
+                    @endif
                 </div>
             </div>
         </div>
