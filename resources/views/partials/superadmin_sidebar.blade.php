@@ -140,7 +140,6 @@ $user_id = getUserID();
 
                 </ul>
             </li>
-            {{--            <div class="line"></div>--}}
 
 
             <li class="treeview">

@@ -1,5 +1,4 @@
 @extends('layouts.master')
-<?php $user_id = \Auth::guard('referee')->user()->id;?>
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

@@ -47,7 +47,7 @@ class ProposalController extends Controller
             ->where('state', 'enable')
             ->get();
 
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
 
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
@@ -339,8 +339,10 @@ class ProposalController extends Controller
         $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/combined.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/document.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         $pdfMerge->merge();
 
         $pdfMerge->save(storage_path(proppath($pid) . '/download.pdf'), 'download');

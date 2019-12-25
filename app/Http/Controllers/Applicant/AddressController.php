@@ -20,7 +20,7 @@ class AddressController extends Controller
         $user_id = getUserID();
         $person = Person::where('id', $id)->where('user_id','=',$user_id)->first();
         $address_list = $person->addresses()->get()->toArray();
-        $country_list = Country::all();
+        $country_list = Country::all()->sortBy('country_name');
         return view('applicant.address.create', compact('person', 'address_list', 'id', 'country_list'));
     }
 

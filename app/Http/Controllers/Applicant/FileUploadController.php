@@ -202,7 +202,8 @@ class FileUploadController extends Controller
         $proposal = Proposal::where('document','=', $uuid)
                             ->where('user_id','=',$user_id)
                             ->firstOrFail();
-        return response()->download(storage_path(proppath($proposal->id) . "/document.pdf"));
+        if (Storage::exists(ppath($proposal->id) . "/document.pdf"))
+            return response()->download(storage_path(proppath($proposal->id) . "/document.pdf"));
     }
 
     public function downloadreport($uuid)
@@ -211,12 +212,14 @@ class FileUploadController extends Controller
         $report = ProposalReport::where('document', '=', $uuid)
                                 ->where('user_id','=',$user_id)
                                 ->firstOrFail();
-        return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
+        if (Storage::exists(ppath($report->proposal_id) . "/report-" . $report->id . ".pdf"))
+            return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
     }
 
     public function downloadletter($uuid)
     {
         $letter = Recommendation::where('document', '=', $uuid)->firstOrFail();
-        return response()->download(storage_path(proppath($letter->proposal_id) . "/letter-" . $letter->id . ".pdf"));
+        if (Storage::exists(ppath($letter->proposal_id) . "/letter-" . $letter->id . ".pdf"))
+            return response()->download(storage_path(proppath($letter->proposal_id) . "/letter-" . $letter->id . ".pdf"));
     }
 }

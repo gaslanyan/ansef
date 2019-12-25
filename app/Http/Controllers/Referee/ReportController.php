@@ -230,10 +230,13 @@ class ReportController extends Controller
         $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/combined.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/document.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         foreach ($recommendations as $r) {
-            $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
+            if (Storage::exists(ppath($pid) . '/letter-' . $r->id . '.pdf'))
+                $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
         }
         $pdfMerge->merge();
 

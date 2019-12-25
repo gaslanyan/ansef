@@ -10,6 +10,7 @@ use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Score;
 use \Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 function checkPermission($permissions)
 {
@@ -477,5 +478,15 @@ function updateProposalState($id) {
 }
 
 function proppath($pid) {
-    return 'app/proposals/prop-' . $pid;
+    $path = ppath($pid);
+    if (!Storage::exists($path)) {
+        Storage::makeDirectory($path, 0775, true);
+
+    }
+
+    return 'app/' . $path;
+}
+
+function ppath($pid) {
+    return 'proposals/prop-' . $pid;
 }

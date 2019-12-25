@@ -81,11 +81,7 @@ class ProposalController extends Controller
     public function index() {
 
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         try {
@@ -97,12 +93,6 @@ class ProposalController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -179,12 +169,6 @@ class ProposalController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($p_id)
     {
         DB::beginTransaction();
@@ -244,7 +228,9 @@ class ProposalController extends Controller
         $propreports = $pr->propreports;
         foreach ($propreports as $propreport) {
             if ($propreport->due_date == $pr->competition->first_report) {
-                return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+                if (Storage::exists(ppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"))
+                    return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+                else return response()->json(new \stdClass());
             } else {
                 return response()->json(new \stdClass());
             }
@@ -258,7 +244,9 @@ class ProposalController extends Controller
         $propreports = $pr->propreports;
         foreach ($propreports as $propreport) {
             if ($propreport->due_date == $pr->competition->second_report) {
-                return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+                if (Storage::exists(ppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"))
+                    return response()->download(storage_path(proppath($propreport->proposal_id) . "/report-" . $propreport->id . ".pdf"));
+                else return response()->json(new \stdClass());
             }
         }
         return response()->json(new \stdClass());
@@ -526,10 +514,13 @@ class ProposalController extends Controller
         $pdf->save(storage_path(proppath($pid) . '/combined.pdf'));
 
         $pdfMerge = PDFMerger::init();
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
-        $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/combined.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/combined.pdf'), 'all');
+        if (Storage::exists(ppath($pid) . '/document.pdf'))
+            $pdfMerge->addPDF(storage_path(proppath($pid) . '/document.pdf'), 'all');
         foreach ($recommendations as $r) {
-            $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
+            if (Storage::exists(ppath($pid) . '/letter-' . $r->id . '.pdf'))
+                $pdfMerge->addPDF(storage_path(proppath($pid) . '/letter-' . $r->id . '.pdf'), 'all');
         }
         $pdfMerge->merge();
 

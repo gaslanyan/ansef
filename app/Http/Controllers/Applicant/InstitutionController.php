@@ -27,7 +27,7 @@ class InstitutionController extends Controller
                                                 ->where('user_id','=',$user_id)
                                                 ->orderBy('start', 'DESC')->get()->sortBy('end');
 
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
         $person = Person::where('id',$id )->where('user_id','=',$user_id)->get()->toArray();
         return view('applicant.institution.create', compact('id','institutions_list','person','ins_array','institution_person'));
     }

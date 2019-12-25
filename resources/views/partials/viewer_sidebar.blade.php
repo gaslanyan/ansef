@@ -6,45 +6,46 @@ $user_id = getPersonIdByRole('viewer');
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left info d-inline-block">
-                <p class="text-capitalize">
-                <?php
-                if (!empty($signUser)):?>
-                            <?= $signUser->first_name . " " .
-                $signUser->last_name .
-                "<br>from: " . $signUser->domain; ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+            <div class="pull-left d-inline-block">
+                <p class="" style="colo:#999;">
+                <?php if (!empty($signUser)):?>
+                    <?= "Logged in as <b>" . $signUser->first_name . " " .
+                $signUser->last_name . "</b>"; ?>
+                <?php else: ?>
+                    <?= get_role_cookie(); ?>
+                <?php endif;?>
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
-                <a href="{{action('Viewer\ViewerController@index')}}">
+                <a href="/viewer">
                     <i class="fa fa-chart-bar"></i>
                     <span>Dashboard</span>
+
+                </a>
+            </li>
+            <?php if(userHasPerson()){ ?>
+            <li class="text-uppercase">
+                <a href="{{action('Viewer\PersonController@changePassword')}}">
+                    <i class="fas fa-key"></i>
+                    <span>Change Password</span>
                     <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-user"></i> <span>Your Profile</span>
+            <li class="text-uppercase">
+                <a href="{{action('Viewer\PersonController@edit', $user_id)}}">
+                    <i class="fa fa-user"></i>
+                    <span>Update your profile</span>
                     <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
-                <ul class="treeview-menu">
-                    <?php if(userHasPerson()){ ?>
-                    <li><a href="{{action('Viewer\PersonController@create')}}"><i class="fa fa-circle-o"></i>Add account</a>
-                    </li>
-                    <?php }else{?>
-                    <li><a href="{{action('Viewer\PersonController@edit', $user_id)}}"><i class="fa fa-circle-o"></i>Edit your Profile</a></li>
-                    <?php } ?>
-                    {{--<li><a href=""><i class="fa fa-circle-o"></i>Delete Profile</a></li>--}}
-                </ul>
             </li>
+            <?php }else {?>
+            <li>
+                Your user ID is incorrect. Contact <a href="mailto:{{config('emails.webmaster')}}">{{config('emails.webmaster')}}</a>
+            </li>
+            <?php } ?>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-book"></i> <span>Proposals</span>
@@ -53,10 +54,8 @@ $user_id = getPersonIdByRole('viewer');
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Viewer\ProposalController@index')}}"><i class="fa fa-circle-o"></i>Show All Proposals</a></li>
-                    {{--<li><a href="{{action('Base\Books\BookController@create')}}"><i class="fa fa-circle-o"></i>Add Book</a>--}}
-                    {{--</li>--}}
-
+                    <li><a href="{{action('Viewer\ProposalController@awardslist', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                        Show awards</a></li>
                 </ul>
             </li>
 

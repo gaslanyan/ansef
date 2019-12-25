@@ -249,10 +249,18 @@ Route::group(['middleware' => ['check-role:referee|admin|superadmin']], function
 
 // ---------------------------------- Viewer routes ----------------------------------
 Route::group(['middleware' => ['check-role:viewer|admin|superadmin']], function () {
-    //Viewer
-    Route::resource('/viewer/person', 'Viewer\PersonController');
-    Route::resource('/viewer/proposal', 'Viewer\ProposalController');
+    Route::get('/viewer/proposal/awardslist/{id}', 'Viewer\ProposalController@awardslist')->name('viewer_awards_list');
+    Route::get('/viewer/listawards/{id}', 'Viewer\ProposalController@listawards');
     Route::get('/viewer/proposal/generatePDF/{id}', 'Viewer\ProposalController@generatePDF');
+    Route::post('/viewer/proposal/display', 'Viewer\ProposalController@display');
+    Route::post('/viewer/proposal/downloadfirst', 'Viewer\ProposalController@downloadfirstreport');
+    Route::post('/viewer/proposal/downloadsecond', 'Viewer\ProposalController@downloadsecondreport');
+    Route::get('/viewer/downloadPDF/{id}', 'Viewer\ProposalController@generatePDF');
+    Route::get('/viewer/changePassword', 'Viewer\PersonController@changePassword');
+    Route::post('/viewer/updatePassword', 'Viewer\PersonController@updatePassword');
+    Route::get('/viewer/person/{id}', 'Viewer\PersonController@edit');
+    Route::post('/viewer/update/{id}', 'Viewer\PersonController@update');
+
     Route::resource('/viewer/statistics', 'Viewer\StatisticsController');
     Route::post('/viewer/statistics/chart', 'Viewer\StatisticsController@chart');
     Route::post('/viewer/statistics/y_result', 'Viewer\StatisticsController@y_result');

@@ -34,7 +34,7 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
         try {
-            $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+            $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
 
             $institutions = Institution::all()->pluck('content', 'id')->toArray();
             return view('referee.person.create', compact('countries', 'institutions'));
@@ -58,7 +58,7 @@ class PersonController extends Controller
                 'province' => '',
                 'city' => ''
             ]);
-            $countries = Country::all();
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
             $address->save();
             return view('referee.person.edit', compact('address', 'person', 'id', 'countries'));
         } catch (\Exception $exception) {
@@ -74,13 +74,8 @@ class PersonController extends Controller
             $v = Validator::make($request->all(), [
                 'first_name' => 'required|max:255',
                 'last_name' => 'required|max:255',
-                'birthdate' => 'required|date|date_format:Y-m-d',
                 'nationality' => 'required|max:255',
-                'sex' => 'required|max:15',
                 'country_id' => 'required|max:255',
-                'province' => 'required|max:255',
-                'street' => 'required|max:255',
-                'city' => 'required|max:255',
             ]);
             if (!$v->fails()) {
                 $person = Person::find($id);

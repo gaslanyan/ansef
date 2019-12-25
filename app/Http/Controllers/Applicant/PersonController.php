@@ -32,7 +32,7 @@ class PersonController extends Controller
     public function create()
     {
         $user_id = getUserID();
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.person.create', compact('countries', 'institutions'));
 
@@ -168,7 +168,7 @@ class PersonController extends Controller
         $person = Person::where('id', '=', $id)->where('user_id','=',$user_id)->first();
         $fulladdress = [];
         $getaddress = $person->addresses()->get();
-        $countries = Country::all()->pluck('country_name', 'cc_fips')->sort()->toArray();
+        $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
 
         foreach ($getaddress as $address_item) {
             $address['country'] = $address_item->country->country_name;

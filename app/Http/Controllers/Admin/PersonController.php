@@ -26,7 +26,7 @@ class PersonController extends Controller
     {
         try {
             $user_id = getUserId();
-            $countries = Country::all()->sort();
+            $countries = Country::all()->sortBy('country_name')->keyBy('id');
 
             $person = Person::updateOrCreate(
                 [

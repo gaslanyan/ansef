@@ -15,12 +15,12 @@
                         <form method="post" action="{{ action('Referee\PersonController@update', $id) }}" class="row">
                             @csrf
                             <div class="form-group col-lg-6">
-                                <label for="f_name">First Name:</label>
+                                <label for="f_name">First Name*:</label>
                                 <input type="text" class="form-control" name="first_name" id="f_name"
                                        value="{{$person['first_name']}}">
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="l_name">Last Name:</label>
+                                <label for="l_name">Last Name*:</label>
                                 <input type="text" class="form-control" name="last_name" id="l_name"
                                        value="{{$person['last_name']}}">
                             </div>
@@ -35,7 +35,7 @@
                                        value="{{$person['birthplace']}}">
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="nationality">Nationality:</label>
+                                <label for="nationality">Nationality*:</label>
                                 <select class="form-control" name="nationality" id="nationality">
                                     <option value="0">Select country</option>
                                     @if(!empty($countries))
@@ -82,7 +82,7 @@
                                             <input value="{{$address['province']}}" type="text" class="form-control" name="province" id="province">
                                         </div>
                                         <div class="form-group col-lg-6">
-                                            <label for="country_id">Country:</label>
+                                            <label for="country_id">Country*:</label>
                                             <select id="country_id" class="addr form-control" name="country_id">
                                                 <option value="0">Select country</option>
                                                 @if(!empty($countries))

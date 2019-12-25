@@ -4,42 +4,40 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                 <div class="card" >
+                <div class="card" >
                     <div class="card-header">Dashboard</div>
 
                     <div class="card-body card_body" style="overflow:auto;">
-                        @if(!empty($competitonlist))
-                            <table class="table table-responsive-md table-sm table-bordered display" id="example"
-                                   style="width:100%">
+                        @if(!empty($proposals))
+
+                            <table class="table table-responsive-md table-sm table-bordered display" id="example">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                    <th>Deadline</th>
+                                    <th></th>
+                                    <th>Competition Title</th>
+                                    <th>Proposals Count</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($competitonlist as $comp)
+                                @foreach($proposals as $p)
                                     <tr>
                                         <td></td>
-                                        <td data-order="{{$comp['title']}}" data-search="{{$comp['title']}}"
-                                            class="email_field">
-                                            <input type="text" class="form-control" name="email"
-                                                   value="{{$comp['title']}}" disabled>
+                                        <td data-order="{{$p->title}}" data-search="{{$p->title}}"
+                                            class="title">
+                                            {{$p->title}}
                                         </td>
-                                        <td data-order="{{$comp['description']}}" data-search="{{$comp['description']}}"
-                                            class="email_field">
-                                            <input type="text" class="form-control" name="email"
-                                                   value="{{$comp['description']}}" disabled>
+                                        @php
+                                            $count_f =$p->proposalsCount->first();
+                                   if(!empty($count_f))
+                                   $count = $count_f->p_count;
+                                        else
+                                        $count = 0;
+                                        @endphp
+                                        <td data-order="{{$count}}"
+                                            data-search="{{$count}}"
+                                            class="count">
+                                            {{$count}}
                                         </td>
-                                        <td data-order="{{$comp['submission_end_date']}}" data-search="{{$comp['submission_end_date']}}"
-                                            class="email_field">
-                                            <input type="text" class="form-control" name="email"
-                                                   value="{{$comp['submission_end_date']}}" disabled>
-                                        </td>
-
-                                    </tr>
                                 @endforeach
                                 </tbody>
                             </table>
@@ -51,4 +49,17 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            var t = $('#example').DataTable({
+                "pagingType": "full_numbers"
+            });
+            t.on('order.dt search.dt', function () {
+                t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+        });
+
+    </script>
 @endsection
