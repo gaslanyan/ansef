@@ -160,8 +160,6 @@ class ReportController extends Controller
             $report->public_comment = $request->public_comment;
             $report->private_comment = $request->private_comment;
             $report->state = $request->submitaction;
-            $report->overall_score = overallScore($id);
-            $report->save();
             foreach ($scores as $index => $score) {
                 $s = Score::where('score_type_id', '=', $index)
                     ->where('report_id', '=', $id)
@@ -169,6 +167,8 @@ class ReportController extends Controller
                 $s->value = $score;
                 $s->save();
             }
+            $report->overall_score = overallScore($id);
+            $report->save();
             updateProposalState($report->proposal_id);
             updateProposalScore($report->proposal_id);
             if($report->state == 'rejected') {

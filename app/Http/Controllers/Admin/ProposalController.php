@@ -39,7 +39,7 @@ class ProposalController extends Controller
             $admin = Role::where('name', '=', 'admin')->first();
             $superadmin = Role::where('name', '=', 'superadmin')->first();
 
-            $referees = $referee->persons;
+            $referees = $referee->persons->sortBy('last_name');
             $adminpersons = $admin->persons;
             $superadminpersons = $superadmin->persons;
             $admins = $adminpersons->concat($superadminpersons)->all();

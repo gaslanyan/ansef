@@ -109,7 +109,7 @@
                                         </label>
                                     </div>
                                     <div class="form-group col-lg-9">
-                                        {{$r['first_name']." ".$r['last_name']}} ({{$r->user->email}})
+                                        {{$r['last_name']." ".$r['first_name']}} ({{$r->user->email}})
                                     </div>
                                 </div>
                             @endforeach

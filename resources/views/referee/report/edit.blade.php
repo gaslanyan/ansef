@@ -72,7 +72,7 @@
                                             </div>
                                             <div class="row col-12">
                                                 <div class="col-6"><b>{{$scoreType->name}}: </b></div>
-                                                <select class="form-control col-6" name="name[{{$scoreType->id}}]" id="{{$scoreType->id}}">
+                                                    <select max="{{$scoreType->max}}" weight="{{$scoreType->weight}}" class="form-control col-6 scoremenus" name="name[{{$scoreType->id}}]" id="{{$scoreType->id}}">
                                                     @foreach($vals as $val)
                                                     <option value="{{$val}}" {{$val == $scores[$scoreType->id]->value ? 'selected' : ''}}>{{$val}}{{$val == 0 ? ' (Poor)' : ''}}{{$val == $scoreType->max ? ' (Outstanding)' : ''}}</option>
                                                     @endforeach
@@ -81,7 +81,7 @@
                                         @endforeach
                                     </div>
                                     <div>
-                                        <b>Overall score:</b> {{$overall}}%
+                                        <b>Overall score:</b> <span id="overallspan">{{$overall}}%</span>
                                     </div>
                                 </div>
                                 <div class="form-group col-lg-12">
@@ -91,7 +91,7 @@
                                     <button style="margin-left:10px;" type="submit" name="submitaction" value="in-progress" class="btn btn-primary float-right">
                                         Save but do not submit
                                     </button>
-                                    <button style="margin-left:10px;" type="submit" name="submitaction" value="complete" class="btn btn-primary float-right">Save
+                                    <button onclick="return confirm('Are you sure you want to submit your report? No further changes will be possible.');" style="margin-left:10px;" type="submit" name="submitaction" value="complete" class="btn btn-primary float-right">Save
                                         and submit review
                                     </button>
                                 </div>
@@ -124,6 +124,24 @@
     </div>
 
     <script>
+        $(document).ready(function(){
+                $('select.scoremenus').on('change',function(){
+                    var result = 0.0;
+                    var weight = 0.0;
+                    $("select.scoremenus").each(function( index ) {
+                        var val = parseFloat($(this).children("option:selected").val());
+                        var max = parseFloat($(this).attr('max'));
+                        var w = parseFloat($(this).attr('weight'));
+                        weight += w;
+                        result += (w*100.0*val/max);
+                    });
+                    var score = Math.round(result/weight);
+                    $("#overallspan").text(score + '%');
+                });
+        });
+
+
+
         function open_container() {
             var size = 'small',
                 content = '',

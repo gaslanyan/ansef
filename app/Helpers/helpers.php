@@ -310,10 +310,10 @@ function personidforuser($id) {
 }
 
 function createperson($user_id, $role) {
-    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=','applicant')->first();
+    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=', $role)->first();
 
     if(empty($person)) {
-        \App\Models\Person::updateOrCreate([
+        \App\Models\Person::firstOrCreate([
                         'user_id' => $user_id,
                         'type' => $role], [
                         'first_name' => '',
@@ -352,17 +352,19 @@ function getCleanString($text) {
 }
 
 function overallScore($rid) {
-    $report = RefereeReport::find($rid);
     $scores = Score::where('report_id','=',$rid)
                     ->join('score_types', 'score_types.id','=', 'scores.score_type_id')
                     ->get();
-    $result = $scores->reduce(function($carry, $item) {
-        return $carry + ($item->weight * 100.0 * $item->value / $item->max);
-    });
-    $weights = $scores->reduce(function ($carry, $item) {
-        return $carry + $item->weight;
-    });
-    return (int)($result/$weights);
+    if(!empty($scores) && count($scores) > 0) {
+        $result = $scores->reduce(function ($carry, $item) {
+            return $carry + ($item->weight * 100.0 * $item->value / $item->max);
+        });
+        $weights = $scores->reduce(function ($carry, $item) {
+            return $carry + $item->weight;
+        });
+        return (int) ($result / $weights);
+    }
+    else return 0;
 }
 
 function checkproposal($id)

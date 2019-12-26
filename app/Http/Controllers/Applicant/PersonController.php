@@ -196,7 +196,7 @@ class PersonController extends Controller
         DB::beginTransaction();
         try {
             $person = Person::find($id);
-            if ($person->user_id != $user_id) continue;
+            if ($person->user_id != $user_id) return messageFromTemplate("wrong");
             $person->first_name = $request->first_name;
             $person->last_name = $request->last_name;
             if (!empty($request->birthdate)) {

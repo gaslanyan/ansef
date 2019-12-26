@@ -200,7 +200,7 @@
         }
 
         function format(d) {
-            var table = '<table style="table-layout:fixed;float:right;"><thead><tr><th width="150px" style="text-align:left;color:#999;">Score category</th><th width="50px" style="text-align:center;color:#999;">Score</th></thead>';
+            var table = '<table style="width:100%;"><thead><tr><th width="" style="text-align:left;color:#999;">Score category</th><th width="" style="text-align:center;color:#999;">Score</th></thead>';
             table += '<tbody>';
             if (d.scores.length) {
                 var s = JSON.parse(d.scores);
@@ -212,7 +212,7 @@
                     }
                 }
                 table += '<tr><td colspan="2" style="text-align:left;white-space:pre-wrap;padding:20px;"><b>Public comments</b><br/>' + d.public + '</td></tr>';
-                table += '<tr><td rowspan="2" style="text-align:left;white-space:pre-wrap;padding:20px;"><b>Private comments</b><br/>' + d.private + '</td></tr>';
+                table += '<tr><td colspan="2" style="text-align:left;white-space:pre-wrap;padding:20px;"><b>Private comments</b><br/>' + d.private + '</td></tr>';
                 flag = false;
             }
 

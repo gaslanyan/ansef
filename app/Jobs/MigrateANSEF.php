@@ -132,66 +132,58 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added competition.');
         // Add score types
         $scoretype = [];
-        $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance'], [
+        $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance','competition_id' => $competition->id], [
             'description' => 'Does this study address an important problem?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['Approach'] = ScoreType::updateOrCreate(['name' => 'Approach'], [
+        $scoretype['Approach'] = ScoreType::updateOrCreate(['name' => 'Approach', 'competition_id' => $competition->id], [
             'name' => 'Approach',
             'description' => 'Are the concepts and design of methods and analysis adequately developed and appropriate to the aim of the project?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['Innovation'] = ScoreType::updateOrCreate(['name' => 'Innovation'], [
+        $scoretype['Innovation'] = ScoreType::updateOrCreate(['name' => 'Innovation', 'competition_id' => $competition->id], [
             'name' => 'Innovation',
             'description' => 'Does the project employ novel concepts, approaches or methods? Are the aims original and innovative? Does the project challenge existing paradigms or develop new methodologies or technologies?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['Investigator'] = ScoreType::updateOrCreate(['name' => 'Investigator'], [
+        $scoretype['Investigator'] = ScoreType::updateOrCreate(['name' => 'Investigator', 'competition_id' => $competition->id], [
             'description' => 'Is the investigator appropriately trained and well-suited to carry out this work? Is the work proposed appropriate to the experience level of the principal investigator and other researchers?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['Budget'] = ScoreType::updateOrCreate(['name' => 'Budget'], [
+        $scoretype['Budget'] = ScoreType::updateOrCreate(['name' => 'Budget', 'competition_id' => $competition->id], [
             'description' => 'Is the budget appropriate for the proposed project?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['Proposal'] = ScoreType::updateOrCreate(['name' => 'Proposal'], [
+        $scoretype['Proposal'] = ScoreType::updateOrCreate(['name' => 'Proposal', 'competition_id' => $competition->id], [
             'description' => 'How well conceived and organized is the proposed activity? Is the review of the current state of knowledge in the field adequate?',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
-        $scoretype['OverallScore'] = ScoreType::updateOrCreate(['name' => 'Overall Score'], [
+        $scoretype['OverallScore'] = ScoreType::updateOrCreate(['name' => 'Overall Score', 'competition_id' => $competition->id], [
             'description' => 'How would you rate the proposal overall? Please note that ANSEF grants are very competitive. It is rare that a proposal that is not deemed Outstanding in this category would get funded. On the other hand, there should be good reason to consider a proposal Outstanding, based on your assessment of the previous six criteria.',
             'min' => 0,
             'max' => 7,
-            'weight' => 1,
-            'competition_id' => $competition->id
+            'weight' => 1
         ]);
         // \Debugbar::error('Added score types.');
 
         // Add budget categories
         foreach ($expense_types as $expense_type) {
-            BudgetCategory::updateOrCreate(['name' => $expense_type->label], [
+            BudgetCategory::updateOrCreate(['name' => $expense_type->label, 'competition_id' => $competition->id], [
                 'min' => 0,
                 'max' => 5000,
                 'weight' => 1,
-                'competition_id' => $competition->id,
                 'comments' => 'Amount in dollars'
             ]);
         }

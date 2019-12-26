@@ -32,16 +32,16 @@ class PersonController extends Controller
 
     public function create()
     {
-        $user_id = getUserID();
-        try {
-            $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
+        // $user_id = getUserID();
+        // try {
+        //     $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
 
-            $institutions = Institution::all()->pluck('content', 'id')->toArray();
-            return view('referee.person.create', compact('countries', 'institutions'));
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
-        }
+        //     $institutions = Institution::all()->pluck('content', 'id')->toArray();
+        //     return view('referee.person.create', compact('countries', 'institutions'));
+        // } catch (\Exception $exception) {
+        //     logger()->error($exception);
+        //     return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
+        // }
     }
 
     public function edit($id)
@@ -49,7 +49,7 @@ class PersonController extends Controller
         $user_id = getUserID();
         try {
             $person = Person::where('id', '=', $id)->first();
-            $address = Address::updateOrCreate([
+            $address = Address::firstOrCreate([
                 'addressable_id' => $person->id,
                 'addressable_type' => 'App\Models\Person',
                 'user_id' => $user_id
@@ -59,7 +59,6 @@ class PersonController extends Controller
                 'city' => ''
             ]);
             $countries = Country::all()->sortBy('country_name')->keyBy('id');
-            $address->save();
             return view('referee.person.edit', compact('address', 'person', 'id', 'countries'));
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -81,6 +80,7 @@ class PersonController extends Controller
                 $person = Person::find($id);
                 $person->first_name = $request->first_name;
                 $person->last_name = $request->last_name;
+                $person->birthplace = $request->birthplace;
                 $person->birthdate = $request->birthdate;
                 $person->nationality = $request->nationality;
                 $person->sex = $request->sex;
