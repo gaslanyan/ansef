@@ -396,12 +396,11 @@ class ProposalController extends Controller
                         $subject = $request->subject;
                         $data = ['tag' =>$tag, 'name' => $name, 'content' => $request->content];
                         $counter++;
-                        // \Debugbar::error('Message ' . $counter);
                         Mail::send(
                             ['text' => 'admin.email.emailtemplate'],
                             $data,
                             function ($message) use ($subject, $to) {
-                                $message->to(config('emails.webmaster'))
+                                $message->to($to->email)
                                         ->subject($subject);
                                 $message->from(config('emails.RB'), 'ANSEF Research Board');
                             }

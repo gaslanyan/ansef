@@ -57,7 +57,7 @@ Route::get('/applicant/sign', 'Applicant\ApplicantController@index', [
     'only' => ['index'],
     'middleware' => 'check-role:applicant|admin|superadmin'
 ]);
-Route::get('/applicant/signas/{id}', 'Applicant\ApplicantController@signAs', [
+Route::get('/admin/applicant/signas/{id}', 'Applicant\ApplicantController@signAs', [
     'only' => ['index'],
     'middleware' => 'check-role:admin|superadmin'
 ]);
@@ -65,7 +65,7 @@ Route::get('/referee/sign', 'Referee\RefereeController@index', [
     'only' => ['index'],
     'middleware' => 'check-role:referee|admin|superadmin'
 ]);
-Route::get('/referee/signas/{id}', 'Referee\RefereeController@signAs', [
+Route::get('/admin/referee/signas/{id}', 'Referee\RefereeController@signAs', [
     'only' => ['index'],
     'middleware' => 'check-role:admin|superadmin'
 ]);

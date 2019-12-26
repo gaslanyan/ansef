@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Applicant;
 
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
-use App\Models\Person;
+use App\Models\User;
 use App\Models\Session;
 use \Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,9 +29,8 @@ class ApplicantController extends Controller
     }
 
     public function signAs($id) {
-        $newperson = Person::find($id);
-        $newuser = $newperson->user;
-        $newrole = $newperson->type;
+        $newuser = User::find($id);
+        $newrole = $newuser->role->name;
 
         Request::session()->flush();
         Request::session()->regenerate();

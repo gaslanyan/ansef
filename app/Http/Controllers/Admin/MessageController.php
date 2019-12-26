@@ -46,10 +46,14 @@ class MessageController extends Controller
     {
         try {
             $val = Validator::make($request->all(), [
+                'title' => 'required',
+                'subject' => 'required',
                 'text' => 'required|max:511|min:6',
             ]);
             if (!$val->fails()) {
                 $messages = new Message();
+                $messages->title = $request->title;
+                $messages->subject = $request->subject;
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', messageFromTemplate("success"));
@@ -100,11 +104,14 @@ class MessageController extends Controller
     {
         try {
             $val = Validator::make($request->all(), [
+                'title' => 'required',
+                'subject' => 'required',
                 'text' => 'required|max:511|min:6',
             ]);
             if (!$val->fails()) {
-
                 $messages = Message::find($id);
+                $messages->title = $request->title;
+                $messages->subject = $request->subject;
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', messageFromTemplate("update"));

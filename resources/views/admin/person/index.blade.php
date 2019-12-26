@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">List of all persons
+                    <div class="card-header">List of all users
                         @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
                                class="display float-lg-right btn-primary px-2 myButton">Add a person</a>
@@ -26,32 +26,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @if(!empty($persons))
-                                @foreach($persons as $person)
+                            @if(!empty($users))
+                                @foreach($users as $user)
 
                                     <tr>
                                         <td data-order="data-order='[[ 1, &quot;asc&quot; ]]'"></td>
-                                        <td data-order="{{$person->email}}"
-                                            data-search="{{$person->email}}"
+                                        <td data-order="{{$user->email}}"
+                                            data-search="{{$user->email}}"
                                             class="email_field">
                                             <input type="text" class="form-control" name="email"
-                                                   value="{{$person->email}}" disabled>
+                                                   value="{{$user->email}}" disabled>
                                         </td>
 
-                                        <td data-order="{{$person->role->name}}"
-                                            data-search="{{$person->role->name}}"
+                                        <td data-order="{{$user->role->name}}"
+                                            data-search="{{$user->role->name}}"
                                             class="status_field">
                                             <select class="form-control" name="status" disabled>
                                                 @if(!empty($roles))
                                                     @foreach($roles as $item)
                                                         <option class="text-capitalize"
-                                                                value="{{$item->id}}" @if($item->name === $person->role->name) {{'selected'}} @endif>{{$item->name}}</option>
+                                                                value="{{$item->id}}" @if($item->name === $user->role->name) {{'selected'}} @endif>{{$item->name}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </td>
 
-                                        <td data-order="{{$person->state}}" data-search="{{$person->state}}"
+                                        <td data-order="{{$user->state}}" data-search="{{$user->state}}"
                                             class="type_field">
                                             <select class="form-control" name="state" disabled>
                                                 <?php $enum = getEnumValues('users', 'state');?>
@@ -59,13 +59,13 @@
                                                 @if(!empty($enum))
                                                     @foreach($enum as $item)
                                                         <option class="text-capitalize" value="{{$item}}"
-                                                        @if(!empty($item) && $item === $person->state ) {{'selected'}} @endif >{{$item}}</option>
+                                                        @if(!empty($item) && $item === $user->state ) {{'selected'}} @endif >{{$item}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="hidden" class="id" value="{{$person->id}}">
+                                            <input type="hidden" class="id" value="{{$user->id}}">
                                             <input type="hidden" class="url" value="/admin/updatePerson">
                                             <button title="Edit" class="edit btn-link"><i class="fa fa-pencil-alt"></i>
                                             </button>
@@ -74,7 +74,7 @@
                                             <button title="Cancel" class="cancel editable btn-link"><i
                                                         class="fa fa-ban"></i></button>
 
-                                            <form action="{{action('Admin\AccountController@generatePassword', $person->id)}}"
+                                            <form action="{{action('Admin\AccountController@generatePassword', $user->id)}}"
                                                   method="post">
                                                 @csrf
                                                 <button title="generate password" class="password btn-link"
@@ -83,23 +83,21 @@
                                                 </button>
                                             </form>
 
-                                            @if(isPerson($person->id))
-                                                <a href="{{action('Admin\AccountController@show', $person->id)}}"
-                                                   class="view" title="View"><i class="fa fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if($person->role->name == 'applicant' || $person->role->name == 'referee')
-                                                <a href="{{URL('/'.$person->role->name.'/signas/'.$person->id )}}">
+                                            <a href="{{action('Admin\AccountController@show', $user->id)}}"
+                                                class="view" title="View"><i class="fa fa-eye"></i>
+                                            </a>
+                                            @if($user->role->name == 'applicant' || $user->role->name == 'referee')
+                                                <a href="{{URL('/admin/'.$user->role->name.'/signas/'.$user->id )}}">
                                                 <i class="fa fa-sign-in-alt"></i>
                                                 </a>
                                             @endif
                                             @if(get_role_cookie() == 'superadmin')
-                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$person->id, 'type'=>$person->type])}}"
+                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$user->id, 'type'=>$user->type])}}"
                                                         method="post">
                                                     @csrf
                                                     <input name="_method" type="hidden" value="DELETE">
-                                                    <input name="_id" type="hidden" value="{{$person->id}}">
-                                                    <button class="btn-link delete" type="button" data-title="{{$person->type}}">
+                                                    <input name="_id" type="hidden" value="{{$user->id}}">
+                                                    <button class="btn-link delete" type="button" data-title="{{$user->type}}">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>

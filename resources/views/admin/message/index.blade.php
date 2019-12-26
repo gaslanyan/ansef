@@ -18,6 +18,8 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                <th>Title</th>
+                                <th>Subject</th>
                                 <th>Text</th>
                                 <th>Action</th>
                             </tr>
@@ -26,10 +28,11 @@
                             @foreach($messages as $message)
                                 <tr>
                                     <td></td>
+                                    <td>{{$message['title']}}</td>
+                                    <td>{{$message['subject']}}</td>
                                     <td>{{$message['text']}}</td>
                                     <td><a href="{{action('Admin\MessageController@edit', $message['id'])}}" class="">
                                             <i class="fa fa-pencil-alt"></i></a>
-
                                         <form action="{{action('Admin\MessageController@destroy', $message['id'])}}" method="post">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">

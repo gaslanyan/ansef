@@ -17,6 +17,10 @@
                                 <input name="_method" type="hidden" value="PATCH">
                             </div>
                             <div class="form-group">
+                                <label for="title">Title *:</label>
+                                <input id="title" name="title" type="text" value="{{$message->title}}">
+                                <label for="subject">Subject *:</label>
+                                <input id="subject" name="subject" type="text" value="{{$message->subject}}">
                                 <label for="text">Message Text *:</label>
                                 <textarea class="form-control" name="text" id="text">{{$message->text}}</textarea>
                             </div>

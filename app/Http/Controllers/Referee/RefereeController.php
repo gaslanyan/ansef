@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Referee;
 
 use App\Models\User;
-use App\Models\Person;
 use App\Models\Session;
 use App\Http\Controllers\Controller;
 use \Illuminate\Support\Facades\Request;
@@ -45,7 +44,7 @@ class RefereeController extends Controller
         $s_user->touch();
         Request::session()->put('u_id', $newuser->id);
         $user_id = $newuser->id;
-        createperson($user_id, 'applicant');
+        createperson($user_id, 'referee');
         return Redirect::to($newrole);
     }
 

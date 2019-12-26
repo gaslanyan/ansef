@@ -37,10 +37,11 @@ class AccountController extends Controller
 
     public function index() {
         try {
-            $persons = User::with('role')->get();
+            $users = User::with('role')
+                        ->get();
             $roles = Role::all();
 
-            return view('admin.person.index', compact('persons', 'roles'));
+            return view('admin.person.index', compact('users', 'roles'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/person')->with('error', messageFromTemplate("wrong"));
@@ -68,37 +69,41 @@ class AccountController extends Controller
                 }
             }
             else if ($type == 'applicant') {
-                foreach (ProposalPerson::where('competition_id', '=', 2)->cursor() as $index => $p) {
-                    $person = Person::find($p->person_id);
-                    $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
-                    $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                        ->select('proposals.competition_id')
-                        ->where('person_id', '=', $p->person_id)
-                        ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
-                        ->get();
-                    $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                        ->select('proposals.competition_id')
-                        ->where('person_id', '=', $p->person_id)
-                        ->where('proposals.state', '=', 'finalist')
-                        ->get();
-                    $awards = '';
-                    $finalists = '';
-                    foreach ($as as $award) {
-                        $awards .= (Competition::find($award->competition_id)->title . " ");
+                // foreach (ProposalPerson::where('competition_id', '=', $cid)->cursor() as $index => $p) {
+                ProposalPerson::where('competition_id', '=', $cid)
+                                ->chunk(100, function($ps) use ($persons) {
+                    foreach($ps as $p) {
+                        $person = Person::find($p->person_id);
+                        $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
+                        $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                            ->select('proposals.competition_id')
+                            ->where('person_id', '=', $p->person_id)
+                            ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
+                            ->get();
+                        $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                            ->select('proposals.competition_id')
+                            ->where('person_id', '=', $p->person_id)
+                            ->where('proposals.state', '=', 'finalist')
+                            ->get();
+                        $awards = '';
+                        $finalists = '';
+                        foreach ($as as $award) {
+                            $awards .= (Competition::find($award->competition_id)->title . " ");
+                        }
+                        foreach ($asf as $finalist) {
+                            $finalists .= (Competition::find($finalist->competition_id)->title . " ");
+                        }
+                        $persons->push([
+                            'first_name' => $person->first_name ?? '',
+                            'last_name' => $person->last_name ?? '',
+                            'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
+                            'propcount' => $propcount,
+                            'awards' => $awards,
+                            'finalists' => $finalists,
+                            'subtype' => $p->subtype
+                        ]);
                     }
-                    foreach ($asf as $finalist) {
-                        $finalists .= (Competition::find($finalist->competition_id)->title . " ");
-                    }
-                    $persons->push([
-                        'first_name' => $person->first_name ?? '',
-                        'last_name' => $person->last_name ?? '',
-                        'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
-                        'propcount' => $propcount,
-                        'awards' => $awards,
-                        'finalists' => $finalists,
-                        'subtype' => $p->subtype
-                    ]);
-                }
+                });
             }
             else {
 
@@ -180,49 +185,11 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-//        try {
-        $person = Person::where('user_id', '=', $id)->first()->toArray();
+        $person = Person::where('user_id', '=', $id)
+                        ->whereIn('type',['admin', 'referee', 'viewer', 'applicant'])
+                        ->first();
 
-        $person_id = $person['id'];
-        $emails = Email::where('person_id', $person_id)->get();
-        $phones = Phone::where('person_id', $person_id)->get()->toArray();
-        $address_array = [];
-
-        foreach ($addr as $key => $value) {
-            $a = Address::select('country_id')
-                ->where('id', $value['address_id'])->first();
-
-            $country = Country::where('id', $a->country_id)->first();
-
-            $address = Address::find($value['address_id'])->toArray();
-            $address_array[$key]['country'] = $country['country_name'];
-            $address_array[$key]['province'] = $address['province'];
-            $address_array[$key]['street'] = $address['street'];
-        }
-        $institution = [];
-        $ip = InstitutionPerson::with('iperson')
-            ->select('title', 'start', 'end', 'type')
-            ->where('person_id', '=', $person_id)
-            ->get()->toArray();
-        $institution['ip'] = $ip;
-        $ip_add = Address::where('address.id', 24)
-            ->
-            join('countries', 'countries.id', '=', 'address.country_id')
-            ->get()->toArray();
-        $institution['addr'] = $ip_add;
-        $books = Book::select('title', 'publisher', 'year')->where('person_id', $person_id)->get()->toArray();
-
-        $degrees = DegreePerson::select('degree_id', 'year')->with('degree')->where('person_id', $person_id)->get()->toArray();
-
-        $honors = Honor::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
-        $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
-
-        return view('admin.account.show', compact('person',
-            'phones', 'emails', 'address_array', 'books', 'degrees', 'honors', 'meetings', 'institution'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect()->back()->with('error', messageFromTemplate('wrong'));
-//        }
+        return view('admin.account.show', compact('person'));
     }
 
     /**
