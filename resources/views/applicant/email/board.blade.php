@@ -14,6 +14,12 @@
                             @csrf
                             <div class="form-group">
                                 <div class="row">
+                                    <p style="color:#999;margin-left:15px;margin-right:15px;">
+                                    Communicate with the Research Board with questions you might have about
+                                    a competition, process, and requirements. You will receive a response usually within 2 days.
+                                    </p>
+                                </div>
+                                <div class="row">
                                     <div class="form-group col-lg-10 emails">
                                         <input type="hidden" name="target" value="board">
                                         <label for="board">Message:</label>

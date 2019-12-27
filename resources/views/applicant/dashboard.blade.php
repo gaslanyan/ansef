@@ -6,21 +6,16 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
-                    <div class="card-header">Welcome to the ANSEF portal </div>
-                    @if (\Session::has('success'))
-                        <div class="alert alert-success">
-                            <p>@php echo html_entity_decode(\Session::get('success'), ENT_HTML5) @endphp</p>
-                        </div><br/>
-                    @elseif (\Session::has('wrong'))
-                        <div class="alert alert-success">
-                            <p>{{ \Session::get('wrong') }}</p>
-                        </div><br/>
-                    @endif
+                    <div class="card-header">
+                        ANSEF portal dashboard
+                            <button onclick="open_container(3);" class="display float-lg-right btn-primary px-2 myButton">
+                                <i class="fas fa-question-circle"></i>&nbsp;Read instructions</button>
+                    </div>
 
 
                     <div class="card-body card_body" style="overflow:auto;">
                         @if(count($competitionlist)>0)
-                            <p><b>Here's a list of competitions that you can currently apply for:</b></p>
+                            <p style="font-size:16px;color:#999;"><b>Here's a list of competitions that you can currently apply for:</b></p>
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                    style="width:100%"  valign="middle">
                                 <thead>
@@ -48,22 +43,22 @@
                                         <td>
                                             <input type="reset" class="btn btn-primary" value ="Learn more" onClick="open_container(1);">
                                         </td>
-        <!-- Modal form-->
-        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content" style="min-height:250px;min-width:320px;">
-                    <div class="modal-header">
-                        <h4 style="color:#666;"> Description for {{$comp['title']}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" style="width:50px;height:50px;">&times;</button>
-                    </div>
-                    <div class="modal-body" id="modal-bodyku">
-                        {{$comp['description']}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end of modal ------------------------------>
+                                    <!-- Modal form-->
+                                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+                                            aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog ">
+                                            <div class="modal-content" style="min-height:250px;min-width:320px;">
+                                                <div class="modal-header">
+                                                    <h4 style="color:#999;"> Description for {{$comp['title']}}</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" style="width:50px;height:50px;">&times;</button>
+                                                </div>
+                                                <div class="modal-body" id="modal-bodyku">
+                                                    {{$comp['description']}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end of modal ------------------------------>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -107,22 +102,22 @@
                                         <td>
                                             <input type="reset" class="btn btn-primary" value ="Learn more" onClick="open_container(2);">
                                         </td>
-        <!-- Modal form-->
-        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
-                aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog ">
-                <div class="modal-content" style="min-height:250px;min-width:320px;">
-                    <div class="modal-header">
-                        <h4 style="color:#666;"> Description for {{$comp['title']}}</h4>
-                        <button type="button" class="close" data-dismiss="modal" style="width:50px;height:50px;">&times;</button>
-                    </div>
-                    <div class="modal-body" id="modal-bodyku">
-                        {{$comp['description']}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- end of modal ------------------------------>
+                                        <!-- Modal form-->
+                                        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+                                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog ">
+                                                <div class="modal-content" style="min-height:250px;min-width:320px;">
+                                                    <div class="modal-header">
+                                                        <h4 style="color:#666;"> Description for {{$comp['title']}}</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" style="width:50px;height:50px;">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body" id="modal-bodyku">
+                                                        {{$comp['description']}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- end of modal ------------------------------>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -133,6 +128,60 @@
             </div>
         </div>
     </div>
+    <!-- Modal form-->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
+            aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content" style="min-height:250px;min-width:320px;">
+                <div class="modal-header">
+                    <h4 style="color:#666;"> Instructions</h4>
+                    <button type="button" class="close" data-dismiss="modal" style="width:50px;height:50px;">&times;</button>
+                </div>
+                <div class="modal-body" id="modal-bodyku" style="color:#666;">
+                    To submit a proposal to ANSEF, please follow the
+                    following steps:<br/><br/>
+                    <ul>
+                        <li>
+                            Find a competition on the Dashboard that you want
+                            to apply to. Note the competition identifier in the
+                            leftmost column.
+                        </li>
+                        <li>
+                            Using the <b>Persons</b> section in the sidebar, add/edit
+                            persons that will either participate in your proposal or
+                            support it indirectly. A project participant can be
+                            a Principal Investigator (PI) or a Collaborator. A support
+                            person can be a Consultant, a Director of the institute where
+                            the research will be done, or a person who will provide a letter
+                            of recommendation or support for the project.
+                        </li>
+                        <li>
+                            Once you have added the persons as described in the first step,
+                            move on to the <b>Proposals</b> section in the sidebar,
+                            and add a proposal to the relevant competition. After adding
+                            a proposal, you will be able to assign persons you created
+                            earlier to the proposal, add a budget, and check whether
+                            your proposal is complete.
+                        </li>
+                        <li>
+                            You can log into your account and change persons and proposals
+                            up until the deadline of the competition. You do not need to
+                            ``submit'' your proposal: it will be automatically submitted
+                            after the deadline if the material in the proposal is complete.
+                            You can check whether you have included all required material
+                            in the proposal by clicking <b>Proposals>Current Proposals>Check</b>.
+                        </li>
+                        <li>
+                            You can have the same person be part of several proposals, and
+                            you can submit more than one proposal to any number of available
+                            competitions.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal ------------------------------>
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
