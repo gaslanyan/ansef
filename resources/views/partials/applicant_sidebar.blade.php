@@ -6,14 +6,13 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="pull-left info d-inline-block">
-                <p class="">
-                <?php
-                if (!empty($signUser)):?>
-                            <?= mb_strtolower($signUser->email) ?>
-                            <?php else: ?>
-                            <?= get_role_cookie(); ?>
-                            <?php endif;?>
+            <div class="pull-left d-inline-block">
+                <p class="" style="color:#999;">
+                <?php if (!empty($signUser)):?>
+                    <?= "Logged in as<br><b>" . \App\Models\User::find($user_id)->email ."</b>"; ?>
+                <?php else: ?>
+                    <?= get_role_cookie(); ?>
+                <?php endif;?>
             </div>
         </div>
         <div class="figure-caption">

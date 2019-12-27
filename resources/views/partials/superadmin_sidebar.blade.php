@@ -6,14 +6,14 @@ $user_id = getUserID();
 <aside class="main-sidebar">
     <section class="sidebar">
         <div class="user-panel">
-            <div class="d-inline-block">
+            <div class="pull-left d-inline-block">
                 <p class="" style="color:#999;">
-                    <?php if (!empty($signUser)):?>
-                        <?= "<b>Logged in as " . $signUser->first_name . " " . $signUser->last_name . "</b>"; ?>
-                    <?php else: ?>
-                        <?= get_role_cookie(); ?>
-                    <?php endif;?>
-                </p>
+                <?php if (!empty($signUser)):?>
+                    <?= "Logged in as <b>" . $signUser->first_name . " " .
+                $signUser->last_name . "</b><br>(" . \App\Models\User::find($user_id)->email .")"; ?>
+                <?php else: ?>
+                    <?= get_role_cookie(); ?>
+                <?php endif;?>
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">

@@ -4,7 +4,7 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header text-capitalize">List of {{($state=='in-progress' ? "Current" : $state). " "}}reports assigned to you</div>
+                    <div class="card-header">List of {{($state=='in-progress' ? "current" : "completed"). " "}}reports</div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 

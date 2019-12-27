@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                  <div class="card" >
-                    <div class="card-header">{{ __('Login') }}</div>
+                    <div class="card-header" style="font-size:22px;">ANSEF Portal Login</div>
 
                     <div class="card-body ">
                         @include('partials.status_bar')
@@ -75,6 +75,16 @@
                                            class="btn btn-primary">{{ __('Register')}}</a>
                                     @endif
                                 </div>
+                            </div>
+
+                            <div class="row col-12" style="font-size:16px;color:#999;margin:20px;">
+                                <p>If you have used the ANSEF portal before 2019, you will need to reset
+                                    your password to access your account on our new portal. Click on <b>Forgot Your Password?</b>
+                                    above to reset your password.
+                                </p>
+                                <p>If you are new to the ANSEF portal, you will need to register first.
+                                    Click on <b>Register</b> above to start the registration process.
+                                </p>
                             </div>
                         </form>
                     </div>

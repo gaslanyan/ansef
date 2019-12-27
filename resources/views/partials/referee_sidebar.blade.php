@@ -7,10 +7,10 @@ $user_id = getPersonIdByRole('referee');
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left d-inline-block">
-                <p class="" style="colo:#999;">
+                <p class="" style="color:#999;">
                 <?php if (!empty($signUser)):?>
                     <?= "Logged in as <b>" . $signUser->first_name . " " .
-                $signUser->last_name . "</b>"; ?>
+                $signUser->last_name . "</b><br>(" . \App\Models\User::find($user_id)->email .")"; ?>
                 <?php else: ?>
                     <?= get_role_cookie(); ?>
                 <?php endif;?>

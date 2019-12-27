@@ -134,7 +134,7 @@ function getTableColumns($items)
 function loggedApplicant() {
     if (!empty(Auth::guard(get_role_cookie())->user())) {
         $user_id = Auth::guard(get_role_cookie())->user()->id;
-        return \App\Models\Person::where('user_id','=', $user_id)->where('type', '=', 'applicant')->first();
+        return \App\Models\Person::where('user_id','=', $user_id)->whereIn('type', ['applicant','referee','admin','superadmin'])->first();
     } else {
         return view('errors.404');
     }
