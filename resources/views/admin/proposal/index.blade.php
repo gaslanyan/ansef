@@ -206,7 +206,7 @@
             });
 
             var t = $('#datatable').DataTable({
-                "pagingType": "full_numbers",
+                    "pagingType": "full_numbers",
                     "columns": [
                         {"data": "tag"},
                         {"data": "title"},

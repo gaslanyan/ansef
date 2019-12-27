@@ -20,7 +20,32 @@
                             @csrf
                             <div class="form-group col-lg-12">
                                 <label for="sql">SQL:</label>
-                                <textarea class="form-control col-lg-12" id="sql" name="sql">@if(!empty(old('sql'))) {{old('sql')}} @endif</textarea>
+                                <textarea rows="10" class="form-control col-lg-12" id="sql" name="sql">
+                                    @if(!empty(old('sql')))
+                                        {{old('sql')}}
+                                    @else
+
+{
+    "name": "Untitled",
+    "pi_age": [0, 100],
+    "pi_sex": [0.0, 1.0],
+    "participants_sex": [0.0, 1.0],
+    "participants": [0,10],
+    "avg_part_age": [0.0, 100.0],
+    "junior_participants": [0, 10],
+    "category": [],
+    "budget": [0.0, 5000.0],
+    "pi_salary": [0.0, 2000.0],
+    "collab_salary": [0.0, 2000.0],
+    "avg_salary": [0.0, 2000.0],
+    "salary_dev": [0.0, 100.0],
+    "travel": [0.0, 2000.0],
+    "min_equipment": [0.0, 2000.0],
+    "subscore": [0.0, 7.0],
+    "overall_score": [0.0, 7.0]
+}
+                                    @endif
+                                </textarea>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="value">Value:</label>
@@ -49,7 +74,7 @@
                                     if(!empty($users)):?>
                                     <?php foreach($users as $item):?>
                                     <option value="{{$item->user->id}}" @if($item->user->id == old('user_id')){{'selected'}} @endif>
-                                        {{$item->id." - ".$item->first_name." ".$item->last_name." ".$item->user->email}}</option>
+                                        {{$item->id." - ".$item->first_name." ".$item->last_name." (".$item->user->email.")"}}</option>
                                     <?php endforeach;?>
                                     <?php endif;?>
                                 </select>
@@ -73,15 +98,15 @@
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2></h2>
+                    <h3></h3>
                     <button type="button" class="close" data-dismiss="modal"><span
                                 aria-hidden="true">&times;</span><span
                                 class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
                 <div class="modal-body" id="modal-bodyku">
-                    @if(!empty($rr))
-                        <table class="table table-responsive-md table-sm table-bordered display" id="example">
+                    @if(!empty($rr) && count($rr)>0)
+                        <table width="100%" class="table table-responsive-md table-sm table-bordered display" id="example">
                             <thead>
                             <tr>
                                 <th></th>
@@ -89,7 +114,6 @@
                                 <th>Competition Name</th>
                                 <th>Sql</th>
                                 <th>Value</th>
-
                             </tr>
                             </thead>
                             <tbody>
@@ -97,9 +121,7 @@
                                 <tr>
                                     <td></td>
                                     <td>
-
-                                        <label for="choose_id{{$i}}"
-                                               class="label">
+                                        <label for="choose_id{{$i}}" class="label">
                                             <input type="radio" name="id" id="choose_id{{$i}}"
                                                    value="{{$r->id}}">
                                         </label>
@@ -108,7 +130,7 @@
                                         {{$r->competition->title}}
                                     </td>
                                     <td>
-                                        {{$r->sql}}
+                                        {{truncate($r->sql,25)}}
                                     </td>
                                     <td>
                                         {{$r->value}}
@@ -188,7 +210,7 @@
         function open_container() {
             var size = 'small',
                 content = '',
-                title = 'Choose a budget category',
+                title = 'Ranking rules',
                 footer = '';
             jQuery.noConflict();
             setModalBox(title, size);
@@ -197,7 +219,7 @@
         }
 
         function setModalBox(title, content, footer, $size) {
-            jQuery('#myModal').find('.modal-header h2').text(title);
+            jQuery('#myModal').find('.modal-header h3').text(title);
 
             if ($size === 'small') {
                 jQuery('#myModal').attr('class', 'modal fade bs-example-modal-sm')

@@ -22,7 +22,7 @@
                             <div class="form-group col-lg-12">
                                 <input name="_method" type="hidden" value="PATCH">
                                 <label for="sql">SQL * :</label>
-                                <textarea class="form-control" name="sql" id="sql">{{$rank->sql}}</textarea>
+                                <textarea rows="10" class="form-control" name="sql" id="sql">{{$rank->sql}}</textarea>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="value">Value * :</label>

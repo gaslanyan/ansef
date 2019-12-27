@@ -139,6 +139,31 @@ class CompetitionController extends Controller
                         'instructions' => $request->instructions
                     ]);
 
+                    App\Models\BudgetCategory::create([
+                        'name' => 'PI Salary',
+                        'min' => 0,
+                        'max' => 5000,
+                        'weight' => 1,
+                        'comments' => 'Monthly amount, number of months',
+                        'competition_id' => $c->id
+                    ]);
+                    App\Models\BudgetCategory::create([
+                        'name' => 'Travel',
+                        'min' => 0,
+                        'max' => 5000,
+                        'weight' => 1,
+                        'comments' => 'Destination, number of months',
+                        'competition_id' => $c->id
+                    ]);
+                    App\Models\BudgetCategory::create([
+                        'name' => 'Material or equipment',
+                        'min' => 0,
+                        'max' => 5000,
+                        'weight' => 1,
+                        'comments' => 'Describe material or equipment',
+                        'competition_id' => $c->id
+                    ]);
+
                     return redirect('admin/competition')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();

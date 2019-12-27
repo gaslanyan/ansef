@@ -4,34 +4,24 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">List of ranking rules
-
+                    <div class="card-header">
                         <a href="{{action('Admin\RankingRuleController@create')}}"
                            class="display float-lg-right btn-primary px-2 myButton">Add a ranking rule</a>
-                        <a href="{{action('Admin\RankingRuleController@execute')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Execute ranking rules</a>
+                        <button type="button"
+                                title="change state" onclick="executerules()"
+                                class="display float-lg-left btn-primary px-2 myButton">
+                                <i class="fa fa-comments"></i>
+                            Execute rules
+                        </button>
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
 
-                        <div class="btn_add col-md-12">
-                            <button type="button" disabled title="delete" id="deleteRule"
-                                    class="btn-link btn delete_cats offset-lg-6 col-lg-2 col-md-3"><i
-                                        class="fa fa-trash-alt"></i>
-                                Delete
-                            </button>
-                        </div>
-                        <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
+                        <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable"
                                style="width:100%">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>
-                                    <label for="rule" class="label">
-                                        <input type="checkbox" class="form-control check_all"
-                                               id="rule">
-                                    </label>
-                                </th>
+                                <th>ID</th>
                                 <th>SQL</th>
                                 <th>Value</th>
                                 <th>Admin</th>
@@ -41,15 +31,11 @@
                             <tbody>
                             @foreach($rules as $rule)
                                 <tr>
-                                    <td data-order="data-order='[[ 1, &quot;asc&quot; ]]'"></td>
-                                    <td><label for="cat{{$rule->id}}" class="label">
-                                            <input type="checkbox" class="form-control checkbox" name="id[]"
-                                                   value="{{$rule->id}}"
-                                                   id="cat{{$rule->id}}">
-                                        </label>
+                                    <td>
+                                        {{$rule->id}}
                                     </td>
                                     <td>
-                                        {{$rule->sql}}
+                                        {{truncate($rule->sql,50)}}
                                     </td>
                                     <td>
                                         {{$rule->value}}
@@ -83,16 +69,16 @@
     </div>
     <script>
         $(document).ready(function () {
-            var t = $('#example').DataTable({
+            var t = $('#datatable').DataTable({
                 "pagingType": "full_numbers",
-
-                columnDefs: [{
-                    targets: [0],
-                    orderData: [0, 1]
-                }, {
-                    targets: [1],
-                    orderData: [1, 0]
-                }]
+                "select": true,
+                "scrollX": true,
+                "columnDefs": [
+                    { "targets": 0, "searchable": true, "visible": true },
+                    { "targets": 1, "searchable": true, "visible": true },
+                    { "targets": 2, "searchable": true, "visible": true },
+                    { "targets": 3, "searchable": true, "visible": true }
+                    ]
             });
             t.on('order.dt search.dt', function () {
                 t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
@@ -100,5 +86,39 @@
                 });
             }).draw();
         });
+
+        function executerules() {
+            var t = $('#datatable').DataTable();
+            var data = t.rows({'selected': true}).data();
+            if (data.length > 0) {
+                var checkedIDss = [];
+                for(var i=0; i<data.length; i++) {
+                    checkedIDss.push(data[i][0]);
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/admin/execute',
+                    type: 'POST',
+                    data: {
+                        token: CSRF_TOKEN,
+                        id: checkedIDss
+                    },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success === -1)
+                            console.log('msg' + data);
+                        else
+                            reloadtable('admin/listproposals');
+                    },
+                    error: function(data) {
+                        console.log('msg' + data);
+                    }
+                });
+            }
+        }
     </script>
 @endsection

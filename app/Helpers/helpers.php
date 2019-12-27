@@ -2,6 +2,7 @@
 
 use App\Models\ProposalPerson;
 use App\Models\Proposal;
+use App\Models\Person;
 use App\Models\Email;
 use App\Models\Address;
 use App\Models\DegreePerson;
@@ -491,4 +492,118 @@ function proppath($pid) {
 
 function ppath($pid) {
     return 'proposals/prop-' . $pid;
+}
+
+function getPiData($pids) {
+    $proposals = Proposal::whereIn('id', $pids)->get();
+    $ages = collect([]);
+    $sexes = collect([]);
+    foreach($proposals as $p) {
+        $pi = $p->pi();
+        if(empty($pi)) {
+            $ages->push(0.0);
+            $sexes->push(0.0);
+        }
+        else {
+            $from = new DateTime($pi->birthdate);
+            $to   = new DateTime('today');
+            $age = $from->diff($to)->y;
+            $ages[$p->id] = $age;
+            $sexes[$p->id] = ($pi->sex == 'female' ? 1.0 : 0.0);
+        }
+    }
+    return ["ages" => $ages, "sexes" => $sexes];
+}
+
+function getParticipantData($pids)
+{
+    $proposals = Proposal::whereIn('id', $pids)->get();
+    $avgages = collect([]);
+    $avgsexes = collect([]);
+    $counts = collect([]);
+    $juniorcounts = collect([]);
+    foreach ($proposals as $p) {
+        $pps = ProposalPerson::where('proposal_id','=',$p->id)
+                    ->whereIn('subtype',['PI','collaborator'])
+                    ->get();
+        $ages = 0.0;
+        $sexes = 0.0;
+        $count = 0;
+        $juniors = 0;
+        foreach($pps as $pp) {
+            $person = Person::find($pp->person_id);
+            $from = new DateTime($person->birthdate);
+            $to   = new DateTime('today');
+            $age = $from->diff($to)->y;
+            $ages += $age;
+            $sexes += ($person->sex == 'female' ? 1.0 : 0.0);
+            $count += 1;
+            $maxdegree = DegreePerson::where('person_id','=',$person->id)->max('degree_id');
+            if($maxdegree<=3) $juniors++;
+        }
+        if($count > 0) {
+            $avgages[$p->id] = ($ages / $count);
+            $avgsexes[$p->id] = ($sexes / $count);
+        }
+        else {
+            $avgages[$p->id] = (0.0);
+            $avgsexes[$p->id] = (0.0);
+        }
+        $counts[$p->id] = $count;
+        $juniorcounts[$p->id] = $juniors;
+    }
+    return ["avgages" => $avgages, "avgsexes" => $avgsexes, "counts" => $counts, "juniorcounts" => $juniorcounts];
+}
+
+function getCategoryData($pids)
+{
+    $proposals = Proposal::whereIn('id', $pids)->get();
+    $membership = collect([]);
+    foreach ($proposals as $p) {
+
+    }
+    return ["membership" => $membership];
+}
+
+function getBudgetData($pids)
+{
+    $proposals = Proposal::whereIn('id', $pids)->get();
+    $budgets = collect([]);
+    $pisalaries = collect([]);
+    $collabsalaries = collect([]);
+    $avgsalaries = collect([]);
+    $devsalaries = collect([]);
+    $travels = collect([]);
+    $equipments = collect([]);
+    foreach ($proposals as $p) {
+    }
+    return ["budgets" => $budgets,
+            "pisalaries" => $pisalaries,
+            "collabsalaries" => $collabsalaries,
+            "avgsalaries" => $avgsalaries,
+            "devsalaries" => $devsalaries,
+            "travels" => $travels,
+            "equipments" => $equipments
+            ];
+}
+
+function getScoreData($pids)
+{
+    $proposals = Proposal::whereIn('id', $pids)->get();
+    $subscores = collect([]);
+    $overallscores = collect([]);
+    foreach ($proposals as $p) {
+    }
+    return ["subscores" => $subscores, "overallscores" => $overallscores];
+}
+
+function propertyInSet($rules, $array) {
+    foreach($array as $el) {
+        if (property_exists($rules, $el)) return true;
+    }
+    return false;
+}
+
+function inbetween($val, $range) {
+    return $val >= $range[0] && $val <= $range[1];
 }

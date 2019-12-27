@@ -13,51 +13,16 @@ use Illuminate\Support\Facades\Validator;
 
 
 // JSON
-//  {
-//      'min_pi_age': 0,
-//      'max_pi_age': 100,
-//      'pi_sex': [],
-//      'participants_sex': 0.5,
-//      'min_participants': 0,
-//      'max_participants': 0,
-//      'min_avg_part_age': 0,
-//      'max_avg_part_age': 0,
-//      'junior_participants': 0,
-//      'category': [],
-//      'min_budget': 0,
-//      'max_budget': 0,
-//      'min_pi_salary': 0,
-//      'max_pi_salary': 0,
-//      'min_salary_dev': 0,
-//      'max_salary_dev': 0,
-//      'min_avg_salary': 0,
-//      'max_avg_salary': 0,
-//      'min_travel': 0,
-//      'max_travel': 0,
-//      'min_equipment': 0,
-//      'max_equipment': 0,
-//      'min_part_salary': 0,
-//      'max_part_salary': 0,
-//      'min_subscore': 0,
-//      'max_subscore': 0,
-//      'min_score': 0,
-//      'max_score': 0,
-//  }
+
 
 
 class RankingRuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         try {
             $rules = RankingRule::with('user.person', 'competition')
                 ->get();
-//        dd($rules);
             return view('admin.ranking_rule.index',
                 compact('rules'));
         } catch (\Exception $exception) {
@@ -66,35 +31,21 @@ class RankingRuleController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         try {
             $competition = Competition::all()->pluck('title', 'id');
-
-            $users = Person::with('user')->where('type', 'admin')
-                ->orWhere('type', 'PI')
-                ->get();
+            $users = Person::with('user')->whereIn('type', ['admin','superadmin'])
+                            ->get();
             $rr = RankingRule::with('competition')->get();
 
-            return view('admin.ranking_rule.create',
-                compact('competition', 'users', 'rr'));
+            return view('admin.ranking_rule.create', compact('competition', 'users', 'rr'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -117,31 +68,17 @@ class RankingRuleController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         try {
             $competition = Competition::all()->pluck('title', 'id');
-            $users = Person::with('user')->where('type', 'admin')
-                ->orWhere('type', 'PI')
-                ->orWhere('type', 'referee')
-                ->orWhere('type', 'viewer')->get();
+            $users = Person::with('user')->whereIn('type', ['admin','superadmin'])
+                            ->get();
             $rank = RankingRule::where('id', $id)->first();
             return view('admin.ranking_rule.edit', compact('rank', 'competition', 'users'));
         } catch (\Exception $exception) {
@@ -151,13 +88,6 @@ class RankingRuleController extends Controller
 
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
             try {
@@ -180,94 +110,56 @@ class RankingRuleController extends Controller
     }
 
 
-    public function execute()
+    public function execute(Request $request)
     {
-        try {
-            $competitions = Competition::all();
+        $rr_ids = $request->id;
 
-            return view('admin.ranking_rule.execute', compact('competitions'));
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
+        foreach($rr_ids as $rrid) {
+            $rr = RankingRule::find($rrid);
+            $proposals = Proposal::select('id')->where('competition_id','=',$rr->competition_id)->get()->sortBy('id')->pluck('id');
+            $rules = json_decode($rr->sql);
+            $value = $rr->value;
+            \Debugbar::error('Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
+
+            if(propertyInSet($rules, ['pi_age', 'pi_sex'])) {
+                \Debugbar::error('Processing ' . count($proposals) . ' with PI rules.');
+                $data = getPiData($proposals);
+
+                $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    return  inbetween($data["ages"][$value], $rules->pi_age) &&
+                            inbetween($data["sexes"][$value], $rules->pi_sex);
+                });
+                \Debugbar::error('Count down to ' . count($proposals));
+            }
+
+            if (propertyInSet($rules, ['participants_sex', 'participants', 'avg_part_age', 'junior_participants'])) {
+                \Debugbar::error('Processing ' . count($proposals) . ' with participants rules.');
+                $data = getParticipantData($proposals);
+                $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    return  inbetween($data["avgages"][$value], $rules->avg_part_age) &&
+                            inbetween($data["avgsexes"][$value], $rules->participants_sex) &&
+                            inbetween($data["counts"][$value], $rules->participants) &&
+                            inbetween($data["juniorcounts"][$value], $rules->junior_participants);
+                });
+                \Debugbar::error('Count down to ' . count($proposals));
+            }
+
+            if (propertyInSet($rules, ['budget', 'pi_salary', 'collab_salary', 'avg_salary', 'salary_dev', 'travel', 'equipment'])) {
+                $data = getBudgetData($proposals);
+            }
+
+            if (propertyInSet($rules, ['category'])) {
+                $data = getCategoryData($proposals);
+            }
+
+            if (propertyInSet($rules, ['subscore', 'overall_score'])) {
+                $data = getScoreData($proposals);
+            }
         }
+        $response = ['success' => -1, 'count' => count($rr_ids)];
+        return response()->json($response);
     }
 
-    public function executeQuery(Request $request)
-    {
-
-//        try {
-
-        $queries = [];
-        foreach ($request->rules as $index => $rule) {
-            $g_r = RankingRule::where('id', $rule)->first();
-            $q_v = RankingRule::select('value')
-                ->where('id', $rule)
-                ->where('competition_id', $request->competition_id)
-                ->first();
-
-            //have proposal_ides in array
-            $queries['result'][$index] = DB::select($g_r->sql);
-            $queries['value'][$index] = $q_v->value;
-            $queries['summary'][$index] = $g_r->sql;
-        }
-        $results = [];
-
-        foreach ($queries['result'] as $index => $query) {
-            foreach ($query as $i => $item) {
-
-                $rr = Proposal::find($item->id);
-                if (!empty($rr)) {
-                    $rr->rank = $queries['value'][$index];
-                    $rr->save();
-                }
-                $results[$index]['ids'][$i] = $item->id;
-            }
-            $results[$index]['value'] = $queries['value'][$index];
-            $results[$index]['summary'] = $queries['summary'][$index];
-
-        }
-
-        $tables = [];
-        $resalt = $results[0]['ids'];
-
-        $val = $queries['value'][0];
-        for ($i = 1; $i < count($results); ++$i) {
-            $resalt = array_intersect($resalt, $results[$i]['ids']);
-            $val += $queries['value'][$i];
-            foreach ($resalt as $index => $query) {
-                $rr = Proposal::find($query);
-                $rr->rank = $val;
-                $rr->save();
-
-            }
-
-
-        }
-
-
-        foreach ($queries['result'] as $index => $ids) {
-            foreach ($ids as $i => $id) {
-
-                $rr = Proposal::select('id', 'rank')->where('id', $id->id)->first();
-                $tables['summary'][$id->id] = $rr;
-
-            }
-        }
-        $tables = array_unique($tables);
-
-        return view('admin.ranking_rule.result', compact('tables', 'results'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
-//        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
@@ -284,7 +176,6 @@ class RankingRuleController extends Controller
     {
         DB::beginTransaction();
         try {
-            //        if (isset($request->_token)) {
             $rule_ids = $request->id;
 
             foreach ($rule_ids as $index => $cat) {
