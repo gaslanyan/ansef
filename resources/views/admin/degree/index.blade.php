@@ -8,7 +8,7 @@
                     <div class="card-header">List of possible degrees
                     @if(get_role_cookie() == 'superadmin')
                         <a href="{{action('Admin\DegreeController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add a degree</a>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a degree</a>
                     @endif
                     </div>
 

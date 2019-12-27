@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">List of email templates
                         <a href="{{action('Admin\MessageController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add an email template</a>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add an email template</a>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">

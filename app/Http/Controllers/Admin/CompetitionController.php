@@ -139,7 +139,7 @@ class CompetitionController extends Controller
                         'instructions' => $request->instructions
                     ]);
 
-                    App\Models\BudgetCategory::create([
+                    BudgetCategory::create([
                         'name' => 'PI Salary',
                         'min' => 0,
                         'max' => 5000,
@@ -147,7 +147,7 @@ class CompetitionController extends Controller
                         'comments' => 'Monthly amount, number of months',
                         'competition_id' => $c->id
                     ]);
-                    App\Models\BudgetCategory::create([
+                    BudgetCategory::create([
                         'name' => 'Travel',
                         'min' => 0,
                         'max' => 5000,
@@ -155,7 +155,7 @@ class CompetitionController extends Controller
                         'comments' => 'Destination, number of months',
                         'competition_id' => $c->id
                     ]);
-                    App\Models\BudgetCategory::create([
+                    BudgetCategory::create([
                         'name' => 'Material or equipment',
                         'min' => 0,
                         'max' => 5000,

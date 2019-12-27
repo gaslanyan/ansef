@@ -122,7 +122,7 @@ $user_id = getUserID();
                             types</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\RankingRuleController@index')}}"><i class="fa fa-circle-o"></i>Ranking
+                        <a href="{{action('Admin\RankingRuleController@list', ['cid' => (empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)])}}"><i class="fa fa-circle-o"></i>Ranking
                             rules
                         </a>
                     </li>

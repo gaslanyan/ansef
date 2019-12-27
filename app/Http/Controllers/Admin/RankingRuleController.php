@@ -18,13 +18,20 @@ use Illuminate\Support\Facades\Validator;
 
 class RankingRuleController extends Controller
 {
-    public function index()
+    public function index() {
+
+    }
+
+    public function list($cid)
     {
         try {
+            $competitions = Competition::select('id', 'title')->get();
+
             $rules = RankingRule::with('user.person', 'competition')
+                ->where('competition_id','=',$cid)
                 ->get();
             return view('admin.ranking_rule.index',
-                compact('rules'));
+                compact('rules', 'competitions', 'cid'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
@@ -113,17 +120,20 @@ class RankingRuleController extends Controller
     public function execute(Request $request)
     {
         $rr_ids = $request->id;
+        $cid = $request->cid;
+        $cleanup = $request->cleanup;
 
-        $rr = RankingRule::find($rr_ids[0]);
-        $proposals = Proposal::select('id')->where('competition_id', '=', $rr->competition_id)->get()->sortBy('id')->pluck('id');
-        \Debugbar::error('* Cleaning up ranks for ' . count($proposals) . ' proposals');
-        DB::beginTransaction();
-        foreach ($proposals as $pid) {
-            $p = Proposal::find($pid);
-            $p->rank = 0;
-            $p->save();
+        if($cleanup == 'true') {
+            $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
+            \Debugbar::error('* Cleaning up ranks for ' . count($proposals) . ' proposals');
+            DB::beginTransaction();
+            foreach ($proposals as $pid) {
+                $p = Proposal::find($pid);
+                $p->rank = 0;
+                $p->save();
+            }
+            DB::commit();
         }
-        DB::commit();
 
         foreach($rr_ids as $rrid) {
             $rr = RankingRule::find($rrid);

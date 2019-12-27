@@ -6,23 +6,29 @@
                  <div class="card" >
                     <div class="card-header">
                         <a href="{{action('Admin\RankingRuleController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add a ranking rule</a>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a ranking rule</a>
                         <button type="button"
                                 title="change state" onclick="executerules()"
                                 class="display float-lg-left btn-primary px-2 myButton">
-                                <i class="fa fa-comments"></i>
+                                <i class="fas fa-cogs"></i>
                             Execute rules
                         </button>
+                        <input style="margin-left:20px;margin-top:12px;" type="checkbox" name="cleanup" value="0" id="cleanup"> Cleanup before execution
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
                         @include('partials.status_bar')
+                        <p>
+                        @foreach($competitions as $comp)
+                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\RankingRuleController@list',['cid' => $comp->id])}}">{{$comp->title}}</a> -
+                        @endforeach
+                        </p>
 
                         <table class="table table-responsive-md table-sm table-bordered display compact" id="datatable"
                                style="width:100%">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>SQL</th>
+                                <th>Rules</th>
                                 <th>Value</th>
                                 <th>Admin</th>
                                 <th>Action</th>
@@ -105,13 +111,15 @@
                     type: 'POST',
                     data: {
                         token: CSRF_TOKEN,
-                        id: checkedIDss
+                        id: checkedIDss,
+                        cid: '{{$cid}}',
+                        cleanup: $('#cleanup').is(":checked")
                     },
                     dataType: 'JSON',
                     success: function(data) {
                         setTimeout(function(){
-                            window.location.href = 'proposal/list/' + 2;
-                        }, 500);
+                            window.location.href = '{{route("proposal_list", $cid)}}';
+                        }, 5000);
                     },
                     error: function(data) {
                         console.log('msg' + data);

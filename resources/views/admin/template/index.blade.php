@@ -6,7 +6,7 @@
                  <div class="card" >
                     <div class="card-header">List of auto-generated messages
                         <a href="{{action('Admin\TemplateController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add a message</a>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a message</a>
 
 
                     </div>

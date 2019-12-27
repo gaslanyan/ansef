@@ -155,6 +155,8 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/getRR', 'Admin\RankingRuleController@getRR');
     Route::post('/admin/approve', 'Admin\ReportController@approvePR');
 
+    Route::get('/admin/rankings/competition/{cid}', 'Admin\RankingRuleController@list');
+
 });
 
 // ---------------------------------- Applicant routes ----------------------------------

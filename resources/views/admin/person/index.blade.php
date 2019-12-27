@@ -8,7 +8,7 @@
                     <div class="card-header">List of all users
                         @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
-                               class="display float-lg-right btn-primary px-2 myButton">Add a person</a>
+                               class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a person</a>
                         @endif
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

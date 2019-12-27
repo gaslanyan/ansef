@@ -8,7 +8,7 @@
                     <div class="card-header">List of budget categories
                         @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\BudgetCategoryController@create')}}"
-                               class="display float-lg-right btn-primary px-2 myButton">Add a budget category</a>
+                               class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a budget category</a>
                         @endif
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

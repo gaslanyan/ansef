@@ -7,7 +7,7 @@
                 <div class="card"  >
                     <div class="card-header">List of persons
                     <a href="{{action('Applicant\AccountController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add A New Person</a></div>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add A New Person</a></div>
 
                     <div class="card-body card_body" style="overflow:auto;">
 

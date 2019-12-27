@@ -7,7 +7,7 @@
                     <div class="card-header">List of competitions
                         @if(get_role_cookie() === "superadmin")
                             <a href="{{action('Admin\CompetitionController@create')}}"
-                               class="display float-lg-right btn-primary px-2 myButton">Add a competition</a>
+                               class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a competition</a>
                         @endif
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

@@ -7,7 +7,7 @@
                     <div class="card-header">List of score types
                         @if(get_role_cookie() === "superadmin")
                             <a href="{{action('Admin\ScoreTypeController@create')}}"
-                               class="display float-lg-right btn-primary px-2 myButton">Add a score type</a>
+                               class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a score type</a>
                         @endif
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">

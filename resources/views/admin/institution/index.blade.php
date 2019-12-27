@@ -9,7 +9,7 @@
                     <div class="card-header"> List of institutions
                         @if(get_role_cookie() == 'superadmin')
                         <a href="{{action('Admin\InstitutionController@create')}}"
-                        class="display float-lg-right btn-primary px-2 myButton">Add an institution</a>
+                        class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add an institution</a>
                         @endif
                     </div>
 

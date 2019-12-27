@@ -8,7 +8,7 @@
                 <div class="card" >
                     <div class="card-header">List of Current Proposals
                         <a href="{{action('Applicant\ProposalController@create')}}"
-                           class="display float-lg-right btn-primary px-2 myButton">Add A New Proposal</a>
+                           class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add A New Proposal</a>
                     </div>
                     @include('partials.status_bar')
 
