@@ -109,10 +109,9 @@
                     },
                     dataType: 'JSON',
                     success: function(data) {
-                        if (data.success === -1)
-                            console.log('msg' + data);
-                        else
-                            reloadtable('admin/listproposals');
+                        setTimeout(function(){
+                            window.location.href = 'proposal/list/' + 2;
+                        }, 500);
                     },
                     error: function(data) {
                         console.log('msg' + data);

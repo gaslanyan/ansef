@@ -69,6 +69,7 @@
                                 <th>Admin</th>
                                 <th width="100px">State</th>
                                 <th>Score</th>
+                                <th>Rank</th>
                                 <th class="action long">Actions</th>
                             </tr>
                             </thead>
@@ -215,6 +216,7 @@
                         {"data": "admin"},
                         {"data": "state"},
                         {"data": "score"},
+                        {"data": "rank"},
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
@@ -235,7 +237,8 @@
                     { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
                     { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
                     { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "40px", "targets": 7, "searchable": true, "orderable": true, "visible": true }
+                    { "width": "40px", "targets": 7, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "40px", "targets": 8, "searchable": true, "orderable": true, "visible": true }
                 ],
                 "select": true,
                 "scrollX": true,

@@ -114,26 +114,38 @@ class RankingRuleController extends Controller
     {
         $rr_ids = $request->id;
 
+        $rr = RankingRule::find($rr_ids[0]);
+        $proposals = Proposal::select('id')->where('competition_id', '=', $rr->competition_id)->get()->sortBy('id')->pluck('id');
+        \Debugbar::error('* Cleaning up ranks for ' . count($proposals) . ' proposals');
+        DB::beginTransaction();
+        foreach ($proposals as $pid) {
+            $p = Proposal::find($pid);
+            $p->rank = 0;
+            $p->save();
+        }
+        DB::commit();
+
         foreach($rr_ids as $rrid) {
             $rr = RankingRule::find($rrid);
             $proposals = Proposal::select('id')->where('competition_id','=',$rr->competition_id)->get()->sortBy('id')->pluck('id');
             $rules = json_decode($rr->sql);
             $value = $rr->value;
-            \Debugbar::error('Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
+
+            \Debugbar::error('* Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
 
             if(propertyInSet($rules, ['pi_age', 'pi_sex'])) {
-                \Debugbar::error('Processing ' . count($proposals) . ' with PI rules.');
+                \Debugbar::error('  Processing ' . count($proposals) . ' with PI rules.');
                 $data = getPiData($proposals);
 
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["ages"][$value], $rules->pi_age) &&
                             inbetween($data["sexes"][$value], $rules->pi_sex);
                 });
-                \Debugbar::error('Count down to ' . count($proposals));
+                \Debugbar::error('  Count down to ' . count($proposals));
             }
 
             if (propertyInSet($rules, ['participants_sex', 'participants', 'avg_part_age', 'junior_participants'])) {
-                \Debugbar::error('Processing ' . count($proposals) . ' with participants rules.');
+                \Debugbar::error('  Processing ' . count($proposals) . ' with participants rules.');
                 $data = getParticipantData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["avgages"][$value], $rules->avg_part_age) &&
@@ -141,20 +153,44 @@ class RankingRuleController extends Controller
                             inbetween($data["counts"][$value], $rules->participants) &&
                             inbetween($data["juniorcounts"][$value], $rules->junior_participants);
                 });
-                \Debugbar::error('Count down to ' . count($proposals));
+                \Debugbar::error('  Count down to ' . count($proposals));
             }
 
             if (propertyInSet($rules, ['budget', 'pi_salary', 'collab_salary', 'avg_salary', 'salary_dev', 'travel', 'equipment'])) {
+                \Debugbar::error('  Processing ' . count($proposals) . ' with budget rules.');
                 $data = getBudgetData($proposals);
+                $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    return true;
+                });
+                \Debugbar::error('  Count down to ' . count($proposals));
             }
 
             if (propertyInSet($rules, ['category'])) {
+                \Debugbar::error('  Processing ' . count($proposals) . ' with category rules.');
                 $data = getCategoryData($proposals);
+                $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    return true;
+                });
+                \Debugbar::error('  Count down to ' . count($proposals));
             }
 
             if (propertyInSet($rules, ['subscore', 'overall_score'])) {
+                \Debugbar::error('  Processing ' . count($proposals) . ' with score rules.');
                 $data = getScoreData($proposals);
+                $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    return true;
+                });
+                \Debugbar::error('  Count down to ' . count($proposals));
             }
+
+            DB::beginTransaction();
+            \Debugbar::error('* Applying rank value to ' . count($proposals) . ' proposals.');
+            foreach($proposals as $pid) {
+                $p = Proposal::find($pid);
+                $p->rank += $value;
+                $p->save();
+            }
+            DB::commit();
         }
         $response = ['success' => -1, 'count' => count($rr_ids)];
         return response()->json($response);
