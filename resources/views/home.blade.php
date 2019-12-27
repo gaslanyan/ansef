@@ -12,16 +12,16 @@
                 <img src="{{asset('img/off.png')}}" class="off">
                 <?php else: ?>
                  <div class="card" >
-                    <div class="card-header">Welcome to ANSEF!!</div>
+                    <div class="card-header">Welcome to ANSEF</div>
 
                     <div class="card-body row">
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="card-header">
                                 <h3 class="text-center">
                                     <a href="login/superadmin">SUPER-ADMIN</a>
                                 </h3>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="card-header">
                                 <h3 class="text-center">
@@ -32,24 +32,24 @@
                         <div class="col-md-6">
                             <div class="card-header">
                                 <h3 class="text-center">
-                                    <a href="login/admin">ADMIN</a>
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-header">
-                                <h3 class="text-center">
                                     <a href="login/referee">REFEREE</a>
                                 </h3>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
+                            <div class="card-header">
+                                <h3 class="text-center">
+                                    <a href="login/admin">ADMIN</a>
+                                </h3>
+                            </div>
+                        </div> --}}
+                        {{-- <div class="col-md-6">
                             <div class="card-header">
                                 <h3 class="text-center">
                                     <a href="login/viewer">VIEWER</a>
                                 </h3>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <?php endif ?>

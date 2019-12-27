@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('content')
     <div class="container">
-
         <div class="row justify-content-center">
             <div class="offset-2 col-md-10">
                  <div class="card" >
@@ -139,8 +138,6 @@
                     $("#overallspan").text(score + '%');
                 });
         });
-
-
 
         function open_container() {
             var size = 'small',
