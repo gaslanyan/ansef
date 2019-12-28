@@ -121,7 +121,7 @@ class AccountController extends Controller
     public function generatePassword(Request $request, $id)
     {
         try {
-            $user = Person::find($id)->user;
+            $user = User::find($id);
             $user->confirmation = str_random(30) . time();
             $user->password_salt = 10;
             $user->requested_role_id = $user->role_id;
@@ -247,7 +247,9 @@ class AccountController extends Controller
     public function destroy($id)
     {
         try {
-            $p = Person::find($id);
+            $p = Person::where('user_id','=',$id)
+                        ->whereIn('type',['applicant', 'referee', 'viewer', 'admin'])
+                        ->first();
             $type = $p->type;
             switch ($type) {
                 case 'applicant':

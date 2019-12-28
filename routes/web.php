@@ -75,7 +75,6 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
     Route::get('/admin/export', 'Admin\SettingsController@exportForm');
     Route::get('/admin/sql', 'Admin\SettingsController@sql');
-    Route::post('/admin/backup', 'Admin\SettingsController@backup');
     Route::get('/admin/profile/edit/{id}', 'Admin\PersonController@edit');
     Route::post('/admin/profile/update', 'Admin\PersonController@update');
     Route::post('/admin/password/update', 'Admin\PersonController@updatePassword');

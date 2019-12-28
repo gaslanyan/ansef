@@ -73,7 +73,6 @@
                                                         class="fa fa-save"></i></button>
                                             <button title="Cancel" class="cancel editable btn-link"><i
                                                         class="fa fa-ban"></i></button>
-
                                             <form action="{{action('Admin\AccountController@generatePassword', $user->id)}}"
                                                   method="post">
                                                 @csrf
@@ -92,12 +91,12 @@
                                                 </a>
                                             @endif
                                             @if(get_role_cookie() == 'superadmin')
-                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$user->id, 'type'=>$user->type])}}"
+                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$user->id, 'type'=>$user->role->name])}}"
                                                         method="post">
                                                     @csrf
                                                     <input name="_method" type="hidden" value="DELETE">
                                                     <input name="_id" type="hidden" value="{{$user->id}}">
-                                                    <button class="btn-link delete" type="button" data-title="{{$user->type}}">
+                                                    <button class="btn-link delete" type="button" data-title="{{$user->role->name}}">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </form>

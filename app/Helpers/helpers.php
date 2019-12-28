@@ -220,7 +220,7 @@ function exportExcelOrCsv($name, $type)
 {
     $queryBuilder = \Illuminate\Support\Facades\DB::table($name)->select('*');
 
-    $title = str_replace('_', ' ', strtoupper($name)) . ' TABLE DATA.';
+    $title = str_replace('_', ' ', strtoupper($name)) . ' TABLE DATA';
 
     $meta = [
     ];
@@ -234,10 +234,8 @@ function exportExcelOrCsv($name, $type)
     $export = '';
     if ($type !== "csv")
         $export = \Jimmyjs\ReportGenerator\Facades\ExcelReportFacade::of($title, $meta, $queryBuilder, $columns)
-            ->limit(20)
             ->download($name);
     else
-
         $export = \Jimmyjs\ReportGenerator\Facades\CSVReportFacade::of($title, $meta, $queryBuilder, $columns)
             ->download($name);
     return $export;

@@ -166,15 +166,12 @@ class PersonController extends Controller
     {
         $user = [];
         $person = [];
-        //        if ($request->_token === Session::token()) {
         $items = json_decode($request->form);
 
         foreach ($items as $key => $value) {
             if ($key === 'id') {
                 $id = $value;
                 $user = User::find((int) $id);
-                //                    $p = Person::where('user_id', $id)->first();
-                //                    $person = Person::find($p->id);
             }
 
             if ($key === 'email')
@@ -183,10 +180,7 @@ class PersonController extends Controller
                 $user->state = $value;
             if ($key === 'status')
                 $user->role_id = $value;
-            //                if ($key === 'type')
-            //                    $person->type = $value;
         }
-        //        }
         if ($user->save())
             $response = [
                 'success' => true
