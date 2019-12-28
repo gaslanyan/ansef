@@ -9,6 +9,7 @@
         }
         strong {
             color: #647c97;
+            font-size: 14px;;
         }
 
     </style>

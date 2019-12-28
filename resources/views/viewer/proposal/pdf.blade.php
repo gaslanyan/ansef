@@ -5,7 +5,7 @@
     <style>
         strong {
             color: #647c97;
-            font-size: large;
+            font-size: 14px;;
         }
         body {
             font-family: Arial, Helvetica, sans-serif;
