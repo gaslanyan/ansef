@@ -713,7 +713,9 @@ class MigrateANSEF implements ShouldQueue
             ->where('proposal_id', '=', $this->proposal_id)->get();
         foreach ($budget_items as $budget_item) {
             // \Debugbar::error('Adding budget item id ' . $budget_item->id);
-            $budcat = BudgetCategory::where('name', '=', $budget_item->expense_type)->first();
+            $budcat = BudgetCategory::where('name', '=', $budget_item->expense_type)
+                                    ->where('competition_id', '=', $p->competition_id)
+                                    ->first();
             if (empty($budcat)) $budcat = BudgetCategory::first();
             BudgetItem::create([
                 'budget_cat_id' => $budcat->id,

@@ -22,7 +22,7 @@ function checkPermission($permissions)
     $user = Auth::guard(get_role_cookie())->user();
     if (empty($user)) return false;
     $userAccess = get_role_cookie();
-    if($userAccess == "superadmin") return true;
+    if ($userAccess == "superadmin") return true;
     foreach ($permissions as $value) {
         if ($value == $userAccess) {
             return true;
@@ -64,8 +64,8 @@ function userHasPerson()
     if (!empty(Auth::guard($role)->user())) {
         $user_id = Auth::guard($role)->user()->id;
         $person = \App\Models\Person::where('user_id', $user_id)
-                                    ->where('type', $role)
-                                    ->first();
+            ->where('type', $role)
+            ->first();
 
         if (!empty($person)) {
             return true;
@@ -84,7 +84,6 @@ function getPersonIdByRole($role)
         $person = \App\Models\Person::where('user_id', $user_id)->where('type', $role)->first();
         if (!empty($person)) {
             return $person->id;
-
         } else {
             return view('errors.404');
         }
@@ -135,10 +134,11 @@ function getTableColumns($items)
     }
 }
 
-function loggedApplicant() {
+function loggedApplicant()
+{
     if (!empty(Auth::guard(get_role_cookie())->user())) {
         $user_id = Auth::guard(get_role_cookie())->user()->id;
-        return \App\Models\Person::where('user_id','=', $user_id)->whereIn('type', ['applicant','referee','admin','superadmin'])->first();
+        return \App\Models\Person::where('user_id', '=', $user_id)->whereIn('type', ['applicant', 'referee', 'admin', 'superadmin'])->first();
     } else {
         return view('errors.404');
     }
@@ -148,7 +148,7 @@ function loggedPerson()
 {
     if (!empty(Auth::guard(get_role_cookie())->user())) {
         $user_id = Auth::guard(get_role_cookie())->user()->id;
-        return \App\Models\Person::where('user_id', '=', $user_id)->whereNotIn('type', ['participants','support'])->first();
+        return \App\Models\Person::where('user_id', '=', $user_id)->whereNotIn('type', ['participants', 'support'])->first();
     } else {
         return view('errors.404');
     }
@@ -166,8 +166,8 @@ function getUserID()
 
 function isPerson($id)
 {
-    return \App\Models\Person::whereIn('persons.type',['referee','admin','viewer','applicant'])
-                            ->where('persons.id', '=', $id)->exists();
+    return \App\Models\Person::whereIn('persons.type', ['referee', 'admin', 'viewer', 'applicant'])
+        ->where('persons.id', '=', $id)->exists();
 }
 
 
@@ -193,7 +193,6 @@ function getCategoriesNameByID($id)
     $catname = \App\Models\Category::select('title')
         ->where('id', $id)->first();
     return $catname->title . " ";
-
 }
 
 function getSelectedValue($select, $option)
@@ -222,8 +221,7 @@ function exportExcelOrCsv($name, $type)
 
     $title = str_replace('_', ' ', strtoupper($name)) . ' TABLE DATA';
 
-    $meta = [
-    ];
+    $meta = [];
 
     $columns = [];
     $fields = \Illuminate\Support\Facades\Schema::getColumnListing($name);
@@ -299,7 +297,8 @@ function truncate($string, $length)
     return $string;
 }
 
-function abbreviate($string) {
+function abbreviate($string)
+{
     if (strlen($string) > 4) {
         $string = substr($string, 0, 4) . substr($string, -1) . '.';
     }
@@ -307,21 +306,25 @@ function abbreviate($string) {
     return $string;
 }
 
-function personidforuser($id) {
-    $person = \App\Models\Person::where('user_id','=',$id)->whereNotIn('type', ['participant', 'support'])->first();
+function personidforuser($id)
+{
+    $person = \App\Models\Person::where('user_id', '=', $id)->whereNotIn('type', ['participant', 'support'])->first();
     return $person->id;
 }
 
-function createperson($user_id, $role) {
-    $person = \App\Models\Person::where('user_id','=',$user_id)->where('type','=', $role)->first();
+function createperson($user_id, $role)
+{
+    $person = \App\Models\Person::where('user_id', '=', $user_id)->where('type', '=', $role)->first();
 
-    if(empty($person)) {
+    if (empty($person)) {
         \App\Models\Person::firstOrCreate([
-                        'user_id' => $user_id,
-                        'type' => $role], [
-                        'first_name' => '',
-                        'last_name' => '',
-                        'specialization' => '']);
+            'user_id' => $user_id,
+            'type' => $role
+        ], [
+            'first_name' => '',
+            'last_name' => '',
+            'specialization' => ''
+        ]);
     }
 }
 
@@ -350,15 +353,17 @@ function cleanString($text)
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
-function getCleanString($text) {
+function getCleanString($text)
+{
     return (!empty($text) && $text != null) ? cleanString(ucwords(mb_strtolower($text))) : '';
 }
 
-function overallScore($rid) {
-    $scores = Score::where('report_id','=',$rid)
-                    ->join('score_types', 'score_types.id','=', 'scores.score_type_id')
-                    ->get();
-    if(!empty($scores) && count($scores) > 0) {
+function overallScore($rid)
+{
+    $scores = Score::where('report_id', '=', $rid)
+        ->join('score_types', 'score_types.id', '=', 'scores.score_type_id')
+        ->get();
+    if (!empty($scores) && count($scores) > 0) {
         $result = $scores->reduce(function ($carry, $item) {
             return $carry + ($item->weight * 100.0 * $item->value / $item->max);
         });
@@ -366,8 +371,7 @@ function overallScore($rid) {
             return $carry + $item->weight;
         });
         return (int) ($result / $weights);
-    }
-    else return 0;
+    } else return 0;
 }
 
 function checkproposal($id)
@@ -379,9 +383,9 @@ function checkproposal($id)
     if (empty($p->abstract) || $p->abstract == "") array_push($messages, "Proposal must have an abstract.");
     if (empty($p->document) || $p->document == "") array_push($messages, "Proposal must have a document uploaded detailing the project.");
     $pi = ProposalPerson::where('proposal_id', '=', $id)
-            ->join('persons', 'persons.id', '=', 'person_id')
-            ->where('subtype','=','PI')
-            ->first();
+        ->join('persons', 'persons.id', '=', 'person_id')
+        ->where('subtype', '=', 'PI')
+        ->first();
     if (empty($pi)) array_push($messages, "Proposal must have one Principal Investigator (PI).");
     else {
         $picount = ProposalPerson::where('proposal_id', '=', $id)
@@ -389,29 +393,29 @@ function checkproposal($id)
             ->count();
         if ($picount > 1) array_push($messages, "Proposal cannot have more than one Principal Investigator.");
 
-        if($p->competition()->first()->allow_foreign == "0") {
-            if($pi->state == "foreign")
+        if ($p->competition()->first()->allow_foreign == "0") {
+            if ($pi->state == "foreign")
                 array_push($messages, "This competition does not allow a PI (" . $pi->first_name . " " . $pi->last_name . ") that is not based in Armenia.");
         }
     }
     $members = ProposalPerson::where('proposal_id', '=', $id)
-                ->join('persons','persons.id','=','person_id')
-                ->get();
-    foreach($members as $member) {
+        ->join('persons', 'persons.id', '=', 'person_id')
+        ->get();
+    foreach ($members as $member) {
         $ecount = Email::where('person_id', '=', $member->person_id)->count();
-        if($ecount == 0)
+        if ($ecount == 0)
             array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one email address provided.");
         $addcount = Address::where('addressable_id', '=', $member->person_id)
-                        ->where('addressable_type','=','App\Models\Person')
-                        ->count();
-        if($addcount == 0)
+            ->where('addressable_type', '=', 'App\Models\Person')
+            ->count();
+        if ($addcount == 0)
             array_push($messages, $member->first_name . " " . $member->last_name . " must have at least one mailing address provided.");
 
-        if($member->type == "participant") {
+        if ($member->type == "participant") {
             $education = DegreePerson::where('person_id', '=', $member->person_id)->count();
             $employment = InstitutionPerson::where('person_id', '=', $member->person_id)->count();
 
-            if($education == 0)
+            if ($education == 0)
                 array_push($warnings, "You have not provided an educational history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an educational history for each project participant.");
             if ($employment == 0)
                 array_push($warnings, "You have not provided an employment history for participant " . $member->first_name . " " . $member->last_name . ". It is highly recommended that the proposal includes an employment history for each project participant.");
@@ -419,28 +423,27 @@ function checkproposal($id)
     }
 
     $budget = $p->budget();
-    if($budget["validation"] != "")
+    if ($budget["validation"] != "")
         array_push($messages, $budget["validation"]);
 
     $recs = $p->competition->recommendations;
     $missingrecs = [];
     $submittedrecs = [];
-    if($recs > 0) {
+    if ($recs > 0) {
         $recommenders = ProposalPerson::where('proposal_id', '=', $id)
-        ->where('subtype','=','supportletter')
-        ->join('persons','persons.id','=','person_id')
-        ->get();
-        if(count($recommenders) < $recs)
-            array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letter" . ($recs > 1 ? 's' : '') ." of support. You currently have " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
+            ->where('subtype', '=', 'supportletter')
+            ->join('persons', 'persons.id', '=', 'person_id')
+            ->get();
+        if (count($recommenders) < $recs)
+            array_push($messages, "This competition requires that a proposal is accompanied by a minimum of " . $recs . " recommendation letter" . ($recs > 1 ? 's' : '') . " of support. You currently have " . count($recommenders) . " persons added to the proposal in the role of recommenders. Make sure you add at least " . $recs . ".");
 
-        foreach($recommenders as $recommender) {
-            $email = Email::where('person_id','=',$recommender->person_id)->first();
+        foreach ($recommenders as $recommender) {
+            $email = Email::where('person_id', '=', $recommender->person_id)->first();
 
-            if(Recommendation::where('proposal_id','=',$p->id)->where('document','!=',null)->where('person_id','=',$recommender->person_id)->exists()) {
+            if (Recommendation::where('proposal_id', '=', $p->id)->where('document', '!=', null)->where('person_id', '=', $recommender->person_id)->exists()) {
                 array_push($submittedrecs, ["id" => $recommender->person_id, "email" => (!empty($email) ? $email->email : ''), "name" => $recommender->first_name . " " . $recommender->last_name]);
-            }
-            else {
-                if(!empty($email))
+            } else {
+                if (!empty($email))
                     array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
             }
         }
@@ -455,7 +458,8 @@ function checkproposal($id)
     ];
 }
 
-function updateProposalScore($id) {
+function updateProposalScore($id)
+{
     $p = Proposal::find($id);
     $average = RefereeReport::where('proposal_id', '=', $id)->avg('overall_score');
 
@@ -463,7 +467,8 @@ function updateProposalScore($id) {
     $p->save();
 }
 
-function updateProposalState($id) {
+function updateProposalState($id)
+{
     $p = Proposal::find($id);
     $reports = RefereeReport::where('proposal_id', '=', $id)->get();
 
@@ -482,31 +487,32 @@ function updateProposalState($id) {
     $p->save();
 }
 
-function proppath($pid) {
+function proppath($pid)
+{
     $path = ppath($pid);
     if (!Storage::exists($path)) {
         Storage::makeDirectory($path, 0775, true);
-
     }
 
     return 'app/' . $path;
 }
 
-function ppath($pid) {
+function ppath($pid)
+{
     return 'proposals/prop-' . $pid;
 }
 
-function getPiData($pids) {
+function getPiData($pids)
+{
     $proposals = Proposal::whereIn('id', $pids)->get();
     $ages = collect([]);
     $sexes = collect([]);
-    foreach($proposals as $p) {
+    foreach ($proposals as $p) {
         $pi = $p->pi();
-        if(empty($pi)) {
+        if (empty($pi)) {
             $ages->push(0.0);
             $sexes->push(0.0);
-        }
-        else {
+        } else {
             $from = new DateTime($pi->birthdate);
             $to   = new DateTime('today');
             $age = $from->diff($to)->y;
@@ -525,14 +531,14 @@ function getParticipantData($pids)
     $counts = collect([]);
     $juniorcounts = collect([]);
     foreach ($proposals as $p) {
-        $pps = ProposalPerson::where('proposal_id','=',$p->id)
-                    ->whereIn('subtype',['PI','collaborator'])
-                    ->get();
+        $pps = ProposalPerson::where('proposal_id', '=', $p->id)
+            ->whereIn('subtype', ['PI', 'collaborator'])
+            ->get();
         $ages = 0.0;
         $sexes = 0.0;
         $count = 0;
         $juniors = 0;
-        foreach($pps as $pp) {
+        foreach ($pps as $pp) {
             $person = Person::find($pp->person_id);
             $from = new DateTime($person->birthdate);
             $to   = new DateTime('today');
@@ -540,14 +546,13 @@ function getParticipantData($pids)
             $ages += $age;
             $sexes += ($person->sex == 'female' ? 1.0 : 0.0);
             $count += 1;
-            $maxdegree = DegreePerson::where('person_id','=',$person->id)->max('degree_id');
-            if($maxdegree<=3) $juniors++;
+            $maxdegree = DegreePerson::where('person_id', '=', $person->id)->max('degree_id');
+            if ($maxdegree <= 3) $juniors++;
         }
-        if($count > 0) {
+        if ($count > 0) {
             $avgages[$p->id] = ($ages / $count);
             $avgsexes[$p->id] = ($sexes / $count);
-        }
-        else {
+        } else {
             $avgages[$p->id] = (0.0);
             $avgsexes[$p->id] = (0.0);
         }
@@ -570,9 +575,16 @@ function getCategoryData($pids)
 
         $catmembership[$p->id] = $cat;
         $subcatmembership[$p->id] = $subcat;
-
     }
     return ["catmembership" => $catmembership, "subcatmembership" => $subcatmembership];
+}
+
+function collectionToString($c)
+{
+    return $c->reduce(function ($previous, $value) {
+        if (!$previous) return strval($value);
+        return $previous . '\n' . strval($value);
+    });
 }
 
 function getBudgetData($pids)
@@ -588,18 +600,20 @@ function getBudgetData($pids)
     $equipments = collect([]);
     if (!empty($proposals) && count($proposals) > 0) {
         $budgcats = BudgetCategory::select('id')
-                                ->where('competition_id', '=', $proposals[0]->competition_id)
-                                ->get()->sortBy('id');
+            ->where('competition_id', '=', $proposals[0]->competition_id)
+            ->get()->sortBy('id');
+        // \Debugbar::error('budgcats: ' . collectionToString($budgcats));
         foreach ($proposals as $p) {
-            $bis = BudgetItem::where('proposal_id','=',$p->id)->get();
+            $bis = BudgetItem::where('proposal_id', '=', $p->id)->get();
             $budget = 0.0;
             $pisal = 0.0;
             $collabsal = 0.0;
             $salaries = collect([]);
             $travel = 0.0;
             $equip = 0.0;
-            foreach($bis as $bi) {
+            foreach ($bis as $bi) {
                 $budget += $bi->amount;
+                // \Debugbar::error('$bi->budget_cat_id: ' . $bi->budget_cat_id);
                 switch ($bi->budget_cat_id) {
                     case $budgcats[$bcindexes['collaborator']]->id:
                         $collabsal += $bi->amount;
@@ -623,22 +637,23 @@ function getBudgetData($pids)
             $avg = $salaries->avg();
             $avgsalaries[$p->id] = $avg;
             $devsalaries[$p->id] = $salaries->reduce(function ($carry, $item) use ($avg) {
-                                                        return $carry + (($item - $avg)* ($item - $avg));
-                                                    });
-            if(count($salaries) > 0) $devsalaries[$p->id] = sqrt($devsalaries[$p->id]/ count($salaries));
+                return $carry + (($item - $avg) * ($item - $avg));
+            });
+            if (count($salaries) > 0) $devsalaries[$p->id] = sqrt($devsalaries[$p->id] / count($salaries));
             else $devsalaries[$p->id] = 0.0;
             $travels[$p->id] = $travel;
             $equipments[$p->id] = $equip;
         }
     }
-    return ["budgets" => $budgets,
-            "pisalaries" => $pisalaries,
-            "collabsalaries" => $collabsalaries,
-            "avgsalaries" => $avgsalaries,
-            "devsalaries" => $devsalaries,
-            "travels" => $travels,
-            "equipments" => $equipments
-            ];
+    return [
+        "budgets" => $budgets,
+        "pisalaries" => $pisalaries,
+        "collabsalaries" => $collabsalaries,
+        "avgsalaries" => $avgsalaries,
+        "devsalaries" => $devsalaries,
+        "travels" => $travels,
+        "equipments" => $equipments
+    ];
 }
 
 function getScoreData($pids)
@@ -646,30 +661,32 @@ function getScoreData($pids)
     $proposals = Proposal::whereIn('id', $pids)->get();
     $subscores = collect([]);
     $overallscores = collect([]);
-    if(!empty($proposals) && count($proposals) > 0) {
+    if (!empty($proposals) && count($proposals) > 0) {
         foreach ($proposals as $p) {
-            $reports = RefereeReport::where('proposal_id','=',$p->id)->get();
+            $reports = RefereeReport::where('proposal_id', '=', $p->id)->get();
             $ss = collect([]);
-            foreach($reports as $report) {
+            foreach ($reports as $report) {
                 $scores = $report->scores()->get()->sortBy('id');
-                foreach($scores as $score) {
+                foreach ($scores as $score) {
                     $ss->push($score->value);
                 }
             }
             $overallscores[$p->id] = $p->overall_score;
-            $subscores[$p->id] = collect([])->push($ss);
+            $subscores[$p->id] = $ss;
         }
     }
     return ["subscores" => $subscores, "overallscores" => $overallscores];
 }
 
-function propertyInSet($rules, $array) {
-    foreach($array as $el) {
+function propertyInSet($rules, $array)
+{
+    foreach ($array as $el) {
         if (property_exists($rules, $el)) return true;
     }
     return false;
 }
 
-function inbetween($val, $range) {
+function inbetween($val, $range)
+{
     return $val >= $range[0] && $val <= $range[1];
 }

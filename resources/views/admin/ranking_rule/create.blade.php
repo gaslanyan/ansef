@@ -40,7 +40,7 @@
     "avg_salary": [0.0, 2000.0],
     "salary_dev": [0.0, 100.0],
     "travel": [0.0, 2000.0],
-    "min_equipment": [0.0, 2000.0],
+    "equipment": [0.0, 2000.0],
     "subscore": [0.0, 7.0],
     "overall_score": [0.0, 7.0]
 }

@@ -119,7 +119,7 @@
                     success: function(data) {
                         setTimeout(function(){
                             window.location.href = '{{route("proposal_list", $cid)}}';
-                        }, 5000);
+                        }, 500);
                     },
                     error: function(data) {
                         console.log('msg' + data);

@@ -63,7 +63,7 @@ class RankingRuleController extends Controller
             if (!$v->fails()) {
                 RankingRule::create($request->all());
 
-                return redirect('admin/rank')->with('success', messageFromTemplate("success"));
+                return redirect('/admin/rankings/competition/' . $request->competition_id)->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
@@ -104,12 +104,12 @@ class RankingRuleController extends Controller
             if (!$v->fails()) {
                 $rank = RankingRule::findOrFail($id);
                 $rank->fill($request->all())->save();
-                return redirect('admin/rank')->with('success', messageFromTemplate("success"));
+                return redirect('/admin/rankings/competition/' . $request->competition_id)->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
+            return redirect('/admin/rankings/competition/' . $request->competition_id)->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -167,6 +167,7 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with budget rules.');
                 $data = getBudgetData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    // \Debugbar::error('Budget: ' . $data["budgets"][$value] . ", PI " . $data["pisalaries"][$value] . ", Coll. " . $data["collabsalaries"][$value] . ", " . $data["avgsalaries"][$value] . ", " . $data["devsalaries"][$value] . ", " . $data["travels"][$value] . ", " . $data["equipments"][$value]);
                     return inbetween($data["budgets"][$value], $rules->budget) &&
                         inbetween($data["pisalaries"][$value], $rules->pi_salary) &&
                         inbetween($data["collabsalaries"][$value], $rules->collab_salary) &&
@@ -182,8 +183,8 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with category rules.');
                 $data = getCategoryData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
-                    return  $rules->category->contains($data["catmembership"][$value]) ||
-                        $rules->category->contains($data["subcatmembership"][$value]);
+                    return  collect($rules->category)->contains($data["catmembership"][$value]) ||
+                        collect($rules->category)->contains($data["subcatmembership"][$value]);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -192,6 +193,7 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with score rules.');
                 $data = getScoreData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
+                    // \Debugbar::error('Max: ' . $data["subscores"][$value]->max() . ", min: " . $data["subscores"][$value]->min() . ", " . $data["overallscores"][$value]);
                     return  inbetween($data["overallscores"][$value], $rules->overall_score) &&
                         $data["subscores"][$value]->max() <= $rules->subscore[1] &&
                         $data["subscores"][$value]->min() >= $rules->subscore[0];
@@ -215,12 +217,13 @@ class RankingRuleController extends Controller
     public function destroy($id)
     {
         try {
-            $scoreType = RankingRule::find($id);
-            $scoreType->delete();
-            return redirect('admin/rank')->with('delete', messageFromTemplate('deleted'));
+            $rr = RankingRule::find($id);
+            $cid = $rr->competition_id;
+            $rr->delete();
+            return redirect('/admin/rankings/competition/' . $cid)->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', messageFromTemplate('wrong'));
+            return redirect('/admin/rankings/competition/' . $cid)->with('error', messageFromTemplate('wrong'));
         }
     }
 

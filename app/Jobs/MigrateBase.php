@@ -10,6 +10,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Address;
+use App\Models\Proposal;
+use App\Models\BudgetItem;
+use App\Models\BudgetCategory;
 use App\Models\Degree;
 use App\Models\Category;
 use App\Models\Institution;
@@ -35,6 +38,18 @@ class MigrateBase implements ShouldQueue
      */
     public function handle()
     {
+        ini_set('memory_limit', '512M');
+        BudgetItem::chunk(100, function ($budget_items) {
+            foreach ($budget_items as $budget_item) {
+                $cid = Proposal::find($budget_item->proposal_id)->competition_id;
+                \Debugbar::error('cid: ' . $cid . ' for ' . $budget_item->budget_cat_id);
+                if($budget_item->budget_cat_id <= 5) {
+                    $budget_item->budget_cat_id = $budget_item->budget_cat_id + (5 * ($cid - 1));
+                    $budget_item->save();
+                }
+            }
+        });
+
         // // Create degrees
         // Degree::updateOrCreate(['text' => 'None'] , []);
         // Degree::updateOrCreate(['text' => 'High school'], []);
