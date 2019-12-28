@@ -54,7 +54,7 @@
                                     <tr>
                                         <td hidden></td>
                                         <td>{{getProposalTag($report->proposal->id)}}</td>
-                                        <td>{{truncate($report->proposal->title,100)}}</td>
+                                        <td>{{truncate($report->proposal->title,50)}}</td>
                                         <td>{{overallScore($report->id)}}%</td>
                                     </tr>
                                 @endforeach

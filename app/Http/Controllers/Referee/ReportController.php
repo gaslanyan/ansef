@@ -35,7 +35,7 @@ class ReportController extends Controller
             $r_id = getPersonIdByRole('referee');
             $reports = RefereeReport::where('referee_id', '=', $r_id)
                 ->where('state', '=', $state)
-                ->orderBy('due_date', 'asc')
+                ->orderBy('due_date', 'desc')
                 ->get();
 
             return view('referee.report.index', compact('reports', 'state'));
