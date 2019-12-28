@@ -12,14 +12,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
-// JSON
-
-
-
 class RankingRuleController extends Controller
 {
-    public function index() {
-
+    public function index()
+    {
     }
 
     public function list($cid)
@@ -28,10 +24,12 @@ class RankingRuleController extends Controller
             $competitions = Competition::select('id', 'title')->get();
 
             $rules = RankingRule::with('user.person', 'competition')
-                ->where('competition_id','=',$cid)
+                ->where('competition_id', '=', $cid)
                 ->get();
-            return view('admin.ranking_rule.index',
-                compact('rules', 'competitions', 'cid'));
+            return view(
+                'admin.ranking_rule.index',
+                compact('rules', 'competitions', 'cid')
+            );
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
@@ -42,8 +40,8 @@ class RankingRuleController extends Controller
     {
         try {
             $competition = Competition::all()->pluck('title', 'id');
-            $users = Person::with('user')->whereIn('type', ['admin','superadmin'])
-                            ->get();
+            $users = Person::with('user')->whereIn('type', ['admin', 'superadmin'])
+                ->get();
             $rr = RankingRule::with('competition')->get();
 
             return view('admin.ranking_rule.create', compact('competition', 'users', 'rr'));
@@ -84,36 +82,35 @@ class RankingRuleController extends Controller
     {
         try {
             $competition = Competition::all()->pluck('title', 'id');
-            $users = Person::with('user')->whereIn('type', ['admin','superadmin'])
-                            ->get();
+            $users = Person::with('user')->whereIn('type', ['admin', 'superadmin'])
+                ->get();
             $rank = RankingRule::where('id', $id)->first();
             return view('admin.ranking_rule.edit', compact('rank', 'competition', 'users'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
-
     }
 
     public function update(Request $request, $id)
     {
-            try {
-                $v = Validator::make($request->all(), [
-                    'sql' => 'required|max:1024',
-                    'competition_id' => 'required|numeric',
-                    'user_id' => 'required|numeric',
-                    'value' => 'required|numeric',
-                ]);
-                if (!$v->fails()) {
-                    $rank = RankingRule::findOrFail($id);
-                    $rank->fill($request->all())->save();
-                    return redirect('admin/rank')->with('success', messageFromTemplate("success"));
-                } else
-                    return redirect()->back()->withErrors($v->errors())->withInput();
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
-            }
+        try {
+            $v = Validator::make($request->all(), [
+                'sql' => 'required|max:1024',
+                'competition_id' => 'required|numeric',
+                'user_id' => 'required|numeric',
+                'value' => 'required|numeric',
+            ]);
+            if (!$v->fails()) {
+                $rank = RankingRule::findOrFail($id);
+                $rank->fill($request->all())->save();
+                return redirect('admin/rank')->with('success', messageFromTemplate("success"));
+            } else
+                return redirect()->back()->withErrors($v->errors())->withInput();
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
+        }
     }
 
 
@@ -123,7 +120,7 @@ class RankingRuleController extends Controller
         $cid = $request->cid;
         $cleanup = $request->cleanup;
 
-        if($cleanup == 'true') {
+        if ($cleanup == 'true') {
             $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
             \Debugbar::error('* Cleaning up ranks for ' . count($proposals) . ' proposals');
             DB::beginTransaction();
@@ -135,21 +132,21 @@ class RankingRuleController extends Controller
             DB::commit();
         }
 
-        foreach($rr_ids as $rrid) {
+        foreach ($rr_ids as $rrid) {
             $rr = RankingRule::find($rrid);
-            $proposals = Proposal::select('id')->where('competition_id','=',$rr->competition_id)->get()->sortBy('id')->pluck('id');
+            $proposals = Proposal::select('id')->where('competition_id', '=', $rr->competition_id)->get()->sortBy('id')->pluck('id');
             $rules = json_decode($rr->sql);
             $value = $rr->value;
 
             \Debugbar::error('* Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
 
-            if(propertyInSet($rules, ['pi_age', 'pi_sex'])) {
+            if (propertyInSet($rules, ['pi_age', 'pi_sex'])) {
                 \Debugbar::error('  Processing ' . count($proposals) . ' with PI rules.');
                 $data = getPiData($proposals);
 
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["ages"][$value], $rules->pi_age) &&
-                            inbetween($data["sexes"][$value], $rules->pi_sex);
+                        inbetween($data["sexes"][$value], $rules->pi_sex);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -159,9 +156,9 @@ class RankingRuleController extends Controller
                 $data = getParticipantData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["avgages"][$value], $rules->avg_part_age) &&
-                            inbetween($data["avgsexes"][$value], $rules->participants_sex) &&
-                            inbetween($data["counts"][$value], $rules->participants) &&
-                            inbetween($data["juniorcounts"][$value], $rules->junior_participants);
+                        inbetween($data["avgsexes"][$value], $rules->participants_sex) &&
+                        inbetween($data["counts"][$value], $rules->participants) &&
+                        inbetween($data["juniorcounts"][$value], $rules->junior_participants);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -186,7 +183,7 @@ class RankingRuleController extends Controller
                 $data = getCategoryData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  $rules->category->contains($data["catmembership"][$value]) ||
-                            $rules->category->contains($data["subcatmembership"][$value]);
+                        $rules->category->contains($data["subcatmembership"][$value]);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -196,15 +193,15 @@ class RankingRuleController extends Controller
                 $data = getScoreData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["overallscores"][$value], $rules->overall_score) &&
-                            $data["subscores"][$value]->max() <= $rules->subscore[1] &&
-                            $data["subscores"][$value]->min() >= $rules->subscore[0];
+                        $data["subscores"][$value]->max() <= $rules->subscore[1] &&
+                        $data["subscores"][$value]->min() >= $rules->subscore[0];
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
 
             DB::beginTransaction();
             \Debugbar::error('* Applying rank value to ' . count($proposals) . ' proposals.');
-            foreach($proposals as $pid) {
+            foreach ($proposals as $pid) {
                 $p = Proposal::find($pid);
                 $p->rank += $value;
                 $p->save();

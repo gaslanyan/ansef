@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Referee;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Country;
-use App\Models\Institution;
 use App\Models\Person;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,16 +31,6 @@ class PersonController extends Controller
 
     public function create()
     {
-        // $user_id = getUserID();
-        // try {
-        //     $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
-
-        //     $institutions = Institution::all()->pluck('content', 'id')->toArray();
-        //     return view('referee.person.create', compact('countries', 'institutions'));
-        // } catch (\Exception $exception) {
-        //     logger()->error($exception);
-        //     return redirect('referee/person')->with('error', messageFromTemplate("wrong"));
-        // }
     }
 
     public function edit($id)
@@ -93,8 +82,7 @@ class PersonController extends Controller
                 $address->save();
 
                 return redirect()->back()->withInput();
-            }
-            else
+            } else
                 return redirect()->back()->withErrors($v->errors());
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -111,22 +99,22 @@ class PersonController extends Controller
     public function updatePassword(Request $request)
     {
         try {
-                $user_id = getUserID();
-                $this->validate($request, [
-                    'oldpassword' => 'required',
-                    'newpassword' => 'required|min:8',
-                    'confirmpassword' => 'required|same:newpassword',
-                ]);
-                $user = User::find($user_id);
+            $user_id = getUserID();
+            $this->validate($request, [
+                'oldpassword' => 'required',
+                'newpassword' => 'required|min:8',
+                'confirmpassword' => 'required|same:newpassword',
+            ]);
+            $user = User::find($user_id);
 
-                if (!Hash::check($request->oldpassword, $user->password)) {
-                    return back()
-                        ->with('error', 'The specified password does not match the database password');
-                } else {
-                    $user->password = bcrypt($request->newpassword);
-                    $user->save();
-                    return \Redirect::to('logout')->with('success', messageFromTemplate("success"));
-                }
+            if (!Hash::check($request->oldpassword, $user->password)) {
+                return back()
+                    ->with('error', 'The specified password does not match the database password');
+            } else {
+                $user->password = bcrypt($request->newpassword);
+                $user->save();
+                return \Redirect::to('logout')->with('success', messageFromTemplate("success"));
+            }
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('referee/person')->with('error', messageFromTemplate("wrong"));

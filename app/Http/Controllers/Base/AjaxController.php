@@ -53,10 +53,7 @@ class AjaxController extends Controller
             echo json_encode($content);
             exit;
         }
-
     }
-
-    /* VIEWER ajax requests */
 
     public function getCompetitionsListForStatistics(Request $request)
     {
@@ -65,10 +62,9 @@ class AjaxController extends Controller
         if ($value == 'competition') {
             $content['comp'] = Competition::all();
             foreach ($content['comp'] as $np) {
-                $np_count = Proposal::select('id', 'competition_id')->where('competition_id', '=', $np->id)->count();//->get()->toArray();
+                $np_count = Proposal::select('id', 'competition_id')->where('competition_id', '=', $np->id)->count(); //->get()->toArray();
                 $content['numberofproposals'] = $np_count;
             }
-
         } else if ($value == 'pi') {
             $content['pi'] = Person::all();
         }
@@ -76,5 +72,4 @@ class AjaxController extends Controller
         echo json_encode($content);
         exit();
     }
-
 }

@@ -33,8 +33,10 @@ class CompetitionController extends Controller
             $coms = Competition::all();
 
             $categories = Category::whereNull('parent_id')->get();
-            return view("admin.competition.index",
-                compact('coms', 'categories'));
+            return view(
+                "admin.competition.index",
+                compact('coms', 'categories')
+            );
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
@@ -222,8 +224,13 @@ class CompetitionController extends Controller
             $st = ScoreType::where('competition_id', '=', $id)->get();
             $bc = BudgetCategory::where('competition_id', '=', $id)->get();
             $rr = RankingRule::with('user')->where('competition_id', '=', $id)->get();
-            return view("admin.competition.show", compact('com', 'cats',
-                'st', 'rr', 'bc'));
+            return view("admin.competition.show", compact(
+                'com',
+                'cats',
+                'st',
+                'rr',
+                'bc'
+            ));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
@@ -252,7 +259,7 @@ class CompetitionController extends Controller
                 ProposalReport::where('proposal_id', '=', $item)->delete();
                 BudgetItem::where('proposal_id', '=', $item)->delete();
                 RefereeReport::where('proposal_id', '=', $item)->delete();
-//                Recomendation::where('proposal_id','=',$item)->delete();
+                //                Recomendation::where('proposal_id','=',$item)->delete();
             }
 
             Proposal::destroy(collect($p_isd));

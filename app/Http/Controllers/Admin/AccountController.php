@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\BudgetItem;
-use App\Models\Book;
 use App\Models\Competition;
-use App\Models\Country;
 use App\Models\DegreePerson;
 use App\Models\Email;
 use App\Models\Honor;
@@ -16,7 +14,6 @@ use App\Models\InstitutionPerson;
 use App\Models\Meeting;
 use App\Models\Person;
 use App\Models\ProposalPerson;
-use App\Models\Phone;
 use App\Models\Proposal;
 use App\Models\Role;
 use App\Models\User;
@@ -35,10 +32,11 @@ use Illuminate\Support\Facades\File;
 class AccountController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         try {
             $users = User::with('role')
-                        ->get();
+                ->get();
             $roles = Role::all();
 
             return view('admin.person.index', compact('users', 'roles'));
@@ -51,7 +49,7 @@ class AccountController extends Controller
     public function account($type, $cid)
     {
         ini_set('memory_limit', '2048M');
-        $competitions = Competition::select('id','title')->get();
+        $competitions = Competition::select('id', 'title')->get();
         try {
             $persons = collect([]);
             if ($type == 'referee') {
@@ -67,48 +65,45 @@ class AccountController extends Controller
                         'subtype' => ''
                     ]);
                 }
-            }
-            else if ($type == 'applicant') {
+            } else if ($type == 'applicant') {
                 // foreach (ProposalPerson::where('competition_id', '=', $cid)->cursor() as $index => $p) {
                 ProposalPerson::where('competition_id', '=', $cid)
-                                ->chunk(100, function($ps) use ($persons) {
-                    foreach($ps as $p) {
-                        $person = Person::find($p->person_id);
-                        $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
-                        $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
-                            ->select('competitions.title')
-                            ->where('person_id', '=', $p->person_id)
-                            ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
-                            ->get()->pluck('title');
-                        $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
-                            ->select('competitions.title')
-                            ->where('person_id', '=', $p->person_id)
-                            ->where('proposals.state', '=', 'finalist')
-                            ->get()->pluck('title');
-                        $awards = strval($as);
-                        $finalists = strval($asf);
-                        // foreach ($as as $award) {
-                        //     $awards .= (Competition::find($award->competition_id)->title . " ");
-                        // }
-                        // foreach ($asf as $finalist) {
-                        //     $finalists .= (Competition::find($finalist->competition_id)->title . " ");
-                        // }
-                        $persons->push([
-                            'first_name' => $person->first_name ?? '',
-                            'last_name' => $person->last_name ?? '',
-                            'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
-                            'propcount' => $propcount . "/" . count($as) . "/" . count($asf),
-                            'awards' => $awards,
-                            'finalists' => $finalists,
-                            'subtype' => $p->subtype
-                        ]);
-                    }
-                });
-            }
-            else {
-
+                    ->chunk(100, function ($ps) use ($persons) {
+                        foreach ($ps as $p) {
+                            $person = Person::find($p->person_id);
+                            $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
+                            $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                                ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                                ->select('competitions.title')
+                                ->where('person_id', '=', $p->person_id)
+                                ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
+                                ->get()->pluck('title');
+                            $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                                ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                                ->select('competitions.title')
+                                ->where('person_id', '=', $p->person_id)
+                                ->where('proposals.state', '=', 'finalist')
+                                ->get()->pluck('title');
+                            $awards = strval($as);
+                            $finalists = strval($asf);
+                            // foreach ($as as $award) {
+                            //     $awards .= (Competition::find($award->competition_id)->title . " ");
+                            // }
+                            // foreach ($asf as $finalist) {
+                            //     $finalists .= (Competition::find($finalist->competition_id)->title . " ");
+                            // }
+                            $persons->push([
+                                'first_name' => $person->first_name ?? '',
+                                'last_name' => $person->last_name ?? '',
+                                'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
+                                'propcount' => $propcount . "/" . count($as) . "/" . count($asf),
+                                'awards' => $awards,
+                                'finalists' => $finalists,
+                                'subtype' => $p->subtype
+                            ]);
+                        }
+                    });
+            } else {
             }
 
             return view('admin.account.list', compact('persons', 'type', 'competitions', 'cid'));
@@ -188,8 +183,8 @@ class AccountController extends Controller
     public function show($id)
     {
         $person = Person::where('user_id', '=', $id)
-                        ->whereIn('type',['admin', 'referee', 'viewer', 'applicant'])
-                        ->first();
+            ->whereIn('type', ['admin', 'referee', 'viewer', 'applicant'])
+            ->first();
 
         return view('admin.account.show', compact('person'));
     }
@@ -212,7 +207,7 @@ class AccountController extends Controller
                 foreach ($items as $key => $value) {
                     if ($key === 'id') {
                         $id = $value;
-                        $user = User::find((int)$id);
+                        $user = User::find((int) $id);
                         $p = Person::where('user_id', $id)->first();
                         $person = Person::find($p->id);
                     }
@@ -241,15 +236,14 @@ class AccountController extends Controller
             logger()->error($exception);
             return redirect()->back()->with('error', messageFromTemplate('wrong'));
         }
-
     }
 
     public function destroy($id)
     {
         try {
-            $p = Person::where('user_id','=',$id)
-                        ->whereIn('type',['applicant', 'referee', 'viewer', 'admin'])
-                        ->first();
+            $p = Person::where('user_id', '=', $id)
+                ->whereIn('type', ['applicant', 'referee', 'viewer', 'admin'])
+                ->first();
             $type = $p->type;
             switch ($type) {
                 case 'applicant':
@@ -259,13 +253,13 @@ class AccountController extends Controller
                         Email::where('person_id', $person->id)->delete();
                         Honor::where('person_id', $person->id)->delete();
                         Address::where('addressable_id', $person->id)
-                                ->where('addressable_type','App\Models\Person')->delete();
+                            ->where('addressable_type', 'App\Models\Person')->delete();
                         Meeting::where('person_id', $person->id)->delete();
                         InstitutionPerson::where('person_id', $person->id)->delete();
                         Publication::where('person_id', $person->id)->delete();
                         Recommendation::where('person_id', $person->id)->delete();
                         $proposals = Proposal::where('user_id', $p->user_id)->get();
-                        foreach($proposals as $proposal) {
+                        foreach ($proposals as $proposal) {
                             BudgetItem::where('proposal_id', $proposal->id)->delete();
                             ProposalInstitution::where('proposal_id', $proposal->id)->delete();
                             ProposalReport::where('proposal_id', $proposal->id)->delete();
@@ -389,5 +383,4 @@ class AccountController extends Controller
         // $this->except('logout');
 
     }
-
 }

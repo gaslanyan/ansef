@@ -37,13 +37,16 @@ class InvitationController extends Controller
     {
         try {
 
-            $val = Validator::make($request->all(), [
-                'template' => 'required|numeric',
-                'email.*' => 'required|email',
-            ],
+            $val = Validator::make(
+                $request->all(),
+                [
+                    'template' => 'required|numeric',
+                    'email.*' => 'required|email',
+                ],
                 [
                     'template.required' => ' The template field is required.',
-                ]);
+                ]
+            );
             if (!$val->fails()) {
                 $message = Message::where('id', '=', $request->template)->first();
                 foreach ($request->email as $index => $item) {
@@ -58,7 +61,6 @@ class InvitationController extends Controller
                 return redirect()->back()->with('success', htmlspecialchars_decode(messageFromTemplate("send_email")));
             } else
                 return redirect()->back()->withErrors($val->errors())->withInput();
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', messageFromTemplate("wrong"));
@@ -70,9 +72,9 @@ class InvitationController extends Controller
         $messages = Message::all();
 
         $users = User::where('users.state', 'active')
-                    ->join('persons', 'persons.user_id', '=', 'users.id')
-                    ->whereIn('persons.type', ['applicant', 'referee'])
-                    ->get();
+            ->join('persons', 'persons.user_id', '=', 'users.id')
+            ->whereIn('persons.type', ['applicant', 'referee'])
+            ->get();
 
         return view('admin.invitation.send', compact('messages', 'users'));
     }

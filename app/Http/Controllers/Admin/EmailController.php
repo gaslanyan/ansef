@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class EmailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         try {
@@ -22,26 +17,15 @@ class EmailController extends Controller
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/email')->with('error', messageFromTemplate("wrong"));
-
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('admin.email.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         if (!$request->isMethod('post'))
@@ -58,44 +42,23 @@ class EmailController extends Controller
                 }
 
                 return redirect('admin/email')->with('success', messageFromTemplate("success"));
-
             } catch (\Exception $exception) {
                 logger()->error($exception);
                 return redirect('admin/email')->with('error', messageFromTemplate("wrong"));
-
             }
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $email = Email::find($id);
         return view('admin.email.edit', compact('email', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         if (!$request->isMethod('post'))
@@ -111,7 +74,6 @@ class EmailController extends Controller
                 $email->email = $request->email;
                 $email->save();
                 return redirect('admin/email')->with('success', messageFromTemplate("update"));
-
             } catch (\Exception $exception) {
                 logger()->error($exception);
                 return redirect('admin/email')->with('error', messageFromTemplate('wrong'));
@@ -119,12 +81,6 @@ class EmailController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Email $email
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {

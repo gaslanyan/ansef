@@ -28,7 +28,8 @@ class ApplicantController extends Controller
         return view("applicant.dashboard", compact('competitionlist', 'upcomingcompetitions', 'id'));
     }
 
-    public function signAs($id) {
+    public function signAs($id)
+    {
         $newuser = User::find($id);
         $newrole = $newuser->role->name;
 

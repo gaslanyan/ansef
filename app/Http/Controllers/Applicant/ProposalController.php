@@ -67,8 +67,8 @@ class ProposalController extends Controller
     public function activeProposal()
     {
         $user_id = getUserID();
-        $proposals = User::find($user_id)->proposals()->where('state','=','in-progress')->get();
-        $activeproposals = $proposals->filter(function($p, $key) {
+        $proposals = User::find($user_id)->proposals()->where('state', '=', 'in-progress')->get();
+        $activeproposals = $proposals->filter(function ($p, $key) {
             return date('Y-m-d') <= $p->competition->submission_end_date;
         });
         return view('applicant.proposal.active', compact('activeproposals'));
@@ -80,30 +80,30 @@ class ProposalController extends Controller
         $proposals = User::find($user_id)->proposals()->get()->sortBy('updated_at');
         $pastproposals = $proposals->filter(function ($p, $key) {
             return  date('Y-m-d') > $p->competition->submission_end_date
-                    && $p->state != 'awarded'
-                    && $p->state != 'approved 1'
-                    && $p->state != 'approved 2';
+                && $p->state != 'awarded'
+                && $p->state != 'approved 1'
+                && $p->state != 'approved 2';
         });
 
         $awards = $proposals->filter(function ($p, $key) {
             return  date('Y-m-d') > $p->competition->submission_end_date
                 && ($p->state == 'awarded'
-                || $p->state == 'approved 1'
-                || $p->state == 'approved 2');
+                    || $p->state == 'approved 1'
+                    || $p->state == 'approved 2');
         });
 
         $firstreports = [];
         $secondreports = [];
-        foreach($awards as $award) {
+        foreach ($awards as $award) {
             $first = $award->competition->first_report;
             $second = $award->competition->second_report;
-            $firstreport = ProposalReport::where('proposal_id','=',$award->id)
-                        ->where('due_date','=',$first)
-                        ->first();
-            $secondreport = ProposalReport::where('proposal_id','=',$award->id)
-                        ->where('due_date','=',$second)
-                        ->first();
-            if(!empty($firstreport) && !empty($firstreport->document))
+            $firstreport = ProposalReport::where('proposal_id', '=', $award->id)
+                ->where('due_date', '=', $first)
+                ->first();
+            $secondreport = ProposalReport::where('proposal_id', '=', $award->id)
+                ->where('due_date', '=', $second)
+                ->first();
+            if (!empty($firstreport) && !empty($firstreport->document))
                 $firstreports[$award->id] = (true);
             else $firstreports[$award->id] = (false);
             if (!empty($secondreport) && !empty($secondreport->document))
@@ -169,7 +169,7 @@ class ProposalController extends Controller
     {
         $user_id = getUserID();
         $pid = $id;
-        $proposal = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
+        $proposal = Proposal::where('id', '=', $id)->where('user_id', '=', $user_id)->first();
         $institution = $proposal->institution();
         $competition = $proposal->competition;
         $persons = $proposal->persons()->get()->sortBy('last_name');
@@ -207,7 +207,7 @@ class ProposalController extends Controller
     public function edit($id)
     {
         $user_id = getUserID();
-        $proposal = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
+        $proposal = Proposal::where('id', '=', $id)->where('user_id', '=', $user_id)->first();
         $competitions = Competition::all();
         $competition_name = Competition::where('id', $proposal->competition_id)->get()->first();
         $additional = json_decode($competition_name->additional);
@@ -222,7 +222,7 @@ class ProposalController extends Controller
         else $cat_sec_sub = '';
 
         $proposalinstitution = ProposalInstitution::where('proposal_id', '=', $id)
-                                                ->first();
+            ->first();
         if (!empty($proposalinstitution)) {
             if (!empty($proposalinstitution->institutionname)) {
                 $ins = ['id' => 0, 'name' => $proposalinstitution->institutionname];
@@ -265,9 +265,9 @@ class ProposalController extends Controller
         ]);
 
         try {
-            $proposal = Proposal::where('id','=',$id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            $proposal = Proposal::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $proposal->title = $request->title;
             $proposal->abstract = $request->abstract;
             $proposal->save();
@@ -298,8 +298,8 @@ class ProposalController extends Controller
     {
         $user_id = getUserID();
         $proposal = Proposal::where('id', '=', $id)
-                            ->where('user_id', '=', $user_id)
-                            ->first();
+            ->where('user_id', '=', $user_id)
+            ->first();
         $pid = $proposal->id;
         $institution = $proposal->institution();
         $competition = $proposal->competition;
@@ -351,14 +351,14 @@ class ProposalController extends Controller
     }
 
 
-    public function updatepersons(Request $request,$id)
+    public function updatepersons(Request $request, $id)
     {
         $user_id = getUserID();
         $enum = getEnumValues('proposal_persons', 'subtype');
         $participant = [];
         $support = [];
-        foreach($enum as $item) {
-            if($item == 'PI' || $item =='collaborator') array_push($participant, $item);
+        foreach ($enum as $item) {
+            if ($item == 'PI' || $item == 'collaborator') array_push($participant, $item);
             else array_push($support, $item);
         }
         $proposaltag = getProposalTag($id);
@@ -367,10 +367,10 @@ class ProposalController extends Controller
             $query->orWhere('type', 'support');
         })->get()->keyBy('id')->toArray();
 
-        $added_persons = ProposalPerson::where('proposal_id','=', $id)
-                        ->get()->toArray();
+        $added_persons = ProposalPerson::where('proposal_id', '=', $id)
+            ->get()->toArray();
 
-        return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
+        return view('applicant.proposal.personedit', compact('proposaltag', 'id', 'persons', 'added_persons', 'participant', 'support'));
     }
 
     public function savepersons(Request $request, $id)
@@ -387,17 +387,18 @@ class ProposalController extends Controller
 
         for ($i = 0; $i <= count($request->person_list) - 1; $i++) {
             $pt = ProposalPerson::find($request->person_list_hidden[$i]);
-            if(!empty($pt)) {
-                $person = Person::where('id','=',$pt->person_id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            if (!empty($pt)) {
+                $person = Person::where('id', '=', $pt->person_id)
+                    ->where('user_id', '=', $user_id)
+                    ->first();
                 if ($person->type == 'participant') {
                     $pt->subtype = $request->subtypeparticipant[$i];
                     $pt->save();
                 } else if ($person->type == 'support') {
                     $pt->subtype = $request->subtypesupport[$i];
                     $pt->save();
-                } else { }
+                } else {
+                }
             }
         }
 
@@ -417,7 +418,7 @@ class ProposalController extends Controller
         try {
             $added_person = ProposalPerson::find($id);
             $added_person->delete();
-            return view('applicant.proposal.personedit', compact('proposaltag', 'id','persons','added_persons', 'participant', 'support'));
+            return view('applicant.proposal.personedit', compact('proposaltag', 'id', 'persons', 'added_persons', 'participant', 'support'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
@@ -427,13 +428,12 @@ class ProposalController extends Controller
     public function addperson(Request $request, $id)
     {
         $user_id = getUserID();
-        if($request->theperson == 0) {
+        if ($request->theperson == 0) {
             return Redirect::back()->with('wrong', 'Please choose a person to add.')->withInput();
-        }
-        else {
-            $ptc = ProposalPerson::where('proposal_id','=',$id)
-                    ->where('person_id','=', $request->theperson)->count();
-            if($ptc != 0) {
+        } else {
+            $ptc = ProposalPerson::where('proposal_id', '=', $id)
+                ->where('person_id', '=', $request->theperson)->count();
+            if ($ptc != 0) {
                 return Redirect::back()->with('wrong', 'This person has already been added to the project.')->withInput();
             }
             $person = Person::find($request->theperson);
@@ -441,13 +441,11 @@ class ProposalController extends Controller
                 if ($request->subtypeparticipant == "0") {
                     return Redirect::back()->with('wrong', 'Please choose the role of the person in the project.')->withInput();
                 }
-            }
-            else if ($person->type == 'support') {
+            } else if ($person->type == 'support') {
                 if ($request->subtypesupport == "0") {
                     return Redirect::back()->with('wrong', 'Please choose the role of the person in the project.')->withInput();
                 }
-            }
-            else {
+            } else {
             }
         }
 
@@ -457,17 +455,15 @@ class ProposalController extends Controller
             $proposalperson->proposal_id = $id;
             $proposalperson->competition_id = Proposal::find($id)->competition->id;
             $person = Person::find($request->theperson);
-            if($person->type == 'participant') {
+            if ($person->type == 'participant') {
                 $proposalperson->subtype = $request->subtypeparticipant;
                 $proposalperson->save();
                 return Redirect::back()->with('success', messageFromTemplate("success"));
-            }
-            else if($person->type == 'support') {
+            } else if ($person->type == 'support') {
                 $proposalperson->subtype = $request->subtypesupport;
                 $proposalperson->save();
                 return Redirect::back()->with('success', messageFromTemplate("success"));
-            }
-            else {
+            } else {
                 return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
             }
         } catch (\Exception $exception) {
@@ -479,7 +475,7 @@ class ProposalController extends Controller
     public function check($id)
     {
         $user_id = getUserID();
-        $p = Proposal::where('id','=',$id)->where('user_id','=',$user_id)->first();
+        $p = Proposal::where('id', '=', $id)->where('user_id', '=', $user_id)->first();
         $proposaltag = getProposalTag($id);
         $competition = $p->competition;
 
@@ -493,7 +489,8 @@ class ProposalController extends Controller
         return view('applicant.proposal.audit', compact('proposaltag', 'id', 'messages', 'warnings', 'competition', 'submittedrecs', 'missingrecs', 'pi'));
     }
 
-    public function notifyrecommenders($id) {
+    public function notifyrecommenders($id)
+    {
         $user_id = getUserID();
         $missingrecs = [];
         $recommenders = ProposalPerson::where('proposal_id', '=', $id)
@@ -503,17 +500,17 @@ class ProposalController extends Controller
 
         foreach ($recommenders as $recommender) {
             $email = Email::where('person_id', '=', $recommender->person_id)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+                ->where('user_id', '=', $user_id)
+                ->first();
 
-            if (!Recommendation::where('proposal_id', '=', $id)->where('document','!=',null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
+            if (!Recommendation::where('proposal_id', '=', $id)->where('document', '!=', null)->where('person_id', '=', $recommender->person_id)->exists() && !empty($email)) {
                 array_push($missingrecs, ["id" => $recommender->person_id, "email" => $email->email, "name" => $recommender->first_name . " " . $recommender->last_name]);
             }
         }
 
-        $p = Proposal::where('id','=',$id)
-                        ->where('user_id','=',$user_id)
-                        ->first();
+        $p = Proposal::where('id', '=', $id)
+            ->where('user_id', '=', $user_id)
+            ->first();
         $pi = ProposalPerson::where('proposal_id', '=', $id)
             ->join('persons', 'persons.id', '=', 'person_id')
             ->where('subtype', '=', 'PI')
@@ -523,7 +520,8 @@ class ProposalController extends Controller
             $confirmation = randomPassword();
             $r = Recommendation::updateOrCreate([
                 'proposal_id' => $p->id,
-                'person_id' => $missingrec['id']] , [
+                'person_id' => $missingrec['id']
+            ], [
                 'confirmation' => $confirmation
             ]);
             $r->confirmation = $confirmation;
@@ -532,10 +530,11 @@ class ProposalController extends Controller
                 ->notify(new NotifyRecommender($missingrec['email'], $missingrec['name'], $pi->first_name . " " . $pi->last_name, $r->id, $confirmation));
         }
 
-        return redirect()->action('Applicant\ProposalController@activeProposal')->with('success', count($missingrecs) . ' email' . (count($missingrecs)>1 ? 's' : '') . ' sent requesting recommendation letter' . (count($missingrecs)>1 ? 's' : '') . '.');
+        return redirect()->action('Applicant\ProposalController@activeProposal')->with('success', count($missingrecs) . ' email' . (count($missingrecs) > 1 ? 's' : '') . ' sent requesting recommendation letter' . (count($missingrecs) > 1 ? 's' : '') . '.');
     }
 
-    public function instructions($id) {
+    public function instructions($id)
+    {
         $competition = Proposal::find($id)->competition;
         return view('applicant.proposal.instructions', compact('competition'));
     }
@@ -545,8 +544,8 @@ class ProposalController extends Controller
         $user_id = getUserID();
         try {
             $budget_item = BudgetItem::where('proposal_id', '=', $id)
-                                    ->where('user_id','=',$user_id)
-                                    ->get();
+                ->where('user_id', '=', $user_id)
+                ->get();
             if (!empty($budget_item)) {
                 $budget_item->delete();
             }
@@ -561,9 +560,9 @@ class ProposalController extends Controller
                 $recs->delete();
             }
 
-            $proposal = Proposal::where('id','=',$id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            $proposal = Proposal::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
 
             $proposal_institutions = ProposalInstitution::where('proposal_id', '=', $id);
             if (!empty($proposal_institutions)) {
@@ -571,8 +570,8 @@ class ProposalController extends Controller
             }
 
             $proposal_reports = ProposalReport::where('proposal_id', '=', $id)
-                                                ->where('user_id','=',$user_id)
-                                                ->get();
+                ->where('user_id', '=', $user_id)
+                ->get();
             if (!empty($proposal_reports)) {
                 foreach ($proposal_reports->get()->toArray() as $pr) {
                     if (is_file(storage_path('proposal/prop-' . $pr['proposal_id'] . '/' . $pr['document']))) {
@@ -617,5 +616,4 @@ class ProposalController extends Controller
         echo $resp[0] = json_encode($sub);
         exit();
     }
-
 }

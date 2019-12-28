@@ -17,11 +17,11 @@ class FileUploadController extends Controller
     function index($id)
     {
         $user_id = getUserID();
-        $document = Proposal::where('id','=',$id)
-                            ->where('user_id','=',$user_id)
-                            ->first()->document;
+        $document = Proposal::where('id', '=', $id)
+            ->where('user_id', '=', $user_id)
+            ->first()->document;
 
-        return view('applicant.proposal.file_upload',compact('id', 'document'));
+        return view('applicant.proposal.file_upload', compact('id', 'document'));
     }
 
     function docfile($id)
@@ -53,13 +53,13 @@ class FileUploadController extends Controller
     function reportfile($id)
     {
         $user_id = getUserID();
-        $proposal = Proposal::where('id','=',$id)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+        $proposal = Proposal::where('id', '=', $id)
+            ->where('user_id', '=', $user_id)
+            ->first();
         $due_date = date('Y-m-d');
-        if($proposal->competition->first_report >= date('Y-m-d'))
+        if ($proposal->competition->first_report >= date('Y-m-d'))
             $due_date = $proposal->competition->first_report;
-        else if($proposal->competition->second_report >= date('Y-m-d') && $proposal->competition->first_report < date('Y-m-d'))
+        else if ($proposal->competition->second_report >= date('Y-m-d') && $proposal->competition->first_report < date('Y-m-d'))
             $due_date = $proposal->competition->second_report;
         else $due_date = $proposal->competition->second_report;
 
@@ -85,18 +85,18 @@ class FileUploadController extends Controller
 
         $error = Validator::make($request->all(), $rules);
 
-        if($error->fails())
-        {
+        if ($error->fails()) {
             return response()->json(['errors' => $error->errors()->all()]);
         }
 
-        $proposal = Proposal::where('id','=',$request->prop_id_file)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+        $proposal = Proposal::where('id', '=', $request->prop_id_file)
+            ->where('user_id', '=', $user_id)
+            ->first();
 
         $request->file('file')->storeAs(
-                '/proposals/prop-' . $request->prop_id_file,
-                'document.pdf');
+            '/proposals/prop-' . $request->prop_id_file,
+            'document.pdf'
+        );
 
         $proposal->document = Uuid::generate()->string;
         $proposal->save();
@@ -104,7 +104,8 @@ class FileUploadController extends Controller
         return redirect()->back()->withErrors(['The file was uploaded successfully.']);;
     }
 
-    function uploadletter(Request $request) {
+    function uploadletter(Request $request)
+    {
         $rules = array(
             'file'  => 'required|mimes:pdf|max:20480'
         );
@@ -141,9 +142,9 @@ class FileUploadController extends Controller
             return  redirect()->back()->withErrors(['There was an error uploading the file. Please try again, or contact ' . config('emails.webmaster') . ' for help.']);;
         }
 
-        $report = ProposalReport::where('id','=',$request->rep_id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+        $report = ProposalReport::where('id', '=', $request->rep_id)
+            ->where('user_id', '=', $user_id)
+            ->first();
 
         $request->file('file')->storeAs(
             '/proposals/prop-' . $request->prop_id,
@@ -160,10 +161,10 @@ class FileUploadController extends Controller
     public function remove(Request $request, $uuid)
     {
         $user_id = getUserID();
-        $proposal = Proposal::where('document','=', $uuid)
-                            ->where('user_id','=',$user_id)
-                            ->firstOrFail();
-        if(Storage::has("proposals/prop-" . $proposal->id . "/document.pdf"))
+        $proposal = Proposal::where('document', '=', $uuid)
+            ->where('user_id', '=', $user_id)
+            ->firstOrFail();
+        if (Storage::has("proposals/prop-" . $proposal->id . "/document.pdf"))
             Storage::delete("proposals/prop-" . $proposal->id . "/document.pdf");
         $proposal->document = "";
         $proposal->save();
@@ -185,8 +186,8 @@ class FileUploadController extends Controller
     {
         $user_id = getUserID();
         $report = ProposalReport::where('document', '=', $uuid)
-                                ->where('user_id','=',$user_id)
-                                ->firstOrFail();
+            ->where('user_id', '=', $user_id)
+            ->firstOrFail();
 
         if (Storage::has("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf"))
             Storage::delete("proposals/prop-" . $report->proposal_id . "/letter-" . $report->id . ".pdf");
@@ -197,11 +198,12 @@ class FileUploadController extends Controller
     }
 
 
-    public function downloadfile($uuid) {
+    public function downloadfile($uuid)
+    {
         $user_id = getUserID();
-        $proposal = Proposal::where('document','=', $uuid)
-                            ->where('user_id','=',$user_id)
-                            ->firstOrFail();
+        $proposal = Proposal::where('document', '=', $uuid)
+            ->where('user_id', '=', $user_id)
+            ->firstOrFail();
         if (Storage::exists(ppath($proposal->id) . "/document.pdf"))
             return response()->download(storage_path(proppath($proposal->id) . "/document.pdf"));
     }
@@ -210,8 +212,8 @@ class FileUploadController extends Controller
     {
         $user_id = getUserID();
         $report = ProposalReport::where('document', '=', $uuid)
-                                ->where('user_id','=',$user_id)
-                                ->firstOrFail();
+            ->where('user_id', '=', $user_id)
+            ->firstOrFail();
         if (Storage::exists(ppath($report->proposal_id) . "/report-" . $report->id . ".pdf"))
             return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
     }

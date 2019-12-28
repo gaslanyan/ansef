@@ -18,7 +18,7 @@ class EmailController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $persons_name = Person::where('id', $id)->where('user_id','=',$user_id)->first()->toArray();
+        $persons_name = Person::where('id', $id)->where('user_id', '=', $user_id)->first()->toArray();
         $email_list = Email::where('person_id', '=', $id)->where('user_id', '=', $user_id)->get()->toArray();
         return view('applicant.email.create', compact('persons_name', 'email_list', 'id'));
     }
@@ -76,9 +76,9 @@ class EmailController extends Controller
     {
         $user_id = getUserID();
         try {
-            $email = Email::where('id','=',$id)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+            $email = Email::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $email->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

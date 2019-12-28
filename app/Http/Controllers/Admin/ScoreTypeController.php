@@ -39,8 +39,10 @@ class ScoreTypeController extends Controller
         try {
             $competition = Competition::all()->pluck('title', 'id');
             $st = ScoreType::with('competition')->get();
-            return view('admin.scoreType.create',
-                compact('competition', 'st'));
+            return view(
+                'admin.scoreType.create',
+                compact('competition', 'st')
+            );
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/score')->with('error', messageFromTemplate("wrong"));
@@ -97,7 +99,6 @@ class ScoreTypeController extends Controller
             $scoreType = ScoreType::find($id);
             $competition = Competition::all()->pluck('title', 'id');
             return view('admin.scoreType.edit', compact('scoreType', 'competition'));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/score')->with('error', messageFromTemplate("wrong"));
@@ -152,7 +153,6 @@ class ScoreTypeController extends Controller
             } else {
                 return redirect('admin/score')->with('error', messageFromTemplate('dont_deleted'));
             }
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/score')->with('error', messageFromTemplate('wrong'));
@@ -220,5 +220,4 @@ class ScoreTypeController extends Controller
         }
         return response()->json($response);
     }
-
 }

@@ -20,8 +20,8 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)
-                        ->where('persons.type', '!=', null)
-                        ->get()->toArray();
+            ->where('persons.type', '!=', null)
+            ->get()->toArray();
         if (empty($persons)) {
             return view('applicant.dashboard');
         } else {
@@ -35,7 +35,6 @@ class PersonController extends Controller
         $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.person.create', compact('countries', 'institutions'));
-
     }
 
 
@@ -86,7 +85,7 @@ class PersonController extends Controller
                 //$institution_name = Institution::where('id', '=', $val)->first();
                 $institution = new InstitutionPerson();
                 $institution->person_id = $person_id;
-                $institution->institution_id = (int)$request->institution[$key];;
+                $institution->institution_id = (int) $request->institution[$key];;
                 $institution->title = $request->i_title[$key];
                 $institution->type = $request->i_type[$key];
                 $institution->start = $request->start[$key];
@@ -108,23 +107,21 @@ class PersonController extends Controller
 
         DB::commit();
         return redirect('applicant/account')->with('success', messageFromTemplate("success"));
-
     }
 
     public function show(Person $person)
     {
         $user_id = getUserID();
-        if($person->user_id != $user_id || $person->type == null) {
+        if ($person->user_id != $user_id || $person->type == null) {
             return redirect('applicant/account')->with('wrong', 'Permission denied');
-        }
-        else {
+        } else {
             $emails = $person->emails;
             $addresses = $person->addresses;
-            $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
-                            ->get()->sortBy('start');
+            $institutions = \App\Models\InstitutionPerson::where('person_id', '=', $person->id)
+                ->get()->sortBy('start');
             $institutionslist = \App\Models\Institution::all()->keyBy('id');;
-            $degrees = \App\Models\DegreePerson::where('person_id','=',$person->id)
-                        ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
+            $degrees = \App\Models\DegreePerson::where('person_id', '=', $person->id)
+                ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
             $honors = $person->honors->sortBy('year');
             $books = $person->books->sortBy('year');
             $meetings = $person->meetings->sortBy('year');
@@ -134,21 +131,21 @@ class PersonController extends Controller
         }
     }
 
-    public function download($id) {
+    public function download($id)
+    {
         $user_id = getUserID();
         $person = Person::find($id);
 
-        if($person->user_id != $user_id || $person->type == null) {
+        if ($person->user_id != $user_id || $person->type == null) {
             return redirect('applicant/account')->with('wrong', 'Permission denied');
-        }
-        else {
+        } else {
             $emails = $person->emails;
             $addresses = $person->addresses;
-            $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
-                            ->get()->sortBy('start');
+            $institutions = \App\Models\InstitutionPerson::where('person_id', '=', $person->id)
+                ->get()->sortBy('start');
             $institutionslist = \App\Models\Institution::all()->keyBy('id');;
-            $degrees = \App\Models\DegreePerson::where('person_id','=',$person->id)
-                        ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
+            $degrees = \App\Models\DegreePerson::where('person_id', '=', $person->id)
+                ->join('degrees', 'degree_id', '=', 'degrees.id')->get();
             $honors = $person->honors->sortBy('year');
             $books = $person->books->sortBy('year');
             $meetings = $person->meetings->sortBy('year');
@@ -165,7 +162,7 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
 
-        $person = Person::where('id', '=', $id)->where('user_id','=',$user_id)->first();
+        $person = Person::where('id', '=', $id)->where('user_id', '=', $user_id)->first();
         $fulladdress = [];
         $getaddress = $person->addresses()->get();
         $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
@@ -211,8 +208,7 @@ class PersonController extends Controller
             $person->state = $request->state;
             $person->specialization = $request->specialization;
             $person->save();
-        DB::commit();
-
+            DB::commit();
         } catch (ValidationException $e) {
             DB::rollback();
             return redirect('applicant/person')->with('wrong', messageFromTemplate("wrong"));
@@ -223,7 +219,6 @@ class PersonController extends Controller
         }
 
         return redirect('applicant/account')->with('success', messageFromTemplate("success"));
-
     }
 
     public function changePassword()
@@ -251,14 +246,13 @@ class PersonController extends Controller
         if (!Hash::check($request->oldpassword, $user->password)) {
 
             return back()
-                    ->with('error', 'The specified password does not match the database password');
+                ->with('error', 'The specified password does not match the database password');
         } else {
 
             $user->password = bcrypt($request->newpassword);
             $user->save();
             return \Redirect::to('logout');
         }
-
     }
 
     public function destroy($id)
@@ -267,21 +261,18 @@ class PersonController extends Controller
             $user_id = getUserID();
             $proposals = User::find($user_id)->proposals();
             $flag = true;
-            if($flag) {
-                $person = Person::where('id','=',$id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            if ($flag) {
+                $person = Person::where('id', '=', $id)
+                    ->where('user_id', '=', $user_id)
+                    ->first();
                 $person->delete();
                 return redirect('applicant/account')->with('delete', messageFromTemplate('deleted'));
-            }
-            else {
+            } else {
                 return redirect('applicant/account')->with('wrong', "Person is member of a project and cannot be deleted.");
             }
         } catch (\Exception $exception) {
             logger()->error($exception);
             return messageFromTemplate("wrong");
         }
-
     }
-
 }

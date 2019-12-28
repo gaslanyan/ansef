@@ -61,7 +61,7 @@ class AccountController extends Controller
             $person->nationality = $request->nationality;
             $person->sex = $request->sex;
             $person->state = $request->state;
-            $person->type =$request->type;
+            $person->type = $request->type;
             $person->specialization = $request->specialization;
             $person->user_id = $user_id;
             $person->save();
@@ -71,7 +71,6 @@ class AccountController extends Controller
             logger()->error($exception);
             return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
-
     }
 
     public function show($id)
@@ -79,10 +78,10 @@ class AccountController extends Controller
         $user_id = getUserID();
         $user = User::find($id);
         $person = Person::where('id', '=', $id)
-                        ->where('user_id', '=', $user_id)
-                        ->get()->toArray();
+            ->where('user_id', '=', $user_id)
+            ->get()->toArray();
         if (!empty($person)) {
-            $person_id = $id;//$person[0]['id'];
+            $person_id = $id; //$person[0]['id'];
             $emails = Email::where('person_id', $person_id)->get();
             $phones = Phone::where('person_id', $person_id)->get()->toArray();
             $institution = [];
@@ -92,8 +91,7 @@ class AccountController extends Controller
                 ->get()->toArray();
             $institution['ip'] = $ip;
             $ip_add = Address::where('address.id', 24)
-                ->
-                join('countries', 'countries.id', '=', 'address.country_id')
+                ->join('countries', 'countries.id', '=', 'address.country_id')
                 ->get()->toArray();
             $institution['addr'] = $ip_add;
 
@@ -103,15 +101,23 @@ class AccountController extends Controller
             $degrees = [];
             //DegreePerson::select('text', 'year')->where('person_id', $person_id)->get()->toArray();
             $degrees = \DB::table('degree_persons')
-                ->select('degree_persons.year','degrees.text','degree_persons.id')
-                ->join('degrees','degree_persons.degree_id','=','degrees.id')
-                ->where('degree_persons.person_id','=',$id)->get()->toArray();
+                ->select('degree_persons.year', 'degrees.text', 'degree_persons.id')
+                ->join('degrees', 'degree_persons.degree_id', '=', 'degrees.id')
+                ->where('degree_persons.person_id', '=', $id)->get()->toArray();
 
             $honors = Honor::select('description', 'year')->where('person_id', $person_id)->get()->toArray();
             $meetings = Meeting::select('description', 'year', 'ansef_supported', 'domestic')->where('person_id', $person_id)->get()->toArray();
 
-            return view('applicant.account.show', compact('person',
-                'phones', 'emails', 'books', 'degrees', 'honors', 'meetings', 'institution'));
+            return view('applicant.account.show', compact(
+                'person',
+                'phones',
+                'emails',
+                'books',
+                'degrees',
+                'honors',
+                'meetings',
+                'institution'
+            ));
         } else {
             return back();
         }

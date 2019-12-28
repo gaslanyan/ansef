@@ -78,8 +78,8 @@ class ProposalController extends Controller
         }
     }
 
-    public function index() {
-
+    public function index()
+    {
     }
 
     public function create()
@@ -95,11 +95,10 @@ class ProposalController extends Controller
 
     public function store(Request $request)
     {
-
     }
 
-    public function show($id) {
-
+    public function show($id)
+    {
     }
 
     public function display(Request $request)
@@ -144,7 +143,6 @@ class ProposalController extends Controller
 
     public function edit($id)
     {
-
     }
 
     public function update(Request $request, $id)
@@ -165,7 +163,7 @@ class ProposalController extends Controller
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/proposal')->with('error', messageFromTemplate("wrong"));
-//        }
+            //        }
         }
     }
 
@@ -212,11 +210,11 @@ class ProposalController extends Controller
             $d['data'][$index]['score'] = strval(round($pr->overall_score)) . "%";
             $d['data'][$index]['rank'] = ($pr->rank);
             $pi = $pr->pi();
-            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name,7) . " " . $pi->first_name : 'No PI';
+            $d['data'][$index]['pi'] = !empty($pi) ? truncate($pi->last_name, 7) . " " . $pi->first_name : 'No PI';
             $refs = $pr->refereesasstring();
             $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
             $a = $pr->admin()->first();
-            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name,0,4).'.' : 'None';
+            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
         }
 
         return Response::json($d);
@@ -259,7 +257,7 @@ class ProposalController extends Controller
         $d['data'] = [];
 
         if ($cid == -1) {
-            $proposals = Proposal::whereIn('state',['awarded', 'approved 1', 'approved 2'])
+            $proposals = Proposal::whereIn('state', ['awarded', 'approved 1', 'approved 2'])
                 ->get()->sortBy('id');
         } else {
             $proposals = Proposal::where('competition_id', '=', $cid)
@@ -278,14 +276,12 @@ class ProposalController extends Controller
             $propreports = $pr->propreports;
             $d['data'][$index]['first'] = false;
             $d['data'][$index]['second'] = false;
-            foreach($propreports as $propreport) {
-                if($propreport->due_date == $pr->competition->first_report) {
+            foreach ($propreports as $propreport) {
+                if ($propreport->due_date == $pr->competition->first_report) {
                     $d['data'][$index]['first'] = true;
-                }
-                else if ($propreport->due_date == $pr->competition->second_report) {
+                } else if ($propreport->due_date == $pr->competition->second_report) {
                     $d['data'][$index]['second'] = true;
-                }
-                else {
+                } else {
                 }
             }
         }
@@ -293,7 +289,8 @@ class ProposalController extends Controller
         return Response::json($d);
     }
 
-    public function checkProposal(Request $request) {
+    public function checkProposal(Request $request)
+    {
         DB::beginTransaction();
         try {
             $proposal_ids = $request->id;
@@ -303,11 +300,10 @@ class ProposalController extends Controller
                 $submittedrecs = $r['submittedrecs'];
                 $p = Proposal::find($p_id);
 
-                if(count($messages) > 0 || count($submittedrecs) < $p->competition->recommendations) {
+                if (count($messages) > 0 || count($submittedrecs) < $p->competition->recommendations) {
                     $p->state = "disqualified";
                     $p->save();
-                }
-                else {
+                } else {
                     updateProposalState($p->id);
                 }
             }
@@ -387,22 +383,22 @@ class ProposalController extends Controller
         $counter = 0;
         foreach ($IDs as $ID) {
             $prop = Proposal::find($ID);
-            if(!empty($prop)) {
+            if (!empty($prop)) {
                 $pi = $prop->pi();
-                if(!empty($pi)) {
-                    $to = Email::where('person_id','=',$pi->id)->first();
+                if (!empty($pi)) {
+                    $to = Email::where('person_id', '=', $pi->id)->first();
                     $name = $pi->first_name . " " . $pi->last_name;
                     $tag = getProposalTag($prop->id);
-                    if(!empty($to)) {
+                    if (!empty($to)) {
                         $subject = $request->subject;
-                        $data = ['tag' =>$tag, 'name' => $name, 'content' => $request->content];
+                        $data = ['tag' => $tag, 'name' => $name, 'content' => $request->content];
                         $counter++;
                         Mail::send(
                             ['text' => 'admin.email.emailtemplate'],
                             $data,
                             function ($message) use ($subject, $to) {
                                 $message->to($to->email)
-                                        ->subject($subject);
+                                    ->subject($subject);
                                 $message->from(config('emails.RB'), 'ANSEF Research Board');
                             }
                         );
@@ -428,13 +424,12 @@ class ProposalController extends Controller
 
             $flag = true;
             foreach ($p_ids as $pid) {
-                if(!$flag) break;
+                if (!$flag) break;
                 $proposal = Proposal::find($pid);
                 foreach ($u_ids as $uid) {
-                    if($request->type == "admin") {
+                    if ($request->type == "admin") {
                         $proposal->proposal_admin = $uid;
-                    }
-                    else if ($request->type == "referee") {
+                    } else if ($request->type == "referee") {
                         $report = new RefereeReport();
                         $report->proposal_id = $pid;
                         $report->referee_id = $uid;
@@ -448,9 +443,7 @@ class ProposalController extends Controller
                         $flag = $flag & $report->save();
                         if (!$flag) break;
                         $proposal->state = 'in-review';
-                    }
-                    else {
-
+                    } else {
                     }
                 }
                 $flag = $flag & $proposal->save();

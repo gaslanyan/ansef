@@ -23,21 +23,21 @@ class ReportController extends Controller
     {
         try {
 
-        $score_json = [];
-        $competitions = Competition::select('id', 'title')
-            ->orderBy('submission_end_date', 'desc')
-            ->get()->toArray();
+            $score_json = [];
+            $competitions = Competition::select('id', 'title')
+                ->orderBy('submission_end_date', 'desc')
+                ->get()->toArray();
 
 
-        return view('admin.report.index', compact('score_json', 'competitions', 'cid'));
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect('admin/report')->with('error', messageFromTemplate("wrong"));
-            }
+            return view('admin.report.index', compact('score_json', 'competitions', 'cid'));
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/report')->with('error', messageFromTemplate("wrong"));
+        }
     }
 
-    public function index() {
-
+    public function index()
+    {
     }
     /**
      * Remove the specified resource from storage.
@@ -50,7 +50,7 @@ class ReportController extends Controller
         try {
             $report = RefereeReport::find($id);
             $cid = $report->proposal()->first()->competition()->first()->id;
-            $scores = Score::where('report_id','=',$id)->get();
+            $scores = Score::where('report_id', '=', $id)->get();
             $scores->delete();
             $report->delete();
             return redirect('admin/report/list/' . $cid)->with('delete', messageFromTemplate('deleted'));
@@ -71,14 +71,13 @@ class ReportController extends Controller
             $reports = ProposalReport::with(['proposal' => function ($query) {
                 $query->select('id', 'title');
             }])->get();
-//dd($reports);
+            //dd($reports);
             return view('admin.report.approve', compact('reports'));
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
             return redirect('admin/proposal')->with('error', messageFromTemplate('wrong'));
         }
-
     }
 
     public function approvePR(Request $request)
@@ -159,7 +158,7 @@ class ReportController extends Controller
             $d['data'][$index]['id'] = $report['id'];
             $d['data'][$index]['tag'] = getProposalTag($pr->id);
             $d['data'][$index]['title'] = truncate($report['proposal']['title'], 20);
-            $d['data'][$index]['referee'] = truncate($report['person']['last_name'],5);
+            $d['data'][$index]['referee'] = truncate($report['person']['last_name'], 5);
             $a = $pr->admin()->first();
             $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : 'None';
             $d['data'][$index]['due_date'] = $report['due_date'];

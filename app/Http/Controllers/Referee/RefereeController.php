@@ -19,7 +19,8 @@ class RefereeController extends Controller
         return view("referee.dashboard", compact('user_id'));
     }
 
-    public function signAs($id) {
+    public function signAs($id)
+    {
         $newuser = User::find($id);
         $newrole = $newuser->role->name;
 

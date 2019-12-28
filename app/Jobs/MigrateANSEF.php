@@ -132,7 +132,7 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added competition.');
         // Add score types
         $scoretype = [];
-        $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance','competition_id' => $competition->id], [
+        $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance', 'competition_id' => $competition->id], [
             'description' => 'Does this study address an important problem?',
             'min' => 0,
             'max' => 7,
@@ -199,21 +199,21 @@ class MigrateANSEF implements ShouldQueue
                 $account = $accounts[$investigator->account_id];
         }
         $generate_password = randomPassword();
-        if($account != null)
-        $user = User::updateOrCreate(
-            [
-                'email' => $account->username
-            ],
-            [
-                'password' => bcrypt($generate_password),
-                'password_salt' => 10,
-                'remember_token' => null,
-                'role_id' => $applicant_role->id,
-                'requested_role_id' => 0,
-                'confirmation' => "1",
-                'state' => 'active'
-            ]
-        );
+        if ($account != null)
+            $user = User::updateOrCreate(
+                [
+                    'email' => $account->username
+                ],
+                [
+                    'password' => bcrypt($generate_password),
+                    'password_salt' => 10,
+                    'remember_token' => null,
+                    'role_id' => $applicant_role->id,
+                    'requested_role_id' => 0,
+                    'confirmation' => "1",
+                    'state' => 'active'
+                ]
+            );
         else $user = User::updateOrCreate(
             [
                 'email' => 'applicant@ansef.org'
@@ -229,59 +229,61 @@ class MigrateANSEF implements ShouldQueue
             ]
         );
 
-        if($investigator != null)
-        Person::updateOrCreate(
-            [
-                'user_id' => $user->id,
-                'type' => 'applicant'
-            ],
-            [
-                'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
-                'birthplace' => ucfirst($investigator->birthplace),
-                'sex' => 'neutral',
-                'state' => 'domestic',
-                'first_name' => getCleanString($investigator->first_name),
-                'last_name' => getCleanString($investigator->last_name),
-                'nationality' => ucfirst($investigator->nationality),
-                'type' => 'applicant',
-                'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
-                'user_id' => $user->id
-            ]
-        );
-        else Person::updateOrCreate(
+        if ($investigator != null)
+            Person::updateOrCreate(
                 [
                     'user_id' => $user->id,
                     'type' => 'applicant'
                 ],
                 [
-                    'birthdate' => date('1970-07-02'),
-                    'birthplace' => '',
+                    'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
+                    'birthplace' => ucfirst($investigator->birthplace),
                     'sex' => 'neutral',
                     'state' => 'domestic',
-                    'first_name' => '',
-                    'last_name' => '',
-                    'nationality' => 'Armenia',
+                    'first_name' => getCleanString($investigator->first_name),
+                    'last_name' => getCleanString($investigator->last_name),
+                    'nationality' => ucfirst($investigator->nationality),
                     'type' => 'applicant',
-                    'specialization' => 'None',
+                    'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization),
                     'user_id' => $user->id
                 ]
             );
+        else Person::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'type' => 'applicant'
+            ],
+            [
+                'birthdate' => date('1970-07-02'),
+                'birthplace' => '',
+                'sex' => 'neutral',
+                'state' => 'domestic',
+                'first_name' => '',
+                'last_name' => '',
+                'nationality' => 'Armenia',
+                'type' => 'applicant',
+                'specialization' => 'None',
+                'user_id' => $user->id
+            ]
+        );
 
         if ($investigator != null)
-        $pi = Person::updateOrCreate([
-            'user_id' => $user->id,
-            'type' => 'participant',
-            'first_name' => getCleanString($investigator->first_name),
-            'last_name' => getCleanString($investigator->last_name)
-        ],
-        [
-            'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
-            'birthplace' => ucfirst($investigator->birthplace),
-            'sex' => 'neutral',
-            'state' => 'domestic',
-            'nationality' => ucfirst($investigator->nationality),
-            'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization)
-        ]);
+            $pi = Person::updateOrCreate(
+                [
+                    'user_id' => $user->id,
+                    'type' => 'participant',
+                    'first_name' => getCleanString($investigator->first_name),
+                    'last_name' => getCleanString($investigator->last_name)
+                ],
+                [
+                    'birthdate' => !empty($investigator->birthdate) ? date($investigator->birthdate) : null,
+                    'birthplace' => ucfirst($investigator->birthplace),
+                    'sex' => 'neutral',
+                    'state' => 'domestic',
+                    'nationality' => ucfirst($investigator->nationality),
+                    'specialization' => ($investigator->primary_specialization . ", " . $investigator->secondary_specialization)
+                ]
+            );
         else $pi = Person::create([
             'user_id' => $user->id,
             'type' => 'participant',
@@ -297,135 +299,137 @@ class MigrateANSEF implements ShouldQueue
         // \Debugbar::error('Added pi user and person.');
 
         if ($investigator != null)
-        Phone::create([
-            "person_id" => $pi->id,
-            "country_code" => 0,
-            "number" => $investigator->phone,
-            "user_id" => $user->id
-        ]);
+            Phone::create([
+                "person_id" => $pi->id,
+                "country_code" => 0,
+                "number" => $investigator->phone,
+                "user_id" => $user->id
+            ]);
 
         if ($investigator != null)
-        Email::create([
-            "person_id" => $pi->id,
-            "email" => $investigator->email,
-            "user_id" => $user->d
-        ]);
+            Email::create([
+                "person_id" => $pi->id,
+                "email" => $investigator->email,
+                "user_id" => $user->d
+            ]);
         else Email::create([
             "person_id" => $pi->id,
             "email" => 'applicant@ansef.org'
         ]);
 
         if ($investigator != null)
-        Address::create([
-            'country_id' => 8,
-            'province' => '',
-            'street' =>  $investigator->address,
-            'addressable_id' => $pi->id,
-            'addressable_type' => 'App\Models\Person',
-            'city' => '',
-            'user_id' => $user->id
-        ]);
+            Address::create([
+                'country_id' => 8,
+                'province' => '',
+                'street' =>  $investigator->address,
+                'addressable_id' => $pi->id,
+                'addressable_type' => 'App\Models\Person',
+                'city' => '',
+                'user_id' => $user->id
+            ]);
         // \Debugbar::error('Added pi phone, email, and address.');
 
         // Add pi CV data
         if ($investigator != null) {
-        $honors = DB::connection('mysqlold')->table('honors')
-            ->where('investigator_id', '=', $investigator->id)->get();
-        $grants = DB::connection('mysqlold')->table('grants')
-            ->where('investigator_id', '=', $investigator->id)->get();
-        $employments = DB::connection('mysqlold')->table('employments')
-            ->where('investigator_id', '=', $investigator->id)->get();
-        $publications = DB::connection('mysqlold')->table('publications')
-            ->where('investigator_id', '=', $investigator->id)->get();
-        $degrees = DB::connection('mysqlold')->table('degrees')
-            ->where('investigator_id', '=', $investigator->id)->get();
-        $ansefpublications = DB::connection('mysqlold')->table('ansefpublications')
-            ->where('investigator_id', '=', $investigator->id)->get();
+            $honors = DB::connection('mysqlold')->table('honors')
+                ->where('investigator_id', '=', $investigator->id)->get();
+            $grants = DB::connection('mysqlold')->table('grants')
+                ->where('investigator_id', '=', $investigator->id)->get();
+            $employments = DB::connection('mysqlold')->table('employments')
+                ->where('investigator_id', '=', $investigator->id)->get();
+            $publications = DB::connection('mysqlold')->table('publications')
+                ->where('investigator_id', '=', $investigator->id)->get();
+            $degrees = DB::connection('mysqlold')->table('degrees')
+                ->where('investigator_id', '=', $investigator->id)->get();
+            $ansefpublications = DB::connection('mysqlold')->table('ansefpublications')
+                ->where('investigator_id', '=', $investigator->id)->get();
 
-        foreach ($honors as $honor) {
-            Honor::create([
-                'description' => getCleanString($honor->hon_title),
-                'year' => strval($honor->hon_year),
-                'person_id' => $pi->id,
-                'user_id' => $user->id
-            ]);
-        }
-        // \Debugbar::error('Added pi honors.');
-        foreach ($grants as $grant) {
-            Honor::create([
-                'description' => $grant->grant_title . ", " . $grant->grant_type,
-                'year' => $grant->grant_year,
-                'person_id' => $pi->id,
-                'user_id' => $user->id
-            ]);
-        }
-        // \Debugbar::error('Added pi grants.');
-        foreach ($employments as $employment) {
-            InstitutionPerson::create([
-                'person_id' => $pi->id,
-                'institution_id' => 0,
-                'institution' => ' ',
-                'title' => ($employment->employment_position),
-                'start' => date($employment->employment_start_year . '-07-01'),
-                'end' => !empty($employment->employment_end_year) ? date($employment->employment_end_year . '-07-01') : null,
-                'type' => 'employment',
-                'user_id' => $user->id
-            ]);
-        }
-        // \Debugbar::error('Added pi employments.');
-        foreach ($degrees as $degree) {
-            DegreePerson::create([
-                'person_id' => $pi->id,
-                'degree_id' => $maxdegree->id,
-                'year' => $degree->degree_year,
-                'institution_id' => 0,
-                'institution' => $degree->degree_institution,
-                'user_id' => $user->id
-            ]);
-        }
-        // \Debugbar::error('Added pi degrees.');
-        foreach ($publications as $publication) {
-            Publication::create([
-                'person_id' => $pi->id,
-                'journal' => $publication->publication_reference,
-                'title' => getCleanString($publication->publication_title),
-                'year' => $publication->publication_year,
-                'domestic' => '0',
-                'ansef_supported' => strval($publication->publication_ansef),
-                'user_id' => $user->id
-            ]);
-        }
-        // \Debugbar::error('Added pi publications.');
-        foreach ($ansefpublications as $ansefpublication) {
-            Publication::create([
-                'person_id' => $pi->id,
-                'journal' => $ansefpublication->reference . ", " . $ansefpublication->authors . ": " . $ansefpublication->link,
-                'title' => getCleanString($ansefpublication->title),
-                'year' => 0,
-                'domestic' => '0',
-                'ansef_supported' => '1',
-                'user_id' => $user->id
-            ]);
-        }
+            foreach ($honors as $honor) {
+                Honor::create([
+                    'description' => getCleanString($honor->hon_title),
+                    'year' => strval($honor->hon_year),
+                    'person_id' => $pi->id,
+                    'user_id' => $user->id
+                ]);
+            }
+            // \Debugbar::error('Added pi honors.');
+            foreach ($grants as $grant) {
+                Honor::create([
+                    'description' => $grant->grant_title . ", " . $grant->grant_type,
+                    'year' => $grant->grant_year,
+                    'person_id' => $pi->id,
+                    'user_id' => $user->id
+                ]);
+            }
+            // \Debugbar::error('Added pi grants.');
+            foreach ($employments as $employment) {
+                InstitutionPerson::create([
+                    'person_id' => $pi->id,
+                    'institution_id' => 0,
+                    'institution' => ' ',
+                    'title' => ($employment->employment_position),
+                    'start' => date($employment->employment_start_year . '-07-01'),
+                    'end' => !empty($employment->employment_end_year) ? date($employment->employment_end_year . '-07-01') : null,
+                    'type' => 'employment',
+                    'user_id' => $user->id
+                ]);
+            }
+            // \Debugbar::error('Added pi employments.');
+            foreach ($degrees as $degree) {
+                DegreePerson::create([
+                    'person_id' => $pi->id,
+                    'degree_id' => $maxdegree->id,
+                    'year' => $degree->degree_year,
+                    'institution_id' => 0,
+                    'institution' => $degree->degree_institution,
+                    'user_id' => $user->id
+                ]);
+            }
+            // \Debugbar::error('Added pi degrees.');
+            foreach ($publications as $publication) {
+                Publication::create([
+                    'person_id' => $pi->id,
+                    'journal' => $publication->publication_reference,
+                    'title' => getCleanString($publication->publication_title),
+                    'year' => $publication->publication_year,
+                    'domestic' => '0',
+                    'ansef_supported' => strval($publication->publication_ansef),
+                    'user_id' => $user->id
+                ]);
+            }
+            // \Debugbar::error('Added pi publications.');
+            foreach ($ansefpublications as $ansefpublication) {
+                Publication::create([
+                    'person_id' => $pi->id,
+                    'journal' => $ansefpublication->reference . ", " . $ansefpublication->authors . ": " . $ansefpublication->link,
+                    'title' => getCleanString($ansefpublication->title),
+                    'year' => 0,
+                    'domestic' => '0',
+                    'ansef_supported' => '1',
+                    'user_id' => $user->id
+                ]);
+            }
         }
         // \Debugbar::error('Added pi ansefpublications.');
 
         // Add director person
-        if(getCleanString($proposal->director_first_name) != '' && getCleanString($proposal->director_last_name) != '')
-        $director = Person::updateOrCreate([
-            'type' => 'support',
-            'first_name' => getCleanString($proposal->director_first_name),
-            'last_name' => getCleanString($proposal->director_last_name),
-            'user_id' => $user->id
-        ],
-        [
-            'birthdate' => null,
-            'birthplace' => '',
-            'sex' => 'neutral',
-            'state' => 'domestic',
-            'nationality' => '',
-            'specialization' => ''
-        ]);
+        if (getCleanString($proposal->director_first_name) != '' && getCleanString($proposal->director_last_name) != '')
+            $director = Person::updateOrCreate(
+                [
+                    'type' => 'support',
+                    'first_name' => getCleanString($proposal->director_first_name),
+                    'last_name' => getCleanString($proposal->director_last_name),
+                    'user_id' => $user->id
+                ],
+                [
+                    'birthdate' => null,
+                    'birthplace' => '',
+                    'sex' => 'neutral',
+                    'state' => 'domestic',
+                    'nationality' => '',
+                    'specialization' => ''
+                ]
+            );
         else {
             $director = Person::updateOrCreate(
                 [
@@ -548,20 +552,22 @@ class MigrateANSEF implements ShouldQueue
             ->where('proposal_id', '=', $this->proposal_id)->get();
         foreach ($collaborators as $collaborator) {
             // \Debugbar::error('Adding collaborator id ' . $collaborator->id);
-            $per = Person::updateOrCreate([
-                'type' => 'participant',
-                'first_name' => getCleanString($collaborator->first_name),
-                'last_name' => getCleanString($collaborator->last_name),
-                'user_id' => $user->id
-            ],
-            [
-                'birthdate' => !empty($collaborator->birthdate) ? date($collaborator->birthdate) : null,
-                'birthplace' => '',
-                'sex' => 'neutral',
-                'state' => 'domestic',
-                'nationality' => $collaborator->foreign_status == 1 ? '' : 'Armenia',
-                'specialization' => '',
-            ]);
+            $per = Person::updateOrCreate(
+                [
+                    'type' => 'participant',
+                    'first_name' => getCleanString($collaborator->first_name),
+                    'last_name' => getCleanString($collaborator->last_name),
+                    'user_id' => $user->id
+                ],
+                [
+                    'birthdate' => !empty($collaborator->birthdate) ? date($collaborator->birthdate) : null,
+                    'birthplace' => '',
+                    'sex' => 'neutral',
+                    'state' => 'domestic',
+                    'nationality' => $collaborator->foreign_status == 1 ? '' : 'Armenia',
+                    'specialization' => '',
+                ]
+            );
 
             ProposalPerson::create([
                 "person_id" => $per->id,
@@ -595,110 +601,110 @@ class MigrateANSEF implements ShouldQueue
         }
         // \Debugbar::error('Added collaborators.');
 
-        if($this->proposal_id < 5393) {
+        if ($this->proposal_id < 5393) {
 
-        // Add referee reports
-        $reports = DB::connection('mysqlold')->table('reports')
-            ->where('proposal_id', '=', $this->proposal_id)->get();
+            // Add referee reports
+            $reports = DB::connection('mysqlold')->table('reports')
+                ->where('proposal_id', '=', $this->proposal_id)->get();
 
-        foreach ($reports as $report) {
-            // \Debugbar::error('Adding report id ' . $report->id);
-            $referee = $referees[4];
-            $refaccount = $accounts[396];
-            if (Arr::exists($referees, $report->referee_id)) {
-                $referee = $referees[$report->referee_id];
-                if (Arr::exists($accounts, $referee->account_id)) {
-                    $refaccount = $accounts[$referee->account_id];
-                } else {
-                    $referee = $referees[4];
-                    $refaccount = $accounts[396];
+            foreach ($reports as $report) {
+                // \Debugbar::error('Adding report id ' . $report->id);
+                $referee = $referees[4];
+                $refaccount = $accounts[396];
+                if (Arr::exists($referees, $report->referee_id)) {
+                    $referee = $referees[$report->referee_id];
+                    if (Arr::exists($accounts, $referee->account_id)) {
+                        $refaccount = $accounts[$referee->account_id];
+                    } else {
+                        $referee = $referees[4];
+                        $refaccount = $accounts[396];
+                    }
                 }
+
+                $refuser = User::updateOrCreate(
+                    [
+                        'email' => $refaccount->username
+                    ],
+                    [
+                        'password' => bcrypt($generate_password),
+                        'password_salt' => 10,
+                        'remember_token' => null,
+                        'role_id' => $referee_role->id,
+                        'requested_role_id' => 0,
+                        'confirmation' => "1",
+                        'state' => 'active'
+                    ]
+                );
+                // if ($refuser->email == 'lilit@ansef.org')
+                //     \Debugbar::error('3 - Created user ' . $refuser->id . ' with role ' . $refuser->role_id);
+
+                $ref = Person::updateOrCreate(
+                    [
+                        'first_name' => getCleanString($referee->first_name),
+                        'last_name' => getCleanString($referee->last_name),
+                        'type' => 'referee'
+                    ],
+                    [
+                        'birthdate' => null,
+                        'birthplace' => '',
+                        'sex' => 'neutral',
+                        'state' => 'foreign',
+                        'nationality' => '',
+                        'specialization' => $referee->comments,
+                        'user_id' => $refuser->id
+                    ]
+                );
+
+                $rep = RefereeReport::create([
+                    "private_comment" => $report->private_comments,
+                    "public_comment" => $report->public_comments,
+                    "state" => 'complete',
+                    "proposal_id" => $p->id,
+                    "competition_id" => $competition->id,
+                    "due_date" => date($compyear . "-12-30"),
+                    "overall_score" => (int) (100 * $report->score / 7.0),
+                    "referee_id" => $ref->id,
+                    "user_id" => 1
+                ]);
+
+                Score::create([
+                    'score_type_id' => $scoretype['Significance']->id,
+                    'value' => $report->significance,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['Approach']->id,
+                    'value' => $report->approach,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['Innovation']->id,
+                    'value' => $report->innovation,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['Investigator']->id,
+                    'value' => $report->investigator,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['Budget']->id,
+                    'value' => $report->budget,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['Proposal']->id,
+                    'value' => $report->proposal_score,
+                    'report_id' => $rep->id
+                ]);
+                Score::create([
+                    'score_type_id' => $scoretype['OverallScore']->id,
+                    'value' => $report->score,
+                    'report_id' => $rep->id
+                ]);
+
+                updateProposalScore($p->id);
             }
-
-            $refuser = User::updateOrCreate(
-                [
-                    'email' => $refaccount->username
-                ],
-                [
-                    'password' => bcrypt($generate_password),
-                    'password_salt' => 10,
-                    'remember_token' => null,
-                    'role_id' => $referee_role->id,
-                    'requested_role_id' => 0,
-                    'confirmation' => "1",
-                    'state' => 'active'
-                ]
-            );
-            // if ($refuser->email == 'lilit@ansef.org')
-            //     \Debugbar::error('3 - Created user ' . $refuser->id . ' with role ' . $refuser->role_id);
-
-            $ref = Person::updateOrCreate(
-                [
-                    'first_name' => getCleanString($referee->first_name),
-                    'last_name' => getCleanString($referee->last_name),
-                    'type' => 'referee'
-                ],
-                [
-                    'birthdate' => null,
-                    'birthplace' => '',
-                    'sex' => 'neutral',
-                    'state' => 'foreign',
-                    'nationality' => '',
-                    'specialization' => $referee->comments,
-                    'user_id' => $refuser->id
-                ]
-            );
-
-            $rep = RefereeReport::create([
-                "private_comment" => $report->private_comments,
-                "public_comment" => $report->public_comments,
-                "state" => 'complete',
-                "proposal_id" => $p->id,
-                "competition_id" => $competition->id,
-                "due_date" => date($compyear . "-12-30"),
-                "overall_score" => (int)(100*$report->score/7.0),
-                "referee_id" => $ref->id,
-                "user_id" => 1
-            ]);
-
-            Score::create([
-                'score_type_id' => $scoretype['Significance']->id,
-                'value' => $report->significance,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['Approach']->id,
-                'value' => $report->approach,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['Innovation']->id,
-                'value' => $report->innovation,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['Investigator']->id,
-                'value' => $report->investigator,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['Budget']->id,
-                'value' => $report->budget,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['Proposal']->id,
-                'value' => $report->proposal_score,
-                'report_id' => $rep->id
-            ]);
-            Score::create([
-                'score_type_id' => $scoretype['OverallScore']->id,
-                'value' => $report->score,
-                'report_id' => $rep->id
-            ]);
-
-            updateProposalScore($p->id);
-        }
         }
         // \Debugbar::error('Added reports.');
 

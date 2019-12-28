@@ -18,8 +18,8 @@ class MeetingController extends Controller
     {
         $user_id = getUserID();
         $meetings = Meeting::where('person_id', '=', $id)
-                            ->where('user_id','=',$user_id)
-                            ->orderBy('year', 'DESC')->get()->toArray();
+            ->where('user_id', '=', $user_id)
+            ->orderBy('year', 'DESC')->get()->toArray();
         $person = Person::where('id', $id)->get()->toArray();
         return view('applicant.meeting.create', compact('id', 'meetings', 'person'));
     }
@@ -102,9 +102,9 @@ class MeetingController extends Controller
     {
         $user_id = getUserID();
         try {
-            $meeting = Meeting::where('id','=',$id)
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            $meeting = Meeting::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $meeting->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

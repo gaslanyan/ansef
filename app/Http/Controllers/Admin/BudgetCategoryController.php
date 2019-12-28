@@ -44,7 +44,7 @@ class BudgetCategoryController extends Controller
             return view('admin.budget.create', compact('competition', 'budgets'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-//            return redirect('admin/budget')->with('message', 'Unable to create new user.');
+            //            return redirect('admin/budget')->with('message', 'Unable to create new user.');
         }
     }
 
@@ -72,7 +72,6 @@ class BudgetCategoryController extends Controller
                     return redirect('admin/budget')->with('success', messageFromTemplate("success"));
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
-
             } catch (\Exception $exception) {
                 dd($exception);
                 logger()->error($exception);
@@ -105,7 +104,6 @@ class BudgetCategoryController extends Controller
             $budget = BudgetCategory::find($id);
             $competition = Competition::all()->pluck('title', 'id');
             return view('admin.budget.edit', compact('budget', 'competition'));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/budget')->with('message', 'Unable to create new user.');
@@ -149,20 +147,19 @@ class BudgetCategoryController extends Controller
      */
     public function destroy($id)
     {
-//        try {
+        //        try {
         $b_items = BudgetItem::where('budget_cat_id', $id)->get();
         if (!empty($b_item)) {
             foreach ($b_items as $index => $b_item) {
                 BudgetItem::where('id', $b_item->id)->delete();
             }
-
         }
         BudgetCategory::where('id', $id)->delete();
         return redirect('admin/budget')->with('delete', messageFromTemplate('deleted'));
-//        } catch (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('admin/budget')->with('error', messageFromTemplate('wrong'));
-//        }
+        //        } catch (\Exception $exception) {
+        //            logger()->error($exception);
+        //            return redirect('admin/budget')->with('error', messageFromTemplate('wrong'));
+        //        }
     }
 
     public function deleteBudgets(Request $request)
@@ -200,9 +197,9 @@ class BudgetCategoryController extends Controller
         DB::beginTransaction();
         try {
             $cats = Category::select('*')->whereIn(
-                    'id',
-                    (array) ($request->id)
-                )->get()->toArray();
+                'id',
+                (array) ($request->id)
+            )->get()->toArray();
             $_cats = [];
             foreach ($cats as $key => $cat) {
                 //            unset($cat['id']);

@@ -23,14 +23,14 @@ class BudgetCategoriesController extends Controller
         $user_id = getUserID();
         $p = Proposal::find($id);
 
-        if(!empty($p) && $p->user_id == $user_id) {
+        if (!empty($p) && $p->user_id == $user_id) {
             $competition = $p->competition()->first();
             $bc = $competition->budgetcategories()->get();
             $bi = $p->budgetItems()->get();
             $additional = json_decode($competition->additional);
 
             $sum = 0;
-            foreach($bi as $item) {
+            foreach ($bi as $item) {
                 if ($item->amount > $item->category->max) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too high; max is $" . $item->category->max . "<br/>");
                 if ($item->amount < $item->category->min) $validation_message .= ("<b>Error:</b> Amount $" . $item->amount . " too low; min is $" . $item->category->min . "<br/>");
                 $sum += $item->amount;
@@ -44,8 +44,7 @@ class BudgetCategoriesController extends Controller
             $validation_message = $budget["validation"];
 
             return view('applicant.budgetcategories.create', compact('bc', 'bi', 'id', 'sum', 'validation_message', 'additional_message'));
-        }
-        else {
+        } else {
             logger()->error($exception);
             return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
         }
@@ -62,17 +61,17 @@ class BudgetCategoriesController extends Controller
         ]);
 
 
-         if (!empty($request->bc)) {
-                $budget_item = new BudgetItem();
-                $budget_item->budget_cat_id = $request->bc;
-                $budget_item->description = $request->description;
-                $budget_item->amount = $request->amount;
-                $budget_item->proposal_id = $request->prop_id;
-                $budget_item->user_id = $user_id;
-                $budget_item->save();
+        if (!empty($request->bc)) {
+            $budget_item = new BudgetItem();
+            $budget_item->budget_cat_id = $request->bc;
+            $budget_item->description = $request->description;
+            $budget_item->amount = $request->amount;
+            $budget_item->proposal_id = $request->prop_id;
+            $budget_item->user_id = $user_id;
+            $budget_item->save();
         }
         return Redirect::back()->with('success', messageFromTemplate("success"));
-        }
+    }
 
     public function edit($id)
     {
@@ -108,9 +107,9 @@ class BudgetCategoriesController extends Controller
     {
         $user_id = getUserID();
         try {
-            $bi = BudgetItem::where('id','=',$id)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+            $bi = BudgetItem::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $bi->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

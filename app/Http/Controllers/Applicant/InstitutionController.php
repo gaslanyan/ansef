@@ -23,13 +23,13 @@ class InstitutionController extends Controller
         $user_id = getUserID();
         $ins_array = [];
         $institutions_list = Institution::all()->toArray();
-        $institution_person = InstitutionPerson::where('person_id','=', $id)
-                                                ->where('user_id','=',$user_id)
-                                                ->orderBy('start', 'DESC')->get()->sortBy('end');
+        $institution_person = InstitutionPerson::where('person_id', '=', $id)
+            ->where('user_id', '=', $user_id)
+            ->orderBy('start', 'DESC')->get()->sortBy('end');
 
         $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
-        $person = Person::where('id',$id )->where('user_id','=',$user_id)->get()->toArray();
-        return view('applicant.institution.create', compact('id','institutions_list','person','ins_array','institution_person'));
+        $person = Person::where('id', $id)->where('user_id', '=', $user_id)->get()->toArray();
+        return view('applicant.institution.create', compact('id', 'institutions_list', 'person', 'ins_array', 'institution_person'));
     }
 
     public function store(Request $request)
@@ -116,13 +116,11 @@ class InstitutionController extends Controller
             }
 
             return \Redirect::back()->with('success', messageFromTemplate("success"));
-
         } catch (\Exception $exception) {
             DB::rollBack();
             logger()->error($exception);
             //            throw $exception;
             return \Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
-
         }
     }
 
@@ -131,9 +129,9 @@ class InstitutionController extends Controller
     {
         $user_id = getUserID();
         try {
-            $template = Institution::where('id','=',$id)
-                                    ->where('user_id','=',$user_id)
-                                    ->first();
+            $template = Institution::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
 
             $template->delete();
             return redirect('admin/institution')->with('success', messageFromTemplate('deleted'));
@@ -147,15 +145,14 @@ class InstitutionController extends Controller
     {
         $user_id = getUserID();
         try {
-            $degree = InstitutionPerson::where('id','=',$id)
-                                        ->where('user_id','=',$user_id)
-                                        ->first();
-            if(!empty($degree)) $degree->delete();
+            $degree = InstitutionPerson::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
+            if (!empty($degree)) $degree->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return messageFromTemplate("wrong");
         }
     }
-
 }

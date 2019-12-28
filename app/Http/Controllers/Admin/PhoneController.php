@@ -54,27 +54,25 @@ class PhoneController extends Controller
             return view('admin.phone.create');
         else {
             $validatedData = $request->validate([
-//            'country_code.*' => 'required|max:4', /*Need to check validation not working*/
-            'phone.*' => 'required'
+                //            'country_code.*' => 'required|max:4', /*Need to check validation not working*/
+                'phone.*' => 'required'
 
-        ]);
-        try {
-            $person_id = getPersonIdByRole('admin');
-            foreach ($request->phone as $key => $item) {
-                $phone = new Phone();
-                $phone->person_id = $person_id;
-                $phone->country_code = ($request->country_code)[$key];
-                $phone->number = $item;
-                $phone->user = getUserID();
-                $phone->save();
+            ]);
+            try {
+                $person_id = getPersonIdByRole('admin');
+                foreach ($request->phone as $key => $item) {
+                    $phone = new Phone();
+                    $phone->person_id = $person_id;
+                    $phone->country_code = ($request->country_code)[$key];
+                    $phone->number = $item;
+                    $phone->user = getUserID();
+                    $phone->save();
+                }
+                return redirect('admin/phone')->with('success', messageFromTemplate("success"));
+            } catch (\Exception $exception) {
+                logger()->error($exception);
+                return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
             }
-            return redirect('admin/phone')->with('success', messageFromTemplate("success"));
-
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
-
-        }
         }
     }
 
@@ -99,8 +97,10 @@ class PhoneController extends Controller
     {
         try {
             $phone = Phone::find($id);
-            return view('admin.phone.edit',
-                compact('phone', 'id'));
+            return view(
+                'admin.phone.edit',
+                compact('phone', 'id')
+            );
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
@@ -120,31 +120,28 @@ class PhoneController extends Controller
         if (!$request->isMethod('post'))
             return view('admin.phone.edit');
         else {
-        $validatedData = $request->validate([
-            /*'country_code' => 'required|numeric|phone_number|max:3',
-            //'number' =>'required|size:11'*/
-
-        ]);
-        try {
-//            $this->validate($request, [
-//                'name' => 'required|numeric|phone_number|size:11',
-//                'text' => 'required|numeric|phone_number|max:3'
-//            ]);
+            $validatedData = $request->validate([
+                /*'country_code' => 'required|numeric|phone_number|max:3',
+            //'number' =>'required|size:11'*/]);
+            try {
+                //            $this->validate($request, [
+                //                'name' => 'required|numeric|phone_number|size:11',
+                //                'text' => 'required|numeric|phone_number|max:3'
+                //            ]);
 
 
-            foreach ($request->phone as $key => $item) {
-                $phones = Phone::find($id);
-                $phones->country_code = ($request->country_code)[$key];
+                foreach ($request->phone as $key => $item) {
+                    $phones = Phone::find($id);
+                    $phones->country_code = ($request->country_code)[$key];
 
-                $phones->number = $item;
-                $phones->save();
+                    $phones->number = $item;
+                    $phones->save();
+                }
+                return redirect('admin/phone')->with('success', messageFromTemplate("update"));
+            } catch (\Exception $exception) {
+                logger()->error($exception);
+                return redirect('admin/phone')->with('wrong', messageFromTemplate("wrong"));
             }
-            return redirect('admin/phone')->with('success', messageFromTemplate("update"));
-
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/phone')->with('wrong', messageFromTemplate("wrong"));
-        }
         }
     }
 

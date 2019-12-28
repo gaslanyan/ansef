@@ -18,7 +18,7 @@ class MessageController extends Controller
     {
         try {
             $messages = Message::all();
-//            dd($messages);
+            //            dd($messages);
             return view('admin.message.index', compact('messages'));
         } catch (\Exception $exception) {
             logger()->error($exception);
@@ -57,8 +57,7 @@ class MessageController extends Controller
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', messageFromTemplate("success"));
-            }
-            else return redirect()->back()->withErrors($val->errors())->withInput();
+            } else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/message')->with('error', messageFromTemplate("wrong"));
@@ -115,8 +114,7 @@ class MessageController extends Controller
                 $messages->text = $request->text;
                 $messages->save();
                 return redirect('admin/message')->with('success', messageFromTemplate("update"));
-            }
-            else return redirect()->back()->withErrors($val->errors())->withInput();
+            } else return redirect()->back()->withErrors($val->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/message')->with('error', messageFromTemplate("wrong"));

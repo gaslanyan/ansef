@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Person;
 use App\Models\Proposal;
-use App\Models\ProposalReport;
 use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Score;
@@ -21,13 +20,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-
     public function state($state)
     {
         try {
@@ -45,33 +37,16 @@ class ReportController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user_id = getUserID();
@@ -113,12 +88,6 @@ class ReportController extends Controller
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user_id = getUserID();
@@ -143,13 +112,6 @@ class ReportController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
@@ -171,10 +133,9 @@ class ReportController extends Controller
             $report->save();
             updateProposalState($report->proposal_id);
             updateProposalScore($report->proposal_id);
-            if($report->state == 'rejected') {
+            if ($report->state == 'rejected') {
                 return redirect()->action('Referee\SendEmailController@showRejectedEmail', $report->id);
-            }
-            else return redirect()->action('Referee\ReportController@state', 'in-progress');
+            } else return redirect()->action('Referee\ReportController@state', 'in-progress');
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('error', messageFromTemplate("wrong"))->withInput();

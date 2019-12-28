@@ -20,13 +20,10 @@ class TemplateController extends Controller
 
             $templates = Template::all();
             return view('admin.template.index', compact('templates'));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/template')->with('error', messageFromTemplate("wrong"));
-
         }
-
     }
 
     /**
@@ -48,26 +45,22 @@ class TemplateController extends Controller
     public function store(Request $request)
     {
 
-            try {
-                $val = Validator::make($request->all(), [
-                    'name' => 'required|max:255|min:3',
-                    'text' => 'required|max:511|min:6',
-                ]);
-                if (!$val->fails()) {
-                    $templates = new Template;
-                    $templates->name = $request->name;
-                    $templates->text = $request->text;
-                    $templates->save();
-                    return redirect('admin/template')->with('success', messageFromTemplate("success"));
-                }
-                else return redirect()->back()->withErrors($val->errors())->withInput();
-
-            } catch (\Exception $exception) {
-                logger()->error($exception);
-                return redirect('admin/template')->with('error', messageFromTemplate("wrong"));;
-
-            }
-
+        try {
+            $val = Validator::make($request->all(), [
+                'name' => 'required|max:255|min:3',
+                'text' => 'required|max:511|min:6',
+            ]);
+            if (!$val->fails()) {
+                $templates = new Template;
+                $templates->name = $request->name;
+                $templates->text = $request->text;
+                $templates->save();
+                return redirect('admin/template')->with('success', messageFromTemplate("success"));
+            } else return redirect()->back()->withErrors($val->errors())->withInput();
+        } catch (\Exception $exception) {
+            logger()->error($exception);
+            return redirect('admin/template')->with('error', messageFromTemplate("wrong"));;
+        }
     }
 
     /**

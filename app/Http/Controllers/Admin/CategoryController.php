@@ -76,7 +76,6 @@ class CategoryController extends Controller
                 return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
             }
         }
-
     }
 
     /**
@@ -121,36 +120,35 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-//        try {
+        //        try {
         if (Category::where('parent_id', $id)->exists()) {
             Category::where('parent_id', $id)->delete();
-
         }
-        if(Category::find($id)->exists())
+        if (Category::find($id)->exists())
             Category::find($id)->delete();
-//            $category = Category::find($id);
-//            $cats = Proposal::select('categories')->get();
-//            $selected_cat = [];
-//            foreach ($cats as $index => $cat) {
-//                $j_c = json_decode($cat->categories, true);
-//                foreach ($j_c as $i => $item) {
-//                    $selected_cat[] = $item[0];
-//                }
-//            }
-////            dd(in_array($category->id, $selected_cat));
-//            if (!in_array($category->id, $selected_cat)) {
-//
-//                Category::where('id', $category->id)->delete();
-                return redirect('admin/category')->with('delete', messageFromTemplate('deleted'));
-//            } else {
-//
-//            }
+        //            $category = Category::find($id);
+        //            $cats = Proposal::select('categories')->get();
+        //            $selected_cat = [];
+        //            foreach ($cats as $index => $cat) {
+        //                $j_c = json_decode($cat->categories, true);
+        //                foreach ($j_c as $i => $item) {
+        //                    $selected_cat[] = $item[0];
+        //                }
+        //            }
+        ////            dd(in_array($category->id, $selected_cat));
+        //            if (!in_array($category->id, $selected_cat)) {
+        //
+        //                Category::where('id', $category->id)->delete();
+        return redirect('admin/category')->with('delete', messageFromTemplate('deleted'));
+        //            } else {
+        //
+        //            }
 
-//        } catch
-//        (\Exception $exception) {
-//            logger()->error($exception);
-//            return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
-//        }
+        //        } catch
+        //        (\Exception $exception) {
+        //            logger()->error($exception);
+        //            return redirect('admin/category')->with('error', messageFromTemplate('wrong'));
+        //        }
     }
 
     public function updateCategory(Request $request)

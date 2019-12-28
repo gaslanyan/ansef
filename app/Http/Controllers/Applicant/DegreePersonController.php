@@ -20,7 +20,7 @@ class DegreePersonController extends Controller
     {
         $user_id = getUserID();
         $persons_name = Person::where('id', $id)->where('user_id', '=', $user_id)->where('type', '!=', null)->first();
-        $degreesperson = DegreePerson::where('person_id','=',$id)->where('user_id', '=', $user_id)->orderBy('year', 'DESC')->get();
+        $degreesperson = DegreePerson::where('person_id', '=', $id)->where('user_id', '=', $user_id)->orderBy('year', 'DESC')->get();
         $degrees_list = Degree::all();
         $institutions = Institution::all()->pluck('content', 'id')->toArray();
         return view('applicant.degree.create', compact('id', 'degrees_list', 'degreesperson', 'persons_name', 'institutions'));
@@ -61,7 +61,6 @@ class DegreePersonController extends Controller
 
     public function show($id)
     {
-
     }
 
     public function edit($id)
@@ -86,12 +85,10 @@ class DegreePersonController extends Controller
                 if (!empty(($request->institution)[$i]) && ($request->institution)[$i] != "") {
                     $degreeperson->institution = ($request->institution)[$i];
                     $degreeperson->institution_id = 0;
-                }
-                elseif (!empty(($request->institution_id)[$i])) {
+                } elseif (!empty(($request->institution_id)[$i])) {
                     $degreeperson->institution_id = (int) ($request->institution_id)[$i];
                     $degreeperson->institution = "";
-                }
-                else {
+                } else {
                     $degreeperson->institution = "";
                 }
                 $degreeperson->save();
@@ -108,9 +105,9 @@ class DegreePersonController extends Controller
     {
         $user_id = getUserID();
         try {
-            $degree = DegreePerson::where('id','=',$id)
-                                    ->where('user_id','=',$user_id)
-                                    ->first();
+            $degree = DegreePerson::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $degree->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

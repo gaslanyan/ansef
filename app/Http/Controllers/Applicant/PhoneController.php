@@ -18,11 +18,11 @@ class PhoneController extends Controller
     {
         $user_id = getUserID();
         $persons_name = Person::where('id', $id)->whereIn('type', ['participant', 'support'])
-                                ->where('user_id','=',$user_id)
-                                ->first();
+            ->where('user_id', '=', $user_id)
+            ->first();
         $phone_list = Phone::where('person_id', '=', $id)
-                            ->where('user_id','=',$user_id)
-                            ->get()->toArray();
+            ->where('user_id', '=', $user_id)
+            ->get()->toArray();
         return view('applicant.phone.create', compact('persons_name', 'phone_list', 'id'));
     }
 
@@ -41,7 +41,7 @@ class PhoneController extends Controller
                 $phone->country_code = ($request->country_code)[$key];
                 $phone->number = $item;
                 $phone->user = $user_id;
-               $phone->save();
+                $phone->save();
             }
             return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
@@ -88,9 +88,9 @@ class PhoneController extends Controller
     {
         $user_id = getUserID();
         try {
-            $phone = Phone::where('id','=',$id)
-                            ->where('user_id','=',$user_id)
-                            ->first();
+            $phone = Phone::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
             $phone->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {

@@ -17,14 +17,14 @@ class BookController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $books = Book::where('person_id','=',$id)
-                    ->where('user_id','=',$user_id)
-                    ->orderBy('year', 'DESC')->get()->toArray();
-        $person = Person::where('id', $id )
-                    ->where('user_id','=',$user_id)
-                    ->get()->toArray();
+        $books = Book::where('person_id', '=', $id)
+            ->where('user_id', '=', $user_id)
+            ->orderBy('year', 'DESC')->get()->toArray();
+        $person = Person::where('id', $id)
+            ->where('user_id', '=', $user_id)
+            ->get()->toArray();
 
-        return view('applicant.book.create',compact('id','books','person'));
+        return view('applicant.book.create', compact('id', 'books', 'person'));
     }
 
     public function store(Request $request)
@@ -36,14 +36,14 @@ class BookController extends Controller
             'year' => 'required',
         ]);
         try {
-                $book = new Book;
-                $book->person_id = $request->book_add_hidden_id;
-                $book->title = $request->title;
-                $book->publisher = $request->publisher;
-                $book->year = $request->year;
-                $book->user_id = $user_id;
-                $book->save();
-                return redirect()->back()->with('success', messageFromTemplate("success"));
+            $book = new Book;
+            $book->person_id = $request->book_add_hidden_id;
+            $book->title = $request->title;
+            $book->publisher = $request->publisher;
+            $book->year = $request->year;
+            $book->user_id = $user_id;
+            $book->save();
+            return redirect()->back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('wrong', messageFromTemplate("wrong"))->withInput();
@@ -78,7 +78,6 @@ class BookController extends Controller
                 $book->save();
             }
             return redirect()->back()->with('success', messageFromTemplate("success"));
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('wrong', messageFromTemplate("wrong"))->withInput();
@@ -89,10 +88,10 @@ class BookController extends Controller
     {
         $user_id = getUserID();
         try {
-            $book = Book::where('id','=',$id)
-                        ->where('user_id','=',$user_id)
-                        ->first();
-            if(!empty($book)) $book->delete();
+            $book = Book::where('id', '=', $id)
+                ->where('user_id', '=', $user_id)
+                ->first();
+            if (!empty($book)) $book->delete();
             return redirect()->back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);

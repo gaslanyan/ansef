@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
 
 class SettingsController extends Controller
 {
@@ -36,14 +34,14 @@ class SettingsController extends Controller
 
     public function export(Request $request)
     {
-            $v = Validator::make($request->all(), [
-                'name' => 'required|max:255',
-                'type'=> 'required|max:15'
-            ]);
-            if (!$v->fails()) {
-                exportExcelOrCsv($request->name, $request->type);
-            } else
-                return redirect()->back()->withErrors($v->errors())->withInput();
+        $v = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'type' => 'required|max:15'
+        ]);
+        if (!$v->fails()) {
+            exportExcelOrCsv($request->name, $request->type);
+        } else
+            return redirect()->back()->withErrors($v->errors())->withInput();
     }
 
     public function sql()

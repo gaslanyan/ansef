@@ -18,7 +18,7 @@ class AddressController extends Controller
     public function create($id)
     {
         $user_id = getUserID();
-        $person = Person::where('id', $id)->where('user_id','=',$user_id)->first();
+        $person = Person::where('id', $id)->where('user_id', '=', $user_id)->first();
         $address_list = $person->addresses()->get()->toArray();
         $country_list = Country::all()->sortBy('country_name');
         return view('applicant.address.create', compact('person', 'address_list', 'id', 'country_list'));
@@ -33,8 +33,8 @@ class AddressController extends Controller
             'city' => 'required|max:255',
         ]);
         try {
-            $person = Person::where('id','=',$request->hidden_person_id)
-                            ->where('user_id','=', $user_id)->first();
+            $person = Person::where('id', '=', $request->hidden_person_id)
+                ->where('user_id', '=', $user_id)->first();
             $address = new Address;
             $address->street = $request->street;
             $address->city = $request->city;
@@ -51,7 +51,8 @@ class AddressController extends Controller
     }
 
     public function show($id)
-    { }
+    {
+    }
 
     public function edit($id)
     {
@@ -86,8 +87,8 @@ class AddressController extends Controller
     {
         $user_id = getUserID();
         try {
-            $address = Address::where('id','=',$id)->where('user_id','=',$user_id)->first();
-            if(!empty($address)) $address->delete();
+            $address = Address::where('id', '=', $id)->where('user_id', '=', $user_id)->first();
+            if (!empty($address)) $address->delete();
             return Redirect::back()->with('delete', messageFromTemplate("deleted"));
         } catch (\Exception $exception) {
             logger()->error($exception);
