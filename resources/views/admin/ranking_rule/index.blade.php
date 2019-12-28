@@ -68,6 +68,7 @@
                             @endforeach
                             </tbody>
                         </table>
+                            {!! $stats !!}
                     </div>
                 </div>
             </div>
