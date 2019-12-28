@@ -690,3 +690,8 @@ function inbetween($val, $range)
 {
     return $val >= $range[0] && $val <= $range[1];
 }
+
+function statline($label, $data, $data2, $key)
+{
+    return '<b>' . $label . ':</b> max ' . round($data[$key]->max()*10.0)/10.0 . "/" . round($data2[$key]->max()*10.0)/10.0 . ', min ' . round($data[$key]->min()*10.0)/10.0 . "/" . round($data2[$key]->min()*10.0)/10.0 . ", avg " . round($data[$key]->avg()*10.0)/10.0 . "/" . round($data2[$key]->avg()*10.0)/10.0 . "<br>";
+}

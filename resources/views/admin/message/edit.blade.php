@@ -5,10 +5,9 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Edit an email template
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
-                    <div class="card-body cord_body">
+                    <div class="card-body cord_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\MessageController@update', $id) }}">
@@ -16,11 +15,15 @@
                             <div class="form-group">
                                 <input name="_method" type="hidden" value="PATCH">
                             </div>
+                            <div class="form-group col-12">
+                                <label for="title">Title *:</label><br/>
+                                <input size="50" id="title" name="title" type="text" value="{{$message->title}}"><br/>
+                            </div>
+                            <div class="form-group col-12">
+                                <label for="subject">Subject *:</label><br/>
+                                <input size="50" id="subject" name="subject" type="text" value="{{$message->subject}}"><br/>
+                            </div>
                             <div class="form-group">
-                                <label for="title">Title *:</label>
-                                <input id="title" name="title" type="text" value="{{$message->title}}">
-                                <label for="subject">Subject *:</label>
-                                <input id="subject" name="subject" type="text" value="{{$message->subject}}">
                                 <label for="text">Message Text *:</label>
                                 <textarea class="form-control" name="text" id="text">{{$message->text}}</textarea>
                             </div>

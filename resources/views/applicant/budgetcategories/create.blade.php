@@ -7,9 +7,10 @@
                 <div class="card">
                     <div class="card-header">Update Budget
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
-                           class="display float-lg-right btn-box-tool">Go Back</a>
+                           class="display float-lg-right btn-box-tool">Go Back</a><br/>
                     </div>
                     <div class="card-body card_body" style="margin-left:20px;margin-right:20px;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         <label><b>Add New Budget Item:</b></label><br/><br/>
                         <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
                             {{ csrf_field() }}

@@ -5,10 +5,9 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Edit a Degree
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
                     <div class="card-body cord_body">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\DegreeController@update', $id) }}">

@@ -6,9 +6,10 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
-                    <div class="card-header">Edit your info</div>
+                    <div class="card-header">Edit your profile</div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
 

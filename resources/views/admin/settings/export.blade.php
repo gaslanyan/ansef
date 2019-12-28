@@ -5,10 +5,9 @@
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
                     <div class="card-header">Download table content as csv or excel
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i></div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i></div>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\SettingsController@export') }}">

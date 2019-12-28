@@ -6,11 +6,10 @@
             <div class="offset-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">Add a competition
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\CompetitionController@store') }}" class="row">

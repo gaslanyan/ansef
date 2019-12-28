@@ -95,6 +95,7 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::resource('/admin/score', 'Admin\ScoreTypeController');
     Route::resource('/admin/rank', 'Admin\RankingRuleController');
     Route::post('/admin/execute', 'Admin\RankingRuleController@execute');
+    Route::post('/admin/rankingstats', 'Admin\RankingRuleController@stats');
     Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
     Route::get('/admin/proposal/awardslist/{id}', 'Admin\ProposalController@awardslist')->name('awards_list');
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');

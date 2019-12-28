@@ -11,11 +11,10 @@
             <div class="col-md-10 offset-md-2">
                  <div class="card" >
                     <div class="card-header">Add an institution
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\InstitutionController@store') }}" class="row">

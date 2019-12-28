@@ -27,37 +27,65 @@ class RankingRuleController extends Controller
                 ->where('competition_id', '=', $cid)
                 ->get();
 
-            $stats = "<h4 style='margin-left:15px;'><b>Statistics</b></h4><p style='color:#666;margin-left:15px;'>";
-            $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
-            $pidata = getPiData($proposals);
-            $stats .= ('<b>PI ages:</b> max ' . ($pidata["ages"]->max()) . ', min ' . ($pidata["ages"]->min()) . ", avg " . round($pidata["ages"]->avg()) . "<br>");
-            $stats .= ('<b>PI sexes:</b> max ' . ($pidata["sexes"]->max()) . ', min ' . ($pidata["sexes"]->min()) . ", avg " . round($pidata["sexes"]->avg()) . "<br>");
-
-            $partdata = getParticipantData($proposals);
-            $stats .= ('<b>Participant ages:</b> max ' . ($partdata["avgages"]->max()) . ', min ' . ($partdata["avgages"]->min()) . ", avg " . round($partdata["avgages"]->avg()) . "<br>");
-            $stats .= ('<b>Participant sexes:</b> max ' . ($partdata["avgsexes"]->max()) . ', min ' . ($partdata["avgsexes"]->min()) . ", avg " . round($partdata["avgsexes"]->avg()) . "<br>");
-            $stats .= ('<b>Participant counts:</b> max ' . ($partdata["counts"]->max()) . ', min ' . ($partdata["counts"]->min()) . ", avg " . round($partdata["counts"]->avg()) . "<br>");
-            $stats .= ('<b>Participant juniors:</b> max ' . ($partdata["juniorcounts"]->max()) . ', min ' . ($partdata["juniorcounts"]->min()) . ", avg " . round($partdata["juniorcounts"]->avg()) . "<br>");
-
-            $budgdata = getBudgetData($proposals);
-            $stats .= ('<b>Budgets:</b> max $' . $budgdata["budgets"]->max() . ', min $' . $budgdata["budgets"]->min() . ", avg $" . round($budgdata["budgets"]->avg()) . "<br>");
-            $stats .= ('<b>PI salaries:</b> max $' . $budgdata["pisalaries"]->max() . ', min $' . $budgdata["pisalaries"]->min() . ", avg $" . round($budgdata["pisalaries"]->avg()) . "<br>");
-            $stats .= ('<b>Collab salaries:</b> max $' . $budgdata["collabsalaries"]->max() . ', min $' . $budgdata["collabsalaries"]->min() . ", avg $" . round($budgdata["collabsalaries"]->avg()) . "<br>");
-            $stats .= ('<b>Salaries:</b> max $' . $budgdata["avgsalaries"]->max() . ', min $' . $budgdata["avgsalaries"]->min() . ", avg $" . round($budgdata["avgsalaries"]->avg()) . "<br>");
-            $stats .= ('<b>Deviation:</b> max $' . $budgdata["devsalaries"]->max() . ', min $' . $budgdata["devsalaries"]->min() . ", avg $" . round($budgdata["devsalaries"]->avg()) . "<br>");
-            $stats .= ('<b>Travel:</b> max $' . $budgdata["travels"]->max() . ', min $' . $budgdata["travels"]->min() . ", avg $" . round($budgdata["travels"]->avg()) . "<br>");
-            $stats .= ('<b>Equipment:</b> max $' . $budgdata["equipments"]->max() . ', min $' . $budgdata["equipments"]->min() . ", avg $" . round($budgdata["equipments"]->avg()) . "<br>");
-
-            $scoredata = getScoreData($proposals);
-            $stats .= ('<b>Overall scores:</b> max ' . $scoredata["overallscores"]->max() . '%, min ' . $scoredata["overallscores"]->min() . "%, avg " . round($scoredata["overallscores"]->avg()) . "%<br>");
-            $stats .= '</p>';
-
-            return view('admin.ranking_rule.index', compact('rules', 'competitions', 'cid', 'stats')
+            return view('admin.ranking_rule.index', compact('rules', 'competitions', 'cid')
             );
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
         }
+    }
+
+    public function stats(Request $request) {
+        ini_set('memory_limit', '512M');
+
+        $cid = $request->cid;
+        $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
+        $proposals2 = Proposal::whereIn('state', ['approved 1', 'approved 2', 'awarded', 'finalist'])->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
+
+        $stats = "<h4 style='margin-left:15px;'><b>Statistics</b></h4><p style='color:#666;margin-left:15px;'>";
+
+        $stats .= ("Proposal count: " . count($proposals) . "; awards/finalists: " . count($proposals2) . "<br/><br/>");
+
+        if($request->type == "pi") {
+            $pidata = getPiData($proposals);
+            $pidata2 = getPiData($proposals2);
+            $stats .= statline('PI ages', $pidata, $pidata2, "ages");
+            $stats .= statline('PI sexes', $pidata, $pidata2, "sexes");
+        }
+        else if($request->type == "participants") {
+            $partdata = getParticipantData($proposals);
+            $partdata2 = getParticipantData($proposals2);
+            $stats .= statline('Participant ages', $partdata, $partdata2, "avgages");
+            $stats .= statline('Participant sexes', $partdata, $partdata2, "avgsexes");
+            $stats .= statline('Participant counts', $partdata, $partdata2, "counts");
+            $stats .= statline('Participant juniors', $partdata, $partdata2, "juniorcounts");
+        }
+        else if ($request->type == "budget") {
+            $budgdata = getBudgetData($proposals);
+            $budgdata2 = getBudgetData($proposals2);
+            $stats .= statline('Budgets', $budgdata, $budgdata2, "budgets");
+            $stats .= statline('PI salaries', $budgdata, $budgdata2, "pisalaries");
+            $stats .= statline('Collab salaries', $budgdata, $budgdata2, "collabsalaries");
+            $stats .= statline('Salaries', $budgdata, $budgdata2, "avgsalaries");
+            $stats .= statline('Deviation', $budgdata, $budgdata2, "devsalaries");
+            $stats .= statline('Travel', $budgdata, $budgdata2, "travels");
+            $stats .= statline('Equipment', $budgdata, $budgdata2, "equipments");
+        }
+        else if ($request->type == "score") {
+            $scoredata = getScoreData($proposals);
+            $scoredata2 = getScoreData($proposals2);
+            $stats .= statline('Overall scores', $scoredata, $scoredata2, "overallscores");
+        }
+        else {
+        }
+
+        $stats .= '</p>';
+
+        $response = [
+            'success' => true,
+            'content' => $stats
+        ];
+        return response()->json($response);
     }
 
     public function create()

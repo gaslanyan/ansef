@@ -68,7 +68,12 @@
                             @endforeach
                             </tbody>
                         </table>
-                            {!! $stats !!}
+                        <a class=" myButton" onclick="showstats({{$cid}},'pi')">Show PI stats</a>
+                        <a class=" myButton" onclick="showstats({{$cid}},'participants')">Show participants stats</a>
+                        <a class=" myButton" onclick="showstats({{$cid}},'budget')">Show budget stats</a>
+                        <a class=" myButton" onclick="showstats({{$cid}},'score')">Show score stats</a>
+                        <br/><br/>
+                        <span id="stats"></span>
                     </div>
                 </div>
             </div>
@@ -93,6 +98,31 @@
                 });
             }).draw();
         });
+
+        function showstats(cid, t) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/admin/rankingstats',
+                type: 'POST',
+                context: {element: $(this)},
+                data: {
+                    _token: CSRF_TOKEN,
+                    cid: cid,
+                    type: t
+                },
+                dataType: 'JSON',
+                success: function (data) {
+                    $('#stats').html(data.content);
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+        }
 
         function executerules() {
             var t = $('#datatable').DataTable();

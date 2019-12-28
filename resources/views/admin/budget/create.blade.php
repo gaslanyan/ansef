@@ -7,7 +7,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
                     <div class="card-header">Create Budget category
-                        <a href = "{{ action('Admin\BudgetCategoryController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
+                        <a href = "{{ action('Admin\BudgetCategoryController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>
                         <br>
                         <i class="fas fa-question-circle text-blue all">{{Lang::get('messages.required_all')}}</i>
                     </div>

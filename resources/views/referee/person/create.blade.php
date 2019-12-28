@@ -7,11 +7,10 @@
             <div class="col-md-8">
                  <div class="card" >
                     <div class="card-header">Create Your Profile
-                        <br>
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
 

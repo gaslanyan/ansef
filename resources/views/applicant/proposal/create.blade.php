@@ -8,6 +8,7 @@
                     <div class="card-header">Add A New Proposal
                     </div>
                     <div class="card-body card_body" style="overflow:auto;">
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         @if(count($competitions) == 0)
