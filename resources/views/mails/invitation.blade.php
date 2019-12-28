@@ -1,15 +1,10 @@
-Hello <i>{{ $invent->receiver }}</i>,
-<p>This is a demo email for testing purposes! Also, it's the HTML version.</p>
-
-<p><u>Send values:</u></p>
+Communication from ANSEF to <i>{{ $data->receiver }}</i>,
 
 <div>
-    <p><b>Demo One:</b>&nbsp;{{ $invent->message }}</p>
+    <p>{{ $data->message }}</p>
 
 </div>
 
-<p><u>Values passed by With method:</u></p>
-
-Thank You,
+Best regards,
 <br/>
-<i>{{ $invent->sender }}</i>
+<i>{{ $data->sender }}</i>

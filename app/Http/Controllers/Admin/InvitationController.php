@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -48,9 +49,11 @@ class InvitationController extends Controller
                 foreach ($request->email as $index => $item) {
                     $objSend = new \stdClass();
                     $objSend->message = $message->text;
-                    $objSend->sender = 'Ansef';
-                    $objSend->receiver = 'collages';
-                    Mail::to($item)->send(new \App\Mail\Invitation($objSend));
+                    $objSend->subject = $message->subject;
+                    $objSend->sender = 'ANSEF Research Board';
+                    $objSend->receiver = $item;
+                    Mail::to($item)
+                        ->send(new \App\Mail\Invitation($objSend));
                 }
                 return redirect()->back()->with('success', htmlspecialchars_decode(messageFromTemplate("send_email")));
             } else
@@ -66,15 +69,10 @@ class InvitationController extends Controller
     {
         $messages = Message::all();
 
-        // $users = User::where('state', 'active')->get();
-        $users = \DB::table('users')
-            ->where('users.state', 'active')
-            ->where(function ($query) {
-                $query->where('persons.type', 'referee')
-                      ->orWhere('persons.type', 'PI');
-            })
-            ->rightJoin('persons', 'users.id', '=', 'persons.user_id')
-            ->get();
+        $users = User::where('users.state', 'active')
+                    ->join('persons', 'persons.user_id', '=', 'users.id')
+                    ->whereIn('persons.type', ['applicant', 'referee'])
+                    ->get();
 
         return view('admin.invitation.send', compact('messages', 'users'));
     }

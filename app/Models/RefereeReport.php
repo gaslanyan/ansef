@@ -25,6 +25,6 @@ class RefereeReport extends Model
     }
     public function scores()
     {
-        return $this->hasMany(Score::class);
+        return $this->hasMany(Score::class, 'report_id');
     }
 }

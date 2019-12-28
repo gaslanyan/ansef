@@ -72,7 +72,6 @@ class DegreeController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**
@@ -112,7 +111,6 @@ class DegreeController extends Controller
                 return redirect('admin/degree')->with('success', messageFromTemplate("update"));
             } else
                 return redirect()->back()->withErrors($val->errors())->withInput();
-
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));

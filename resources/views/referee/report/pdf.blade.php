@@ -4,7 +4,7 @@
     <title>{{getProposaltag($pid)}}</title>
     <style>
         strong {
-            color: #00c0ef;
+            color: #647c97;
             font-size: large;
         }
         body {

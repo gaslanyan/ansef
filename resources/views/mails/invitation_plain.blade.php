@@ -1,9 +1,6 @@
-Hello {{ $invent->receiver }},
-This is a demo email for testing purposes! Also, it's the HTML version.
+Communication from ANSEF to {{ $data->receiver }},
 
-Demo object values:
+{{ $data->message }}
 
-Demo One: {{ $invent->message }}
-
-Thank you for using our application!
-{{ $invent->sender }}
+Best regards,
+{{ $data->sender }}

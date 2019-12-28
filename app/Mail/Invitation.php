@@ -9,16 +9,16 @@ use Illuminate\Queue\SerializesModels;
 class Invitation extends Mailable
 {
     use Queueable, SerializesModels;
-    public $invent;
+    public $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($invent)
+    public function __construct($data)
     {
-        $this->invent = $invent;
+        $this->data = $data;
     }
 
     /**
@@ -29,18 +29,11 @@ class Invitation extends Mailable
     public function build()
     {
         return $this->from(config('emails.webmaster'))
+            ->subject($this->data->subject)
             ->view('mails.invitation')
             ->text('mails.invitation_plain')
             ->with(
                 [
-                    'testVarOne' => '1',
-                    'testVarTwo' => '2',
                 ]);
-//            ->attach(public_path('/images') . '/demo.jpg',
-//                [
-//                    'as' => 'demo.jpg',
-//                    'mime' => 'image/jpeg',
-//                ]
-//            );
     }
 }

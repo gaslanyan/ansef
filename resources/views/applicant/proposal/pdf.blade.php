@@ -8,7 +8,7 @@
             font-size: 12px;
         }
         strong {
-            color: #00c0ef;
+            color: #647c97;
         }
 
     </style>

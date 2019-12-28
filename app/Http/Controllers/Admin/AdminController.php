@@ -17,7 +17,7 @@ class AdminController extends Controller
     {
         ini_set('memory_limit', '512M');
         try {
-        $proposals = Competition::with('proposalsCount')->get();
+        $proposals = Competition::with('proposalsCount')->get()->sortByDesc('created_at');
 
         return view('admin.dashboard', compact('proposals'));
         } catch (\Exception $exception) {

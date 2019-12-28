@@ -256,16 +256,16 @@ $user_id = getUserID();
                     </span>
                 </a>
             </li>
-            <li class="">
+            {{-- <li class="">
                 <a href="{{action('Admin\SettingsController@sql')}}">
                     <i class="fa fa-database"></i>
                     <span>Backup database</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="">
                 <a href="{{action('Admin\SettingsController@exportForm')}}">
                     <i class="fa fa-database"></i>
-                    <span>Export database tables</span>
+                    <span>Export tables</span>
                 </a>
             </li>
         </ul>

@@ -84,7 +84,7 @@
                                 <button type="button" onclick="open_container()" class="btn btn-primary">Copy from another ranking
                                     rule
                                 </button>
-                                <a href = "{{ action('Admin\RankingRuleController@index') }}" class="btn btn-secondary">Cancel</a>
+                                <a href = "{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
                     </div>

@@ -76,28 +76,30 @@ class AccountController extends Controller
                         $person = Person::find($p->person_id);
                         $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
                         $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->select('proposals.competition_id')
+                            ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                            ->select('competitions.title')
                             ->where('person_id', '=', $p->person_id)
                             ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
-                            ->get();
+                            ->get()->pluck('title');
                         $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                            ->select('proposals.competition_id')
+                            ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                            ->select('competitions.title')
                             ->where('person_id', '=', $p->person_id)
                             ->where('proposals.state', '=', 'finalist')
-                            ->get();
-                        $awards = '';
-                        $finalists = '';
-                        foreach ($as as $award) {
-                            $awards .= (Competition::find($award->competition_id)->title . " ");
-                        }
-                        foreach ($asf as $finalist) {
-                            $finalists .= (Competition::find($finalist->competition_id)->title . " ");
-                        }
+                            ->get()->pluck('title');
+                        $awards = strval($as);
+                        $finalists = strval($asf);
+                        // foreach ($as as $award) {
+                        //     $awards .= (Competition::find($award->competition_id)->title . " ");
+                        // }
+                        // foreach ($asf as $finalist) {
+                        //     $finalists .= (Competition::find($finalist->competition_id)->title . " ");
+                        // }
                         $persons->push([
                             'first_name' => $person->first_name ?? '',
                             'last_name' => $person->last_name ?? '',
                             'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
-                            'propcount' => $propcount,
+                            'propcount' => $propcount . "/" . count($as) . "/" . count($asf),
                             'awards' => $awards,
                             'finalists' => $finalists,
                             'subtype' => $p->subtype

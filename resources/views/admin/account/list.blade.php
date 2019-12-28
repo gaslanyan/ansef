@@ -18,7 +18,7 @@
                         @if($type == 'applicant')
                         <p>
                         @foreach($competitions as $comp)
-                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => $comp->id])}}">{{$comp->title}}</a> -
+                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => $comp->id])}}">{{$comp->title}}</a>
                         @endforeach
                         </p>
                         @endif
@@ -56,12 +56,8 @@
                                         </td>
                                         <td>
                                             #:{{$p['propcount']}}
-                                        @if($p['subtype'] != '')
                                             - {{$p['subtype']}} -
-                                        @endif
-                                        @if($p['subtype'] == 'PI' && ($p['awards'] !='' || $p['finalists'] != ''))
-                                            <b>&laquo; {{$p['awards']}}&raquo;</b> &laquo; {{$p['finalists']}}&raquo;
-                                        @endif
+                                            <b>{{$p['awards']}}</b> {{$p['finalists']}}
                                         </td>
                                     </tr>
                                 @endforeach

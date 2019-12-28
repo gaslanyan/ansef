@@ -1,15 +1,19 @@
 <?php
 
 use App\Models\ProposalPerson;
+use App\Models\Category;
 use App\Models\Proposal;
 use App\Models\Person;
 use App\Models\Email;
 use App\Models\Address;
+use App\Models\BudgetCategory;
+use App\Models\BudgetItem;
 use App\Models\DegreePerson;
 use App\Models\InstitutionPerson;
 use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Score;
+use App\Models\ScoreType;
 use \Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -558,15 +562,24 @@ function getParticipantData($pids)
 function getCategoryData($pids)
 {
     $proposals = Proposal::whereIn('id', $pids)->get();
-    $membership = collect([]);
+    $catmembership = collect([]);
+    $subcatmembership = collect([]);
     foreach ($proposals as $p) {
+        $propcat = json_decode($p->categories, true);
+
+        $cat = Category::where('id', $propcat['parent'][0])->first()->abbreviation ?? 'none';
+        $subcat = Category::where('id', $propcat['sub'][0])->first()->abbreviation ?? 'none';
+
+        $catmembership[$p->id] = $cat;
+        $subcatmembership[$p->id] = $subcat;
 
     }
-    return ["membership" => $membership];
+    return ["catmembership" => $catmembership, "subcatmembership" => $subcatmembership];
 }
 
 function getBudgetData($pids)
 {
+    $bcindexes = ['collaborator' => 0, "travel" => 1, "equipment" => 2, "other" => 3, "pi" => 4];
     $proposals = Proposal::whereIn('id', $pids)->get();
     $budgets = collect([]);
     $pisalaries = collect([]);
@@ -575,7 +588,50 @@ function getBudgetData($pids)
     $devsalaries = collect([]);
     $travels = collect([]);
     $equipments = collect([]);
-    foreach ($proposals as $p) {
+    if (!empty($proposals) && count($proposals) > 0) {
+        $budgcats = BudgetCategory::select('id')
+                                ->where('competition_id', '=', $proposals[0]->competition_id)
+                                ->get()->sortBy('id');
+        foreach ($proposals as $p) {
+            $bis = BudgetItem::where('proposal_id','=',$p->id)->get();
+            $budget = 0.0;
+            $pisal = 0.0;
+            $collabsal = 0.0;
+            $salaries = collect([]);
+            $travel = 0.0;
+            $equip = 0.0;
+            foreach($bis as $bi) {
+                $budget += $bi->amount;
+                switch ($bi->budget_cat_id) {
+                    case $budgcats[$bcindexes['collaborator']]->id:
+                        $collabsal += $bi->amount;
+                        $salaries->push($bi->amount);
+                        break;
+                    case $budgcats[$bcindexes['pi']]->id:
+                        $pisal += $bi->amount;
+                        $salaries->push($bi->amount);
+                        break;
+                    case $budgcats[$bcindexes['travel']]->id:
+                        $travel += $bi->amount;
+                        break;
+                    case $budgcats[$bcindexes['equipment']]->id:
+                        $equip += $bi->amount;
+                        break;
+                }
+            }
+            $budgets[$p->id] = $budget;
+            $pisalaries[$p->id] = $pisal;
+            $collabsalaries[$p->id] = $collabsal;
+            $avg = $salaries->avg();
+            $avgsalaries[$p->id] = $avg;
+            $devsalaries[$p->id] = $salaries->reduce(function ($carry, $item) use ($avg) {
+                                                        return $carry + (($item - $avg)* ($item - $avg));
+                                                    });
+            if(count($salaries) > 0) $devsalaries[$p->id] = sqrt($devsalaries[$p->id]/ count($salaries));
+            else $devsalaries[$p->id] = 0.0;
+            $travels[$p->id] = $travel;
+            $equipments[$p->id] = $equip;
+        }
     }
     return ["budgets" => $budgets,
             "pisalaries" => $pisalaries,
@@ -592,7 +648,19 @@ function getScoreData($pids)
     $proposals = Proposal::whereIn('id', $pids)->get();
     $subscores = collect([]);
     $overallscores = collect([]);
-    foreach ($proposals as $p) {
+    if(!empty($proposals) && count($proposals) > 0) {
+        foreach ($proposals as $p) {
+            $reports = RefereeReport::where('proposal_id','=',$p->id)->get();
+            $ss = collect([]);
+            foreach($reports as $report) {
+                $scores = $report->scores()->get()->sortBy('id');
+                foreach($scores as $score) {
+                    $ss->push($score->value);
+                }
+            }
+            $overallscores[$p->id] = $p->overall_score;
+            $subscores[$p->id] = collect([])->push($ss);
+        }
     }
     return ["subscores" => $subscores, "overallscores" => $overallscores];
 }

@@ -99,7 +99,7 @@
                         {
                             "render": function (data, type, full, meta) {
                                 var ID = full.id;
-                                return '<button class="btn btn-link" onclick="open_container(' + meta.row + ')">' +
+                                return '<button class="btn btn-link" onclick="open_container(' + ID + ')">' +
                                     '<i class="fa fa-eye"></i></button>';
                             }
                         }
@@ -194,9 +194,17 @@
             var row = parseInt(content);
             var t = $('#datatable').DataTable();
             var data = t.rows().data();
-            var tabledata = format(data[row]);
-            $('#myModal').find('.modal-header h4').text('Report for ' + data[row].tag);
-            $('#myModal').find('#content').replaceWith(tabledata);
+            var selecteddata = 0;
+            for(var i=0; i < data.length; i++) {
+                if(data[i].id == row) {
+                    selecteddata = i;
+                    break;
+                }
+            }
+            // alert(row + ', ' + data[selecteddata].id);
+            var tabledata = format(data[selecteddata]);
+            $('#myModal').find('.modal-header h4').text('Report for ' + data[selecteddata].tag);
+            $('#myModal').find('#content').html(tabledata);
         }
 
         function format(d) {

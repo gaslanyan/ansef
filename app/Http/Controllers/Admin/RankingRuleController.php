@@ -170,7 +170,13 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with budget rules.');
                 $data = getBudgetData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
-                    return true;
+                    return inbetween($data["budgets"][$value], $rules->budget) &&
+                        inbetween($data["pisalaries"][$value], $rules->pi_salary) &&
+                        inbetween($data["collabsalaries"][$value], $rules->collab_salary) &&
+                        inbetween($data["avgsalaries"][$value], $rules->avg_salary) &&
+                        inbetween($data["devsalaries"][$value], $rules->salary_dev) &&
+                        inbetween($data["travels"][$value], $rules->travel) &&
+                        inbetween($data["equipments"][$value], $rules->equipment);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -179,7 +185,8 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with category rules.');
                 $data = getCategoryData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
-                    return true;
+                    return  $rules->category->contains($data["catmembership"][$value]) ||
+                            $rules->category->contains($data["subcatmembership"][$value]);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
@@ -188,7 +195,9 @@ class RankingRuleController extends Controller
                 \Debugbar::error('  Processing ' . count($proposals) . ' with score rules.');
                 $data = getScoreData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
-                    return true;
+                    return  inbetween($data["overallscores"][$value], $rules->overall_score) &&
+                            $data["subscores"][$value]->max() <= $rules->subscore[1] &&
+                            $data["subscores"][$value]->min() >= $rules->subscore[0];
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }

@@ -65,7 +65,6 @@
 
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Send emails</button>
-                                <a href = "{{ action('Admin\InvitationController@send') }}" class="btn btn-secondary">Cancel</a>
                             </div>
 
                         </form>
