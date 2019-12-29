@@ -16,6 +16,13 @@ $user_id = getUserID();
                 <?php endif;?>
             </div>
         </div>
+                @php
+                if (Cookie::get('cid') !== null)
+                    $cid = Cookie::get('cid');
+                else {
+                    $cid = empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id;
+                }
+                @endphp
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
                 <a href="/admin">
@@ -38,11 +45,15 @@ $user_id = getUserID();
                             Log in users</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => (empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)])}}">
-                            List of participants</a>
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant', 'cid' => $cid])}}">
+                            List of PIs</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['type' => 'referee', 'cid' => 0])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'collaborator', 'type' => 'applicant', 'cid' => $cid])}}">
+                            List of Collaborators</a>
+                    </li>
+                    <li>
+                        <a href="{{action('Admin\AccountController@account',['subtype' => '', 'type' => 'referee', 'cid' => 0])}}">
                             List of referees</a>
                     </li>
                     <li>
@@ -122,7 +133,7 @@ $user_id = getUserID();
                             types</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\RankingRuleController@list', ['cid' => (empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)])}}"><i class="fa fa-circle-o"></i>Ranking
+                        <a href="{{action('Admin\RankingRuleController@list', ['cid' => $cid])}}"><i class="fa fa-circle-o"></i>Ranking
                             rules
                         </a>
                     </li>

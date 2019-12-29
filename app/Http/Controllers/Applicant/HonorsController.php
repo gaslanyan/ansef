@@ -34,13 +34,11 @@ class HonorsController extends Controller
 
         try {
             $user_id = \Auth::guard(get_role_cookie())->user()->id;  /*Petq e ardyoq avelacnem Cookie-i(ka te chka) stugum???*/
-            //$person_id = Person::where('user_id', $user_id )->get()->toArray();
-            //  $p_id  = $person_id[0]['id'];
             $honors = new Honor;
-            $honors->person_id = $request->honor_hidden_id[0];
+            $honors->person_id = $request->honor_hidden_id;
             $honors->description = $request->description;
             $honors->year = $request->year;
-            $honor->user_id = $user_id;
+            $honors->user_id = $user_id;
             $honors->save();
             return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {

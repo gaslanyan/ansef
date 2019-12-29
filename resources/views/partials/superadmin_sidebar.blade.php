@@ -16,6 +16,13 @@ $user_id = getUserID();
                 <?php endif;?>
             </div>
         </div>
+                @php
+                if (Cookie::get('cid') !== null)
+                    $cid = Cookie::get('cid');
+                else {
+                    $cid = empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id;
+                }
+                @endphp
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
                 <a href="/superadmin">
@@ -38,11 +45,15 @@ $user_id = getUserID();
                             Log in users</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => (empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)])}}">
-                            List of participants</a>
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant', 'cid' => $cid])}}">
+                            List of PIs</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['type' => 'referee', 'cid' => 0])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'collaborator', 'type' => 'applicant', 'cid' => $cid])}}">
+                            List of Collaborators</a>
+                    </li>
+                    <li>
+                        <a href="{{action('Admin\AccountController@account',['subtype' =>'', 'type' => 'referee', 'cid' => 0])}}">
                             List of referees</a>
                     </li>
                     <li>
@@ -151,9 +162,9 @@ $user_id = getUserID();
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ProposalController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                    <li><a href="{{action('Admin\ProposalController@list', $cid)}}"><i class="fa fa-circle-o"></i>
                         Show proposals</a></li>
-                    <li><a href="{{action('Admin\ProposalController@awardslist', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                    <li><a href="{{action('Admin\ProposalController@awardslist', $cid)}}"><i class="fa fa-circle-o"></i>
                         Show awards</a></li>
                 </ul>
             </li>

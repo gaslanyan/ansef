@@ -28,7 +28,7 @@
                                 <input type="text" class="form-control" name="year" id="year" value="{{old('year')}}">
                             </div>
                             </div>
-                            <input type=hidden value="{{$id}}" name="honor_hidden_id[]">
+                            <input type=hidden value="{{$id}}" name="honor_hidden_id">
                             <button type="submit" class="btn btn-primary">Add Honor or Grant</button>
                         </form>
                     </div>

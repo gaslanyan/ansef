@@ -345,25 +345,25 @@ class MigrateANSEF implements ShouldQueue
                 ->where('investigator_id', '=', $investigator->id)->get();
 
             foreach ($honors as $honor) {
-                Honor::create([
+                Honor::updateOrCreate([
                     'description' => getCleanString($honor->hon_title),
                     'year' => strval($honor->hon_year),
                     'person_id' => $pi->id,
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
             // \Debugbar::error('Added pi honors.');
             foreach ($grants as $grant) {
-                Honor::create([
+                Honor::updateOrCreate([
                     'description' => $grant->grant_title . ", " . $grant->grant_type,
                     'year' => $grant->grant_year,
                     'person_id' => $pi->id,
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
             // \Debugbar::error('Added pi grants.');
             foreach ($employments as $employment) {
-                InstitutionPerson::create([
+                InstitutionPerson::updateOrCreate([
                     'person_id' => $pi->id,
                     'institution_id' => 0,
                     'institution' => ' ',
@@ -372,22 +372,22 @@ class MigrateANSEF implements ShouldQueue
                     'end' => !empty($employment->employment_end_year) ? date($employment->employment_end_year . '-07-01') : null,
                     'type' => 'employment',
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
             // \Debugbar::error('Added pi employments.');
             foreach ($degrees as $degree) {
-                DegreePerson::create([
+                DegreePerson::updateOrCreate([
                     'person_id' => $pi->id,
                     'degree_id' => $maxdegree->id,
                     'year' => $degree->degree_year,
                     'institution_id' => 0,
                     'institution' => $degree->degree_institution,
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
             // \Debugbar::error('Added pi degrees.');
             foreach ($publications as $publication) {
-                Publication::create([
+                Publication::updateOrCreate([
                     'person_id' => $pi->id,
                     'journal' => $publication->publication_reference,
                     'title' => getCleanString($publication->publication_title),
@@ -395,11 +395,11 @@ class MigrateANSEF implements ShouldQueue
                     'domestic' => '0',
                     'ansef_supported' => strval($publication->publication_ansef),
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
             // \Debugbar::error('Added pi publications.');
             foreach ($ansefpublications as $ansefpublication) {
-                Publication::create([
+                Publication::updateOrCreate([
                     'person_id' => $pi->id,
                     'journal' => $ansefpublication->reference . ", " . $ansefpublication->authors . ": " . $ansefpublication->link,
                     'title' => getCleanString($ansefpublication->title),
@@ -407,7 +407,7 @@ class MigrateANSEF implements ShouldQueue
                     'domestic' => '0',
                     'ansef_supported' => '1',
                     'user_id' => $user->id
-                ]);
+                ], []);
             }
         }
         // \Debugbar::error('Added pi ansefpublications.');

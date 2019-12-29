@@ -34,15 +34,12 @@ class PhoneController extends Controller
         ]);
         try {
             $user_id = getUserID();
-            $person = Person::where('user_id', '=', $user_id)->first();
-            foreach ($request->phone as $key => $item) {
                 $phone = new Phone();
                 $phone->person_id = $request->phone_create_hidden;
-                $phone->country_code = ($request->country_code)[$key];
-                $phone->number = $item;
-                $phone->user = $user_id;
+                $phone->country_code = $request->country_code;
+                $phone->number = $request->phone;
+                $phone->user_id = $user_id;
                 $phone->save();
-            }
             return Redirect::back()->with('success', messageFromTemplate("success"));
         } catch (\Exception $exception) {
             logger()->error($exception);

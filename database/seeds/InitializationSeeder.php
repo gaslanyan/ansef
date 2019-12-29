@@ -36,23 +36,6 @@ class InitializationSeeder extends Seeder
             'name' => 'superadmin'
         ]);
 
-        App\Models\Degree::create([
-            'id' => 1,
-            'text' => 'None'
-        ]);
-        App\Models\Degree::create([
-            'id' => 2,
-            'text' => 'Bachelor'
-        ]);
-        App\Models\Degree::create([
-            'id' => 3,
-            'text' => 'Masters'
-        ]);
-        App\Models\Degree::create([
-            'id' => 4,
-            'text' => 'Doctorate'
-        ]);
-
         App\Models\User::create([
                 'id' => 1,
                 'email' => 'sahakian@g.hmc.edu',

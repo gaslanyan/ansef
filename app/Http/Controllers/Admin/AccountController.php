@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cookie;
 
 class AccountController extends Controller
 {
@@ -46,9 +47,10 @@ class AccountController extends Controller
         }
     }
 
-    public function account($type, $cid)
+    public function account($subtype, $type, $cid)
     {
-        ini_set('memory_limit', '2048M');
+        Cookie::queue('cid', $cid, 24 * 60);
+        ini_set('memory_limit', '256M');
         $competitions = Competition::select('id', 'title')->get();
         try {
             $persons = collect([]);
@@ -68,7 +70,8 @@ class AccountController extends Controller
             } else if ($type == 'applicant') {
                 // foreach (ProposalPerson::where('competition_id', '=', $cid)->cursor() as $index => $p) {
                 ProposalPerson::where('competition_id', '=', $cid)
-                    ->chunk(100, function ($ps) use ($persons) {
+                    ->where('subtype', $subtype)
+                    ->chunk(50, function ($ps) use ($persons) {
                         foreach ($ps as $p) {
                             $person = Person::find($p->person_id);
                             $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
@@ -86,12 +89,6 @@ class AccountController extends Controller
                                 ->get()->pluck('title');
                             $awards = strval($as);
                             $finalists = strval($asf);
-                            // foreach ($as as $award) {
-                            //     $awards .= (Competition::find($award->competition_id)->title . " ");
-                            // }
-                            // foreach ($asf as $finalist) {
-                            //     $finalists .= (Competition::find($finalist->competition_id)->title . " ");
-                            // }
                             $persons->push([
                                 'first_name' => $person->first_name ?? '',
                                 'last_name' => $person->last_name ?? '',
@@ -106,7 +103,7 @@ class AccountController extends Controller
             } else {
             }
 
-            return view('admin.account.list', compact('persons', 'type', 'competitions', 'cid'));
+            return view('admin.account.list', compact('persons', 'subtype', 'type', 'competitions', 'cid'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/account')->with('error', messageFromTemplate('wrong'));

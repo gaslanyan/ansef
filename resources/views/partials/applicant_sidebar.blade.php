@@ -1,7 +1,7 @@
 <!-- sidebar.blade.php -->
 <?php
     $signUser = loggedApplicant();
-    $user_id = getPersonIdByRole('applicant');
+    $user_id = getUserID();
 ?>
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -9,7 +9,7 @@
             <div class="pull-left d-inline-block">
                 <p class="" style="color:#999;">
                 <?php if (!empty($signUser)):?>
-                    <?= "Logged in as<br><b>" . \App\Models\User::find($user_id)->email ."</b>"; ?>
+                    <?= "Logged in as<br><b>" . (\App\Models\User::find($user_id)!=null ? \App\Models\User::find($user_id)->email : '') ."</b>"; ?>
                 <?php else: ?>
                     <?= get_role_cookie(); ?>
                 <?php endif;?>

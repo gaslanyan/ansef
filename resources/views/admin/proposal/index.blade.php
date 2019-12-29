@@ -200,6 +200,9 @@
 
     <script>
         $(document).ready(function () {
+
+            setCookie("cid", "{{$cid}}", 2);
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

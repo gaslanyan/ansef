@@ -25,6 +25,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cookie;
 
 class ProposalController extends Controller
 {
@@ -191,6 +192,7 @@ class ProposalController extends Controller
 
     public function listproposals($cid, Request $request)
     {
+        Cookie::queue('cid', $cid, 24 * 60);
         ini_set('memory_limit', '384M');
         $d['data'] = [];
 
@@ -253,7 +255,7 @@ class ProposalController extends Controller
 
     public function listawards($cid, Request $request)
     {
-        // ini_set('memory_limit', '384M');
+        Cookie::queue('cid', $cid, 24 * 60);
         $d['data'] = [];
 
         if ($cid == -1) {

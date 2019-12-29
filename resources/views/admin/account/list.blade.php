@@ -7,7 +7,7 @@
             <div class="offset-md-2 col-md-10">
                 <div class="card" >
 
-                        <div class="card-header">{{ucfirst($type)}} list
+                        <div class="card-header">{{ucfirst($type)}} list - {{ucfirst($subtype)}}
                             @if(get_role_cookie() == 'superadmin')
                             <a href="{{action('Admin\AccountController@create')}}"
                                class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a person</a>
@@ -18,7 +18,7 @@
                         @if($type == 'applicant')
                         <p>
                         @foreach($competitions as $comp)
-                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\AccountController@account',['type' => 'applicant', 'cid' => $comp->id])}}">{{$comp->title}}</a>
+                        - <a style="color:#{{$comp->id == $cid ? 'f00' : '999'}};" href="{{action('Admin\AccountController@account',['subtype'=> $subtype, 'type' => 'applicant', 'cid' => $comp->id])}}">{{$comp->title}}</a>
                         @endforeach
                         </p>
                         @endif
@@ -56,7 +56,7 @@
                                         </td>
                                         <td>
                                             #:{{$p['propcount']}}
-                                            - {{$p['subtype']}} -
+                                            -
                                             <b>{{$p['awards']}}</b> {{$p['finalists']}}
                                         </td>
                                     </tr>
@@ -74,6 +74,9 @@
     </div>
     <script>
         $(document).ready(function () {
+            // alert("cid is {{$cid}}");
+            setCookie("cid", "{{$cid}}", 2);
+
             var t = $('#example').DataTable({
                 "pagingType": "full_numbers",
 

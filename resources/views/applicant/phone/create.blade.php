@@ -22,12 +22,12 @@
                                         <!-- <i class="fa fa-plus col-lg-10 col-lg-pull-2 add text-blue" style="cursor: pointer"></i> -->
                                         <div class="col-12">
                                             <div class="row">
-                                                <input type="text" name="country_code[]"
-                                                       class="form-control col-lg-2">
+                                                <input type="text" name="country_code"
+                                                       class="form-control col-lg-2" placeholder="Country code">
 
                                                 <input type="text" class="form-control phone col-lg-8"
-                                                       name="phone[]"
-                                                       id="phone">
+                                                       name="phone"
+                                                       id="phone" placeholder="Number">
                                             </div>
                                         </div>
                                     </div>
