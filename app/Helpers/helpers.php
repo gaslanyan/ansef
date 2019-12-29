@@ -10,6 +10,7 @@ use App\Models\BudgetCategory;
 use App\Models\BudgetItem;
 use App\Models\DegreePerson;
 use App\Models\InstitutionPerson;
+use App\Models\Publication;
 use App\Models\Recommendation;
 use App\Models\RefereeReport;
 use App\Models\Score;
@@ -507,20 +508,53 @@ function getPiData($pids)
     $proposals = Proposal::whereIn('id', $pids)->get();
     $ages = collect([]);
     $sexes = collect([]);
+    $publications = collect([]);
+    $publicationsansef = collect([]);
+    $publicationsdom = collect([]);
+    $publicationsansefdom = collect([]);
     foreach ($proposals as $p) {
         $pi = $p->pi();
         if (empty($pi)) {
-            $ages->push(0.0);
-            $sexes->push(0.0);
+            $ages[$p->id] = 0.0;
+            $sexes[$p->id] = (0.0);
+            $publications[$p->id] = (0.0);
+            $publicationsansef[$p->id] = (0.0);
+            $publicationsdom[$p->id] = (0.0);
+            $publicationsansefdom[$p->id] = (0.0);
         } else {
             $from = new DateTime($pi->birthdate);
             $to   = new DateTime('today');
             $age = $from->diff($to)->y;
+            $tenyearsago = (int)($to->format('Y'))-10;
             $ages[$p->id] = $age;
             $sexes[$p->id] = ($pi->sex == 'female' ? 1.0 : 0.0);
-        }
+            $publications[$p->id] = Publication::where('person_id','=',$p->id)
+                                            ->where('year','>=', $tenyearsago)
+                                            ->where('domestic', '=', '0')
+                                            ->count();
+            $publicationsansef[$p->id] = Publication::where('person_id', '=', $p->id)
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic', '=', '0')
+                                            ->where('ansef_supported','=','1')
+                                            ->count();
+            $publicationsdom[$p->id] = Publication::where('person_id', '=', $p->id)
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic','=','1')
+                                            ->count();
+            $publicationsansefdom[$p->id] = Publication::where('person_id', '=', $p->id)
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic', '=', '1')
+                                            ->where('ansef_supported', '=', '1')
+                                            ->count();
+       }
     }
-    return ["ages" => $ages, "sexes" => $sexes];
+    return ["ages" => $ages,
+            "sexes" => $sexes,
+            "publications" => $publications,
+            "publications_ansef" => $publicationsansef,
+            "publications_dom" => $publicationsdom,
+            "publications_ansef_dom" => $publicationsansefdom
+        ];
 }
 
 function getParticipantData($pids)
@@ -530,6 +564,10 @@ function getParticipantData($pids)
     $avgsexes = collect([]);
     $counts = collect([]);
     $juniorcounts = collect([]);
+    $publications = collect([]);
+    $publicationsansef = collect([]);
+    $publicationsdom = collect([]);
+    $publicationsansefdom = collect([]);
     foreach ($proposals as $p) {
         $pps = ProposalPerson::where('proposal_id', '=', $p->id)
             ->whereIn('subtype', ['PI', 'collaborator'])
@@ -538,6 +576,10 @@ function getParticipantData($pids)
         $sexes = 0.0;
         $count = 0;
         $juniors = 0;
+        $pubs = 0;
+        $pubsansef = 0;
+        $pubsdom = 0;
+        $pubsansefdom = 0;
         foreach ($pps as $pp) {
             $person = Person::find($pp->person_id);
             $from = new DateTime($person->birthdate);
@@ -548,18 +590,52 @@ function getParticipantData($pids)
             $count += 1;
             $maxdegree = DegreePerson::where('person_id', '=', $person->id)->max('degree_id');
             if ($maxdegree <= 3) $juniors++;
+            $pubs += Publication::where('person_id', '=', $p->id)
+                ->where('year', '>=', $tenyearsago)
+                ->where('domestic', '=', '0')
+                ->count();
+            $pubsansef += Publication::where('person_id', '=', $p->id)
+                ->where('year', '>=', $tenyearsago)
+                ->where('domestic', '=', '0')
+                ->where('ansef_supported', '=', '1')
+                ->count();
+            $pubsdom += Publication::where('person_id', '=', $p->id)
+                ->where('year', '>=', $tenyearsago)
+                ->where('domestic', '=', '1')
+                ->count();
+            $pubsansefdom += Publication::where('person_id', '=', $p->id)
+                ->where('year', '>=', $tenyearsago)
+                ->where('domestic', '=', '1')
+                ->where('ansef_supported', '=', '1')
+                ->count();
         }
         if ($count > 0) {
             $avgages[$p->id] = ($ages / $count);
             $avgsexes[$p->id] = ($sexes / $count);
+            $publications[$p->id] = ($pubs / $count);
+            $publicationsansef[$p->id] = ($pubsansef / $count);
+            $publicationsdom[$p->id] = ($pubsdom / $count);
+            $publicationsansefdom[$p->id] = ($pubsansefdom / $count);
         } else {
             $avgages[$p->id] = (0.0);
             $avgsexes[$p->id] = (0.0);
+            $publications[$p->id] = (0.0);
+            $publicationsansef[$p->id] = (0.0);
+            $publicationsdom[$p->id] = (0.0);
+            $publicationsansefdom[$p->id] = (0.0);
         }
         $counts[$p->id] = $count;
         $juniorcounts[$p->id] = $juniors;
     }
-    return ["avgages" => $avgages, "avgsexes" => $avgsexes, "counts" => $counts, "juniorcounts" => $juniorcounts];
+    return ["avgages" => $avgages,
+            "avgsexes" => $avgsexes,
+            "counts" => $counts,
+            "juniorcounts" => $juniorcounts,
+            "part_publications" => $publications,
+            "part_publications_ansef" => $publicationsansef,
+            "part_publications_dom" => $publicationsdom,
+            "part_publications_ansef_dom" => $publicationsansefdom
+            ];
 }
 
 function getCategoryData($pids)

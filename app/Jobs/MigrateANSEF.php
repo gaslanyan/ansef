@@ -135,45 +135,45 @@ class MigrateANSEF implements ShouldQueue
         $scoretype['Significance'] = ScoreType::updateOrCreate(['name' => 'Significance', 'competition_id' => $competition->id], [
             'description' => 'Does this study address an important problem?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['Approach'] = ScoreType::updateOrCreate(['name' => 'Approach', 'competition_id' => $competition->id], [
             'name' => 'Approach',
             'description' => 'Are the concepts and design of methods and analysis adequately developed and appropriate to the aim of the project?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['Innovation'] = ScoreType::updateOrCreate(['name' => 'Innovation', 'competition_id' => $competition->id], [
             'name' => 'Innovation',
             'description' => 'Does the project employ novel concepts, approaches or methods? Are the aims original and innovative? Does the project challenge existing paradigms or develop new methodologies or technologies?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['Investigator'] = ScoreType::updateOrCreate(['name' => 'Investigator', 'competition_id' => $competition->id], [
             'description' => 'Is the investigator appropriately trained and well-suited to carry out this work? Is the work proposed appropriate to the experience level of the principal investigator and other researchers?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['Budget'] = ScoreType::updateOrCreate(['name' => 'Budget', 'competition_id' => $competition->id], [
             'description' => 'Is the budget appropriate for the proposed project?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['Proposal'] = ScoreType::updateOrCreate(['name' => 'Proposal', 'competition_id' => $competition->id], [
             'description' => 'How well conceived and organized is the proposed activity? Is the review of the current state of knowledge in the field adequate?',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         $scoretype['OverallScore'] = ScoreType::updateOrCreate(['name' => 'Overall Score', 'competition_id' => $competition->id], [
             'description' => 'How would you rate the proposal overall? Please note that ANSEF grants are very competitive. It is rare that a proposal that is not deemed Outstanding in this category would get funded. On the other hand, there should be good reason to consider a proposal Outstanding, based on your assessment of the previous six criteria.',
             'min' => 0,
-            'max' => 7,
+            'max' => 6,
             'weight' => 1
         ]);
         // \Debugbar::error('Added score types.');
@@ -318,7 +318,7 @@ class MigrateANSEF implements ShouldQueue
         ]);
 
         if ($investigator != null)
-            Address::create([
+            Address::updateOrCreate([
                 'country_id' => 8,
                 'province' => '',
                 'street' =>  $investigator->address,
@@ -326,7 +326,7 @@ class MigrateANSEF implements ShouldQueue
                 'addressable_type' => 'App\Models\Person',
                 'city' => '',
                 'user_id' => $user->id
-            ]);
+            ], []);
         // \Debugbar::error('Added pi phone, email, and address.');
 
         // Add pi CV data
@@ -576,20 +576,20 @@ class MigrateANSEF implements ShouldQueue
                 "competition_id" => $p->competition->id
             ]);
 
-            Phone::create([
+            Phone::updateOrCreate([
                 "person_id" => $per->id,
                 "country_code" => 0,
                 "number" => $collaborator->phone,
                 "user_id" => $user->id
-            ]);
+            ], []);
 
-            Email::create([
+            Email::updateOrCreate([
                 "person_id" => $per->id,
                 "email" => $collaborator->email,
                 "user_id" => $user->d
-            ]);
+            ], []);
 
-            Address::create([
+            Address::updateOrCreate([
                 'country_id' => 8,
                 'province' => '',
                 'street' =>  $collaborator->address,
@@ -597,7 +597,7 @@ class MigrateANSEF implements ShouldQueue
                 'addressable_type' => 'App\Models\Person',
                 'city' => '',
                 'user_id' => $user->id
-            ]);
+            ], []);
         }
         // \Debugbar::error('Added collaborators.');
 
@@ -662,7 +662,7 @@ class MigrateANSEF implements ShouldQueue
                     "proposal_id" => $p->id,
                     "competition_id" => $competition->id,
                     "due_date" => date($compyear . "-12-30"),
-                    "overall_score" => (int) (100 * $report->score / 7.0),
+                    "overall_score" => (int) (100 * $report->score / 6.0),
                     "referee_id" => $ref->id,
                     "user_id" => 1
                 ]);

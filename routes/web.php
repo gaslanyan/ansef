@@ -73,19 +73,28 @@ Route::get('/admin/referee/signas/{id}', 'Referee\RefereeController@signAs', [
 // ---------------------------------- Admin routes ----------------------------------
 Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/portfolio', 'Admin\AdminController@portfolio')->name('user.admin');
+
     Route::get('/admin/export', 'Admin\SettingsController@exportForm');
     Route::get('/admin/sql', 'Admin\SettingsController@sql');
+    Route::post('/admin/lock', 'Admin\SettingsController@lock');
+    Route::post('/export', 'Admin\SettingsController@export');
+
     Route::get('/admin/profile/edit/{id}', 'Admin\PersonController@edit');
     Route::post('/admin/profile/update', 'Admin\PersonController@update');
     Route::post('/admin/password/update', 'Admin\PersonController@updatePassword');
     Route::get('/admin/password/change', 'Admin\PersonController@changePassword');
-    Route::delete('/admin/account/delete/{id}', 'Admin\AccountController@destroy');
     Route::get('/admin/person/disable', 'Admin\PersonController@disable');
+    Route::post('/admin/updatePerson', 'Admin\PersonController@updatePerson');
+
+    Route::delete('/admin/account/delete/{id}', 'Admin\AccountController@destroy');
     Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
     Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
     Route::resource('/admin/account', 'Admin\AccountController');
+    Route::get('/admin/show', 'Admin\AccountController@account');
+    Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
+    Route::get('/admin/listpersons/{cid}/subtype/{subtype}/type/{type}', 'Admin\AccountController@listpersons');
+
     Route::resource('/admin/institution', 'Admin\InstitutionController');
-    //only superadmin
     Route::resource('/admin/template', 'Admin\TemplateController');
     Route::resource('/admin/message', 'Admin\MessageController');
     Route::resource('/admin/category', 'Admin\CategoryController');
@@ -94,68 +103,64 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::resource('/admin/budget', 'Admin\BudgetCategoryController');
     Route::resource('/admin/score', 'Admin\ScoreTypeController');
     Route::resource('/admin/rank', 'Admin\RankingRuleController');
+
     Route::post('/admin/execute', 'Admin\RankingRuleController@execute');
     Route::post('/admin/rankingstats', 'Admin\RankingRuleController@stats');
-    Route::get('/admin/proposal/list/{id}', 'Admin\ProposalController@list')->name('proposal_list');
-    Route::get('/admin/proposal/awardslist/{id}', 'Admin\ProposalController@awardslist')->name('awards_list');
+
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
     Route::post('/admin/proposal/downloadfirst', 'Admin\ProposalController@downloadfirstreport');
     Route::post('/admin/proposal/downloadsecond', 'Admin\ProposalController@downloadsecondreport');
     Route::resource('/admin/proposal', 'Admin\ProposalController');
-    Route::get('/admin/approve', 'Admin\ReportController@approve');
-    Route::get('/admin/report/list/{id}', 'Admin\ReportController@list')->name('report_list');
-    Route::resource('/admin/report', 'Admin\ReportController');
+    Route::get('/admin/proposal/list', 'Admin\ProposalController@list')->name('proposal_list');
+    Route::get('/admin/proposal/awardslist', 'Admin\ProposalController@awardslist')->name('awards_list');
+    Route::post('/admin/addUsers', 'Admin\ProposalController@addUsers');
+    Route::post('/admin/deleteProposal', 'Admin\ProposalController@deleteProposal');
+    Route::post('/admin/checkProposal', 'Admin\ProposalController@checkProposal');
+    Route::post('/admin/sendEmail', 'Admin\ProposalController@sendEmail');
+    Route::post('/admin/changeState', 'Admin\ProposalController@changeState');
+    Route::get('/admin/listproposals/{cid}', 'Admin\ProposalController@listproposals');
+    Route::get('/admin/listawards/{cid}', 'Admin\ProposalController@listawards');
+    Route::post('/admin/getProposalByApplicant', 'Admin\ProposalController@getProposalByApplicant');
+    Route::post('/admin/getProposalByReferee', 'Admin\ProposalController@getProposalByReferee');
+    Route::post('/admin/getProposalByCategory', 'Admin\ProposalController@getProposalByCategory');
+    Route::post('/admin/getProposal', 'Admin\ProposalController@getProposal');
+    Route::get('/admin/downloadPDF/{id}', 'Admin\ProposalController@generatePDF');
 
-    Route::get('/admin/show/{subtype}/type/{type}/competition/{cid}', 'Admin\AccountController@account', [
-        'only' => ['index'],
-        'middleware' => 'check-role:admin'
-    ]);
+    Route::get('/admin/approve', 'Admin\ReportController@approve');
+    Route::resource('/admin/report', 'Admin\ReportController');
+    Route::get('/admin/report/list', 'Admin\ReportController@list')->name('report_list');
+    Route::post('/admin/deleteReport', 'Admin\ReportController@deleteReport');
+    Route::get('/admin/listreports/{id}', 'Admin\ReportController@listreports');
+    Route::post('/admin/approve', 'Admin\ReportController@approvePR');
 
     Route::get('/admin/invitation', 'Admin\InvitationController@create');
     Route::get('/admin/send', 'Admin\InvitationController@send');
     Route::post('/admin/invitation', 'Admin\InvitationController@store');
-    Route::post('/admin/password/{id}', 'Admin\AccountController@generatePassword');
+
     Route::resource('/admin/email', 'Admin\EmailController');
     Route::resource('/admin/phone', 'Admin\PhoneController');
-    Route::post('/admin/lock', 'Admin\SettingsController@lock');
-    Route::post('/export', 'Admin\SettingsController@export');
-    Route::post('/admin/updatePerson', 'Admin\PersonController@updatePerson');
-    Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
 
-    Route::post('/admin/addUsers', 'Admin\ProposalController@addUsers');
-    Route::post('/admin/deleteProposal', 'Admin\ProposalController@deleteProposal');
-    Route::post('/admin/checkProposal', 'Admin\ProposalController@checkProposal');
-    Route::post('/admin/deleteReport', 'Admin\ReportController@deleteReport');
-    Route::post('/admin/sendEmail', 'Admin\ProposalController@sendEmail');
-    Route::post('/admin/changeState', 'Admin\ProposalController@changeState');
-    Route::get('/admin/listreports/{id}', 'Admin\ReportController@listreports');
-    Route::get('/admin/listproposals/{id}', 'Admin\ProposalController@listproposals');
-    Route::get('/admin/listawards/{id}', 'Admin\ProposalController@listawards');
     Route::post('/admin/updateCom', 'Admin\CompetitionController@updateCompetition');
 
     Route::get('/admin/migrate', 'JobsController@migrate');
     Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
 
-    Route::get('/admin/downloadPDF/{id}', 'Admin\ProposalController@generatePDF');
+    Route::post('/admin/deleteCats', 'Admin\CategoryController@deleteCats');
+    Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
 
     Route::post('/admin/deleteBudgets', 'Admin\BudgetCategoryController@deleteBudgets');
-    Route::post('/admin/deleteCats', 'Admin\CategoryController@deleteCats');
     Route::post('/admin/duplicateCats', 'Admin\BudgetCategoryController@duplicateCats');
-    Route::post('/admin/deleteScores', 'Admin\ScoreTypeController@deleteScores');
-    Route::post('/admin/deleteRule', 'Admin\RankingRuleController@deleteRule');
-
-    Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
-    Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
-    Route::post('/admin/getProposalByApplicant', 'Admin\ProposalController@getProposalByApplicant');
-    Route::post('/admin/getProposalByReferee', 'Admin\ProposalController@getProposalByReferee');
-    Route::post('/admin/getProposalByCategory', 'Admin\ProposalController@getProposalByCategory');
-    Route::post('/admin/getProposal', 'Admin\ProposalController@getProposal');
     Route::post('/admin/getBudgetByCategory', 'Admin\BudgetCategoryController@getBudgetByCategory');
-    Route::post('/admin/getSTypeCount', 'Admin\ScoreTypeController@getSTypeCount');
-    Route::post('/admin/getRR', 'Admin\RankingRuleController@getRR');
-    Route::post('/admin/approve', 'Admin\ReportController@approvePR');
 
+    Route::post('/admin/deleteScores', 'Admin\ScoreTypeController@deleteScores');
+    Route::post('/admin/getSTypeCount', 'Admin\ScoreTypeController@getSTypeCount');
+
+    Route::post('/admin/deleteRule', 'Admin\RankingRuleController@deleteRule');
+    Route::post('/admin/getRR', 'Admin\RankingRuleController@getRR');
     Route::get('/admin/rankings/competition/{cid}', 'Admin\RankingRuleController@list');
+
+    Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
+
 
 });
 

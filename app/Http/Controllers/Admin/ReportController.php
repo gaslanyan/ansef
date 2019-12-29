@@ -11,6 +11,7 @@ use App\Models\Score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 
 class ReportController extends Controller
 {
@@ -19,7 +20,7 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list($cid)
+    public function list()
     {
         try {
 
@@ -29,7 +30,7 @@ class ReportController extends Controller
                 ->get()->toArray();
 
 
-            return view('admin.report.index', compact('score_json', 'competitions', 'cid'));
+            return view('admin.report.index', compact('score_json', 'competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/report')->with('error', messageFromTemplate("wrong"));
@@ -113,8 +114,9 @@ class ReportController extends Controller
     }
 
 
-    public function listreports($cid, Request $request)
+    public function listreports($cid)
     {
+        Cookie::queue('cid', $cid, 24 * 60);
         $d['data'] = [];
         if ($cid == -1) {
             $reports = RefereeReport::with([

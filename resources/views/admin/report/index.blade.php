@@ -5,6 +5,14 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
+                        @php
+                        if (Cookie::get('cid') !== null)
+                            $cid = Cookie::get('cid');
+                        else {
+                            $cid = empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id;
+                        }
+                        @endphp
+
                     <div class="card-header">List of referee reports for competition :
                         <select name="competition" id="competition" style="width:100px;font-size:24px;">
                             @foreach($competitions as $c)
@@ -76,6 +84,7 @@
 
     <script>
         $(document).ready(function () {
+            setCookie("cid", "{{$cid}}", 2);
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

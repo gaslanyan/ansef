@@ -47,11 +47,17 @@ class AccountController extends Controller
         }
     }
 
-    public function account($subtype, $type, $cid)
+    public function account($subtype, $type)
     {
-        Cookie::queue('cid', $cid, 24 * 60);
-        ini_set('memory_limit', '256M');
+        // Cookie::queue('cid', $cid, 24 * 60);
         $competitions = Competition::select('id', 'title')->get();
+
+        return view('admin.account.list', compact('subtype', 'type', 'competitions'));
+    }
+
+    public function listpersons($cid, $subtype, $type) {
+        ini_set('memory_limit', '256M');
+        Cookie::queue('cid', $cid, 24 * 60);
         try {
             $persons = collect([]);
             if ($type == 'referee') {
@@ -68,7 +74,6 @@ class AccountController extends Controller
                     ]);
                 }
             } else if ($type == 'applicant') {
-                // foreach (ProposalPerson::where('competition_id', '=', $cid)->cursor() as $index => $p) {
                 ProposalPerson::where('competition_id', '=', $cid)
                     ->where('subtype', $subtype)
                     ->chunk(50, function ($ps) use ($persons) {
@@ -102,11 +107,19 @@ class AccountController extends Controller
                     });
             } else {
             }
+            $response = [
+                'success' => true,
+                'persons' => $persons
+            ];
 
-            return view('admin.account.list', compact('persons', 'subtype', 'type', 'competitions', 'cid'));
+            return response()->json($response);;
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/account')->with('error', messageFromTemplate('wrong'));
+            $response = [
+                'success' => false,
+                'error' => 'Could not retrieve data'
+            ];
+            return response()->json($response);
         }
     }
 
@@ -127,11 +140,6 @@ class AccountController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         try {
@@ -170,13 +178,6 @@ class AccountController extends Controller
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $person = Person::where('user_id', '=', $id)
@@ -186,13 +187,6 @@ class AccountController extends Controller
         return view('admin.account.show', compact('person'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         try {

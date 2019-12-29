@@ -16,13 +16,6 @@ $user_id = getUserID();
                 <?php endif;?>
             </div>
         </div>
-                @php
-                if (Cookie::get('cid') !== null)
-                    $cid = Cookie::get('cid');
-                else {
-                    $cid = empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id;
-                }
-                @endphp
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
                 <a href="/admin">
@@ -45,15 +38,15 @@ $user_id = getUserID();
                             Log in users</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant', 'cid' => $cid])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant'])}}">
                             List of PIs</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['subtype' => 'collaborator', 'type' => 'applicant', 'cid' => $cid])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'collaborator', 'type' => 'applicant'])}}">
                             List of Collaborators</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['subtype' => 'none', 'type' => 'referee', 'cid' => 0])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'none', 'type' => 'referee'])}}">
                             List of referees</a>
                     </li>
                     <li>
@@ -152,9 +145,9 @@ $user_id = getUserID();
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ProposalController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                    <li><a href="{{action('Admin\ProposalController@list')}}"><i class="fa fa-circle-o"></i>
                         Show proposals</a></li>
-                    <li><a href="{{action('Admin\ProposalController@awardslist', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>
+                    <li><a href="{{action('Admin\ProposalController@awardslist')}}"><i class="fa fa-circle-o"></i>
                         Show awards</a></li>
                 </ul>
             </li>
@@ -167,7 +160,7 @@ $user_id = getUserID();
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Admin\ReportController@list', empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id)}}"><i class="fa fa-circle-o"></i>Show
+                    <li><a href="{{action('Admin\ReportController@list')}}"><i class="fa fa-circle-o"></i>Show
                              referee reports</a></li>
                     <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI
                             reports</a></li>

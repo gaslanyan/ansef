@@ -51,6 +51,10 @@ class RankingRuleController extends Controller
             $pidata2 = getPiData($proposals2);
             $stats .= statline('PI ages', $pidata, $pidata2, "ages");
             $stats .= statline('PI sexes', $pidata, $pidata2, "sexes");
+            $stats .= statline('PI foreign publications', $pidata, $pidata2, "publications");
+            $stats .= statline('PI foreign ANSEF publications', $pidata, $pidata2, "publications_ansef");
+            $stats .= statline('PI domestic publications', $pidata, $pidata2, "publications_dom");
+            $stats .= statline('PI domestic ANSEF publications', $pidata, $pidata2, "publications_ansef_dom");
         }
         else if($request->type == "participants") {
             $partdata = getParticipantData($proposals);
@@ -59,6 +63,10 @@ class RankingRuleController extends Controller
             $stats .= statline('Participant sexes', $partdata, $partdata2, "avgsexes");
             $stats .= statline('Participant counts', $partdata, $partdata2, "counts");
             $stats .= statline('Participant juniors', $partdata, $partdata2, "juniorcounts");
+            $stats .= statline('Participant foreign publications', $pidata, $pidata2, "part_publications");
+            $stats .= statline('Participant foreign ANSEF publications', $pidata, $pidata2, "part_publications_ansef");
+            $stats .= statline('Participant domestic publications', $pidata, $pidata2, "part_publications_dom");
+            $stats .= statline('Participant domestic ANSEF publications', $pidata, $pidata2, "part_publications_ansef_dom");
         }
         else if ($request->type == "budget") {
             $budgdata = getBudgetData($proposals);
@@ -192,25 +200,33 @@ class RankingRuleController extends Controller
 
             \Debugbar::error('* Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
 
-            if (propertyInSet($rules, ['pi_age', 'pi_sex'])) {
+            if (propertyInSet($rules, ['pi_age', 'pi_sex', 'pi_publications', 'pi_publications_dom', 'pi_publications_ansef', 'pi_publications_ansef_dom'])) {
                 \Debugbar::error('  Processing ' . count($proposals) . ' with PI rules.');
                 $data = getPiData($proposals);
 
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["ages"][$value], $rules->pi_age) &&
-                        inbetween($data["sexes"][$value], $rules->pi_sex);
+                            inbetween($data["sexes"][$value], $rules->pi_sex) &&
+                            inbetween($data["publications"][$value], $rules->pi_publications) &&
+                            inbetween($data["publications_dom"][$value], $rules->pi_publications_dom) &&
+                            inbetween($data["publications_ansef"][$value], $rules->pi_publications_ansef) &&
+                            inbetween($data["publications_ansef_dom"][$value], $rules->pi_publications_ansef_dom);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }
 
-            if (propertyInSet($rules, ['participants_sex', 'participants', 'avg_part_age', 'junior_participants'])) {
+            if (propertyInSet($rules, ['participants_sex', 'part_publications', 'part_publications_ansef', 'part_publications_dom', 'part_publications_ansef_dom', 'participants', 'avg_part_age', 'junior_participants'])) {
                 \Debugbar::error('  Processing ' . count($proposals) . ' with participants rules.');
                 $data = getParticipantData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["avgages"][$value], $rules->avg_part_age) &&
                         inbetween($data["avgsexes"][$value], $rules->participants_sex) &&
                         inbetween($data["counts"][$value], $rules->participants) &&
-                        inbetween($data["juniorcounts"][$value], $rules->junior_participants);
+                        inbetween($data["juniorcounts"][$value], $rules->junior_participants) &&
+                        inbetween($data["part_publications"][$value], $rules->part_publications) &&
+                        inbetween($data["part_publications_dom"][$value], $rules->part_publications_dom) &&
+                        inbetween($data["part_publications_ansef"][$value], $rules->part_publications_ansef) &&
+                        inbetween($data["part_publications_ansef_dom"][$value], $rules->part_publications_ansef_dom);
                 });
                 \Debugbar::error('  Count down to ' . count($proposals));
             }

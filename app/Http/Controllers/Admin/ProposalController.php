@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\Cookie;
 
 class ProposalController extends Controller
 {
-    public function list($cid)
+    public function list()
     {
         try {
             $competitions = Competition::select('id', 'title')
@@ -47,14 +47,14 @@ class ProposalController extends Controller
             $messages = Message::all();
             $enumvals = getEnumValues('proposals', 'state');
 
-            return view('admin.proposal.index', compact('referees', 'admins', 'messages', 'enumvals', 'competitions', 'cid'));
+            return view('admin.proposal.index', compact('referees', 'admins', 'messages', 'enumvals', 'competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
         }
     }
 
-    public function awardslist($cid)
+    public function awardslist()
     {
         try {
             $competitions = Competition::select('id', 'title')
@@ -72,7 +72,7 @@ class ProposalController extends Controller
             $messages = Message::all();
             $enumvals = getEnumValues('proposals', 'state');
 
-            return view('admin.proposal.awardsindex', compact('referees', 'admins', 'messages', 'enumvals', 'competitions', 'cid'));
+            return view('admin.proposal.awardsindex', compact('referees', 'admins', 'messages', 'enumvals', 'competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
@@ -190,7 +190,7 @@ class ProposalController extends Controller
         }
     }
 
-    public function listproposals($cid, Request $request)
+    public function listproposals($cid)
     {
         Cookie::queue('cid', $cid, 24 * 60);
         ini_set('memory_limit', '384M');
@@ -253,7 +253,7 @@ class ProposalController extends Controller
         return response()->json(new \stdClass());
     }
 
-    public function listawards($cid, Request $request)
+    public function listawards($cid)
     {
         Cookie::queue('cid', $cid, 24 * 60);
         $d['data'] = [];
