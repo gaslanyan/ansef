@@ -53,7 +53,7 @@ $user_id = getUserID();
                             List of Collaborators</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\AccountController@account',['subtype' => '', 'type' => 'referee', 'cid' => 0])}}">
+                        <a href="{{action('Admin\AccountController@account',['subtype' => 'none', 'type' => 'referee', 'cid' => 0])}}">
                             List of referees</a>
                     </li>
                     <li>
