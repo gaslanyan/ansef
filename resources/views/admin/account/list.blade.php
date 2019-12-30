@@ -16,7 +16,7 @@
 
                         <div class="card-header">{{ucfirst($type)}} list - {{ucfirst($subtype)}}
                             @if($type == 'applicant')
-                            - competition <select name="competition" id="competition" style="width:100px;font-size:24px;">
+                            - for competition &nbsp; <select name="competition" id="competition" style="width:100px;font-size:24px;">
                                 @foreach($competitions as $c)
                                     <option value="{{$c['id']}}" {{$c['id']==$cid ? 'selected' : ''}}>{{$c['title']}}</option>
                                 @endforeach
@@ -37,7 +37,6 @@
                             <table class="table table-bordered display compact" id="datatable">
                                 <thead>
                                 <tr>
-                                    <th width="20px"></th>
                                     <th width="100px">First Name</th>
                                     <th width="100px">Last Name</th>
                                     <th width="100px">Email</th>
@@ -46,9 +45,6 @@
                                 </thead>
                                 <tbody>
                                 </tbody>
-                                        <td>
-
-                                        </td>
                             </table>
                     </div>
                 </div>
@@ -67,23 +63,23 @@
             });
 
             var t = $('#datatable').DataTable({
-                    "pagingType": "full_numbers",
-                    "columns": [
-                        {"data": "first_name"},
-                        {"data": "last_name"},
-                        {
-                            "render": function (data, type, full, meta) {
-                                var email = full.email;
-                                return '<a href="mailto:' + email + '"><span style="color:#09b;">' + email + '</span></a>';
-                            }
+                "pagingType": "full_numbers",
+                "columns": [
+                    {"data": "first_name"},
+                    {"data": "last_name"},
+                    {
+                        "render": function (data, type, full, meta) {
+                            var email = full.email;
+                            return '<a href="mailto:' + email + '"><span style="color:#09b;">' + email + '</span></a>';
                         }
-                        {
-                            "render": function (data, type, full, meta) {
-                                return '#:' + full.propcount + ' - <b>' + full.awards + '</b> ' + full.awards;
-                            }
+                    },
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '#:' + full.propcount + ' - <b>' + full.awards + '</b> ' + full.awards;
                         }
-                    ],
-                    "columnDefs": [
+                    }
+                ],
+                "columnDefs": [
                     { "width": "100px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
                     { "width": "150px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
                     { "width": "150px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
@@ -108,6 +104,7 @@
             });
 
             reloadtable('admin/listpersons');
+
             $('#competition').change(function() {
                 reloadtable('admin/listpersons');
             });

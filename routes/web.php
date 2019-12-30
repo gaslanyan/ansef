@@ -90,8 +90,9 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
     Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
     Route::resource('/admin/account', 'Admin\AccountController');
-    Route::get('/admin/show', 'Admin\AccountController@account');
+    Route::get('/admin/show/{type}/subtype/{subtype}', 'Admin\AccountController@account');
     Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
+    Route::post('/admin/generatepassword/{id}', 'Admin\AccountController@generatePassword');
     Route::get('/admin/listpersons/{cid}/subtype/{subtype}/type/{type}', 'Admin\AccountController@listpersons');
 
     Route::resource('/admin/institution', 'Admin\InstitutionController');
@@ -102,15 +103,10 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::resource('/admin/degree', 'Admin\DegreeController');
     Route::resource('/admin/budget', 'Admin\BudgetCategoryController');
     Route::resource('/admin/score', 'Admin\ScoreTypeController');
-    Route::resource('/admin/rank', 'Admin\RankingRuleController');
-
-    Route::post('/admin/execute', 'Admin\RankingRuleController@execute');
-    Route::post('/admin/rankingstats', 'Admin\RankingRuleController@stats');
 
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
     Route::post('/admin/proposal/downloadfirst', 'Admin\ProposalController@downloadfirstreport');
     Route::post('/admin/proposal/downloadsecond', 'Admin\ProposalController@downloadsecondreport');
-    Route::resource('/admin/proposal', 'Admin\ProposalController');
     Route::get('/admin/proposal/list', 'Admin\ProposalController@list')->name('proposal_list');
     Route::get('/admin/proposal/awardslist', 'Admin\ProposalController@awardslist')->name('awards_list');
     Route::post('/admin/addUsers', 'Admin\ProposalController@addUsers');
@@ -125,13 +121,14 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/getProposalByCategory', 'Admin\ProposalController@getProposalByCategory');
     Route::post('/admin/getProposal', 'Admin\ProposalController@getProposal');
     Route::get('/admin/downloadPDF/{id}', 'Admin\ProposalController@generatePDF');
+    Route::resource('/admin/proposal', 'Admin\ProposalController');
 
     Route::get('/admin/approve', 'Admin\ReportController@approve');
-    Route::resource('/admin/report', 'Admin\ReportController');
     Route::get('/admin/report/list', 'Admin\ReportController@list')->name('report_list');
     Route::post('/admin/deleteReport', 'Admin\ReportController@deleteReport');
     Route::get('/admin/listreports/{id}', 'Admin\ReportController@listreports');
     Route::post('/admin/approve', 'Admin\ReportController@approvePR');
+    Route::resource('/admin/report', 'Admin\ReportController');
 
     Route::get('/admin/invitation', 'Admin\InvitationController@create');
     Route::get('/admin/send', 'Admin\InvitationController@send');
@@ -155,9 +152,17 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/deleteScores', 'Admin\ScoreTypeController@deleteScores');
     Route::post('/admin/getSTypeCount', 'Admin\ScoreTypeController@getSTypeCount');
 
+    Route::post('/admin/execute', 'Admin\RankingRuleController@execute');
+    Route::post('/admin/rankingstats', 'Admin\RankingRuleController@stats');
     Route::post('/admin/deleteRule', 'Admin\RankingRuleController@deleteRule');
     Route::post('/admin/getRR', 'Admin\RankingRuleController@getRR');
-    Route::get('/admin/rankings/competition/{cid}', 'Admin\RankingRuleController@list');
+    Route::get('/admin/rankings', 'Admin\RankingRuleController@rankingslist');
+    Route::post('/admin/rankings/remove', 'Admin\RankingRuleController@remove');
+    Route::get('/admin/rankings/competition/{id}', 'Admin\RankingRuleController@listrankings');
+    Route::get('/admin/rankings/create', 'Admin\RankingRuleController@create');
+    Route::post('/admin/rankings/edit', 'Admin\RankingRuleController@edit');
+    Route::post('/admin/rankings/store', 'Admin\RankingRuleController@store');
+    Route::post('/admin/rankings/update/{id}', 'Admin\RankingRuleController@update');
 
     Route::post('/admin/copyItems', 'Base\AjaxController@copyItems');
 

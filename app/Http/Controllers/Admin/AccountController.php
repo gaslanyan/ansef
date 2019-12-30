@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 
 class AccountController extends Controller
 {
@@ -47,9 +48,8 @@ class AccountController extends Controller
         }
     }
 
-    public function account($subtype, $type)
+    public function account($type, $subtype)
     {
-        // Cookie::queue('cid', $cid, 24 * 60);
         $competitions = Competition::select('id', 'title')->get();
 
         return view('admin.account.list', compact('subtype', 'type', 'competitions'));
@@ -57,70 +57,51 @@ class AccountController extends Controller
 
     public function listpersons($cid, $subtype, $type) {
         ini_set('memory_limit', '256M');
-        Cookie::queue('cid', $cid, 24 * 60);
-        try {
-            $persons = collect([]);
-            if ($type == 'referee') {
-                foreach (Person::where('type', '=', $type)->cursor() as $index => $p) {
-                    $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
-                    $persons->push([
-                        'first_name' => $p->first_name,
-                        'last_name' => $p->last_name,
-                        'email' => $p->user->email,
-                        'propcount' => $propcount,
-                        'awards' => '',
-                        'finalists' => '',
-                        'subtype' => ''
-                    ]);
-                }
-            } else if ($type == 'applicant') {
-                ProposalPerson::where('competition_id', '=', $cid)
-                    ->where('subtype', $subtype)
-                    ->chunk(50, function ($ps) use ($persons) {
-                        foreach ($ps as $p) {
-                            $person = Person::find($p->person_id);
-                            $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
-                            $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                                ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
-                                ->select('competitions.title')
-                                ->where('person_id', '=', $p->person_id)
-                                ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
-                                ->get()->pluck('title');
-                            $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
-                                ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
-                                ->select('competitions.title')
-                                ->where('person_id', '=', $p->person_id)
-                                ->where('proposals.state', '=', 'finalist')
-                                ->get()->pluck('title');
-                            $awards = strval($as);
-                            $finalists = strval($asf);
-                            $persons->push([
-                                'first_name' => $person->first_name ?? '',
-                                'last_name' => $person->last_name ?? '',
-                                'email' => (!empty($person->emails()->first()) ? $person->emails()->first()->email : ''),
-                                'propcount' => $propcount . "/" . count($as) . "/" . count($asf),
-                                'awards' => $awards,
-                                'finalists' => $finalists,
-                                'subtype' => $p->subtype
-                            ]);
-                        }
-                    });
-            } else {
+        $d['data'] = [];
+        if ($type == 'referee') {
+            $persons = Person::where('type', '=', $type)->get();
+            foreach ($persons as $index => $p) {
+                $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
+                $d['data'][$index]['first_name'] = $p->first_name ?? '';
+                $d['data'][$index]['last_name'] = $p->last_name ?? '';
+                $d['data'][$index]['email'] = $p->user->email;
+                $d['data'][$index]['propcount'] = $propcount;
+                $d['data'][$index]['awards'] = '';
+                $d['data'][$index]['finalists'] = '';
             }
-            $response = [
-                'success' => true,
-                'persons' => $persons
-            ];
-
-            return response()->json($response);;
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            $response = [
-                'success' => false,
-                'error' => 'Could not retrieve data'
-            ];
-            return response()->json($response);
         }
+        else if ($type == 'applicant') {
+            Cookie::queue('cid', $cid, 24 * 60);
+            $persons = ProposalPerson::where('competition_id', '=', $cid)
+                                    ->where('subtype', $subtype)->get();
+            foreach ($persons as $index => $p) {
+                $person = Person::find($p->person_id);
+                $propcount = ProposalPerson::where('person_id', '=', $p->person_id)->count();
+                $as = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                    ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                    ->select('competitions.title')
+                    ->where('person_id', '=', $p->person_id)
+                    ->whereIn('proposals.state', ['awarded', 'approved 1', 'approved 2'])
+                    ->get()->pluck('title');
+                $asf = ProposalPerson::join('proposals', 'proposals.id', '=', 'proposal_id')
+                    ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
+                    ->select('competitions.title')
+                    ->where('person_id', '=', $p->person_id)
+                    ->where('proposals.state', '=', 'finalist')
+                    ->get()->pluck('title');
+                $awards = strval($as);
+                $finalists = strval($asf);
+                $d['data'][$index]['first_name'] = $person->first_name ?? '';
+                $d['data'][$index]['last_name'] = $person->last_name ?? '';
+                $d['data'][$index]['email'] = (!empty($person->emails()->first()) ? $person->emails()->first()->email : '');
+                $d['data'][$index]['propcount'] = $propcount . "/" . count($as) . "/" . count($asf);
+                $d['data'][$index]['awards'] = $awards;
+                $d['data'][$index]['finalists'] = $finalists;
+            }
+        } else {
+        }
+
+        return Response::json($d);
     }
 
     public function generatePassword(Request $request, $id)

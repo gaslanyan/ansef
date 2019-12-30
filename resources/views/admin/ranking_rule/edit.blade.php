@@ -14,12 +14,9 @@
                         @include('partials.status_bar')
 
 
-                        <form method="post" class="row"
-                              action="{{action('Admin\RankingRuleController@update',
-                              $rank->id) }}">
+                        <form method="post" class="row" action="{{action('Admin\RankingRuleController@update', $rank->id) }}">
                             @csrf
                             <div class="form-group col-lg-12">
-                                <input name="_method" type="hidden" value="PATCH">
                                 <label for="sql">SQL * :</label>
                                 <textarea rows="10" class="form-control" name="sql" id="sql">{{$rank->sql}}</textarea>
                             </div>

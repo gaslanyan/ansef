@@ -6,6 +6,13 @@
         <div class="row justify-content-center">
             <div class="offset-md-2 col-md-10">
                  <div class="card" >
+                    @php
+                    if (Cookie::get('cid') !== null)
+                        $cid = Cookie::get('cid');
+                    else {
+                        $cid = empty(\App\Models\Competition::latest('created_at')->first()) ? -1 : \App\Models\Competition::latest('created_at')->first()->id;
+                    }
+                    @endphp
                     <div class="card-header">Create a ranking rule
                     </div>
 
@@ -28,10 +35,18 @@
     "name": "Untitled",
     "pi_age": [0, 100],
     "pi_sex": [0.0, 1.0],
+    "pi_publications": [0.0, 1000.0],
+    "pi_publications_dom": [0.0, 1000.0],
+    "pi_publications_ansef": [0.0, 1000.0],
+    "pi_publications_ansef_dom": [0.0, 1000.0],
     "participants_sex": [0.0, 1.0],
     "participants": [0,10],
     "avg_part_age": [0.0, 100.0],
     "junior_participants": [0, 10],
+    "part_publications": [0.0, 10000.0],
+    "part_publications_ansef": [0.0, 10000.0],
+    "part_publications_dom": [0.0, 10000.0],
+    "part_publications_ansef_dom": [0.0, 10000.0],
     "category": [],
     "budget": [0.0, 5000.0],
     "pi_salary": [0.0, 2000.0],
@@ -58,7 +73,7 @@
                                     <option value="">Select Competition</option>
                                     <?php if(!empty($competition)):?>
                                     <?php foreach($competition as $key=>$item):?>
-                                    <option class="text-capitalize" value="{{$key}}" @if($key == old('competition_id')){{'selected'}} @endif>
+                                    <option class="text-capitalize" value="{{$key}}" @if($key == old('competition_id') || $key == $cid){{'selected'}} @endif>
                                         {{$key." - ".$item}}</option>
                                     <?php endforeach;?>
                                     <?php endif;?>

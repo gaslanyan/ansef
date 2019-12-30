@@ -32,6 +32,8 @@ class ProposalController extends Controller
     public function list()
     {
         try {
+            // \Debugbar::error('Something is definitely going wrong.');
+
             $competitions = Competition::select('id', 'title')
                 ->orderBy('submission_end_date', 'desc')
                 ->get()->toArray();
@@ -50,7 +52,7 @@ class ProposalController extends Controller
             return view('admin.proposal.index', compact('referees', 'admins', 'messages', 'enumvals', 'competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
+            return redirect('admin/proposal/list')->with('error', messageFromTemplate("wrong"));
         }
     }
 
@@ -75,7 +77,7 @@ class ProposalController extends Controller
             return view('admin.proposal.awardsindex', compact('referees', 'admins', 'messages', 'enumvals', 'competitions'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/proposal/list/1')->with('error', messageFromTemplate("wrong"));
+            return redirect('admin/proposal/list')->with('error', messageFromTemplate("wrong"));
         }
     }
 

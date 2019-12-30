@@ -126,7 +126,7 @@ $user_id = getUserID();
                             types</a>
                     </li>
                     <li>
-                        <a href="{{action('Admin\RankingRuleController@list', ['cid' => $cid])}}"><i class="fa fa-circle-o"></i>Ranking
+                        <a href="{{action('Admin\RankingRuleController@rankingslist')}}"><i class="fa fa-circle-o"></i>Ranking
                             rules
                         </a>
                     </li>

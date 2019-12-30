@@ -10,7 +10,8 @@ use App\Models\RankingRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Response;
 
 class RankingRuleController extends Controller
 {
@@ -18,21 +19,32 @@ class RankingRuleController extends Controller
     {
     }
 
-    public function list($cid)
+    public function rankingslist() {
+        $competitions = Competition::select('id', 'title')->get();
+        return view('admin.ranking_rule.index', compact('competitions'));
+    }
+
+    public function listrankings($cid)
     {
-        try {
-            $competitions = Competition::select('id', 'title')->get();
-
+        Cookie::queue('cid', $cid, 24 * 60);
+        $d['data'] = [];
+        if ($cid == -1) {
+            $rules = RankingRule::all()
+                                ->with('user.person', 'competition')
+                                ->get();
+        } else {
             $rules = RankingRule::with('user.person', 'competition')
-                ->where('competition_id', '=', $cid)
-                ->get();
-
-            return view('admin.ranking_rule.index', compact('rules', 'competitions', 'cid')
-            );
-        } catch (\Exception $exception) {
-            logger()->error($exception);
-            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
+                                ->where('competition_id', '=', $cid)
+                                ->get();
         }
+        foreach ($rules as $index => $rr) {
+            $d['data'][$index]['id'] = $rr->id;
+            $d['data'][$index]['name'] = !empty($rr->user) ? truncate($rr->user->last_name, 7) . " " . $rr->user->first_name : '';
+            $d['data'][$index]['value'] = $rr->value;
+            $d['data'][$index]['sql'] = $rr->sql;
+        }
+
+        return Response::json($d);
     }
 
     public function stats(Request $request) {
@@ -49,6 +61,7 @@ class RankingRuleController extends Controller
         if($request->type == "pi") {
             $pidata = getPiData($proposals);
             $pidata2 = getPiData($proposals2);
+
             $stats .= statline('PI ages', $pidata, $pidata2, "ages");
             $stats .= statline('PI sexes', $pidata, $pidata2, "sexes");
             $stats .= statline('PI foreign publications', $pidata, $pidata2, "publications");
@@ -59,14 +72,15 @@ class RankingRuleController extends Controller
         else if($request->type == "participants") {
             $partdata = getParticipantData($proposals);
             $partdata2 = getParticipantData($proposals2);
+
             $stats .= statline('Participant ages', $partdata, $partdata2, "avgages");
             $stats .= statline('Participant sexes', $partdata, $partdata2, "avgsexes");
             $stats .= statline('Participant counts', $partdata, $partdata2, "counts");
             $stats .= statline('Participant juniors', $partdata, $partdata2, "juniorcounts");
-            $stats .= statline('Participant foreign publications', $pidata, $pidata2, "part_publications");
-            $stats .= statline('Participant foreign ANSEF publications', $pidata, $pidata2, "part_publications_ansef");
-            $stats .= statline('Participant domestic publications', $pidata, $pidata2, "part_publications_dom");
-            $stats .= statline('Participant domestic ANSEF publications', $pidata, $pidata2, "part_publications_ansef_dom");
+            $stats .= statline('Participant foreign publications', $partdata, $partdata2, "part_publications");
+            $stats .= statline('Participant foreign ANSEF publications', $partdata, $partdata2, "part_publications_ansef");
+            $stats .= statline('Participant domestic publications', $partdata, $partdata2, "part_publications_dom");
+            $stats .= statline('Participant domestic ANSEF publications', $partdata, $partdata2, "part_publications_ansef_dom");
         }
         else if ($request->type == "budget") {
             $budgdata = getBudgetData($proposals);
@@ -123,13 +137,13 @@ class RankingRuleController extends Controller
             if (!$v->fails()) {
                 RankingRule::create($request->all());
 
-                return redirect('/admin/rankings/competition/' . $request->competition_id)->with('success', messageFromTemplate("success"));
+                return redirect('/admin/rankings')->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
 
             logger()->error($exception);
-            return redirect('admin/rank')->with('errors', messageFromTemplate("wrong"));
+            return redirect('admin/rankings')->with('errors', messageFromTemplate("wrong"));
         }
     }
 
@@ -138,21 +152,21 @@ class RankingRuleController extends Controller
         //
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
         try {
             $competition = Competition::all()->pluck('title', 'id');
             $users = Person::with('user')->whereIn('type', ['admin', 'superadmin'])
                 ->get();
-            $rank = RankingRule::where('id', $id)->first();
+            $rank = RankingRule::where('id', $request->id)->first();
             return view('admin.ranking_rule.edit', compact('rank', 'competition', 'users'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('admin/rank')->with('error', messageFromTemplate("wrong"));
+            return redirect('admin/rankings')->with('error', messageFromTemplate("wrong"));
         }
     }
 
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         try {
             $v = Validator::make($request->all(), [
@@ -164,25 +178,26 @@ class RankingRuleController extends Controller
             if (!$v->fails()) {
                 $rank = RankingRule::findOrFail($id);
                 $rank->fill($request->all())->save();
-                return redirect('/admin/rankings/competition/' . $request->competition_id)->with('success', messageFromTemplate("success"));
+                return redirect('/admin/rankings')->with('success', messageFromTemplate("success"));
             } else
                 return redirect()->back()->withErrors($v->errors())->withInput();
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('/admin/rankings/competition/' . $request->competition_id)->with('error', messageFromTemplate("wrong"));
+            return redirect('/admin/rankings')->with('error', messageFromTemplate("wrong"));
         }
     }
 
 
     public function execute(Request $request)
     {
+        $content = "";
         $rr_ids = $request->id;
         $cid = $request->cid;
         $cleanup = $request->cleanup;
 
         if ($cleanup == 'true') {
             $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
-            \Debugbar::error('* Cleaning up ranks for ' . count($proposals) . ' proposals');
+            $content .= ('* Cleaning up ranks for ' . count($proposals) . ' proposals');
             DB::beginTransaction();
             foreach ($proposals as $pid) {
                 $p = Proposal::find($pid);
@@ -198,10 +213,10 @@ class RankingRuleController extends Controller
             $rules = json_decode($rr->sql);
             $value = $rr->value;
 
-            \Debugbar::error('* Processing ' . count($proposals) . ' proposals with rule ' . $rules->name);
+            $content .= ('* Processing ' . count($proposals) . ' proposals with rule ' . $rules->name . '<br>');
 
             if (propertyInSet($rules, ['pi_age', 'pi_sex', 'pi_publications', 'pi_publications_dom', 'pi_publications_ansef', 'pi_publications_ansef_dom'])) {
-                \Debugbar::error('  Processing ' . count($proposals) . ' with PI rules.');
+                $content .= ('  Processing ' . count($proposals) . ' with PI rules.' . '<br>');
                 $data = getPiData($proposals);
 
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
@@ -212,11 +227,11 @@ class RankingRuleController extends Controller
                             inbetween($data["publications_ansef"][$value], $rules->pi_publications_ansef) &&
                             inbetween($data["publications_ansef_dom"][$value], $rules->pi_publications_ansef_dom);
                 });
-                \Debugbar::error('  Count down to ' . count($proposals));
+                $content .= ('  Count down to ' . count($proposals) . '<br>');
             }
 
             if (propertyInSet($rules, ['participants_sex', 'part_publications', 'part_publications_ansef', 'part_publications_dom', 'part_publications_ansef_dom', 'participants', 'avg_part_age', 'junior_participants'])) {
-                \Debugbar::error('  Processing ' . count($proposals) . ' with participants rules.');
+                $content .= ('  Processing ' . count($proposals) . ' with participants rules.' . '<br>');
                 $data = getParticipantData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  inbetween($data["avgages"][$value], $rules->avg_part_age) &&
@@ -228,11 +243,11 @@ class RankingRuleController extends Controller
                         inbetween($data["part_publications_ansef"][$value], $rules->part_publications_ansef) &&
                         inbetween($data["part_publications_ansef_dom"][$value], $rules->part_publications_ansef_dom);
                 });
-                \Debugbar::error('  Count down to ' . count($proposals));
+                $content .= ('  Count down to ' . count($proposals) . '<br>');
             }
 
             if (propertyInSet($rules, ['budget', 'pi_salary', 'collab_salary', 'avg_salary', 'salary_dev', 'travel', 'equipment'])) {
-                \Debugbar::error('  Processing ' . count($proposals) . ' with budget rules.');
+                $content .= ('  Processing ' . count($proposals) . ' with budget rules.' . '<br>');
                 $data = getBudgetData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     // \Debugbar::error('Budget: ' . $data["budgets"][$value] . ", PI " . $data["pisalaries"][$value] . ", Coll. " . $data["collabsalaries"][$value] . ", " . $data["avgsalaries"][$value] . ", " . $data["devsalaries"][$value] . ", " . $data["travels"][$value] . ", " . $data["equipments"][$value]);
@@ -244,33 +259,32 @@ class RankingRuleController extends Controller
                         inbetween($data["travels"][$value], $rules->travel) &&
                         inbetween($data["equipments"][$value], $rules->equipment);
                 });
-                \Debugbar::error('  Count down to ' . count($proposals));
+                $content .= ('  Count down to ' . count($proposals) . '<br>');
             }
 
             if (propertyInSet($rules, ['category'])) {
-                \Debugbar::error('  Processing ' . count($proposals) . ' with category rules.');
+                $content .= ('  Processing ' . count($proposals) . ' with category rules.' . '<br>');
                 $data = getCategoryData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
                     return  collect($rules->category)->contains($data["catmembership"][$value]) ||
                         collect($rules->category)->contains($data["subcatmembership"][$value]);
                 });
-                \Debugbar::error('  Count down to ' . count($proposals));
+                $content .= ('  Count down to ' . count($proposals) . '<br>');
             }
 
             if (propertyInSet($rules, ['subscore', 'overall_score'])) {
-                \Debugbar::error('  Processing ' . count($proposals) . ' with score rules.');
+                $content .= ('  Processing ' . count($proposals) . ' with score rules.' . '<br>');
                 $data = getScoreData($proposals);
                 $proposals = $proposals->filter(function ($value, $key) use ($data, $rules) {
-                    // \Debugbar::error('Max: ' . $data["subscores"][$value]->max() . ", min: " . $data["subscores"][$value]->min() . ", " . $data["overallscores"][$value]);
                     return  inbetween($data["overallscores"][$value], $rules->overall_score) &&
                         $data["subscores"][$value]->max() <= $rules->subscore[1] &&
                         $data["subscores"][$value]->min() >= $rules->subscore[0];
                 });
-                \Debugbar::error('  Count down to ' . count($proposals));
+                $content .= ('  Count down to ' . count($proposals) . '<br>');
             }
 
             DB::beginTransaction();
-            \Debugbar::error('* Applying rank value to ' . count($proposals) . ' proposals.');
+            $content .= ('* Applying rank value to ' . count($proposals) . ' proposals.' . '<br>');
             foreach ($proposals as $pid) {
                 $p = Proposal::find($pid);
                 $p->rank += $value;
@@ -278,20 +292,20 @@ class RankingRuleController extends Controller
             }
             DB::commit();
         }
-        $response = ['success' => -1, 'count' => count($rr_ids)];
+
+        $response = ['success' => -1, 'content' => $content];
         return response()->json($response);
     }
 
-    public function destroy($id)
+    public function remove(Request $request)
     {
         try {
-            $rr = RankingRule::find($id);
-            $cid = $rr->competition_id;
+            $rr = RankingRule::find($request->id);
             $rr->delete();
-            return redirect('/admin/rankings/competition/' . $cid)->with('delete', messageFromTemplate('deleted'));
+            return redirect('/admin/rankings')->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
-            return redirect('/admin/rankings/competition/' . $cid)->with('error', messageFromTemplate('wrong'));
+            return redirect('/admin/rankings')->with('error', messageFromTemplate('wrong'));
         }
     }
 

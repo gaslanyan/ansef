@@ -528,20 +528,22 @@ function getPiData($pids)
             $tenyearsago = (int)($to->format('Y'))-10;
             $ages[$p->id] = $age;
             $sexes[$p->id] = ($pi->sex == 'female' ? 1.0 : 0.0);
-            $publications[$p->id] = Publication::where('person_id','=',$p->id)
+            $publications[$p->id] = Publication::where('person_id','=',$pi->id)
                                             ->where('year','>=', $tenyearsago)
                                             ->where('domestic', '=', '0')
+                                            ->where('ansef_supported', '=', '0')
                                             ->count();
-            $publicationsansef[$p->id] = Publication::where('person_id', '=', $p->id)
+            $publicationsansef[$p->id] = Publication::where('person_id', '=', $pi->id)
                                             ->where('year', '>=', $tenyearsago)
                                             ->where('domestic', '=', '0')
                                             ->where('ansef_supported','=','1')
                                             ->count();
-            $publicationsdom[$p->id] = Publication::where('person_id', '=', $p->id)
+            $publicationsdom[$p->id] = Publication::where('person_id', '=', $pi->id)
                                             ->where('year', '>=', $tenyearsago)
                                             ->where('domestic','=','1')
+                                            ->where('ansef_supported', '=', '0')
                                             ->count();
-            $publicationsansefdom[$p->id] = Publication::where('person_id', '=', $p->id)
+            $publicationsansefdom[$p->id] = Publication::where('person_id', '=', $pi->id)
                                             ->where('year', '>=', $tenyearsago)
                                             ->where('domestic', '=', '1')
                                             ->where('ansef_supported', '=', '1')
@@ -590,20 +592,23 @@ function getParticipantData($pids)
             $count += 1;
             $maxdegree = DegreePerson::where('person_id', '=', $person->id)->max('degree_id');
             if ($maxdegree <= 3) $juniors++;
-            $pubs += Publication::where('person_id', '=', $p->id)
+            $tenyearsago = (int) ($to->format('Y')) - 10;
+            $pubs += Publication::where('person_id', '=', $pp->person_id)
                 ->where('year', '>=', $tenyearsago)
+                ->where('ansef_supported', '=', '0')
                 ->where('domestic', '=', '0')
                 ->count();
-            $pubsansef += Publication::where('person_id', '=', $p->id)
+            $pubsansef += Publication::where('person_id', '=', $pp->person_id)
                 ->where('year', '>=', $tenyearsago)
                 ->where('domestic', '=', '0')
                 ->where('ansef_supported', '=', '1')
                 ->count();
-            $pubsdom += Publication::where('person_id', '=', $p->id)
+            $pubsdom += Publication::where('person_id', '=', $pp->person_id)
                 ->where('year', '>=', $tenyearsago)
+                ->where('ansef_supported', '=', '0')
                 ->where('domestic', '=', '1')
                 ->count();
-            $pubsansefdom += Publication::where('person_id', '=', $p->id)
+            $pubsansefdom += Publication::where('person_id', '=', $pp->person_id)
                 ->where('year', '>=', $tenyearsago)
                 ->where('domestic', '=', '1')
                 ->where('ansef_supported', '=', '1')
