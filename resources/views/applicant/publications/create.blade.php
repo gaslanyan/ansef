@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">Show Publications for  {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}
                         <a href="{{action('Applicant\AccountController@index')}}"

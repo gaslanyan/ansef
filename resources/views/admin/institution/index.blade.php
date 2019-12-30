@@ -4,7 +4,7 @@
     <div class="container">
 
         <div class="row justify-content-center">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header"> List of institutions
                         @if(get_role_cookie() == 'superadmin')

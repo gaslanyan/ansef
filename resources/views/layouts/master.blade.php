@@ -7,31 +7,38 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+    {{-- <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/> --}}
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/skins/skin-blue-light.min.css')}}"/>
+    <link rel="stylesheet" href="{{asset('css/solid.min.css') }}"/>
+    <link rel="stylesheet" href="{{asset('css/fontawesome.min.css') }}"/>
     <link rel="stylesheet" href="{{asset('bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}"/>
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}"/>
+
+    @yield('stylesheets')
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script>
     <style>
     th, td { white-space: nowrap; }
     </style>
 
-    @yield('stylesheets')
-    <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script>
-
 
 </head>
-<body class="hold-transition sidebar-mini">
+{{-- <body class="hold-transition sidebar-mini"> --}}
+<body class="skin-blue-light">
 <div class="wrapper">
     @include('partials.header')
 
-    @include('partials.'.get_role_cookie().'_sidebar')
-
-    @yield('content')
+    <div class="sidebar-wrapper">
+        @include('partials.'.get_role_cookie().'_sidebar')
+    </div>
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
 </div>
 
-<script src="{{ asset('js/bootstrap/js/bootstrap.min.js') }}"></script>
+{{-- <script src="{{ asset('js/bootstrap/js/bootstrap.min.js') }}"></script> --}}
 <script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
 <script src="{{ asset('DataTables/datatables.min.js') }}"></script>

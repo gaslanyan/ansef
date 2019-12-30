@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="offset-md-2 col-md-10">
+            <div class="col-md-12">
                 <div class="card" >
                     <div class="card-header">Update Education for {{$persons_name->first_name}} {{$persons_name->last_name}}
                         <a href="{{action('Applicant\AccountController@index')}}"

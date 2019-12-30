@@ -1145,10 +1145,10 @@ pre code {
         margin-left: 0
     }
     .offset-md-1 {
-        margin-left: 8.3333333333%
+        margin-left: 5.3333333333%
     }
     .offset-md-2 {
-        margin-left: 16.6666666667%
+        margin-left: 8.3333333333%
     }
     .offset-md-3 {
         margin-left: 25%
@@ -9188,7 +9188,7 @@ tr.group:hover {
     font-size: 12px;
     padding: 4px;
     margin: 2px;
-    border: 2px solid rgb(150, 150, 150);
+    border: 3px solid rgb(150, 150, 150);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -9199,7 +9199,7 @@ tr.group:hover {
 
 .myButton:hover {
     background: #FFaa00;
-    border: 2px solid rgb(0, 0, 0);
+    border: 3px solid rgb(255, 145, 0);
 }
 
 

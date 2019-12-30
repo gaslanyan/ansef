@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">Employment history
                         for {{$person[0]['first_name']." ".$person[0]['last_name']}}

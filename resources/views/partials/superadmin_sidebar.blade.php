@@ -8,14 +8,16 @@ $user_id = getUserID();
         <div class="user-panel">
             <div class="pull-left d-inline-block">
                 <p class="" style="color:#999;">
-                <?php if (!empty($signUser)):?>
-                    <?= "Logged in as <b>" . $signUser->first_name . " " .
-                $signUser->last_name . "</b><br>(" . \App\Models\User::find($user_id)->email .")"; ?>
-                <?php else: ?>
-                    <?= get_role_cookie(); ?>
-                <?php endif;?>
+                    <?php if (!empty($signUser)):?>
+                        <?= "Logged in as <b>" . $signUser->first_name . " " .
+                    $signUser->last_name . "</b><br>(" . \App\Models\User::find($user_id)->email .")"; ?>
+                    <?php else: ?>
+                        <?= get_role_cookie(); ?>
+                    <?php endif;?>
+                </p>
             </div>
         </div>
+
         <ul class="sidebar-menu" data-widget="tree">
             <li class="text-uppercase">
                 <a href="/superadmin">
@@ -35,7 +37,7 @@ $user_id = getUserID();
                 <ul class="treeview-menu">
                     <li>
                         <a href="{{action('Admin\AccountController@index')}}">
-                            Log in users</a>
+                            Accounts</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant'])}}">
@@ -170,8 +172,7 @@ $user_id = getUserID();
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\ReportController@list')}}"><i class="fa fa-circle-o"></i>Show
                              referee reports</a></li>
-                    <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI
-                            reports</a></li>
+                    {{-- <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI reports</a></li> --}}
 
                 </ul>
             </li>

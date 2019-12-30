@@ -4,7 +4,7 @@
     <div class="container">
 
         <div class="row justify-content-center">
-            <div class="offset-md-2 col-md-10">
+            <div class="col-md-12">
                 <div class="card" >
                     <div class="card-header">Create Budget category
                         <a href = "{{ action('Admin\BudgetCategoryController@index') }}" class="display float-lg-right btn-box-tool">Go Back</a>

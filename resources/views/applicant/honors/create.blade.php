@@ -4,7 +4,7 @@
     <div class="container">
 
         <div class="row justify-content-center">
-            <div class="offset-md-2 col-md-10">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">Show Past Honors and Grants
                         for {{$person_id[0]['first_name']." ".$person_id[0]['last_name']}}

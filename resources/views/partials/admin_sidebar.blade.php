@@ -35,7 +35,7 @@ $user_id = getUserID();
                 <ul class="treeview-menu">
                     <li>
                         <a href="{{action('Admin\AccountController@index')}}">
-                            Log in users</a>
+                            Accounts</a>
                     </li>
                     <li>
                         <a href="{{action('Admin\AccountController@account',['subtype' => 'PI', 'type' => 'applicant'])}}">
@@ -162,8 +162,7 @@ $user_id = getUserID();
                 <ul class="treeview-menu">
                     <li><a href="{{action('Admin\ReportController@list')}}"><i class="fa fa-circle-o"></i>Show
                              referee reports</a></li>
-                    <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI
-                            reports</a></li>
+                    {{-- <li><a href="{{action('Admin\ReportController@approve')}}"><i class="fa fa-circle-o"></i>Show PI reports</a></li> --}}
 
                 </ul>
             </li>

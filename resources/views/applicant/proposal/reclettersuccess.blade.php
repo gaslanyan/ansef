@@ -34,7 +34,7 @@
 
         <div class="container">
             <div class="row justify-content-center">
-                <div class="offset-2 col-md-10">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-body card_body" style="overflow:auto;">
                             <p>Your letter was uploaded successfully. Thank you on behalf of ANSEF and the Principal Investigator.</p>

@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="offset-md-2 col-md-10">
+            <div class="col-md-12">
                  <div class="card" >
                     @php
                     if (Cookie::get('cid') !== null)
