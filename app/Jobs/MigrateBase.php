@@ -38,7 +38,7 @@ class MigrateBase implements ShouldQueue
      */
     public function handle()
     {
-        ini_set('memory_limit', '512M');
+        // ini_set('memory_limit', '512M');
         // BudgetItem::chunk(100, function ($budget_items) {
         //     foreach ($budget_items as $budget_item) {
         //         $cid = Proposal::find($budget_item->proposal_id)->competition_id;

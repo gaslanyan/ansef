@@ -698,7 +698,6 @@ function reloadtable(m) {
     t.columns.adjust();
 }
 
-
 function getSegmentUrl(_url) {
     var segment = window.location.pathname.split('/');
     var newURL = window.location.protocol + "//" + window.location.host + "/";
