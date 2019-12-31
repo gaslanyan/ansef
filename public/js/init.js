@@ -598,11 +598,11 @@ $(document).ready(function() {
                             else {
                                 if ($url == deleteBudgets) {
                                     setTimeout(function() {
-                                        window.location.href = '{{route("budget_categories")}}';
+                                        window.location.href = 'admin/budget';
                                     }, 500);
                                 } else if ($url == deleteScores) {
                                     setTimeout(function() {
-                                        window.location.href = '{{route("score_types")}}';
+                                        window.location.href = 'admin/score';
                                     }, 500);
                                 } else
                                     reloadtable('admin/listproposals');
