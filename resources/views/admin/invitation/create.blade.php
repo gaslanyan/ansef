@@ -32,7 +32,7 @@
                                                 <option value="">Select template</option>
                                                 @if(!empty($messages))
                                                     @foreach($messages as $key => $message)
-                                                        <option value="{{$message->id}}" @if(old('template') == $message->id) {{'selected'}} @endif>{{$message->text}}</option>
+                                                        <option value="{{$message->id}}" @if(old('template') == $message->id) {{'selected'}} @endif>{{$message->title}}</option>
                                                     @endforeach
                                                     @endif
                                             </select>

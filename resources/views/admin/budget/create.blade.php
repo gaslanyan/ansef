@@ -56,6 +56,11 @@
                                        id="weight" name="weight" value="{{old('weight')}}">
                             </div>
                             <div class="form-group col-lg-12">
+                                <label for="weight">Comments:</label>
+                                <input type="text" class="form-control"
+                                       id="comments" name="comments" value="{{old('comments')}}">
+                            </div>
+                            <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <button type="button" onclick="open_container()" class="btn btn-primary">Copy from another budget category
                                     Category

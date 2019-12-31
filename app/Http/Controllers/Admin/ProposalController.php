@@ -199,8 +199,7 @@ class ProposalController extends Controller
         $d['data'] = [];
 
         if ($cid == -1) {
-            $proposals = Proposal::all()
-                ->get()->sortBy('id');
+            $proposals = Proposal::all()->sortBy('id');
         } else {
             $proposals = Proposal::where('competition_id', '=', $cid)
                 ->orderBy('id', 'asc')
@@ -262,7 +261,7 @@ class ProposalController extends Controller
 
         if ($cid == -1) {
             $proposals = Proposal::whereIn('state', ['awarded', 'approved 1', 'approved 2'])
-                ->get()->sortBy('id');
+                                ->get()->sortBy('id');
         } else {
             $proposals = Proposal::where('competition_id', '=', $cid)
                 ->whereIn('state', ['awarded', 'approved 1', 'approved 2'])

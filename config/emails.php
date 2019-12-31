@@ -3,6 +3,6 @@
 return [
 
     'webmaster' => 'webmaster@ansef.org',
-    'RB' => 'sahakian@hmc.edu',
+    'RB' => 'researchboard@ansef.org'
 
 ];

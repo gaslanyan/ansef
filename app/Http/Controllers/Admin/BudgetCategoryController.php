@@ -65,7 +65,7 @@ class BudgetCategoryController extends Controller
                     'competition_id' => 'required|numeric',
                     'min' => 'required|numeric',
                     'max' => 'required|numeric|max:min',
-                    'weight' => 'required|numeric',
+                    'weight' => 'required|numeric'
                 ]);
                 if (!$v->fails()) {
                     BudgetCategory::create($request->all());

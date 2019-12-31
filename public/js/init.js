@@ -595,8 +595,19 @@ $(document).ready(function() {
                             if (data.success === -1)
                                 alert('Cannot allow deletion of ' + $pattern +
                                     ' : assigned to a competition ');
-                            else
-                                reloadtable('admin/listproposals');
+                            else {
+                                if ($url == deleteBudgets) {
+                                    setTimeout(function() {
+                                        window.location.href = '{{route("budget_categories")}}';
+                                    }, 500);
+                                } else if ($url == deleteScores) {
+                                    setTimeout(function() {
+                                        window.location.href = '{{route("score_types")}}';
+                                    }, 500);
+                                } else
+                                    reloadtable('admin/listproposals');
+                            }
+
                         },
                         error: function(data) {
                             console.log('msg' + data);

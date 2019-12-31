@@ -55,6 +55,11 @@
                                        id="weight" name="weight" value="{{$budget->weight}}">
                             </div>
                             <div class="form-group col-lg-12">
+                                <label for="weight">Comments:</label>
+                                <input type="text" class="form-control"
+                                       id="comments" name="comments" value="{{old('comments')}}">
+                            </div>
+                            <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href = "{{ action('Admin\BudgetCategoryController@index') }}" class="btn btn-secondary">Cancel</a>
                             </div>

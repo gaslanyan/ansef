@@ -216,6 +216,10 @@ class AccountController extends Controller
             $p = Person::where('user_id', '=', $id)
                 ->whereIn('type', ['applicant', 'referee', 'viewer', 'admin'])
                 ->first();
+            if (empty($p)) {
+                User::where('id', $id)->delete();
+                return redirect()->back()->with('delete', messageFromTemplate('deleted'));
+            }
             $type = $p->type;
             switch ($type) {
                 case 'applicant':
@@ -246,19 +250,19 @@ class AccountController extends Controller
                     }
                     break;
                 case 'viewer';
-                    $person = Person::where('user_id', $p->user_id)->first();
-                    $person->delete();
+                    $person = Person::where('user_id', $id)->first();
+                    if(!empty($person)) $person->delete();
                     User::where('id', $p->user_id)->delete();
                     break;
                 case  'admin':
-                    $person = Person::where('user_id', $p->user_id)->first();
-                    $person->delete();
+                    $person = Person::where('user_id', $id)->first();
+                    if (!empty($person)) $person->delete();
                     User::where('id', $p->user_id)->delete();
                     break;
                 case 'referee':
-                    $person = Person::where('user_id', $p->user_id)->first();
-                    RefereeReport::where('referee_id', $person->id)->delete();
-                    $person->delete();
+                    $person = Person::where('user_id', $id)->first();
+                    if (!empty($person)) RefereeReport::where('referee_id', $person->id)->delete();
+                    if (!empty($person)) $person->delete();
                     User::where('id', $p->user_id)->delete();
                     break;
             }

@@ -17,7 +17,7 @@
 
                         <div class="btn_add col-md-12">
                             <button type="button" disabled title="delete" id="deleteBudgets"
-                                    class="btn-link btn delete_budgetss offset-lg-6 col-lg-2 col-md-3"><i
+                                    class="btn-link btn delete_budgets offset-lg-6 col-lg-2 col-md-3"><i
                                         class="fa fa-trash-alt"></i>
                                 Delete
                             </button>

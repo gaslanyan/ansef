@@ -55,6 +55,13 @@ class InitializationSeeder extends Seeder
             'last_name' => ''
         ]);
 
+        App\Models\Degree::updateOrCreate(['text' => 'None'] , []);
+        App\Models\Degree::updateOrCreate(['text' => 'High school'], []);
+        App\Models\Degree::updateOrCreate(['text' => 'Bachelor (college)'], []);
+        App\Models\Degree::updateOrCreate(['text' => 'Masters'], []);
+        App\Models\Degree::updateOrCreate(['text' => 'Doctoral'], []);
+        App\Models\Degree::updateOrCreate(['text' => 'Post-doctoral'], []);
+
         // App\Models\User::create([
         //     'id' => 2,
         //     'email' => 'vvsahakian@me.com',

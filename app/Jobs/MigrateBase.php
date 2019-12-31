@@ -50,15 +50,6 @@ class MigrateBase implements ShouldQueue
         //     }
         // });
 
-        // // Create degrees
-        // Degree::updateOrCreate(['text' => 'None'] , []);
-        // Degree::updateOrCreate(['text' => 'High school'], []);
-        // Degree::updateOrCreate(['text' => 'Bachelor (college)'], []);
-        // Degree::updateOrCreate(['text' => 'Masters'], []);
-        // Degree::updateOrCreate(['text' => 'Doctoral'], []);
-        // Degree::updateOrCreate(['text' => 'Post-doctoral'], []);
-        // \Debugbar::error('Created degrees.');
-
         // // Migrate categories
         // $categories = DB::connection('mysqlold')->table('categories')
         //     ->get()->keyBy('id');

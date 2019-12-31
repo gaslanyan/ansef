@@ -7,7 +7,7 @@
                     <div class="card-header">Download table content as csv or excel
 
                     <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i></div>
+                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\SettingsController@export') }}">

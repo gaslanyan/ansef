@@ -29,8 +29,7 @@ class RankingRuleController extends Controller
         Cookie::queue('cid', $cid, 24 * 60);
         $d['data'] = [];
         if ($cid == -1) {
-            $rules = RankingRule::all()
-                                ->with('user.person', 'competition')
+            $rules = RankingRule::with('user.person', 'competition')
                                 ->get();
         } else {
             $rules = RankingRule::with('user.person', 'competition')

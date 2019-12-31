@@ -101,8 +101,8 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::resource('/admin/category', 'Admin\CategoryController');
     Route::resource('/admin/competition', 'Admin\CompetitionController');
     Route::resource('/admin/degree', 'Admin\DegreeController');
-    Route::resource('/admin/budget', 'Admin\BudgetCategoryController');
-    Route::resource('/admin/score', 'Admin\ScoreTypeController');
+    Route::resource('/admin/budget', 'Admin\BudgetCategoryController')->name('budget_categories');
+    Route::resource('/admin/score', 'Admin\ScoreTypeController')->name('score_types');
 
     Route::post('/admin/proposal/display', 'Admin\ProposalController@display');
     Route::post('/admin/proposal/downloadfirst', 'Admin\ProposalController@downloadfirstreport');
