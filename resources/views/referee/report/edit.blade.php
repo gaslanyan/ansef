@@ -9,7 +9,7 @@
 
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <div class="row">
                             <a href="{{action('Referee\ReportController@show', $report->id)}}"
                             class="view float-left myButton" title="View"><i class="fa fa-eye" style="margin-right:5px;"></i>View proposal

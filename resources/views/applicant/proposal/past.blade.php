@@ -10,7 +10,7 @@
                     </div>
                     @include('partials.status_bar')
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @if(!empty($awards) && count($awards) > 0)
                             <h4>Awarded proposals</h4>
                             <table class="table table-responsive-md table-sm table-bordered display compact" id="example"
@@ -138,7 +138,7 @@
         <script>
             $(document).ready(function () {
                 var t = $('#example').DataTable({
-                    //"pagingType": "full_numbers",
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                     "paging": false,
                     "columnDefs": [
                         {

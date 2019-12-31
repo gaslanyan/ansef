@@ -50,7 +50,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{action('Applicant\AccountController@index')}}"><i class="fa fa-circle-o"></i>List All
+                    <li><a id="listofpersons" href="{{action('Applicant\AccountController@index')}}"><i class="fa fa-circle-o"></i>List All
                             Persons</a></li>
                     <li><a href="{{action('Applicant\AccountController@create')}}"><i class="fa fa-circle-o"></i>Add a New
                             Person</a>

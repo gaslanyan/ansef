@@ -7,7 +7,7 @@
                  <div class="card" >
                     <div class="card-header">Send email to Research Board
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                        <form method="post" action="{{action('Applicant\ResearchBoardController@send') }}">

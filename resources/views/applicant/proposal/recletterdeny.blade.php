@@ -31,7 +31,7 @@
              <div class="card" >
                 <div class="card-header">Recommendation Letter
                 </div>
-                <div class="card-body card_body" style="overflow:auto;">
+                <div class="card-body" style="overflow:auto;">
                 Incorrect confirmation code. Please contact <a href="mailto:{{config('emails.webmaster')}}">{{config('emails.webmaster')}}</a>.
                 </div>
             </div>

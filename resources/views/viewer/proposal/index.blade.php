@@ -14,7 +14,7 @@
 
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
 
                         <div class="box-body col-md-12">
                             <div class="row">
@@ -45,13 +45,7 @@
         $(document).ready(function () {
             var t = $('#example').DataTable({
                 "pagingType": "full_numbers",
-                // "order": [[0, "asc"]],
-                // "columnDefs": [
-                //     {
-                //         "targets": [5],
-                //         "searchable": false
-                //     }
-                // ]
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 columnDefs: [{
                     targets: [0],
                     orderData: [0, 1]

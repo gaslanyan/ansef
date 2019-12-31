@@ -1,4 +1,4 @@
-   <div class="card-body card_body" style="overflow:auto;">
+   <div class="box-body" style="overflow:auto;">
 
                         <div class="box-primary">
                             <div class="box-header with-border">
@@ -268,8 +268,8 @@
                                 @foreach($publications as $publication)
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <strong>Title:</strong>
-                                    <span>{{$publication->title}}</span>
+                                        <strong>* Title:</strong>
+                                    <span><i>{{$publication->title}}</i></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -277,13 +277,17 @@
                                         <strong>Year:</strong>
                                             <span>{{$publication->year}}</span>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <strong>Journal ref.:</strong>
                                             <span>{{$publication->journal}}</span>
                                     </div>
-                                    <div class="col-md-4">
-                                        <strong>ANSEF supported?:</strong>
+                                    <div class="col-md-3">
+                                        <strong>ANSEF supp.?:</strong>
                                             <span>{{$publication->ansef_supported == 0 ? 'No' : 'Yes'}}</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Foreign?:</strong>
+                                            <span>{{$publication->domestic == 0 ? 'No' : 'Yes'}}</span>
                                     </div>
                                 </div>
                                 @endforeach

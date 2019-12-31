@@ -9,9 +9,9 @@
                         <a href="{{action('Applicant\AccountController@index')}}"
                         class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>
-                        <div class="card-body card_body" style="overflow:auto;">
+                        <div class="" style="overflow:auto;">
                         <p><b>Add New Publication</b></p>
 
                         <form method="post" action="{{ action('Applicant\PublicationsController@store') }}" class="row">

@@ -21,7 +21,7 @@
                     @endif
 
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @if(!empty($persons))
                             <table class="table table-responsive-md table-sm table-bordered display compact" id="example">
                                 <thead>
@@ -104,13 +104,7 @@
         $(document).ready(function () {
             var t = $('#example').DataTable({
                 "pagingType": "full_numbers",
-                // "order": [[0, "asc"]],
-                // "columnDefs": [
-                //     {
-                //         "targets": [5],
-                //         "searchable": false
-                //     }
-                // ]
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 columnDefs: [{
                     targets: [0],
                     orderData: [0, 1]

@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool">Go Back</a>
                 </div>
 
-        <div class="card-body card_body" style="overflow:auto;">
+        <div class="card-body" style="overflow:auto;">
             <br />
             <p>Click <b>'Choose File'</b> and select a PDF document that describes your proposal. Then click <b>{{!empty($document) ? 'Replace' : 'Upload'}}</b>
             to send us the file. <br/>The file must be in PDF format and must be less than 20Mb in size.<br/>

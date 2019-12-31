@@ -9,8 +9,7 @@
                         <a href="{{action('Applicant\AccountController@index')}}"
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                 </div>
-                <div class="card-body card_body" style="overflow:auto;">
-                    <div class="card-body card_body" style="overflow:auto;">
+                <div class="card-body" style="overflow:auto;">
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         <p><b>Add New Address</b></p>
                         <form method="post" action="{{action('Applicant\AddressController@store') }}">

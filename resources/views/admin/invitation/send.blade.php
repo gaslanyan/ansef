@@ -7,7 +7,7 @@
                     <div class="card-header">Send emails
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
@@ -75,6 +75,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers"
             });
             t.on('order.dt search.dt', function () {

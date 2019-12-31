@@ -17,7 +17,7 @@
     <div class="row justify-content-center">
         <div class="offset-2 col-md-10">
                 <div class="card" >
-                <div class="card-body card_body" style="overflow:auto;">
+                <div class="card-body" style="overflow:auto;">
                     @include('partials.status_bar')
 
                     @include('partials.proposal',[

@@ -13,7 +13,7 @@
                 <?php else: ?>
                  <div class="card" >
                     <div class="card-header" style="font-size:20px;">Welcome to the ANSEF portal</div>
-                    <div class="card-body row" style="color:#999;font-size:16px;margin-left:10px;">
+                    <div class="row" style="color:#999;font-size:16px;margin-left:10px;">
                         <p>If you want to apply to an ANSEF competition, click on <b>APPLICANT</b>.</p>
                         <p>If you are an ANSEF referee, click on <b>REFEREE</b>.</p>
                     </div>

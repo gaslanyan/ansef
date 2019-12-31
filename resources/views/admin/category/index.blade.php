@@ -11,7 +11,7 @@
                                class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a category</a>
                         @endif
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <div class="btn_add col-md-12">
@@ -121,6 +121,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers",
 
                 columnDefs: [{

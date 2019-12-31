@@ -9,7 +9,7 @@
                      @if($id != -1)
                         <p>Processed chunk {{$id}}</p>
                      @endif
-                    <div class="card-body card_body" >
+                    <div class="card-body" >
                         @foreach($proposalchunks as $key=>$chunk)
                         @if($key > $id)
                         <p>

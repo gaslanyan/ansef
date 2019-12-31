@@ -22,7 +22,7 @@
                         </select>
                     </div>
                     <?php  $d = \Illuminate\Support\Facades\Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix() . 'object.txt'?>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body ajaxdiv" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <div class="col-12" style="margin-bottom:20px;padding-bottom:35px;">
@@ -123,7 +123,7 @@
                     ],
                     "select": true,
                     "scrollX": true,
-                    "scrollY": 450,
+                    "scrollY": 300,
                     "deferRender": true,
                     "scrollCollapse": false,
                     "scroller": true,

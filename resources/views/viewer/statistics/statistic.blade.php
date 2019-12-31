@@ -16,7 +16,7 @@
             <div class="offset-md-2 col-md-12">
                  <div class="card" >
                     <div class="card-header">Statistics</div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <div class="form-group col-lg-12 align-items-center">
                         <div class="row">
                             <div class="col-md-4 col-md-offset-1">

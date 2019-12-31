@@ -14,7 +14,7 @@
 
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <form method="post" action="{{action('Applicant\ProposalController@update', $proposal->id)}}"
@@ -110,7 +110,7 @@
                 {{--<form method="post" action="">--}}
                 <div class="modal-body" id="modal-bodyku">
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="" style="overflow:auto;">
                         <br/>
                         <form method="post" action="{{ route('uploadreport') }}" id="form"
                               enctype="multipart/form-data">

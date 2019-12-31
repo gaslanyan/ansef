@@ -7,7 +7,7 @@
                  <div class="card" >
                         @include('partials.status_bar')
                     <div class="card-header">Add a phone number</div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <form method="post" action="{{ action('Admin\PhoneController@store') }}">
                             @csrf
                             <div class="col-lg-12 ">

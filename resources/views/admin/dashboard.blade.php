@@ -7,7 +7,7 @@
                 <div class="card" >
                     <div class="card-header">Dashboard</div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @if(!empty($proposals))
 
                             <table class="table table-responsive-md table-sm table-bordered display" id="example">
@@ -52,6 +52,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers"
             });
             t.on('order.dt search.dt', function () {

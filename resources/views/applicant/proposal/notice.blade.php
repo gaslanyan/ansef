@@ -9,7 +9,7 @@
                         <a href="{{URL::previous()}}"
                            class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         To add a proposal, you need to first add at least one person in the role of project participant.

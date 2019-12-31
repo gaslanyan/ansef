@@ -5,7 +5,7 @@
             <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">List of {{($state=='in-progress' ? "current" : "completed"). " "}}reports</div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(!empty($reports) && count($reports)>0)

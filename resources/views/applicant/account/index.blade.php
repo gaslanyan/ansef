@@ -9,7 +9,7 @@
                     <a href="{{action('Applicant\AccountController@create')}}"
                            class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add A New Person</a></div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
 
                         @if (\Session::has('success'))
                             <div class="alert alert-success">
@@ -53,50 +53,50 @@
                                         <input type="hidden" class="id" value="{{$applicant_person->id}}">
 
                                         <a href="{{action('Applicant\PersonController@show', $applicant_person->id)}}" title="View">
-                                            <span class="fas fa-eye myButton">View</spani>
+                                            <span class="fas fa-eye myButton personlist">View</spani>
                                         </a>
 
                                         <a href="{{action('Applicant\PersonController@edit', $applicant_person->id)}}" title="Full Edit">
-                                            <span class="fa fa-edit myButton">Edit</span>
+                                            <span class="fa fa-edit myButton personlist">Edit</span>
                                         </a>
 
                                         @if($applicant_person->assigned)
                                         @else
                                         <a href="{{action('Applicant\PersonController@destroy', $applicant_person->id)}}"
                                            onclick="return confirm('Are you sure you want to delete the person?')" >
-                                            <span class="fa fa-trash myButton">Delete</span></a>
+                                            <span class="fa fa-trash myButton personlist">Delete</span></a>
                                         @endif
                                         <br/>
                                         <a href="{{action('Applicant\AddressController@create', $applicant_person->id)}}" title="Show Addresses" class="add_address">
                                             <?php if (empty(getAddressesByPersonID($applicant_person->id))) {
-                                                echo " <span class='fas fa-address-card myButton' style='color:#dd4b39 !important;'>Addresses</span>";
+                                                echo " <span class='fas fa-address-card myButton personlist' style='color:#dd4b39 !important;'>Addresses</span>";
                                             } else {
-                                                echo " <span class='fas fa-address-card myButton'>Addresses</span>";
+                                                echo " <span class='fas fa-address-card myButton personlist'>Addresses</span>";
                                             } ?></a>
 
                                         <a href="{{action('Applicant\EmailController@create', $applicant_person->id)}}" title="Show Emails" class="add_email">
                                             <?php if (empty(getEmailByPersonID($applicant_person->id))) {
-                                                echo " <span class='fa fa-envelope-open myButton' style='color:#dd4b39 !important;'>Emails</span>";
+                                                echo " <span class='fa fa-envelope-open myButton personlist' style='color:#dd4b39 !important;'>Emails</span>";
                                             } else {
-                                                echo " <span class='fa fa-envelope-open myButton'>Emails</span>";
+                                                echo " <span class='fa fa-envelope-open myButton personlist'>Emails</span>";
                                             } ?>
                                         </a>
-                                        <a href="{{action('Applicant\PhoneController@create', $applicant_person->id)}}" title="Show Phones" class="add_phone"><span class="fa fa-phone myButton">Phone numbers</span>
+                                        <a href="{{action('Applicant\PhoneController@create', $applicant_person->id)}}" title="Show Phones" class="add_phone"><span class="fa fa-phone myButton personlist">Phone numbers</span>
                                         </a>
                                         <br />
-                                        <a href="{{action('Applicant\InstitutionController@create', $applicant_person->id)}}" title="Show Institutions" class="add_institutions"><span class="fa fa-university myButton">Employment</span>
+                                        <a href="{{action('Applicant\InstitutionController@create', $applicant_person->id)}}" title="Show Institutions" class="add_institutions"><span class="fa fa-university myButton personlist">Employment</span>
                                         </a>
                                         @if($applicant_person->type =='participant')
-                                        <a href="{{action('Applicant\DegreePersonController@create', $applicant_person->id)}}" title="Show Degrees" class="add_degrees"><span class="fa fa-graduation-cap myButton">Education</span>
+                                        <a href="{{action('Applicant\DegreePersonController@create', $applicant_person->id)}}" title="Show Degrees" class="add_degrees"><span class="fa fa-graduation-cap myButton personlist">Education</span>
                                         </a><br/>
-                                        <a href="{{action('Applicant\BookController@create', $applicant_person->id)}}" title="Show Books" class="add_institutions"><span class="fa fa-book myButton">Books</span>
+                                        <a href="{{action('Applicant\BookController@create', $applicant_person->id)}}" title="Show Books" class="add_institutions"><span class="fa fa-book myButton personlist">Books</span>
                                         </a>
-                                        <a href="{{action('Applicant\MeetingController@create', $applicant_person->id)}}" title="Show Meetings" class="add_meetings"><span class="fa fa-user-friends myButton">Meetings</span>
+                                        <a href="{{action('Applicant\MeetingController@create', $applicant_person->id)}}" title="Show Meetings" class="add_meetings"><span class="fa fa-user-friends myButton personlist">Meetings</span>
 
                                         </a>
-                                        <a href="{{action('Applicant\PublicationsController@create', $applicant_person->id)}}" title="Show Publications" class="add_publications"><span class="fas fa-sticky-note myButton">Publications</span>
+                                        <a href="{{action('Applicant\PublicationsController@create', $applicant_person->id)}}" title="Show Publications" class="add_publications"><span class="fas fa-sticky-note myButton personlist">Publications</span>
                                         </a>
-                                        <a href="{{action('Applicant\HonorsController@create', $applicant_person->id)}}" title="Show Honors&Grants" class="add_honors"><span class="fa fa-trophy myButton">Honors</span>
+                                        <a href="{{action('Applicant\HonorsController@create', $applicant_person->id)}}" title="Show Honors&Grants" class="add_honors"><span class="fa fa-trophy myButton personlist">Honors</span>
                                         </a>
                                         @endif
                                     </td>
@@ -137,6 +137,7 @@
         <script>
             $(document).ready(function () {
                 var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                     "pagingType": "full_numbers",
                     "columnDefs": [
                         {

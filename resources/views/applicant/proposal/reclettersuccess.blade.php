@@ -36,7 +36,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-body card_body" style="overflow:auto;">
+                        <div class="card-body" style="overflow:auto;">
                             <p>Your letter was uploaded successfully. Thank you on behalf of ANSEF and the Principal Investigator.</p>
                             <p>If you would like to replace your letter or review it, you can click again on the link that was sent to you via email.</p>
                             <p>You may now close this window.</p>

@@ -9,8 +9,8 @@
                         <a href="{{action('Applicant\AccountController@index')}}"
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <p><b>Add New Email</b></p>
                         <form method="post" action="{{action('Applicant\EmailController@store') }}">
                             @csrf

@@ -7,7 +7,7 @@
                     <div class="card-header">List of PI reports
 
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(!empty($reports))
@@ -94,6 +94,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers",
                 "columnDefs": [
                     {

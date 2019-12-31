@@ -34,7 +34,7 @@
                 <div class="card-header">Recommendation letter for {{$pi->first_name}} {{$pi->last_name}}
                 </div>
 
-        <div class="card-body card_body" style="overflow:auto;">
+        <div class="card-body" style="overflow:auto;">
             <br />
             <p>{{$pi->first_name}} {{$pi->last_name}} is submitting a grant proposal to the Armenian
             National Science and Education Fund as a Principal Investigator and has listed you as a person who would provide a letter

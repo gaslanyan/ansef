@@ -13,7 +13,7 @@
                         <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>
                     </div>
 
-                    <div class="card-body card_body" >
+                    <div class="card-body" >
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\EmailController@store') }}">

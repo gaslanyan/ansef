@@ -15,7 +15,7 @@
                            class="display float-lg-right btn-box-tool"> Back</a>
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         @if(!empty($ins_array))

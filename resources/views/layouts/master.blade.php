@@ -19,6 +19,7 @@
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-3.3.1.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery.form.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.slimscroll.min.js') }}"></script>
     <style>
     th, td { white-space: nowrap; }
     </style>
@@ -26,14 +27,14 @@
 
 </head>
 {{-- <body class="hold-transition sidebar-mini"> --}}
-<body class="skin-blue-light">
+<body class="skin-blue-light fixed">
 <div class="wrapper">
     @include('partials.header')
 
     <div class="sidebar-wrapper">
         @include('partials.'.get_role_cookie().'_sidebar')
     </div>
-    <div class="content-wrapper">
+    <div id="" class="content-wrapper">
         @yield('content')
     </div>
 </div>

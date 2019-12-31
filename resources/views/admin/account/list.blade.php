@@ -32,7 +32,7 @@
                                class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a person</a>
                             @endif
                         </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body ajaxdiv" style="overflow:auto;">
                         @include('partials.status_bar')
                             <table class="table table-bordered display compact" id="datatable">
                                 <thead>
@@ -87,7 +87,7 @@
                 ],
                 "select": false,
                 "scrollX": true,
-                "scrollY": 450,
+                "scrollY": 300,
                 "deferRender": true,
                 "scrollCollapse": false,
                 "scroller": true,

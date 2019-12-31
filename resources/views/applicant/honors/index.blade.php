@@ -18,7 +18,7 @@
                     @endif
                     <div class="card-header">Dashboard</div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @if(!empty($honors))
                         <table class="table table-responsive-md table-sm table-bordered display" id="example"
                                style="width:100%">
@@ -79,7 +79,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
-                //"pagingType": "full_numbers",
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "paging": false,
                 "columnDefs": [
                     {

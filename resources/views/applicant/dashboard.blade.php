@@ -13,7 +13,7 @@
                     </div>
 
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @if(count($competitionlist)>0)
                             <p style="font-size:16px;color:#999;"><b>Here's a list of competitions that you can currently apply for:</b></p>
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
@@ -68,7 +68,7 @@
                         @endif
                     </div>
 
-                     <div class="card-body card_body" style="overflow:auto;">
+                     <div class="" style="overflow:auto;">
                         @if(count($upcomingcompetitions) > 0)
                             <p><b>Here's a list of upcoming competitions that you can apply for in the near future:</b></p>
                             <table class="table table-responsive-md table-sm table-bordered display" id="example"
@@ -185,7 +185,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
-                //"pagingType": "full_numbers",
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "paging": false,
                 "columnDefs": [
                     {

@@ -9,7 +9,7 @@
                     <div class="card-header">Create Emails
                     </div>
 
-                    <div class="card-body card_body" >
+                    <div class="card-body" >
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 

@@ -9,7 +9,7 @@
                         <a href="{{action('Applicant\ProposalController@activeProposal')}}"
                            class="display float-lg-right btn-box-tool">Go Back</a><br/>
                     </div>
-                    <div class="card-body card_body" style="margin-left:20px;margin-right:20px;">
+                    <div class="card-body" style="margin-left:20px;margin-right:20px;">
                         <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
                         <label><b>Add New Budget Item:</b></label><br/><br/>
                         <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
@@ -38,7 +38,7 @@
                     </div>
                         @include('partials.status_bar')
                     <hr>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="" style="overflow:auto;">
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">
@@ -84,7 +84,7 @@
                             </form>
                         @endif
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="" style="overflow:auto;">
                         <div style="color:#a00;">{!! $validation_message !!}</div>
                     </div>
                 </div>

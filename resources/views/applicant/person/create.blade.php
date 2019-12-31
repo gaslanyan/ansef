@@ -9,7 +9,7 @@
                         <a href="{{action('Applicant\PersonController@create')}}"
                            class="display float-lg-right btn-primary px-2">Back</a>
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Applicant\PersonController@store') }}" class="row">

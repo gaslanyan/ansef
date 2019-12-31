@@ -8,7 +8,7 @@
                         <a href="{{action('Applicant\ProposalController@create')}}"
                            class="display float-lg-right btn-primary px-2">Create Proposal</a>
                       </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
 
@@ -82,13 +82,7 @@
         $(document).ready(function () {
             var t = $('#example').DataTable({
                 "pagingType": "full_numbers",
-                // "order": [[0, "asc"]],
-                // "columnDefs": [
-                //     {
-                //         "targets": [5],
-                //         "searchable": false
-                //     }
-                // ]
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 columnDefs: [{
                     targets: [0],
                     orderData: [0, 1]

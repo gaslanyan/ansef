@@ -11,7 +11,7 @@
                                class="display float-lg-right btn-primary px-2 myButton"><i class="fas fa-plus"></i>&nbsp;Add a budget category</a>
                         @endif
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
 
@@ -84,7 +84,8 @@
 
                                                 <option class="text-capitalize"
                                                         @php if ($key == $budget->competition_id)
-                                                        echo "selected";  @endphp
+                                                        echo "selected";
+                                                        @endphp
                                                         value="{{$key}}">{{$item}}</option>
                                                 <?php endforeach;?>
                                                 <?php endif;?>
@@ -116,6 +117,7 @@
     <script>
         $(document).ready(function () {
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers",
                 "columnDefs": [
                     {

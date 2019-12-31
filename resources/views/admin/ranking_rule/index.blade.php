@@ -22,7 +22,7 @@
                         </button>
                         <input style="margin-left:20px;margin-top:12px;" type="checkbox" name="cleanup" value="0" id="cleanup"> Cleanup before execution
                     </div>
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body ajaxdiv" style="overflow:auto;">
                         @include('partials.status_bar')
                         For competition &nbsp;
                         <select name="competition" id="competition" style="width:100px;font-size:24px;">

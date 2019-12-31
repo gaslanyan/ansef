@@ -12,7 +12,7 @@
                         <i class="fas fa-question-circle text-blue all">{{Lang::get('messages.required_all')}}</i>
                     </div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         @include('partials.status_bar')
 
 
@@ -147,6 +147,7 @@
         $(document).ready(function () {
             var groupColumn = 2;
             var t = $('#example').DataTable({
+                "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers",
 
                 "columnDefs": [

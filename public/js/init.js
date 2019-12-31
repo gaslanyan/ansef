@@ -1,5 +1,8 @@
 var CSRF_TOKEN = $('input[name="_token"]').val();
 $(document).ready(function() {
+    $('.card-body:not(.ajaxdiv)').slimScroll({
+        height: '75vh'
+    });
     // for sidebar menu entirely but not cover treeview
     $('ul.sidebar-menu a').filter(function() {
         return this.href == url;
@@ -8,14 +11,18 @@ $(document).ready(function() {
     $('ul.treeview-menu a').click(function() {
         sessionStorage.setItem('url', $(this).attr('href'));
     });
+    $('.personlist').click(function() {
+        sessionStorage.setItem('url', $('#listofpersons').attr('href'));
+    });
     // for treeview
     $('ul.treeview-menu a').filter(function() {
         var _url = sessionStorage.getItem('url');
+        // console.log("_url:" + _url + " " + getSegmentUrl());
         if (_url === getSegmentUrl()) {
             $('[href ="' + _url + '"]').parentsUntil().addClass('active');
         }
 
-        return this.href == url
+        return this.href == url;
     }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');
 
     $('.additional').css('display', 'none');

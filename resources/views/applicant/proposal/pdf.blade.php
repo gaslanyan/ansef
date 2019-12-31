@@ -20,7 +20,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card" >
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <h5>Proposal {{getProposalTag($id)}}</h5>
                         @if($proposal->competition->results_date < date('Y-m-d'))
                         @include('partials.refereereports',[

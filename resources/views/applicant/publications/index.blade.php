@@ -16,7 +16,7 @@
                  <div class="card" >
                     <div class="card-header">Dashboard</div>
 
-                    <div class="card-body card_body" style="overflow:auto;">
+                    <div class="card-body" style="overflow:auto;">
                         <table class="table table-striped">
                             <thead>
                             <tr>
