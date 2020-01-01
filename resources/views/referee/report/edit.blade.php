@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="offset-2 col-md-10">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">Review and submit scores
                             <input style="margin-left:40px;" type="button" class="display btn btn-primary float-right" onclick="open_container()" value="View refereeing guidelines">

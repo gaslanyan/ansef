@@ -15,7 +15,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="container">
     <div class="row justify-content-center">
-        <div class="offset-2 col-md-10">
+        <div class="col-md-12">
                 <div class="card" >
                 <div class="card-body" style="overflow:auto;">
                     @include('partials.status_bar')

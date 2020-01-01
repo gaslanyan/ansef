@@ -3,7 +3,7 @@
     <div class="container">
 
         <div class="row justify-content-center">
-            <div class="offset-2 col-md-10">
+            <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">View Proposal
                         <a href = "{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go back</a>
