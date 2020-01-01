@@ -418,7 +418,7 @@ class ProposalController extends Controller
         try {
             $added_person = ProposalPerson::find($id);
             $added_person->delete();
-            return view('applicant.proposal.personedit', compact('proposaltag', 'id', 'persons', 'added_persons', 'participant', 'support'));
+            return Redirect::back()->with('delete', messageFromTemplate('deleted'));
         } catch (\Exception $exception) {
             logger()->error($exception);
             return Redirect::back()->with('wrong', messageFromTemplate("wrong"));
