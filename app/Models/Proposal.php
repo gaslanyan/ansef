@@ -106,8 +106,10 @@ class Proposal extends Model
         foreach ($reps as $r) {
             if(!empty($r->last_name) && $r->last_name != '')
                 $referees .= (truncate($r->last_name, 6) . " ");
-            else
-                $referees .= ($r->user->email . " ");
+            else {
+                $user = User::find(Person::find($r->person_id)->user_id);
+                $referees .= ($user->email . " ");
+            }
         }
         return $referees;
     }
