@@ -32,6 +32,8 @@
                                 <option value="-1" {{-1==$cid ? 'selected' : ''}}>All</option>
                         </select>
 
+                        <div class="row">
+                        <div class="col-8">
                         <table class="table table-bordered display compact" id="datatable">
                             <thead>
                             <tr>
@@ -45,12 +47,19 @@
                             <tbody>
                             </tbody>
                         </table>
-                        <a class=" myButton" onclick="showstats({{$cid}},'pi')">Show PI stats</a>
-                        <a class=" myButton" onclick="showstats({{$cid}},'participants')">Show participants stats</a>
-                        <a class=" myButton" onclick="showstats({{$cid}},'budget')">Show budget stats</a>
-                        <a class=" myButton" onclick="showstats({{$cid}},'score')">Show score stats</a>
-                        <br/><br/>
-                        <span id="stats"></span>
+                        </div><br/>
+                        <div class="col-4" style="margin:0;padding:0;">
+                            <div class="row" style="margin:0;padding:0;">
+                                <a class=" myButton" onclick="showstats({{$cid}},'pi')">Show PI stats</a>
+                                <a class=" myButton" onclick="showstats({{$cid}},'participants')">Show participants stats</a>
+                                <a class=" myButton" onclick="showstats({{$cid}},'budget')">Show budget stats</a>
+                                <a class=" myButton" onclick="showstats({{$cid}},'score')">Show score stats</a>
+                            </div>
+                            <div class="row" style="margin:0;padding:0;">
+                                <span id="stats" style="min-height:200px;margin:0;padding:0;"></span>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,11 +110,11 @@
                     },
                 ],
                 "columnDefs": [
-                    { "width": "100px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "350px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "150px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "30px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "250px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
+                    { "width": "30px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
                     { "width": "200px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "150px", "targets": 4, "searchable": false, "orderable": false, "visible": true }
+                    { "width": "100px", "targets": 4, "searchable": false, "orderable": false, "visible": true }
                 ],
                 "select": true,
                 "scrollX": true,
@@ -138,6 +147,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            $('#stats').html("<br/><h4>Computing...</h4>");
             $.ajax({
                 url: '/admin/rankingstats',
                 type: 'POST',
@@ -149,10 +159,10 @@
                 },
                 dataType: 'JSON',
                 success: function (data) {
-                    $('#stats').html(data.content);
+                    $('#stats').html("<br/><b>Statistics for " + $('#competition option:selected').text() + "</b>" + data.content);
                 },
                 error: function (data) {
-                    alert('error');
+                    $('#stats').html("Error");
                 }
             });
         }

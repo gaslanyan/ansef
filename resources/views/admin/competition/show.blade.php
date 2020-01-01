@@ -25,11 +25,23 @@
                                         <strong><i class="fa fa-comment margin-r-5"></i> Comments:</strong>
                                         <p>@if(!empty($com['comments'])){{$com['comments']}}@endif</p>
                                     </div>
+                                    <div class="col-md-12">
+                                        <strong><i class="fa fa-comment margin-r-5"></i> Instructions:</strong>
+                                        <p>@if(!empty($com['instructions'])){{$com['instructions']}}@endif</p>
+                                    </div>
                                 </div>
                                 <hr>
                             </div>
                             <div class="box-body col-md-12">
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <strong><i class="fa fa-calendar margin-r-5"></i>Announcement date:</strong>
+                                        <p>@if(!empty($com['announcement_date'])){{$com['announcement_date']}}@endif</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <strong><i class="fa fa-calendar margin-r-5"></i>Results date:</strong>
+                                        <p>@if(!empty($com['results_date'])){{$com['results_date']}}@endif</p>
+                                    </div>
                                     <div class="col-md-6">
                                         <strong><i class="fa fa-calendar margin-r-5"></i>Submission start
                                             date:</strong>
@@ -39,10 +51,6 @@
                                         <strong><i class="fa fa-calendar margin-r-5"></i>Submission end
                                             date:</strong>
                                         <p>@if(!empty($com['submission_end_date'])){{$com['submission_end_date']}}@endif</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong><i class="fa fa-calendar margin-r-5"></i>Announcement date:</strong>
-                                        <p>@if(!empty($com['announcement_date'])){{$com['announcement_date']}}@endif</p>
                                     </div>
                                     <div class="col-md-6">
                                         <strong><i class="fa fa-calendar margin-r-5"></i>Project Start
@@ -198,8 +206,6 @@
                                                 Categories:</strong>
                                         </div>
                                         @foreach($bc as $key=>$value)
-                                            {{--                                           @php dd($value);@endphp--}}
-
                                             <div class="col-md-3">
                                                 <strong><i class="fas fa-tag margin-r-5"></i>Name:</strong>
                                                 <p>@if(!empty($value->name)){{$value->name}} @endif</p>
@@ -215,6 +221,43 @@
                                             <div class="col-md-3">
                                                 <strong>Weight value:</strong>
                                                 <p>{{$value->weight}}</p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <strong>Comments:</strong>
+                                                <p>{{$value->comments}}</p>
+                                            </div>
+                                        @endforeach
+
+                                </div>
+                            </div>
+                            @endif
+                            @if(!empty($st->all()))
+                            <div class="box-body col-md-12">
+                                <div class="row">
+                                        <div class="col-md-12 border-bottom mb-3">
+                                            <strong><i class="fas fa-balance-scale-right margin-r-5"></i>Score Type
+                                                Categories:</strong>
+                                        </div>
+                                        @foreach($st as $key=>$value)
+                                            <div class="col-md-3">
+                                                <strong><i class="fas fa-tag margin-r-5"></i>Name:</strong>
+                                                <p>@if(!empty($value->name)){{$value->name}} @endif</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <strong>Min value:</strong>
+                                                <p>{{'$'.$value->min}}</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <strong>Max value:</strong>
+                                                <p>{{'$'.$value->max}}</p>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <strong>Weight value:</strong>
+                                                <p>{{$value->weight}}</p>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <strong>Description:</strong>
+                                                <p>{{$value->description}}</p>
                                             </div>
                                         @endforeach
 

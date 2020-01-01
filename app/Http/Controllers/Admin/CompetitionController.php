@@ -207,7 +207,6 @@ class CompetitionController extends Controller
 
             $categories = json_decode($com->categories);
 
-            dd($com->categories);
             $cats = [];
             foreach ($categories as $index => $category) {
                 if ($category != 0) {
@@ -224,12 +223,14 @@ class CompetitionController extends Controller
             $st = ScoreType::where('competition_id', '=', $id)->get();
             $bc = BudgetCategory::where('competition_id', '=', $id)->get();
             $rr = RankingRule::with('user')->where('competition_id', '=', $id)->get();
+            $st = ScoreType::where('competition_id', '=', $id)->get();
             return view("admin.competition.show", compact(
                 'com',
                 'cats',
                 'st',
                 'rr',
-                'bc'
+                'bc',
+                'st'
             ));
         } catch (\Exception $exception) {
             logger()->error($exception);

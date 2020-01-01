@@ -53,7 +53,7 @@ class RankingRuleController extends Controller
         $proposals = Proposal::select('id')->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
         $proposals2 = Proposal::whereIn('state', ['approved 1', 'approved 2', 'awarded', 'finalist'])->where('competition_id', '=', $cid)->get()->sortBy('id')->pluck('id');
 
-        $stats = "<h4 style='margin-left:15px;'><b>Statistics</b></h4><p style='color:#666;margin-left:15px;'>";
+        $stats = "<p style='color:#666;margin-left:15px;'>";
 
         $stats .= ("Proposal count: " . count($proposals) . "; awards/finalists: " . count($proposals2) . "<br/><br/>");
 

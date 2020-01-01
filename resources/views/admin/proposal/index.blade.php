@@ -241,34 +241,34 @@
                         }
                     ],
                     "columnDefs": [
-                    { "width": "120px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "175px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "120px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "40px", "targets": 7, "searchable": true, "orderable": true, "visible": true },
-                    { "width": "40px", "targets": 8, "searchable": true, "orderable": true, "visible": true }
-                ],
-                "select": true,
-                "scrollX": true,
-                "scrollY": 300,
-                "deferRender": true,
-                "scrollCollapse": false,
-                "scroller": true,
-                "colReorder": true,
-                // "fixedColumns":   { "leftColumns": 1 },
-                "processing": true,
-                "language": {
-                    "loadingRecords": '&nbsp;',
-                    "processing": 'Loading...'
-                },
-                "dom": 'Bfrtip',
-                "buttons": [
-                    'selectAll', 'selectNone', 'copy', 'csv', 'excel', 'pdf', 'print'
-                ]
-            });
+                        { "width": "120px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "175px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "40px", "targets": 7, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "40px", "targets": 8, "searchable": true, "orderable": true, "visible": true }
+                    ],
+                    "select": true,
+                    "scrollX": true,
+                    "scrollY": 300,
+                    "deferRender": true,
+                    "scrollCollapse": false,
+                    "scroller": true,
+                    "colReorder": true,
+                    // "fixedColumns":   { "leftColumns": 1 },
+                    "processing": true,
+                    "language": {
+                        "loadingRecords": '&nbsp;',
+                        "processing": 'Loading...'
+                    },
+                    "dom": 'Bfrtip',
+                    "buttons": [
+                        'selectAll', 'selectNone', 'copy', 'csv', 'excel', 'pdf', 'print'
+                    ]
+                });
             // t.on('order.dt search.dt', function () {
             //     t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {
             //         cell.innerHTML = i + 1;
