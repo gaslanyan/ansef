@@ -12,7 +12,7 @@ class DegreeController extends Controller
     public function index()
     {
         try {
-            $degrees = Degree::all();
+            $degrees = Degree::all()->sortBy('id');
             return view('admin.degree.index', compact('degrees'));
         } catch (\Exception $exception) {
             logger()->error($exception);

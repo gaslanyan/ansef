@@ -30,7 +30,6 @@
                             <input type=hidden value="{{$id}}" name="honor_hidden_id">
                             <button type="submit" class="btn btn-primary">Add Honor or Grant</button>
                         </form>
-                    </div>
                         @include('partials.status_bar')
                     <hr>
 

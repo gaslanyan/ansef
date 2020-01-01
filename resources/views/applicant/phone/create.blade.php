@@ -40,10 +40,8 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
                         @include('partials.status_bar')
 <hr>
-
                         @if(!empty($phone_list))
                             <form method="post" action="{{ action('Applicant\PhoneController@update', $id) }}">
                                 @csrf
@@ -82,7 +80,6 @@
                             </form>
                         @endif
                     </div>
-                                        </div>
                 </div>
             </div>
         </div>

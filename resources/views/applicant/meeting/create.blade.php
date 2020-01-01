@@ -10,7 +10,6 @@
                            class="display float-lg-right btn-box-tool">Go Back</a></div>
                     <div class="card-body" style="overflow:auto;">
                         <p><b>Add New Meeting</b></p>
-
                         <form method="post" action="{{ action('Applicant\MeetingController@store') }}">
                             @csrf
                             <div class="row">
@@ -42,10 +41,8 @@
                                    id="title">
                             <button type="submit" class="btn btn-primary">Add Meeting</button>
                         </form>
-                    </div>
                         @include('partials.status_bar')
   <hr>
-
                         @if(!empty($meetings))
                             <form method="post" action="{{ action('Applicant\MeetingController@update', $id) }}">
                                 @csrf
@@ -103,7 +100,8 @@
                             </form>
                         @endif
                         </div>
-                                      </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

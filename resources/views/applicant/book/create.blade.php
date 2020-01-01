@@ -32,11 +32,9 @@
                                        id="title">
                             </div>
                         </form>
-                    </div>
                         @include('partials.status_bar')
 <hr>
-
-                            @if(!empty($books))
+                        @if(!empty($books))
                             <form method="post" action="{{ action('Applicant\BookController@update', $id) }}" class="row">
                                 @csrf
                                 <p class="col-12"><b>Book titles:</b></p><br/>
@@ -75,8 +73,7 @@
                             </form>
                             @endif
                     </div>
-
-                                    </div>
+                </div>
             </div>
         </div>
     </div>

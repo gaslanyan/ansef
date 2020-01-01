@@ -10,7 +10,6 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                     </div>
                     <div class="card-body" style="overflow:auto;">
-                    <div class="card-body" style="overflow:auto;">
                         <p><b>Add New Email</b></p>
                         <form method="post" action="{{action('Applicant\EmailController@store') }}">
                             @csrf
@@ -28,7 +27,6 @@
                                 <button type="submit" class="btn btn-primary">Add new email</button>
                             </div>
                         </form>
-                    </div>
                     @include('partials.status_bar')
 
                     <hr>

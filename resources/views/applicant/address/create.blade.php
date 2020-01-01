@@ -45,7 +45,6 @@
                             </div>
 
                         </form>
-                </div>
                         @include('partials.status_bar')
 <hr>
 
@@ -94,7 +93,7 @@
                             </form>
                         @endif
                     </div>
-                                </div>
+            </div>
         </div>
     </div>
 </div>

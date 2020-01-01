@@ -51,7 +51,6 @@
                         <button type="submit" class="btn btn-primary">Add Degree</button>
                         </div>
                     </form>
-                </div>
                         @include('partials.status_bar')
  <hr>
                         @if(!empty($degreesperson) && count($degreesperson)>0)
@@ -110,7 +109,8 @@
                             </form>
                         @endif
                     </div>
-                               </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

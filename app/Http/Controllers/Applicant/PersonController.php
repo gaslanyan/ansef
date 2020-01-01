@@ -116,6 +116,7 @@ class PersonController extends Controller
             return redirect('applicant/account')->with('wrong', 'Permission denied');
         } else {
             $emails = $person->emails;
+            $phonenums = $person->phones;
             $addresses = $person->addresses;
             $institutions = \App\Models\InstitutionPerson::where('person_id', '=', $person->id)
                 ->get()->sortBy('start');
@@ -127,7 +128,7 @@ class PersonController extends Controller
             $meetings = $person->meetings->sortBy('year');
             $publications = $person->publications->sortBy('year');
 
-            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
+            return view('applicant.person.show', compact('person', 'addresses', 'emails', 'phonenums', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
         }
     }
 
@@ -140,6 +141,7 @@ class PersonController extends Controller
             return redirect('applicant/account')->with('wrong', 'Permission denied');
         } else {
             $emails = $person->emails;
+            $phones = $person->phones;
             $addresses = $person->addresses;
             $institutions = \App\Models\InstitutionPerson::where('person_id', '=', $person->id)
                 ->get()->sortBy('start');
@@ -151,7 +153,7 @@ class PersonController extends Controller
             $meetings = $person->meetings->sortBy('year');
             $publications = $person->publications->sortBy('year');
 
-            $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
+            $pdf = PDF::loadView('applicant.person.pdf', compact('person', 'addresses', 'emails', 'phones', 'institutions', 'honors', 'degrees', 'meetings', 'books', 'publications', 'institutionslist'));
 
             return $pdf->download('person-profile.pdf');
             // return $pdf->stream('person-profile.pdf');

@@ -7,6 +7,7 @@
     @foreach($persons as $person)
         @php
             $emails = $person->emails;
+            $phones = $person->phones;
             $addresses = $person->addresses;
             $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
                             ->get()->sortBy('start');
@@ -21,6 +22,7 @@
         @include('partials.person',
             [
                 'person' => $person,
+                'phones' => $phones,
                 'emails' => $emails,
                 'addresses' => $addresses,
                 'institutions' => $institutions,

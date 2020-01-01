@@ -13,7 +13,6 @@
                         <p>List only recent publications, within the last 10 years, and as relevant to your proposal.</p>
                         <div class="" style="overflow:auto;">
                         <p><b>Add New Publication</b></p>
-
                         <form method="post" action="{{ action('Applicant\PublicationsController@store') }}" class="row">
                             @csrf
                             <div class="form-group col-lg-6">
@@ -50,7 +49,6 @@
                                 <button type="submit" class="btn btn-primary">Add Publication</button>
                             </div>
                         </form>
-                    </div>
                         @include('partials.status_bar')
  <hr>
 
@@ -128,7 +126,7 @@
                             </form>
                         @endif
                     </div>
-                                   </div>
+                </div>
             </div>
         </div>
     </div>

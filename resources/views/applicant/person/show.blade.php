@@ -9,9 +9,11 @@
                     <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
                 </div>
 
+                <div class=card-body>
                 @include('partials.person',
                 [
                 'person' => $person,
+                'phones' => $phonenums,
                 'emails' => $emails,
                 'addresses' => $addresses,
                 'institutions' => $institutions,
@@ -27,6 +29,7 @@
                     <a href="{{action('Applicant\PersonController@download', $person->id)}}" class="btn btn-primary">Download</a>
                 </div>
 
+                </div>
             </div>
         </div>
     </div>

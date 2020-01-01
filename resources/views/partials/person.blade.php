@@ -71,7 +71,27 @@
                                     <h6 style="color:#777;">No emails provided</h6>
                                 </div>
                                 @endif
-                                <br/>
+                                @if(!empty($phones) && count($phones)>0)
+                                <div class="row" >
+                                    <h4 style="color:#777;">Phone numbers</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <?php $step = 0; ?>
+                                            @foreach($phones as $phone)
+                                            <?php $step++; ?>
+                                            <span>{{$phone->country_code}}-{{$phone->number}}</span>
+                                            @if($step < count($phones))
+                                                ,
+                                            @endif
+                                            @endforeach
+                                    </div>
+                                </div>
+                                @else
+                                <div class="row" >
+                                    <h6 style="color:#777;">No phone numbers provided</h6>
+                                </div>
+                                @endif                                <br/>
                                 @if(!empty($addresses) && count($addresses)>0)
                                 <div class="row" >
                                     <h4 style="color:#777;">Addresses</h4>

@@ -13,7 +13,6 @@
 
                     <div class="card-body" style="overflow:auto;">
                         <p><b>Add New Employment</b></p>
-
                         <form method="post" action="{{ action('Applicant\InstitutionController@store')}}" class="row">
                             @csrf
                             <div class="col-lg-12 ">
@@ -60,10 +59,8 @@
                                 <button type="submit" class="btn btn-primary">Add Employment</button>
                             </div>
                         </form>
-                    </div>
                         @include('partials.status_bar')
 <hr>
-
                         @if(!empty($institution_person) && count($institution_person)>0)
                             <form method="post" action="{{action('Applicant\InstitutionController@update', $id) }}"  class="row">
                                 @csrf
@@ -142,8 +139,8 @@
                             </form>
                         @endif
                         </div>
-                                        </div>
-            </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

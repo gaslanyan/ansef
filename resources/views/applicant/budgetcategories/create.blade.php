@@ -34,11 +34,8 @@
                                 <button type="submit" class="btn btn-primary">Add Budget Item</button>
                             </div>
                         </form>
-
-                    </div>
                         @include('partials.status_bar')
                     <hr>
-                    <div class="" style="overflow:auto;">
                         @if(!empty($bi) && count($bi)>0)
                             <form method="post" action="{{action('Applicant\BudgetCategoriesController@update', $id) }}">
                                 <div class="form-group">
