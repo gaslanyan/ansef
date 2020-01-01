@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -116,23 +117,38 @@ class CategoryController extends Controller
         return response()->json($response);
     }
 
+    private function proposalcategories() {
+        $cats = Proposal::select('categories')->get();
+        $selected_cat = [];
+        foreach ($cats as $index => $cat) {
+            $j_c = json_decode($cat->categories, true);
+            foreach ($j_c as $i => $item) {
+                $selected_cat[] = $item[0];
+            }
+        }
+        return $selected_cat;
+    }
+
     public function deleteCats(Request $request)
     {
         DB::beginTransaction();
         try {
-            //        if (isset($request->_token)) {
             $cat_ids = $request->id;
-            $cats = Proposal::select('categories')->get();
-            $selected_cat = [];
-            foreach ($cats as $index => $cat) {
-                $j_c = json_decode($cat->categories, true);
-                foreach ($j_c as $i => $item) {
-                    $selected_cat[] = $item[0];
-                }
-            }
+            $selected_cat = $this->proposalcategories();
             foreach ($cat_ids as $ii => $c) {
-                if (!in_array($c, $selected_cat))
+                if (!in_array($c, $selected_cat)) {
+                    $cc = Category::where('id', $c)->first();
+                    if($cc->parent_id == null) {
+                        $subcats = Category::select('id')
+                                            ->where('parent_id','=', $cc->id)->get()->toArray();
+                        foreach ($subcats as $jj => $sc) {
+                            if (!in_array($sc, $selected_cat)) {
+                                Category::where('id', $sc)->delete();
+                            }
+                        }
+                    }
                     Category::where('id', $c)->delete();
+                }
             }
             $response = [
                 'success' => true
@@ -145,7 +161,6 @@ class CategoryController extends Controller
             DB::rollBack();
             logger()->error($exception);
         }
-        //        }
         DB::commit();
         return response()->json($response);
     }

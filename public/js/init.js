@@ -181,9 +181,9 @@ $(document).ready(function() {
             data: { _token: CSRF_TOKEN, id: $category },
             dataType: 'JSON',
             success: function(data) {
-                if (data.count >= 7) {
-                    $('#add_score').attr('disabled', true)
-                }
+                // if (data.count >= 7) {
+                //     $('#add_score').attr('disabled', true)
+                // }
             },
             error: function(data) {
                 console.log(data);
@@ -569,8 +569,7 @@ $(document).ready(function() {
             $url = $(this).attr('id');
             if (checked.length > 0) {
                 $pattern = $url.match(/delete/);
-                if (!$pattern)
-                    $pattern = 'duplicate';
+                if (!$pattern) $pattern = 'duplicate';
                 if (confirm('Are you sure you want to ' + $pattern + " " + checked.length + ' categories?')) {
                     var checkedIDss = [];
                     $(checked).each(function() {
@@ -596,13 +595,17 @@ $(document).ready(function() {
                                 alert('Cannot allow deletion of ' + $pattern +
                                     ' : assigned to a competition ');
                             else {
-                                if ($url == deleteBudgets) {
+                                if ($url == "deleteBudgets") {
                                     setTimeout(function() {
-                                        window.location.href = 'admin/budget';
+                                        window.location.href = 'budget';
                                     }, 500);
-                                } else if ($url == deleteScores) {
+                                } else if ($url == "deleteScores") {
                                     setTimeout(function() {
-                                        window.location.href = 'admin/score';
+                                        window.location.href = 'score';
+                                    }, 500);
+                                } else if ($url == "deleteCats" || $url == "duplicateCats") {
+                                    setTimeout(function() {
+                                        window.location.href = 'category';
                                     }, 500);
                                 } else
                                     reloadtable('admin/listproposals');
