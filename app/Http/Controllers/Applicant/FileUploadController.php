@@ -202,7 +202,6 @@ class FileUploadController extends Controller
     {
         $user_id = getUserID();
         $proposal = Proposal::where('document', '=', $uuid)
-            ->where('user_id', '=', $user_id)
             ->firstOrFail();
         if (Storage::exists(ppath($proposal->id) . "/document.pdf"))
             return response()->download(storage_path(proppath($proposal->id) . "/document.pdf"));
@@ -212,7 +211,6 @@ class FileUploadController extends Controller
     {
         $user_id = getUserID();
         $report = ProposalReport::where('document', '=', $uuid)
-            ->where('user_id', '=', $user_id)
             ->firstOrFail();
         if (Storage::exists(ppath($report->proposal_id) . "/report-" . $report->id . ".pdf"))
             return response()->download(storage_path(proppath($report->proposal_id) . "/report-" . $report->id . ".pdf"));
