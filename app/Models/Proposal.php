@@ -107,7 +107,7 @@ class Proposal extends Model
             if(!empty($r->last_name) && $r->last_name != '')
                 $referees .= (truncate($r->last_name, 6) . " ");
             else {
-                $user = User::find(Person::find($r->person_id)->user_id);
+                $user = User::find(Person::find($r->referee_id)->user_id);
                 $referees .= ($user->email . " ");
             }
         }
