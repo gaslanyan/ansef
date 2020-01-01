@@ -399,23 +399,23 @@ function checkproposal($id)
             if ($pi->state == "foreign")
                 array_push($messages, "This competition does not allow a PI (" . $pi->first_name . " " . $pi->last_name . ") that is not based in Armenia.");
         }
-        // $mindegreeid = $p->competition()->min_level_deg_id;
-        // $maxdegreeid = $p->competition()->max_level_deg_id;
-        // $pidegrees = DegreePerson::where('person_id','=',$pi->id)->get()->sortBy('degree_id');
-        // if($mindegreeid != 1) {
-        //     if(count($pidegrees) == 0)
-        //         array_push($messages, "PI does not have minimum degree requirement.");
-        //     else {
-        //         if($pidegrees[count($pidegrees)-1]->degree_id < $mindegreeid)
-        //             array_push($messages, "PI does not have minimum degree requirement.");
-        //     }
-        // }
-        // if ($maxdegreeid != 1) {
-        //     if(count($pidegrees) > 0) {
-        //         if ($pidegrees[0]->degree_id > $maxdegreeid)
-        //             array_push($messages, "PI does not have satisfy maximum degree requirement.");
-        //     }
-        // }
+        $mindegreeid = $p->competition()->first()->min_level_deg_id;
+        $maxdegreeid = $p->competition()->first()->max_level_deg_id;
+        $pidegrees = DegreePerson::where('person_id','=',$pi->id)->get()->sortBy('degree_id');
+        if($mindegreeid != 1) {
+            if(count($pidegrees) == 0)
+                array_push($messages, "PI does not have minimum degree requirement.");
+            else {
+                if($pidegrees[count($pidegrees)-1]->degree_id < $mindegreeid)
+                    array_push($messages, "PI does not have minimum degree requirement.");
+            }
+        }
+        if ($maxdegreeid != 1) {
+            if(count($pidegrees) > 0) {
+                if ($pidegrees[0]->degree_id > $maxdegreeid)
+                    array_push($messages, "PI does not have satisfy maximum degree requirement.");
+            }
+        }
     }
     $members = ProposalPerson::where('proposal_id', '=', $id)
         ->join('persons', 'persons.id', '=', 'person_id')
