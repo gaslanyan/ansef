@@ -99,9 +99,7 @@ class ReportController extends Controller
                 $scores[$s->id] = Score::updateOrCreate([
                     'score_type_id' => $s->id,
                     'report_id' => $id
-                ], [
-                    'value' => 0
-                ]);
+                ], []);
                 $scores[$s->id]->save();
             }
             $overall = overallScore($id);
