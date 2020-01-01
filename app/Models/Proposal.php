@@ -104,7 +104,10 @@ class Proposal extends Model
             ->get();
         $referees = '';
         foreach ($reps as $r) {
-            $referees .= (truncate($r->last_name, 6) . " ");
+            if(!empty($r->last_name) && $r->last_name != '')
+                $referees .= (truncate($r->last_name, 6) . " ");
+            else
+                $referees .= ($r->user->email . " ");
         }
         return $referees;
     }
