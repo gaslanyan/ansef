@@ -217,7 +217,7 @@ class ProposalController extends Controller
             $refs = $pr->refereesasstring();
             $d['data'][$index]['refs'] = !empty($refs) ? $refs : '';
             $a = $pr->admin()->first();
-            $d['data'][$index]['admin'] = !empty($a) ? substr($a->last_name, 0, 4) . '.' : \App\Models\User::find($a->user_id)->email;
+            $d['data'][$index]['admin'] = !empty($a) ? (substr($a->last_name, 0, 4) . '.') : (\App\Models\User::find($a->user_id)->email);
         }
 
         return Response::json($d);
