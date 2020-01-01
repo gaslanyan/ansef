@@ -48,7 +48,6 @@
                             </div>
 
                         </form>
-                    </div>
                         @include('partials.status_bar')
 <hr>
 
