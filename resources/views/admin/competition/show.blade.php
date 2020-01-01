@@ -6,6 +6,7 @@
                  <div class="card" >
                     <div class="card-header"><b>Competition:</b> @if(!empty($com['title'])){{$com['title']}}@endif
                         @if(!empty($com['state']))({{$com['state'] == 'enable' ? 'Enabled' : 'Disabled'}})@endif
+                    <a href="{{URL::previous()}}" class="display float-lg-right btn-box-tool">Go Back</a>
                     </div>
 
                     <div class="card-body" style="overflow:auto;">
