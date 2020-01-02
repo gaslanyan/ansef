@@ -25,8 +25,9 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <div>
+                <img height="50" src="{{asset('/images/logos/anseflogo.png')}}" alt="">
             <a class="navbar-brand col-12" href="{{ url('/') }}">
-                ANSEF - The Armenian National Science and Education Fund
+                The Armenian National Science and Education Fund
             </a>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

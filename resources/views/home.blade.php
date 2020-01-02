@@ -18,13 +18,6 @@
                         <p>If you are an ANSEF referee, click on <b>REFEREE</b>.</p>
                     </div>
                     <div class="card-body row">
-                        {{-- <div class="col-md-12">
-                            <div class="card-header">
-                                <h3 class="text-center">
-                                    <a href="login/superadmin">SUPER-ADMIN</a>
-                                </h3>
-                            </div>
-                        </div> --}}
                         <div class="col-md-6">
                             <div class="card-header">
                                 <h3 class="text-center">
@@ -39,20 +32,6 @@
                                 </h3>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6">
-                            <div class="card-header">
-                                <h3 class="text-center">
-                                    <a href="login/admin">ADMIN</a>
-                                </h3>
-                            </div>
-                        </div> --}}
-                        {{-- <div class="col-md-6">
-                            <div class="card-header">
-                                <h3 class="text-center">
-                                    <a href="login/viewer">VIEWER</a>
-                                </h3>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
                 <?php endif ?>
