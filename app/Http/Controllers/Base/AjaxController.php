@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BudgetCategory;
 use App\Models\Category;
 use App\Models\Competition;
+use App\Models\Degree;
 use App\Models\Person;
 use App\Models\Proposal;
 use App\Models\ScoreType;
@@ -29,7 +30,7 @@ class AjaxController extends Controller
             $comp_id = $request->id;
 
             $content = [];
-            $com = Competition::select('recommendations', 'allow_foreign', 'categories', 'additional')->where('id', '=', $comp_id)->first();
+            $com = Competition::where('id', '=', $comp_id)->first();
             $categories = json_decode($com->categories);
             foreach ($categories as $index => $category) {
                 if ($category != 0) {
@@ -44,11 +45,17 @@ class AjaxController extends Controller
                 }
             }
 
-            $content['bc'] = BudgetCategory::where('competition_id', '=', $comp_id)->get()->toArray();
-            $content['st'] = ScoreType::where('competition_id', '=', $comp_id)->get()->toArray();
-            $content['recommendition'] = $com->recommendations;
+            // $content['bc'] = BudgetCategory::where('competition_id', '=', $comp_id)->get()->toArray();
+            // $content['st'] = ScoreType::where('competition_id', '=', $comp_id)->get()->toArray();
+            $content['recommendation'] = $com->recommendations;
             $content['allowforeign'] = $com->allow_foreign;
-            $content['additional'] = json_decode($com->additional);
+            $content['min_level_deg_id'] = $com->min_level_deg_id != 1 ? Degree::find($com->min_level_deg_id)->text : "";
+            $content['max_level_deg_id'] = $com->max_level_deg_id != 1 ? Degree::find($com->max_level_deg_id)->text : "";
+            $content['min_age'] = $com->min_age;
+            $content['max_age'] = $com->max_age;
+            $content['min_budget'] = $com->min_budget;
+            $content['max_budget'] = $com->max_budget;
+            // $content['additional'] = json_decode($com->additional);
 
             echo json_encode($content);
             exit;

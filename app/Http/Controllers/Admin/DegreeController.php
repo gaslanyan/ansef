@@ -27,9 +27,6 @@ class DegreeController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.degree.create');
-        else {
             try {
                 $val = Validator::make($request->all(), [
                     'text' => 'required|max:255|min:6',
@@ -45,7 +42,6 @@ class DegreeController extends Controller
                 logger()->error($exception);
                 return redirect('admin/degree')->with('error', messageFromTemplate("wrong"));
             }
-        }
     }
 
     public function show($id)

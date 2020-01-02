@@ -85,9 +85,6 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.competition.create');
-        else {
             try {
                 $v = Validator::make($request->all(), [
                     'title' => 'required|max:255',
@@ -189,7 +186,6 @@ class CompetitionController extends Controller
                 logger()->error($exception);
                 return redirect('admin/competition')->with('error', messageFromTemplate("wrong"));
             }
-        }
     }
 
     /**

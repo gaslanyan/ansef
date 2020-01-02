@@ -56,9 +56,6 @@ class BudgetCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.budget.create');
-        else {
             try {
                 $v = Validator::make($request->all(), [
                     'name' => 'required|max:255',
@@ -73,11 +70,9 @@ class BudgetCategoryController extends Controller
                 } else
                     return redirect()->back()->withErrors($v->errors())->withInput();
             } catch (\Exception $exception) {
-                dd($exception);
                 logger()->error($exception);
                 return redirect('admin/budget')->with('errors', messageFromTemplate("wrong"));
             }
-        }
     }
 
     /**

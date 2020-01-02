@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header">Edit a score type
                         <br>
-                        <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body" style="overflow:auto;">

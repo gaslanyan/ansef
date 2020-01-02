@@ -57,9 +57,6 @@ class ScoreTypeController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.scoreType.create');
-        else {
             try {
                 $v = Validator::make($request->all(), [
                     'name' => 'required|max:255',
@@ -83,7 +80,6 @@ class ScoreTypeController extends Controller
                 logger()->error($exception);
                 return redirect('admin/score')->with('errors', messageFromTemplate("wrong"));
             }
-        }
     }
 
     /**

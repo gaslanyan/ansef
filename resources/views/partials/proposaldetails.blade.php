@@ -11,7 +11,7 @@
             $addresses = $person->addresses;
             $institutions = \App\Models\InstitutionPerson::where('person_id','=',$person->id)
                             ->get()->sortBy('start');
-            $institutionslist = \App\Models\Institution::all()->keyBy('id');
+            $institutionslist = \App\Models\Institution::all()->sortBy('content')->keyBy('id');
             $degrees = \App\Models\DegreePerson::where('person_id','=',$person->id)
                         ->join('degrees', 'degree_id', '=', 'degrees.id')->get()->sortBy('year');
             $honors = $person->honors->sortBy('year');

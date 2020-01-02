@@ -56,6 +56,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </form>
+                            <br/><br/><br/>
                         @endif
                     </div>
                 </div>

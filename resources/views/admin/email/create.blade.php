@@ -10,7 +10,7 @@
                     <div class="card-header">Add an email
 {{--                        <a href = "{{ action('Admin\EmailController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>--}}
                         <br>
-                        <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body" >

@@ -8,7 +8,7 @@
                  <div class="card" >
                     <div class="card-header">Edit Competition <a href = "{{ action('Admin\CompetitionController@index') }}" class="display float-lg-right btn-box-tool"> Back</a>
                         <br>
-                        <i class="fas fa-question-circle text-red all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                     </div>
 
                     <div class="card-body" style="overflow:auto;">

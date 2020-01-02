@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
 

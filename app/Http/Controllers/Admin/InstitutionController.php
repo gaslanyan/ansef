@@ -16,7 +16,7 @@ class InstitutionController extends Controller
     public function index()
     {
         try {
-            $institutions = Institution::all();
+            $institutions = Institution::all()->sortBy('content');
             return view('admin.institution.index', compact('institutions'));
         } catch (\Exception $exception) {
             logger()->error($exception);

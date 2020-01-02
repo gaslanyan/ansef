@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NotifyRecommender;
 use LynX39\LaraPdfMerger\Facades\PdfMerger;
+use Illuminate\Support\Facades\Validator;
 
 class ProposalController extends Controller
 {
@@ -48,7 +49,7 @@ class ProposalController extends Controller
             ->get();
 
         $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
-        $institutions = Institution::all()->pluck('content', 'id')->toArray();
+        $institutions = Institution::all()->sortBy('content')->pluck('content', 'id')->toArray();
 
         $persons = Person::where('user_id', $user_id)->where(function ($query) {
             $query->where('type', 'participant');
@@ -117,51 +118,53 @@ class ProposalController extends Controller
     public function store(Request $request)
     {
         $user_id = getUserID();
-        $validatedData = $request->validate([
-            'category.*' => 'required|not_in:0',
-            'sub_category.*' => 'required|not_in:0',
-            'comp_prop' => 'required|not_in:choosecompetition',
+        $v = Validator::make($request->all(), [
+            'comp_prop' => 'required|not_in:0',
+            'category' => 'required|not_in:0',
+            'sub_category' => 'required|not_in:0',
             'title' => 'required|min:3',
             'abstract' => 'required|min:55',
             /*  "prop_document" => "required|mimes:pdf|max:10000"*/
-
         ]);
-        //        try {
-        $prop_members = [];
-        $proposal = new Proposal();
-        $proposal->title = ucwords(mb_strtolower($request->title));
-        $proposal->abstract = $request->abstract;
-        $proposal->state = "in-progress";
-        $proposal->user_id = $user_id;
-        $proposal->competition_id = $request->comp_prop;
-        $cat["parent"] = ($request->category);
-        $cat['sub'] = ($request->sub_category);
+        if (!$v->fails()) {
+            $proposal = new Proposal();
+            $proposal->title = ucwords(mb_strtolower($request->title));
+            $proposal->abstract = $request->abstract;
+            $proposal->state = "in-progress";
+            $proposal->user_id = $user_id;
+            $proposal->competition_id = $request->comp_prop;
+            $cat["parent"] = [$request->category];
+            $cat['sub'] = [$request->sub_category];
 
-        if (!empty($request->sec_category)) {
-            $cat["sec_parent"] = ($request->sec_category);
-        }
-        if (!empty($request->sec_sub_category)) {
-            $cat["sec_sub"] = ($request->sec_sub_category);
-        }
-        $json_merge = json_encode($cat);
-        $proposal->categories = $json_merge;
-        $proposal->save();
-        $proposal_id = $proposal->id;
+            if (!empty($request->sec_category)) {
+                $cat["sec_parent"] = [$request->sec_category];
+            }
+            if (!empty($request->sec_sub_category)) {
+                $cat["sec_sub"] = [$request->sec_sub_category];
+            }
+            $json_merge = json_encode($cat);
+            $proposal->categories = $json_merge;
+            $proposal->save();
+            $proposal_id = $proposal->id;
 
-        $prop_institution = new ProposalInstitution();
-        if (!empty($request->institutionname)) {
-            $prop_institution->proposal_id = $proposal_id;
-            $prop_institution->institutionname = $request->institutionname;
-        } elseif (!empty($request->institution)) {
-            $prop_institution->proposal_id = $proposal_id;
-            $prop_institution->institution_id = (int) $request->institution;
-        } else {
-            $prop_institution->proposal_id = $proposal_id;
-            $prop_institution->institutionname = "";
-        }
-        $prop_institution->save();
+            $prop_institution = new ProposalInstitution();
+            if (!empty($request->institutionname)) {
+                $prop_institution->proposal_id = $proposal_id;
+                $prop_institution->institutionname = $request->institutionname;
+            } elseif (!empty($request->institution)) {
+                $prop_institution->proposal_id = $proposal_id;
+                $prop_institution->institution_id = (int) $request->institution;
+            } else {
+                $prop_institution->proposal_id = $proposal_id;
+                $prop_institution->institutionname = "";
+            }
+            $prop_institution->save();
 
-        return redirect()->action('Applicant\FileUploadController@docfile', $proposal_id);
+            return redirect()->action('Applicant\FileUploadController@docfile', $proposal_id);
+        }
+        else {
+            return redirect()->back()->withErrors($v->errors())->withInput();
+        }
     }
 
 
@@ -241,7 +244,7 @@ class ProposalController extends Controller
             $ins = ['id' => 0, 'name' => ""];
         }
 
-        $institutions = Institution::all()->pluck('content', 'id')->toArray();
+        $institutions = Institution::all()->sortBy('content')->pluck('content', 'id')->toArray();
 
         return view('applicant.proposal.edit', compact(
             'institutions',
@@ -259,12 +262,13 @@ class ProposalController extends Controller
     public function update(Request $request, $id)
     {
         $user_id = getUserID();
-        $validatedData = $request->validate([
-            'title' => 'required|min:3',
-            'abstract' => 'required|min:55',
-        ]);
-
         try {
+            $v = Validator::make($request->all(), [
+                'title' => 'required|min:3',
+                'abstract' => 'required|min:55',
+            ]);
+            if (!$v->fails()) {
+
             $proposal = Proposal::where('id', '=', $id)
                 ->where('user_id', '=', $user_id)
                 ->first();
@@ -289,6 +293,10 @@ class ProposalController extends Controller
             $propins->save();
 
             return redirect()->action('Applicant\ProposalController@activeProposal');
+            }
+            else {
+                return redirect()->back()->withErrors($v->errors())->withInput();
+            }
         } catch (\Exception $exception) {
             return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }

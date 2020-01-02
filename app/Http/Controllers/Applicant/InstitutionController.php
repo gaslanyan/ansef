@@ -22,7 +22,7 @@ class InstitutionController extends Controller
     {
         $user_id = getUserID();
         $ins_array = [];
-        $institutions_list = Institution::all()->toArray();
+        $institutions_list = Institution::all()->sortBy('content')->toArray();
         $institution_person = InstitutionPerson::where('person_id', '=', $id)
             ->where('user_id', '=', $user_id)
             ->orderBy('start', 'DESC')->get()->sortBy('end');

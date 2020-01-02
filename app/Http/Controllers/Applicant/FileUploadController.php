@@ -10,7 +10,8 @@ use App\Models\Person;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Webpatser\Uuid\Uuid;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redirect;
 
 class FileUploadController extends Controller
 {
@@ -79,29 +80,32 @@ class FileUploadController extends Controller
     function upload(Request $request)
     {
         $user_id = getUserID();
-        $rules = array(
-            'file'  => 'required|mimes:pdf|max:20480'
-        );
+        try {
+            $rules = array(
+                'file'  => 'required|mimes:pdf|max:10240'
+            );
+            $error = Validator::make($request->all(), $rules);
 
-        $error = Validator::make($request->all(), $rules);
+            if ($error->fails()) {
+                return response()->json(['errors' => $error->errors()->all()]);
+            }
 
-        if ($error->fails()) {
-            return response()->json(['errors' => $error->errors()->all()]);
+            $proposal = Proposal::where('id', '=', $request->prop_id_file)
+                ->where('user_id', '=', $user_id)
+                ->first();
+
+            $request->file('file')->storeAs(
+                '/proposals/prop-' . $request->prop_id_file,
+                'document.pdf'
+            );
+
+            $proposal->document = Uuid::generate()->string;
+            $proposal->save();
+
+            return redirect()->back()->withErrors(['The file was uploaded successfully.']);;
+        } catch (\Exception $exception) {
+            return Redirect::back()->with('wrong', messageFromTemplate("wrong"))->withInput();
         }
-
-        $proposal = Proposal::where('id', '=', $request->prop_id_file)
-            ->where('user_id', '=', $user_id)
-            ->first();
-
-        $request->file('file')->storeAs(
-            '/proposals/prop-' . $request->prop_id_file,
-            'document.pdf'
-        );
-
-        $proposal->document = Uuid::generate()->string;
-        $proposal->save();
-
-        return redirect()->back()->withErrors(['The file was uploaded successfully.']);;
     }
 
     function uploadletter(Request $request)
@@ -109,7 +113,6 @@ class FileUploadController extends Controller
         $rules = array(
             'file'  => 'required|mimes:pdf|max:20480'
         );
-
 
         $error = Validator::make($request->all(), $rules);
 

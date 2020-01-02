@@ -78,6 +78,7 @@
                                     </div>
                                 </div>
                             </form>
+                            <br/><br/><br/>
                         @endif
                     </div>
                 </div>

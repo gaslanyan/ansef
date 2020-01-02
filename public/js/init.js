@@ -217,144 +217,7 @@ $(document).ready(function() {
         });
     });
 
-    // $(document).on("change", '#budget', function () {
-    //     $ids = $(this).val();
-    //
-    //     $.ajax({
-    //         url: '/createSQL',
-    //         type: 'POST',
-    //         context: {element: $(this)},
-    //         data: {_token: CSRF_TOKEN, ids: $ids},
-    //         dataType: 'JSON',
-    //         success: function (data) {
-    //             console.log(data);
-    //         },
-    //         error: function (data) {
-    //             console.error(data);
-    //         }
-    //     });
-    // });
-    //get proposal form competitions
-    $(document).on("change", '.comp_prop', function() {
-        $comp_prop = $(this).val();
-        $('#category0').find('option').remove();
-        $('#category1').find('option').remove();
-        $('#budget_categories').find('input').remove();
-        $('#budget_categories_description').find('input').remove();
-        $('#amount').find('input').remove();
-        $('#score_type').find('tr').remove();
-        $('#additional_charge_name').find('input').remove();
-        $('#additional_charge').find('input').remove();
-        $('#additional_persentage_name').find('input').remove();
-        $('#additional_persentage').find('input').remove();
-        $('.additional').css('display', 'none');
-        $('.budgetitem').css('display', 'none');
-        $('.sup').hide();
-        $('.chooseperson').removeAttr('disabled');
-        $.ajax({
-            url: '/gccbi',
-            type: 'POST',
-            context: { element: $(this) },
-            data: { _token: CSRF_TOKEN, id: $comp_prop },
-            dataType: 'JSON',
-            success: function(data) {
-                for (var i in data) {
-                    if (data.hasOwnProperty(i)) {
-                        if (i === 'cats') {
-                            $step = 0;
-                            $('#category0').append("<option>Select Category</option>");
-                            $('#category1').append("<option>Select Secondary Category</option>");
-                            for (var j in data[i]) {
-                                if (data[i].hasOwnProperty(j)) {
-                                    $('#category0').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
-                                    $('#category1').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
-                                    if (data[i][j].parent.length > 0)
-                                        $('#sub_category' + $step).val(data[i][j].sub);
-                                    $step++;
-                                }
-                            }
-                        }
-                        if (i === 'bc') {
 
-                            $('.budgetitem').css('display', 'block');
-                            $step = 0;
-                            for (var bj in data[i]) {
-                                if (data[i].hasOwnProperty(bj)) {
-                                    var k = parseInt(bj) + 1;
-                                    //$('#budget_categories').append("<option value='" + k + "'>" + data[i][bj].name + "</option>");
-                                    $('#budget_categories').append("<input class='form-control' type ='text' name='budget_item_categories[]' value='" + data[i][bj].name + "' />");
-                                    $('#budget_categories').append("<input class='form-control' type ='hidden' name='budget_item_categories_hidden[]' value='" + data[i][bj].id + "' />");
-                                    $('#budget_categories_description').append("<input type='text' class='form-control' name='budget_categories_description[]' value='' />");
-                                    $('#amount').append("<input type='number' class='form-control' name='amount[]' min='" + data[i][bj].min + "' max='" + data[i][bj].max + "' placeholder='" + data[i][bj].min + " - " + data[i][bj].max + "'/>");
-                                    $step++;
-                                }
-                            }
-                        }
-                        //Score type//
-                        if (i === 'st') {
-                            $step = 0;
-                            for (var k in data[i]) {
-                                if (data[i].hasOwnProperty(k)) {
-                                    $('#score_type').append("<tr><td>" + data[i][k].name + "</td><td>" + data[i][k].description + "</td></tr>");
-                                    $step++;
-                                }
-                            }
-                        }
-
-                        //Recomendition//
-                        if (i === 'recommendition') {
-                            if (data[i] == 1) {
-                                $('.recommendation').val(data[i]);
-                                $('.sup').css('display', 'block');
-                            } else {
-                                var matches = 0;
-                                $(".tt").each(function(i, val) {
-                                    if ($(this).val() == 'support') {
-                                        $('#choose_person_name' + matches).remove();
-                                    }
-                                    matches++;
-                                });
-                            }
-                        }
-
-                        //Allow Foreign//
-                        if (i === 'allowforeign') {
-                            if (data[i] != 1) {
-                                $('#comp_container').append('<i class="fas fa-question-circle text-red all"> This competition requires that the PI resides in Armenia </i> <input type="hidden" name="allowforegin" value="' + data[i] + '" class="all" id="allowforeign">');
-                                $('.domesticorforeign').val(data[i]);
-                                var matches = 0;
-                                $(".al").each(function(i, val) {
-                                    if ($(this).val() != 'Armenia') {
-                                        $('#choose_person_name' + matches).remove();
-                                    }
-                                    matches++;
-                                });
-                            } else {
-                                $('.domesticorforeign').val(data[i]);
-                                $('#comp_container').find('.all').remove();
-                            }
-
-                        }
-                        //Additional//
-                        if (i === 'additional') {
-                            $('.additional').css('display', 'block');
-                            $('#additional_charge_name').append("<input class='form-control' type ='text' name='additional_charge_name' disabled value='" + data[i].additional_charge_name + "' />");
-                            $('#additional_charge').append("<input class='form-control' type ='text' name='additional_charge' disabled value='" + data[i].additional_charge + "' />");
-                            $('#additional_persentage_name').append("<input class='form-control' type ='text' name='additional_percentage_name' disabled value='" + data[i].additional_percentage_name + "' />");
-                            $('#additional_persentage').append("<input class='form-control' type ='text' name='additional_percentage' disabled value='" + data[i].additional_percentage + "' />");
-
-
-                        }
-
-                    }
-                }
-
-            },
-            error: function(data) {
-                console.error(data);
-            }
-        });
-    });
 
 
     $(document).on('click', '.check_all', function() {
@@ -697,7 +560,24 @@ $(document).ready(function() {
             }
         });
     });
-
+    $('input[type="file"]').change(function(event) {
+        var fileSize = this.files[0].size;
+        var extension = getfilenameextension(this.files[0].name);
+        var maxAllowedSize = 10 * 1024 * 1024;
+        if (fileSize > maxAllowedSize) {
+            alert('Maximum allowed file size is 10Mb.');
+            $('input[type="file"]').val('');
+        }
+        if (extension != null) {
+            if (extension.toLowerCase() != "pdf") {
+                alert('File type must be PDF.');
+                $('input[type="file"]').val('');
+            }
+        } else {
+            alert('Filename must have an extension (.pdf).');
+            $('input[type="file"]').val('');
+        }
+    });
 });
 
 var url = window.location;
@@ -747,4 +627,8 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function getfilenameextension(filename) {
+    return filename.split('.').pop();
 }

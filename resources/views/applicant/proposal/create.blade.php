@@ -4,11 +4,11 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">Add A New Proposal
                     </div>
-                    <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                    <div class="card-body">
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         @if(count($competitions) == 0)
@@ -22,9 +22,9 @@
 
                             <div class="form-group col-lg-12 align-items-center" id="comp_container">
                                 <select class="form-control -align-center comp_prop" name="comp_prop" id="comp_prop">
-                                    <option value="choosecompetition">Choose the competition</option>
+                                    <option value="0">Choose the competition</option>
                                     @foreach($competitions as $competition)
-                                        <option value="{{$competition->id}}">{{$competition->title}}</option>
+                                        <option value="{{$competition->id}}" {{$competition->id == old('comp_prop') ? 'selected' : ''}}>{{$competition->title}}</option>
                                     @endforeach
                                 </select>
                                 <input type="hidden" value="" name="domesticorforeign" class="domesticorforeign"/>
@@ -33,27 +33,27 @@
 
                             <div class="form-group col-lg-6">
                                 <label for="category0">Category *:</label>
-                                <select class="form-control cat" name="category[]" id="category0">
-                                    <option value="0">Select Category</option>
+                                <select class="form-control cat" name="category" id="category0">
+                                    <option value="0" {{$competition->id == old('comp_prop') ? 'selected' : ''}}>Select Category</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="sub_category0">Subcategory *:</label>
-                                <select type="text" class="form-control" name="sub_category[]" id="sub_category0">
+                                <select type="text" class="form-control" name="sub_category" id="sub_category0">
                                     <option value="0">Select Sub Category</option>
                                 </select>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="category1">Secondary Category (optional):</label>
-                                <select class="form-control cat" name="sec_category[]" id="category1">
+                                <select class="form-control cat" name="sec_category" id="category1">
                                     <option value="0">Select Secondary Category</option>
                                 </select>
 
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="sub_category1"> Secondary Subcategory (optional):</label>
-                                <select class="form-control" name="sec_sub_category[]" id="sub_category1">
+                                <select class="form-control" name="sec_sub_category" id="sub_category1">
                                     <option value="0">Select Sub Category</option>
                                 </select>
                             </div>
@@ -72,7 +72,7 @@
                                 <div class="row institution">
                                     <div class="form-group col-lg-12">
                                         <label for="inst"></label>
-                                        <select id="inst" class="form-control" name="institution">
+                                        <select id="inst" class="form-control" name="institution" id="institution">
                                             <option value="0">Select institution</option>
                                             @if(!empty($institutions))
                                                 @foreach($institutions as $val=>$item)
@@ -80,7 +80,7 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                    <input type="text" id="insttext" class="form-control" name="institutionname" value="{{old('institutionname')}}" placeholder="If your institution is not in the list, type instead the name here">
+                                    <input type="text" id="institutionname" class="form-control" name="institutionname" value="{{old('institutionname')}}" placeholder="If your institution is not in the list, type instead the name here">
                                     </div>
                                 </div>
                             </div>
@@ -89,12 +89,9 @@
                                 <a href="{{ action('Applicant\ProposalController@activeProposal') }}" class="btn btn-secondary"> Cancel</a>
                             </div>
                             </div>
-
-
                         </form>
+                        <br/><br/><br/>
                         @endif
-
-
                     </div>
                 </div>
             </div>
@@ -103,84 +100,15 @@
 
     <script>
 
-
-        function open_container() {
-            var size = 'large'; //small,standart,large document.getElementById('mysize').value;
-            var content = '';//<form role="form"><div class="form-group"><label for="exampleInputEmail1">Email address</label><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email"></div><div class="form-group"><label for="exampleInputPassword1">Password</label><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></div><div class="form-group"><label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile"><p class="help-block">Example block-level help text here.</p></div><div class="checkbox"><label><input type="checkbox"> Check me out</label></div><button type="submit" class="btn btn-default">Submit</button></form>';
-            var title = 'Choose a person';
-            var footer = '';//'<button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Save changes</button>';
-            jQuery.noConflict();
-            jQuery.noConflict();
-            jQuery('#myModal').attr('class', 'modal fade bs-example-modal-lg')
-                .attr('aria-labelledby', 'myLargeModalLabel');
-            jQuery('.modal-dialog').attr('class', 'modal-dialog modal-lg');
-            jQuery('#myModal').modal('show');
-        }
-
-        function setModalBox(title, content, footer, $size) {
-            //document.getElementById('modal-bodyku').innerHTML=content;
-            //document.getElementById('myModalLabel').innerHTML=title;
-            // document.getElementById('modal-footerq').innerHTML=footer;
-            if ($size == 'large') {
-                jQuery('#myModal').attr('class', 'modal fade bs-example-modal-lg')
-                    .attr('aria-labelledby', 'myLargeModalLabel');
-                jQuery('.modal-dialog').attr('class', 'modal-dialog modal-lg');
-            }
-            if ($size == 'standart') {
-                jQuery('#myModal').attr('class', 'modal fade')
-                    .attr('aria-labelledby', 'myModalLabel');
-                jQuery('.modal-dialog').attr('class', 'modal-dialog');
-            }
-            if ($size == 'small') {
-                jQuery('#myModal').attr('class', 'modal fade bs-example-modal-sm')
-                    .attr('aria-labelledby', 'mySmallModalLabel');
-                jQuery('.modal-dialog').attr('class', 'modal-dialog modal-sm');
-            }
-        }
-
-        jQuery(document).on('click', '#choose', function () {
-            //console.log(jQuery('[name="choose_person"]')[0]);
-            jQuery('#prop_person').text("");
-            var chp = [];
-            var checkedIDss = [];
-            var step = 0;
-            var checkedIDs = [];
-
-            jQuery("input:checkbox:checked").each(function (i, val) {
-                chp['fullname' + step] = jQuery("#choose_person_name" + step).val();
-                chp['type' + step] = jQuery("#choose_proposal_persons" + step).val();
-                chp['p_id' + step] = jQuery("#person_id" + step).val();
-                $g = "/applicant/person/" + ($(this).val()).split('_')[0] + "/edit";
-                var id =($(this).val()).split('_')[0];
-
-                var personname = $(this).next().val();
-                var proposalperson = $(this).parent().parent().next().next().find('select').val();
-
-                if(proposalperson != "None")
-                jQuery('#prop_person').append('<p><input type="hidden"  value = "' + personname + '"  id = \'prop_person_name\' disabled class="form-control form-check-inline form-group col-lg-5" name="prop_person_name[]"><b>' + personname + ': </b>' +
-                    '                          <input type="hidden"  value = "' + proposalperson + '"  id = \'prop_person_stype\' disabled class="form-control form-check-inline form-group col-lg-2" name="prop_person_stype[]">' + proposalperson.charAt(0).toUpperCase() + proposalperson.slice(1) +
-                    '&nbsp;&nbsp;<div title="Delete" class="btn-link unchecked" id = "'+id+'" ><i class="fa fa-trash"></i></div></p> ');
-
-
-                step++;
-            });
+        $(document).ready(function () {
+            compselect();
         });
 
-        jQuery('.tt').change(function(){
-            jQuery('.tt').val();
-            $val = $(this).parent().prev().prev().find('input:checkbox:checked').val();
-            $newval = $val +"_"+ jQuery(this).val();
-            $(this).parent().prev().prev().find('input:checkbox:checked').val($newval);
-            // $('#choose').removeAttr('disabled');
-        });
-
-	function count($field, $span){
-	  var txtVal = jQuery($field).val();
-	  var words = txtVal.trim().replace(/\s+/gi, ' ').split(' ').length;
-// 	  var chars = txtVal.length;
-// 	  if(chars===0){words=0;}
-	  return words;
-	}
+        function count($field, $span){
+            var txtVal = jQuery($field).val();
+            var words = txtVal.trim().replace(/\s+/gi, ' ').split(' ').length;
+            return words;
+        }
 
         jQuery('#title').on('keyup propertychange paste', function(){
 	        jQuery('#titlecharleft').html((25-count('#title'))+'');
@@ -191,16 +119,91 @@
 	        jQuery('#abstractcharleft').html((250-count('#abstract'))+'');
         });
 
-      $(document).on('click', '.unchecked', function () {
-            var val = $(this).attr('id');
-             $(this).prev().prev().prev().prev().remove();
-             $(this).prev().prev().prev().remove();
-             $(this).prev().prev().remove();
-             $(this).prev().remove();
-             $(this).remove();
+        function compselect() {
+            $comp_prop = $('#comp_prop').val();
+            if($comp_prop == 0) return;
+            $('#category0').find('option').remove();
+            $('#category1').find('option').remove();
+            $.ajax({
+                url: '/gccbi',
+                type: 'POST',
+                context: { element: $('#comp_prop') },
+                data: { _token: CSRF_TOKEN, id: $comp_prop },
+                dataType: 'JSON',
+                success: function(data) {
+                    for (var i in data) {
+                        if (data.hasOwnProperty(i)) {
+                            if (i === 'cats') {
+                                $step = 0;
+                                $('#category0').append("<option>Select Category</option>");
+                                $('#category1').append("<option>Select Secondary Category</option>");
+                                for (var j in data[i]) {
+                                    if (data[i].hasOwnProperty(j)) {
+                                        $('#category0').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
+                                        $('#category1').append("<option value='" + j + "'>" + data[i][j].parent + "</option>");
+                                        if (data[i][j].parent.length > 0)
+                                            $('#sub_category' + $step).val(data[i][j].sub);
+                                        $step++;
+                                    }
+                                }
+                            }
+                            if (i === 'recommendation') {
+                                if (data[i] >= 1) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires ' + data[i] + ' recommendation letter(s). Make sure you add the names of the recommendors to the project as support people.</i>');
+                                }
+                            }
+                            if (i === 'min_age') {
+                                if (data[i] > 0) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires that the PI is at least ' + data[i] + ' years old.</i>');
+                                }
+                            }
+                            if (i === 'max_age') {
+                                if (data[i] < 100) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires that the PI is less than ' + data[i] + ' years old.</i>');
+                                }
+                            }
+                            if (i === 'min_level_deg_id') {
+                                if (data[i] != "") {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires that the PI has at least a ' + data[i] + ' degree.</i>');
+                                }
+                            }
+                            if (i === 'max_level_deg_id') {
+                                if (data[i] != "") {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires that the PI does not have a degree higher than a ' + data[i] + '.</i>');
+                                }
+                            }
+                            if (i === 'min_budget') {
+                                if (data[i] > 0) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires a minimum budget of $' + data[i] + '.</i>');
+                                }
+                            }
+                            if (i === 'max_budget') {
+                                if (data[i] < 1000000) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires a maximum budget of $' + data[i] + '.</i>');
+                                }
+                            }
+                            if (i === 'allowforeign') {
+                                if (data[i] != 1) {
+                                    $('#comp_container').append('<i class="fas fa-question-circle text-blue all"></i><i class="text-blue">This competition requires that the PI resides in Armenia.</i>');
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function(data) {
+                    console.error(data);
+                }
+            });
+        }
 
-          $("input[value^='"+val+"']" ).prop("checked", false);
-         });
+        $(document).on("change", '.comp_prop', function() {
+            compselect();
+        });
+
+        $(document).on("change", '#institution', function() {
+            if($('#institution').val() != 0)
+                $('#institutionname').val('');
+        });
 
     </script>
 @endsection

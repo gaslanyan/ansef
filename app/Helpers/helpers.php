@@ -416,6 +416,17 @@ function checkproposal($id)
                     array_push($messages, "PI does not have satisfy maximum degree requirement.");
             }
         }
+        $minage = $p->competition()->first()->min_age;
+        $maxage = $p->competition()->first()->max_age;
+        $from = new DateTime($pi->birthdate);
+        $to   = new DateTime('today');
+        $age = $from->diff($to)->y;
+        if($age < $minage) {
+            array_push($messages, "PI must be at least " . $minage . " years old.");
+        }
+        if($age > $maxage) {
+            array_push($messages, "PI cannot be older than " . $maxage . " years old.");
+        }
     }
     $members = ProposalPerson::where('proposal_id', '=', $id)
         ->join('persons', 'persons.id', '=', 'person_id')

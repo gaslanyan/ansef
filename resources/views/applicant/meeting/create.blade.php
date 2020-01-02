@@ -98,6 +98,7 @@
                                 @endforeach
                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                             </form>
+                            <br/><br/><br/>
                         @endif
                         </div>
                     </div>

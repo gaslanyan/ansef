@@ -110,7 +110,7 @@
                                             @elseif($ap->state == 'disqualified')
                                                 Disqualified
                                             @elseif($ap->state == 'finalist' && $ap->competition->results_date < date('Y-m-d'))
-                                                Finalist
+                                                <b>Finalist</b>
                                             @elseif($ap->state == 'finalist' && $ap->competition->results_date >= date('Y-m-d'))
                                                 Reviews complete
                                             @else

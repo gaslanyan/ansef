@@ -28,9 +28,6 @@ class EmailController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.email.create');
-        else {
             try {
                 $pp_id = getPersonIdByRole('admin');
                 foreach ($request->email as $item) {
@@ -46,7 +43,6 @@ class EmailController extends Controller
                 logger()->error($exception);
                 return redirect('admin/email')->with('error', messageFromTemplate("wrong"));
             }
-        }
     }
 
     public function show($id)
@@ -61,9 +57,6 @@ class EmailController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.email.edit');
-        else {
             try {
                 $this->validate($request, [
                     'email' => 'required|string|email|max:255',
@@ -78,7 +71,6 @@ class EmailController extends Controller
                 logger()->error($exception);
                 return redirect('admin/email')->with('error', messageFromTemplate('wrong'));
             }
-        }
     }
 
     public function destroy($id)

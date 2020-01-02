@@ -7,7 +7,7 @@
                     <div class="card-header">Edit a Degree
                     </div>
                     <div class="card-body cord_body">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
                         <form method="post" action="{{ action('Admin\DegreeController@update', $id) }}">

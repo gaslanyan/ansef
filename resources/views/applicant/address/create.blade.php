@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool"> Go Back</a>
                 </div>
                 <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         <p><b>Add New Address</b></p>
                         <form method="post" action="{{action('Applicant\AddressController@store') }}">
                             @csrf
@@ -91,6 +91,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </form>
+                            <br/><br/><br/>
                         @endif
                     </div>
             </div>

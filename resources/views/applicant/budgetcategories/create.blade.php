@@ -10,7 +10,7 @@
                            class="display float-lg-right btn-box-tool">Go Back</a><br/>
                     </div>
                     <div class="card-body" style="margin-left:20px;margin-right:20px;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         <label><b>Add New Budget Item:</b></label><br/><br/>
                         <form method="post" action="{{ action('Applicant\BudgetCategoriesController@store') }}" class="row">
                             {{ csrf_field() }}
@@ -79,6 +79,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
                             </form>
+                            <br/><br/><br/>
                         @endif
                     </div>
                     <div class="" style="overflow:auto;">

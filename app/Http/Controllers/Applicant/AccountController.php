@@ -32,7 +32,7 @@ class AccountController extends Controller
     public function create()
     {
         $countries = Country::all()->sortBy('country_name')->pluck('country_name', 'cc_fips')->toArray();
-        $institutions = Institution::all()->pluck('content', 'id')->toArray();
+        $institutions = Institution::all()->sortBy('content')->pluck('content', 'id')->toArray();
         return view('applicant.account.create', compact('countries', 'institutions'));
     }
 

@@ -9,7 +9,7 @@
                     <div class="card-header">Add A New Person</div>
 
                     <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> {{Lang::get('messages.required_all')}}</i>
+                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
                         @include('partials.status_bar')
 
 
@@ -82,15 +82,12 @@
                                     @endif
                                 </select>
                             </div>
-
-
-
-
                             <div class="form-group col-lg-12">
                                 <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="{{ action('Applicant\AccountController@index') }}" class="btn btn-secondary"> Cancel</a>
                             </div>
                         </form>
+                        <br/><br/><br/>
                     </div>
                 </div>
             </div>

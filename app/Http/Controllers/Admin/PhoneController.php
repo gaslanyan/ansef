@@ -50,9 +50,6 @@ class PhoneController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->isMethod('post'))
-            return view('admin.phone.create');
-        else {
             $validatedData = $request->validate([
                 //            'country_code.*' => 'required|max:4', /*Need to check validation not working*/
                 'phone.*' => 'required'
@@ -73,7 +70,6 @@ class PhoneController extends Controller
                 logger()->error($exception);
                 return redirect('admin/phone')->with('error', messageFromTemplate("wrong"));
             }
-        }
     }
 
     /**
@@ -116,10 +112,6 @@ class PhoneController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*Need to check validation not working*/
-        if (!$request->isMethod('post'))
-            return view('admin.phone.edit');
-        else {
             $validatedData = $request->validate([
                 /*'country_code' => 'required|numeric|phone_number|max:3',
             //'number' =>'required|size:11'*/]);
@@ -142,7 +134,6 @@ class PhoneController extends Controller
                 logger()->error($exception);
                 return redirect('admin/phone')->with('wrong', messageFromTemplate("wrong"));
             }
-        }
     }
 
     /**
