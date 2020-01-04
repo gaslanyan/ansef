@@ -139,8 +139,8 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
 
     Route::post('/admin/updateCom', 'Admin\CompetitionController@updateCompetition');
 
-    Route::get('/admin/migrate', 'JobsController@migrate');
-    Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
+    // Route::get('/admin/migrate', 'JobsController@migrate');
+    // Route::get('/admin/dochunk/{id}', 'JobsController@dochunk');
 
     Route::post('/admin/deleteCats', 'Admin\CategoryController@deleteCats');
     Route::post('/admin/updateCategory', 'Admin\CategoryController@updateCategory');
