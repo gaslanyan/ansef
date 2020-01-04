@@ -20,7 +20,7 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
         $persons = Person::where('user_id', $user_id)
-            ->where('persons.type', '!=', null)
+            ->whereIn('type', ['support','participant'])
             ->get()->toArray();
         if (empty($persons)) {
             return view('applicant.dashboard');

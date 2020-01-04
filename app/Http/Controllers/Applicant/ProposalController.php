@@ -9,6 +9,7 @@ use App\Models\BudgetItem;
 use App\Models\Category;
 use App\Models\Competition;
 use App\Models\Person;
+use App\Models\Degree;
 use App\Models\Institution;
 use App\Models\ProposalInstitution;
 use App\Models\Proposal;
@@ -623,5 +624,45 @@ class ProposalController extends Controller
         $sub = Category::where('parent_id', '=', $request['id'])->pluck('title', 'id')->toArray();
         echo $resp[0] = json_encode($sub);
         exit();
+    }
+
+    public function getCompetitionRestrictions(Request $request)
+    {
+        // \Debugbar::error('getCompetitionRestrictions');
+
+        if (isset($request->_token)) {
+            $comp_id = $request->id;
+
+            $content = [];
+            $com = Competition::where('id', '=', $comp_id)->first();
+            $categories = json_decode($com->categories);
+            foreach ($categories as $index => $category) {
+                if ($category != 0) {
+                    $cat = Category::with('children')->where('id', $category)->get()->first();
+
+                    if (empty($cat->parent_id))
+                        $content['cats'][$cat->id]['parent'] = $cat->title;
+                    else {
+                        if (in_array($cat->parent_id, $categories))
+                            $content['cats'][$cat->parent_id]['sub'] = $cat->title;
+                    }
+                }
+            }
+
+            // $content['bc'] = BudgetCategory::where('competition_id', '=', $comp_id)->get()->toArray();
+            // $content['st'] = ScoreType::where('competition_id', '=', $comp_id)->get()->toArray();
+            $content['recommendation'] = $com->recommendations;
+            $content['allowforeign'] = $com->allow_foreign;
+            $content['min_level_deg_id'] = $com->min_level_deg_id != 1 ? Degree::find($com->min_level_deg_id)->text : "";
+            $content['max_level_deg_id'] = $com->max_level_deg_id != 1 ? Degree::find($com->max_level_deg_id)->text : "";
+            $content['min_age'] = $com->min_age;
+            $content['max_age'] = $com->max_age;
+            $content['min_budget'] = $com->min_budget;
+            $content['max_budget'] = $com->max_budget;
+            // $content['additional'] = json_decode($com->additional);
+
+            echo json_encode($content);
+            exit;
+        }
     }
 }

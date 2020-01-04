@@ -125,7 +125,7 @@
             $('#category0').find('option').remove();
             $('#category1').find('option').remove();
             $.ajax({
-                url: '/gccbi',
+                url: '/applicant/selectedcompetition',
                 type: 'POST',
                 context: { element: $('#comp_prop') },
                 data: { _token: CSRF_TOKEN, id: $comp_prop },

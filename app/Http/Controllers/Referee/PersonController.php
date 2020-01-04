@@ -17,7 +17,9 @@ class PersonController extends Controller
     {
         try {
             $user_id = getUserID();
-            $persons = Person::where('user_id', $user_id)->get()->toArray();
+            $persons = Person::where('user_id', $user_id)
+                                // ->where('type','=','referee')
+                                ->get()->toArray();
             if (empty($persons)) {
                 return view('referee.dashboard');
             } else {
@@ -37,7 +39,9 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
         try {
-            $person = Person::where('id', '=', $id)->first();
+            $person = Person::where('user_id', '=', $user_id)
+                            ->where('type','=','referee')
+                            ->first();
             $address = Address::firstOrCreate([
                 'addressable_id' => $person->id,
                 'addressable_type' => 'App\Models\Person',

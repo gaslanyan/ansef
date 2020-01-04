@@ -242,6 +242,8 @@ Route::group(['middleware' => ['check-role:applicant|admin|superadmin']], functi
 
     Route::get('/support/{prop_id}/{person_id}', 'Applicant\SupportController@index');
     Route::post('/support/save/{person_id}', 'Applicant\SupportController@save');
+
+    Route::post('/applicant/selectedcompetition', 'Applicant\ProposalController@getCompetitionRestrictions');
 });
 
 // ---------------------------------- Referee routes ----------------------------------
@@ -290,4 +292,3 @@ Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downlo
 //base ajax
 
 Route::post('/gclfs', 'Base\AjaxController@getCompetitionsListForStatistics');
-Route::post('/gccbi', 'Base\AjaxController@getCompetitionContentByID');
