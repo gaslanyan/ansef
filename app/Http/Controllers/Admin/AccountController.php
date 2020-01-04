@@ -306,8 +306,6 @@ class AccountController extends Controller
         $person = [];
         $isSaved = false;
         $isState = false;
-        //        dd(Session::token());
-        //        if ($request->_token === Session::token()) {
         $items = json_decode($request->form);
         DB::beginTransaction();
         try {

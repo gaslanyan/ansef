@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
 class PersonController extends Controller
 {
@@ -158,7 +159,7 @@ class PersonController extends Controller
     public function updatePerson(Request $request)
     {
         $user = [];
-        $person = [];
+        $sendemail = false;
         $items = json_decode($request->form);
 
         foreach ($items as $key => $value) {
@@ -169,8 +170,12 @@ class PersonController extends Controller
 
             if ($key === 'email')
                 $user->email = $value;
-            if ($key === 'state')
+            if ($key === 'state') {
+                if($value != $user->state && $value == 'active') {
+                    $sendemail = true;
+                }
                 $user->state = $value;
+            }
             if ($key === 'status')
                 $user->role_id = $value;
         }
@@ -178,6 +183,26 @@ class PersonController extends Controller
             $response = [
                 'success' => true
             ];
+            if($sendemail) {
+                $email = $user->email;
+                $name = $user->email;
+                $data = [
+                            'email' => $email,
+                            'name' => $name,
+                            'content' => 'The ANSEF portal administrator actived your account. You can now proceed to login at schrodingersdog.net using the password you chose.'
+                        ];
+                $to = $user->email;
+
+                Mail::send(
+                        ['text' => 'admin.email.accounttemplate'],
+                        $data,
+                        function ($message) use ($email, $name, $to) {
+                            $message->to($to)
+                                    ->subject('ANSEF account activation');
+                            $message->from(config('emails.webmaster'), config('emails.webmaster'));
+                        }
+                );
+            }
         else
             $response = [
                 'success' => false,
