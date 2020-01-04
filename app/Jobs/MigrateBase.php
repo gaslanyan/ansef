@@ -21,24 +21,14 @@ class MigrateBase implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         //
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
-        // ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '512M');
         // BudgetItem::chunk(100, function ($budget_items) {
         //     foreach ($budget_items as $budget_item) {
         //         $cid = Proposal::find($budget_item->proposal_id)->competition_id;
@@ -50,51 +40,51 @@ class MigrateBase implements ShouldQueue
         //     }
         // });
 
-        // // Migrate categories
-        // $categories = DB::connection('mysqlold')->table('categories')
-        //     ->get()->keyBy('id');
-        // $subcategories = DB::connection('mysqlold')->table('subcategories')
-        //     ->get()->keyBy('id');
+        // Migrate categories
+        $categories = DB::connection('mysqlold')->table('categories')
+            ->get()->keyBy('id');
+        $subcategories = DB::connection('mysqlold')->table('subcategories')
+            ->get()->keyBy('id');
 
-        // foreach ($categories as $category) {
-        //     Category::updateOrCreate([ 'abbreviation' => $category->label ],
-        //     [
-        //         'title' => $category->description,
-        //     ]);
-        // }
+        foreach ($categories as $category) {
+            Category::updateOrCreate([ 'abbreviation' => $category->label ],
+            [
+                'title' => $category->description,
+            ]);
+        }
 
-        // foreach ($subcategories as $subcategory) {
-        //     $parentcategory = $categories[$subcategory->category_id];
-        //     $pc = Category::where('abbreviation', '=', $parentcategory->label)->first();
-        //     Category::updateOrCreate([ 'abbreviation' => $subcategory->label ],
-        //     [
-        //         'title' => $subcategory->description,
-        //         'parent_id' => $pc->id
-        //     ]);
-        // }
-        // \Debugbar::error('Migrated categories.');
+        foreach ($subcategories as $subcategory) {
+            $parentcategory = $categories[$subcategory->category_id];
+            $pc = Category::where('abbreviation', '=', $parentcategory->label)->first();
+            Category::updateOrCreate([ 'abbreviation' => $subcategory->label ],
+            [
+                'title' => $subcategory->description,
+                'parent_id' => $pc->id
+            ]);
+        }
+        \Debugbar::error('Migrated categories.');
 
-        // // Migrate Institutions
-        // $affiliations = DB::connection('mysqlold')->table('affiliations')
-        //     ->get()->keyBy('id');
-        // foreach ($affiliations as $affiliation) {
-        //     if(Institution::where('content','=',$affiliation->institution)->count() == 0) {
-        //         $address = Address::create([
-        //             'country_id' => 8,
-        //             'province' => '',
-        //             'street' => '',
-        //             'addressable_type' => 'App\Models\Institution',
-        //             'city' => '',
-        //             'user_id' => 1
-        //         ]);
-        //         $i = Institution::create([
-        //             'content' => $affiliation->institution,
-        //             'address_id' => $address->id
-        //         ]);
-        //         $address->addressable_id = $i->id;
-        //         $address->save();
-        //     }
-        // }
-        // \Debugbar::error('Migrated institutions.');
+        // Migrate Institutions
+        $affiliations = DB::connection('mysqlold')->table('affiliations')
+            ->get()->keyBy('id');
+        foreach ($affiliations as $affiliation) {
+            if(Institution::where('content','=',$affiliation->institution)->count() == 0) {
+                $address = Address::create([
+                    'country_id' => 8,
+                    'province' => '',
+                    'street' => '',
+                    'addressable_type' => 'App\Models\Institution',
+                    'city' => '',
+                    'user_id' => 1
+                ]);
+                $i = Institution::create([
+                    'content' => $affiliation->institution,
+                    'address_id' => $address->id
+                ]);
+                $address->addressable_id = $i->id;
+                $address->save();
+            }
+        }
+        \Debugbar::error('Migrated institutions.');
     }
 }

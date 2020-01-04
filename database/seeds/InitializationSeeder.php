@@ -40,7 +40,7 @@ class InitializationSeeder extends Seeder
                 'id' => 1,
                 'email' => 'sahakian@g.hmc.edu',
                 'password_salt' => 10,
-                'password' => bcrypt('22222222'),
+                'password' => bcrypt('D81802071970d!'),
                 'state' => 'active',
                 'requested_role_id' => 0,
                 'role_id' => 6,
