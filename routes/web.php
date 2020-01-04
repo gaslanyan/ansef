@@ -87,11 +87,11 @@ Route::group(['middleware' => ['check-role:admin|superadmin']], function () {
     Route::post('/admin/updatePerson', 'Admin\PersonController@updatePerson');
 
     Route::delete('/admin/account/delete/{id}', 'Admin\AccountController@destroy');
-    Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
-    Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
+    // Route::get('/admin/account/mailreferee/{id}', 'Admin\AccountController@mailreferee');
+    // Route::get('/admin/account/mailviewer/{id}', 'Admin\AccountController@mailviewer');
     Route::resource('/admin/account', 'Admin\AccountController');
     Route::get('/admin/show/{type}/subtype/{subtype}', 'Admin\AccountController@account');
-    Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
+    // Route::post('/admin/updateAcc', 'Admin\AccountController@updateAcc');
     Route::post('/admin/generatepassword/{id}', 'Admin\AccountController@generatePassword');
     Route::get('/admin/listpersons/{cid}/subtype/{subtype}/type/{type}', 'Admin\AccountController@listpersons');
 

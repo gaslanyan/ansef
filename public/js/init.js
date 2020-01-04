@@ -263,142 +263,137 @@ $(document).ready(function() {
     });
 
     $(document).on("click", ".delete", function() {
-        $conf = confirm("Are you sure?");
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        if ($conf) {
-            $title = $(this).attr('data-title');
-            $_id = $(this).prev('[name=_id]').val();
-            switch ($title) {
-                case 'competition':
-                    $.ajax({
-                        url: '/admin/getProposal',
-                        type: 'POST',
-                        context: { element: $(this) },
-                        data: { _token: CSRF_TOKEN, id: $_id },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            if (data.success) {
-                                $conf2 = alert("Competition has proposals. Deletion is not possible.");
-                            } else {
-                                this.element.parent().submit();
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
+        $title = $(this).attr('data-title');
+        $_id = $(this).prev('[name=_id]').val();
+        switch ($title) {
+            case 'competition':
+                $.ajax({
+                    url: '/admin/getProposal',
+                    type: 'POST',
+                    context: { element: $(this) },
+                    data: { _token: CSRF_TOKEN, id: $_id },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success) {
+                            $conf2 = alert("Competition has proposals. Deletion is not possible.");
+                        } else {
+                            $conf = confirm("Are you sure?");
+                            if ($conf) this.element.parent().submit();
                         }
-                    });
-                    break;
-                case 'applicant':
-                    $.ajax({
-                        url: '/admin/getProposalByApplicant',
-                        type: 'POST',
-                        context: { element: $(this) },
-                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            if (data.success) {
-                                $conf2 = confirm("Account has associated proposals. Are you sure?");
-                                if ($conf)
-                                    this.element.parent().submit();
-                            } else {
-                                this.element.parent().submit();
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+                break;
+            case 'applicant':
+                $.ajax({
+                    url: '/admin/getProposalByApplicant',
+                    type: 'POST',
+                    context: { element: $(this) },
+                    data: { _token: CSRF_TOKEN, id: $_id, type: $title },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success) {
+                            $conf = confirm("Account has associated proposals. Are you sure?");
+                            if ($conf) this.element.parent().submit();
+                        } else {
+                            $conf = confirm("Are you sure?");
+                            if ($conf) this.element.parent().submit();
                         }
-                    });
-                    break;
-                case "referee":
-                    $.ajax({
-                        url: '/admin/getProposalByReferee',
-                        type: 'POST',
-                        context: { element: $(this) },
-                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            if (data.success) {
-                                $conf2 = confirm("Referee has associated reports. Are you sure?");
-                                if ($conf2)
-                                    this.element.parent().submit();
-                            } else {
-                                this.element.parent().submit();
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+                break;
+            case "referee":
+                $.ajax({
+                    url: '/admin/getProposalByReferee',
+                    type: 'POST',
+                    context: { element: $(this) },
+                    data: { _token: CSRF_TOKEN, id: $_id, type: $title },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success) {
+                            $conf = confirm("Referee has associated reports. Are you sure?");
+                            if ($conf) this.element.parent().submit();
+                        } else {
+                            $conf = confirm("Are you sure?");
+                            if ($conf) this.element.parent().submit();
                         }
-                    });
-                    break;
-                case "budget":
-                    $.ajax({
-                        url: '/admin/getBudgetByCategory',
-                        type: 'POST',
-                        context: { element: $(this) },
-                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            if (data.success) {
-                                $conf2 = confirm("Budget category has associated items. Are you sure?");
-                                if ($conf2)
-                                    this.element.parent().submit();
-                            } else {
-                                this.element.parent().submit();
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+                break;
+            case "budget":
+                $.ajax({
+                    url: '/admin/getBudgetByCategory',
+                    type: 'POST',
+                    context: { element: $(this) },
+                    data: { _token: CSRF_TOKEN, id: $_id, type: $title },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        if (data.success) {
+                            $conf = confirm("Budget category has associated items. Are you sure?");
+                            if ($conf) this.element.parent().submit();
+                        } else {
+                            $conf = confirm("Are you sure?");
+                            if ($conf) this.element.parent().submit();
                         }
-                    });
-                    break;
-                case "score":
-                case "rule":
-                case "institution":
-                    $title = $title.charAt(0).toUpperCase() + $title.slice(1);
-                    $conf2 = confirm($title + " type has competition. Are you sure?");
-                    if ($conf2)
-                        $(this).parent().submit();
-                    break;
-                case "category":
-                    $.ajax({
-                        url: '/admin/getProposalByCategory',
-                        type: 'POST',
-                        context: { element: $(this) },
-                        data: { _token: CSRF_TOKEN, id: $_id, type: $title },
-                        dataType: 'JSON',
-                        success: function(data) {
-                            console.log(data.success);
-                            if (data.success) {
-                                alert("You cannot remove the category because it is used in a competition.");
-                            } else {
-                                this.element.parent().submit();
-                            }
-                        },
-                        error: function(data) {
-                            console.log(data);
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+                break;
+            case "score":
+            case "rule":
+            case "institution":
+                $title = $title.charAt(0).toUpperCase() + $title.slice(1);
+                $conf = confirm("Are you sure?");
+                if ($conf) $(this).parent().submit();
+                break;
+            case "category":
+                $.ajax({
+                    url: '/admin/getProposalByCategory',
+                    type: 'POST',
+                    context: { element: $(this) },
+                    data: { _token: CSRF_TOKEN, id: $_id, type: $title },
+                    dataType: 'JSON',
+                    success: function(data) {
+                        console.log(data.success);
+                        if (data.success) {
+                            alert("You cannot remove the category because it is used in a competition.");
+                        } else {
+                            $conf = confirm("Are you sure?");
+                            if ($conf) this.element.parent().submit();
                         }
-                    });
-                    break;
-                case "report":
-                    $action = $(this).parent().attr('action');
-                    $url = "/admin" + $action + "/" + $(this).prev().val();
-                    $(this).parent().attr('action', $url);
-                    $title = $title.charAt(0).toUpperCase() + $title.slice(1);
-                    $conf2 = confirm($title + " type has competition. Are you sure?");
-                    if ($conf2)
-                        $(this).parent().submit();
-
-                    break;
-                default:
-                    $(this).parent().submit();
-            }
-
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+                break;
+            case "report":
+                $action = $(this).parent().attr('action');
+                $url = "/admin" + $action + "/" + $(this).prev().val();
+                $(this).parent().attr('action', $url);
+                $title = $title.charAt(0).toUpperCase() + $title.slice(1);
+                $conf = confirm("Are you sure?");
+                if ($conf) $(this).parent().submit();
+                break;
+            default:
+                $conf = confirm("Are you sure?");
+                if ($conf) $(this).parent().submit();
         }
-
     });
 
     $(document).on("change", '#create_budget_categories', function() {

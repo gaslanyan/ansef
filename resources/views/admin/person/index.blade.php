@@ -91,8 +91,7 @@
                                                 </a>
                                             @endif
                                             @if(get_role_cookie() == 'superadmin')
-                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$user->id, 'type'=>$user->role->name])}}"
-                                                        method="post">
+                                                <form action="{{action('Admin\AccountController@destroy', ['id'=>$user->id, 'type'=>$user->role->name])}}" method="post">
                                                     @csrf
                                                     <input name="_method" type="hidden" value="DELETE">
                                                     <input name="_id" type="hidden" value="{{$user->id}}">

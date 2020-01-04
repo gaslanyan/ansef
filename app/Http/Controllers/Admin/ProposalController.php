@@ -527,12 +527,15 @@ class ProposalController extends Controller
 
     public function getProposalByApplicant(Request $request)
     {
-        $_id = $request->id;
+        $id = $request->id;
 
-        $p = Person::select('id')->where('user_id', $_id)->first();
-        if (!empty($p)) {
-            $arr = [];
-        } else {
+        $propcount = Proposal::where('user_id','=', $id)->count();
+        if ($propcount > 0) {
+            $response = [
+                'success' => true
+            ];
+        }
+        else {
             $response = [
                 'success' => false
             ];
