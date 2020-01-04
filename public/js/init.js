@@ -1,7 +1,12 @@
 var CSRF_TOKEN = $('input[name="_token"]').val();
 $(document).ready(function() {
     $('.card-body:not(.ajaxdiv)').slimScroll({
-        height: '75vh'
+        height: '75vh',
+        alwaysVisible: 1,
+        disableFadeOut: 1,
+        railVisible: 1,
+        allowPageScroll: 1,
+        size: "12px"
     });
     // for sidebar menu entirely but not cover treeview
     $('ul.sidebar-menu a').filter(function() {

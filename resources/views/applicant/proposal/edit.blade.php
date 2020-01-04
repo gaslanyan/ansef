@@ -7,11 +7,6 @@
             <div class="col-md-12">
                  <div class="card" >
                     <div class="card-header">Edit Proposal
-                        {{-- <a href="{{action('Applicant\ProposalController@generatePDF',$proposal->id)}}"
-                           title="Download"
-                           class="add_honors"><i class="fa fa-download"></i>
-                        </a> --}}
-
                     </div>
 
                     <div class="card-body" style="overflow:auto;">
