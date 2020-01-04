@@ -35,7 +35,9 @@ class PersonController extends Controller
     {
         $user_id = getUserID();
         try {
-            $person = Person::where('id', '=', $id)->first();
+            $person = Person::where('user_id', '=', $user_id)
+                            ->where('type','=','viewer')
+                            ->first();
             $address = Address::updateOrCreate([
                 'addressable_id' => $person->id,
                 'addressable_type' => 'App\Models\Person',
@@ -65,7 +67,9 @@ class PersonController extends Controller
                 'country_id' => 'required|max:255',
             ]);
             if (!$v->fails()) {
-                $person = Person::find($id);
+                $person = Person::where('user_id', '=', $user_id)
+                                ->where('type', '=', 'viewer')
+                                ->first();
                 $person->first_name = $request->first_name;
                 $person->last_name = $request->last_name;
                 $person->birthdate = $request->birthdate;
