@@ -103,7 +103,7 @@ class RegisterController extends Controller
             }
             if($user->state === "waiting") {
                 $role = Role::where('id', '=', $user->role_id)->first();
-                return redirect()->route('login.' . $role->name)->with('status',"Your account is awaiting activation by the portal administrator. Try again later, or contact admin@ansef.org.");
+                return redirect()->route('login.' . $role->name)->with('status',"Your account is awaiting activation by the portal administrator. Try again later, or contact help@ansef.org.");
             }
 
             if ($user->confirmation != $activationCode) {
@@ -168,7 +168,7 @@ class RegisterController extends Controller
             }
             if($user->state === "waiting") {
                 $role = Role::where('id', '=', $user->role_id)->first();
-                return redirect()->route('login.' . $role->name)->with('status',"Your account is awaiting activation by the portal administrator. Try again later, or contact admin@ansef.org.");
+                return redirect()->route('login.' . $role->name)->with('status', "Your account is awaiting activation by the portal administrator. Try again later, or contact help@ansef.org.");
             }
 
             if ($user->confirmation != $activationCode) {

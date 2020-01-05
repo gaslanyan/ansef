@@ -270,7 +270,7 @@ class AccountController extends Controller
     // {
     //     $user = User::where('id', '=', $id)->first();
     //     $objSend = new \stdClass();
-    //     $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
+    //     $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at help@ansef.org.";
     //     $objSend->sender = config('emails.webmaster');
     //     $objSend->receiver = config('emails.webmaster');
 
@@ -283,7 +283,7 @@ class AccountController extends Controller
     // {
     //     $user = User::where('id', '=', $id)->first();
     //     $objSend = new \stdClass();
-    //     $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at ansef.dopplerthepom.com.";
+    //     $objSend->message = "Your ANSEF portal account with email " . $user->email . " has been approved by the portal administrator. You may now log into the ANSEF portal at help@ansef.org.";
     //     $objSend->sender = config('emails.webmaster');
     //     $objSend->receiver = config('emails.webmaster');
 

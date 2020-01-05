@@ -102,7 +102,7 @@ class InitializationSeeder extends Seeder
 
         // App\Models\User::create([
         //     'id' => 4,
-        //     'email' => 'dopplerthepom@gmail.com',
+        //     'email' => 'help@ansef.org',
         //     'password_salt' => 10,
         //     'password' => bcrypt('22222222'),
         //     'state' => 'active',

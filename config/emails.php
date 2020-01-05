@@ -2,7 +2,7 @@
 
 return [
 
-    'webmaster' => 'webmaster@ansef.org',
+    'webmaster' => 'help@ansef.org',
     'RB' => 'researchboard@ansef.org'
 
 ];

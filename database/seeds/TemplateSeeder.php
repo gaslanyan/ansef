@@ -34,7 +34,7 @@ class TemplateSeeder extends Seeder
         App\Models\Template::create([
             'id' => 3,
             'name' => 'wrong',
-            'text' => 'Whoops! something went wrong. Please contact webmaster@ansef.org or try again.',
+            'text' => 'Whoops! something went wrong. Please contact help@ansef.org or try again.',
             'created_at' => '2019-02-21 19:32:57',
             'updated_at' => '2019-02-21 19:32:57'
         ]);
@@ -124,7 +124,7 @@ class TemplateSeeder extends Seeder
         App\Models\Template::create([
             'id' => 13,
             'name' => 'thank',
-            'text' => 'If you have trouble with the portal, please contact admin@ansef.org.',
+            'text' => 'If you have trouble with the portal, please contact help@ansef.org.',
             'created_at' => '2019-04-08 20:58:32',
             'updated_at' => '2019-04-08 20:58:32'
         ]);
@@ -144,7 +144,7 @@ class TemplateSeeder extends Seeder
         App\Models\Template::create([
             'id' => 16,
             'name' => 'waiting',
-            'text' => 'Portal administrator has not yet approved your account. Please contact webmaster@ansef.org or try again later.',
+            'text' => 'Portal administrator has not yet approved your account. Please contact help@ansef.org or try again later.',
             'created_at' => '2019-06-10 23:01:29',
             'updated_at' => '2019-10-11 23:04:56'
         ]);
@@ -154,7 +154,7 @@ class TemplateSeeder extends Seeder
         App\Models\Template::create([
             'id' => 17,
             'name' => 'successfully_activated',
-            'text' => 'The ANSEF administrator activated your account. You may now log in at <a href="http://ansefportal.dopplerthepom.com">ansefportal.dopplerthepom.com</a>.',
+            'text' => 'The ANSEF administrator activated your account. You may now log in at <a href="https://schrodingersdog.com">schrodingersdog.com</a>.',
             'created_at' => '2019-07-05 06:44:51',
             'updated_at' => '2019-07-05 06:44:51'
         ]);
