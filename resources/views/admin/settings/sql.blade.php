@@ -1,33 +1,35 @@
 @extends('layouts.master')
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                 <div class="card" >
-                    <div class="card-header">SQL query for backup
-                    </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">SQL query for backup
+                </div>
 
-                    <div class="card-body" style="overflow:auto;">
-                        <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i class="text-blue">{{Lang::get('messages.required_all')}}</i>
-                        @include('partials.status_bar')
+                <div class="card-body" style="overflow:auto;">
+                    <i class="fas fa-question-circle text-blue all"> </i>&nbsp;<i
+                        class="text-blue">{{Lang::get('messages.required_all')}}</i>
+                    @include('partials.status_bar')
 
-                        <form method="post" action="{{ action('Admin\SettingsController@backup') }}">
-                            <div class="form-group">
-                                @csrf
-                                {{--<input name="_method" type="hidden" value="PATCH">--}}
-                                @php
-                                $old = old('sql');
-                                        @endphp
-                                <label for="sql" class="form-group col-lg-12">Create SQL query *:</label>
-                                <textarea id="sql" name="sql" class="form-group col-lg-12" rows="6">@if(isset($old)){{$old}}@endif</textarea>
+                    <form method="post" action="{{ action('Admin\SettingsController@backup') }}">
+                        <div class="form-group">
+                            @csrf
+                            {{--<input name="_method" type="hidden" value="PATCH">--}}
+                            @php
+                            $old = old('sql');
+                            @endphp
+                            <label for="sql" class="form-group col-lg-12">Create SQL query *:</label>
+                            <textarea id="sql" name="sql" class="form-group col-lg-12"
+                                rows="6">@if(isset($old)){{$old}}@endif</textarea>
 
-                            </div>
-                            <button type="submit" class="btn btn-primary">Export</button>
-                        </form>
-                    </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Export</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 @endsection
