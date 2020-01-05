@@ -114,12 +114,14 @@
                         }
                     ],
                     "columnDefs": [
-                        {
-                            "targets": [0],
-                            "searchable": false,
-                            "orderable": false,
-                            "visible": true
-                        }
+                        { "width": "120px", "targets": 0, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "175px", "targets": 1, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 2, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 3, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "120px", "targets": 4, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "100px", "targets": 5, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "40px", "targets": 6, "searchable": true, "orderable": true, "visible": true },
+                        { "width": "40px", "targets": 7, "searchable": false, "orderable": true, "visible": true }
                     ],
                     "select": true,
                     "scrollX": true,

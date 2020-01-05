@@ -54,8 +54,7 @@
                                     </td>
                                     <td data-order="{{$scoreType->name}}" data-search="{{$scoreType->name}}"
                                         class="name_field">
-                                        <input type="text" class="form-control" name="name"
-                                               value="{{$scoreType->name}}" disabled>
+                                        {{$scoreType->name}}
                                     </td>
                                     <td data-order="{{$scoreType->description}}"
                                         data-search="{{$scoreType->description}}"
@@ -64,18 +63,15 @@
                                     </td>
                                     <td data-order="{{$scoreType->min}}" data-search="{{$scoreType->min}}"
                                         class="min_field">
-                                        <input type="number" class="form-control" name="min"
-                                               value="{{$scoreType->min}}" disabled>
+                                        {{$scoreType->min}}
                                     </td>
                                     <td data-order="{{$scoreType->max}}" data-search="{{$scoreType->max}}"
                                         class="max_field">
-                                        <input type="number" class="form-control" name="max"
-                                               value="{{$scoreType->max}}" disabled>
+                                        {{$scoreType->max}}
                                     </td>
                                     <td data-order="{{$scoreType->weight}}" data-search="{{$scoreType->weight}}"
                                         class="weight_field">
-                                        <input type="text" class="form-control" name="weight"
-                                               value="{{$scoreType->weight}}" disabled>
+                                        {{$scoreType->weight}}
                                     </td>
                                     @php //@TODO write the function which get selected enum name for ordering & searching
                $gsv = getSelectedValueByKey($competition,$scoreType->competition_id);

@@ -53,43 +53,32 @@
                                             </label></td>
                                         <td data-order="{{$budget->name}}" data-search="{{$budget->name}}"
                                             class="name_field">
-                                            <input type="text" class="form-control" name="name"
-                                                   value="{{$budget->name}}" disabled>
+                                            {{$budget->name}}>
                                         </td>
                                         <td data-order="{{$budget->min}}" data-search="{{$budget->min}}"
                                             class="min_field">
-                                            <input type="number" class="form-control" name="min"
-                                                   value="{{$budget->min}}" disabled>
+                                            ${{$budget->min}}
                                         </td>
                                         <td data-order="{{$budget->max}}" data-search="{{$budget->max}}"
                                             class="max_field">
-                                            <input type="number" class="form-control" name="max"
-                                                   value="{{$budget->max}}" disabled>
+                                            ${{$budget->max}}
                                         </td>
                                         <td data-order="{{$budget->weight}}" data-search="{{$budget->weight}}"
                                             class="weight_field">
-                                            <input type="text" class="form-control" name="weight"
-                                                   value="{{$budget->weight}}" disabled>
+                                            {{$budget->weight}}
                                         </td>
-                                        @php //@TODO write the function which get selected enum name for ordering & searching
-                                    $gsv = getSelectedValueByKey($competition,$budget->competition_id);
+                                        @php
+                                            $gsv = getSelectedValueByKey($competition,$budget->competition_id);
                                         @endphp
                                         <td data-order="{{$gsv}}" data-search="{{$gsv}}"
                                             class="category_field">
-                                            <select class="form-control cat" name="competition"
-                                                    id="competition" disabled>
-                                                <option value="0">Select Competition</option>
-                                                <?php if(!empty($competition)):?>
-                                                <?php foreach($competition as $key=>$item):?>
-
-                                                <option class="text-capitalize"
-                                                        @php if ($key == $budget->competition_id)
-                                                        echo "selected";
-                                                        @endphp
-                                                        value="{{$key}}">{{$item}}</option>
-                                                <?php endforeach;?>
-                                                <?php endif;?>
-                                            </select>
+                                        <?php if(!empty($competition)):?>
+                                        <?php foreach($competition as $key=>$item):?>
+                                                @php if ($key == $budget->competition_id)
+                                                echo $item;
+                                                @endphp
+                                        <?php endforeach;?>
+                                        <?php endif;?>
                                         </td>
                                         <td><a href="{{action('Admin\BudgetCategoryController@edit', $budget['id'])}}"
                                                class=""><i class="fa fa-pencil-alt"></i></a>

@@ -175,6 +175,7 @@
                 for(var i=0; i<data.length; i++) {
                     checkedIDss.push(data[i]["id"]);
                 }
+                $('#stats').html("<br/><h4>Computing...</h4>");
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
