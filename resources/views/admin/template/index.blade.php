@@ -20,7 +20,7 @@
                             <tr>
                                 <th></th>
                                 <th>Name</th>
-                                <th>Text</th>
+                                <th width="200">Text</th>
                                 <th >Action</th>
                             </tr>
                             </thead>
@@ -30,7 +30,7 @@
                                     <td></td>
 
                                     <td>{{$template['name']}}</td>
-                                    <td>{{$template['text']}}</td>
+                                    <td width="200">{{$template['text']}}</td>
                                     <td><a href="{{action('Admin\TemplateController@edit', $template['id'])}}"
                                            class=""><i class="fa fa-pencil-alt"></i></a>
                                         <form action="{{action('Admin\TemplateController@destroy', $template['id'])}}"
@@ -54,6 +54,7 @@
             var t = $('#example').DataTable({
                 "dom": '<"top"flp>rt<"bottom"i><"clear">',
                 "pagingType": "full_numbers",
+                "scrollX": true,
                 "columnDefs": [{
                     targets: [0],
                     orderData: [0, 1]
