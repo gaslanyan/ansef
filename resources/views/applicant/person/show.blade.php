@@ -10,24 +10,25 @@
                 </div>
 
                 <div class=card-body>
-                @include('partials.person',
-                [
-                'person' => $person,
-                'phones' => $phonenums,
-                'emails' => $emails,
-                'addresses' => $addresses,
-                'institutions' => $institutions,
-                'degrees' => $degrees,
-                'honors' => $honors,
-                'books' => $books,
-                'meetings' => $meetings,
-                'publications' => $publications,
-                'showdownloads' => true
-                ])
+                    @include('partials.person',
+                    [
+                    'person' => $person,
+                    'phones' => $phonenums,
+                    'emails' => $emails,
+                    'addresses' => $addresses,
+                    'institutions' => $institutions,
+                    'degrees' => $degrees,
+                    'honors' => $honors,
+                    'books' => $books,
+                    'meetings' => $meetings,
+                    'publications' => $publications,
+                    'showdownloads' => true
+                    ])
 
-                <div class="col-lg-12" style="margin-top:30px;">
-                    <a href="{{action('Applicant\PersonController@download', $person->id)}}" class="btn btn-primary">Download</a>
-                </div>
+                    <div class="col-lg-12" style="margin-top:30px;">
+                        <a href="{{action('Applicant\PersonController@download', $person->id)}}"
+                            class="btn btn-primary">Download</a>
+                    </div>
 
                 </div>
             </div>
@@ -35,6 +36,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function() {});
+    $(document).ready(function () {});
+
 </script>
 @endsection

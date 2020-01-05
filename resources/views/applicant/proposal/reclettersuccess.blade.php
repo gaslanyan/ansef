@@ -9,9 +9,8 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{asset('css/app.css')}}" />
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}" />
-    {{-- <link rel="stylesheet" href="{{asset('css/skins/_all-skins.min.css')}}"/> --}}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/solid.min.css') }}" />
+    <link rel="stylesheet" href="{{asset('css/fontawesome.min.css') }}" />
     <link rel="stylesheet" href="{{asset('bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('DataTables/datatables.min.css')}}" />
     <style>
@@ -19,6 +18,7 @@
         td {
             white-space: nowrap;
         }
+
     </style>
 
     @yield('stylesheets')
@@ -37,8 +37,10 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-body" style="overflow:auto;">
-                            <p>Your letter was uploaded successfully. Thank you on behalf of ANSEF and the Principal Investigator.</p>
-                            <p>If you would like to replace your letter or review it, you can click again on the link that was sent to you via email.</p>
+                            <p>Your letter was uploaded successfully. Thank you on behalf of ANSEF and the Principal
+                                Investigator.</p>
+                            <p>If you would like to replace your letter or review it, you can click again on the link
+                                that was sent to you via email.</p>
                             <p>You may now close this window.</p>
                         </div>
                     </div>
@@ -61,6 +63,7 @@
             uiLibrary: 'bootstrap4',
             format: 'yyyy-mm-dd'
         });
+
     </script>
 
     @yield('scripts')
