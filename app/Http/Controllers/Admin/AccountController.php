@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\BudgetItem;
+use App\Models\Category;
 use App\Models\Competition;
 use App\Models\DegreePerson;
 use App\Models\Email;
@@ -60,10 +61,25 @@ class AccountController extends Controller
             $persons = Person::where('type', '=', $type)->get();
             foreach ($persons as $index => $p) {
                 $propcount = RefereeReport::where('referee_id', '=', $p->id)->count();
+                $cats = RefereeReport::select('categories')
+                            ->join('proposals', 'proposals.id','proposal_id')
+                            ->where('referee_id', '=', $p->id)
+                            ->get();
+                $subcatarray = [];
+                foreach($cats as $cat) {
+                    $propcat = json_decode($cat->categories, true);
+
+                    $subcat = Category::where('id', ($propcat["sub"])[0])->first()->abbreviation ?? 'None';
+                    array_push($subcatarray, $subcat);
+                }
+                $a = array_unique($subcatarray);
+                sort($a);
+
                 $d['data'][$index]['first_name'] = $p->first_name ?? '';
                 $d['data'][$index]['last_name'] = $p->last_name ?? '';
                 $d['data'][$index]['email'] = $p->user->email;
                 $d['data'][$index]['propcount'] = $propcount;
+                $d['data'][$index]['subcats'] = truncate("<span style='font-size:9px;'>" . implode(" ", $a) . "</span>",100);
                 $d['data'][$index]['awards'] = '';
                 $d['data'][$index]['finalists'] = '';
             }
@@ -93,6 +109,7 @@ class AccountController extends Controller
                 $d['data'][$index]['last_name'] = $person->last_name ?? '';
                 $d['data'][$index]['email'] = (!empty($person->emails()->first()) ? $person->emails()->first()->email : '');
                 $d['data'][$index]['propcount'] = $propcount . "/" . count($as) . "/" . count($asf);
+                $d['data'][$index]['subcats'] = "";
                 $d['data'][$index]['awards'] = $awards;
                 $d['data'][$index]['finalists'] = $finalists;
             }

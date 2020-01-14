@@ -83,7 +83,7 @@
                 {
                     "render": function (data, type, full, meta) {
                         return '#:' + full.propcount + ' - <b>' + full.awards + '</b> ' + full
-                            .awards;
+                            .finalists + full.subcats;
                     }
                 }
             ],
