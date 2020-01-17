@@ -237,12 +237,10 @@
                 {
                     "render": function (data, type, full, meta) {
                         var ID = full.id;
-                        return '<form action= "<?= action('
-                        Admin\ ProposalController @display ', '
-                        ')?>" method="post"> ' +
-                        '<input name="_method" type="hidden" value="POST">' +
-                        '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
-                        '<input name="id" type="hidden" value="' + ID + '">' +
+                        return '<form action= "<?= action('Admin\ProposalController@display ', '')?>" method="post"> ' +
+                            '<input name="_method" type="hidden" value="POST">' +
+                            '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
+                            '<input name="id" type="hidden" value="' + ID + '">' +
                             '<button class="btn btn-link" type="submit">' +
                             '<i class="fa fa-eye"></i></button></form>';
                     }

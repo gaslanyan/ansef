@@ -159,35 +159,29 @@
                 {
                     "render": function (data, type, full, meta) {
                         var ID = full.id;
-                        var viewbutton = '<form action= "<?= action('
-                        Admin\ ProposalController @display ', '
-                        ')?>" method="post"> ' +
-                        '<input name="_method" type="hidden" value="POST">' +
-                        '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
-                        '<input name="id" type="hidden" value="' + ID + '">' +
+                        var viewbutton = '<form action= "<?= action('Admin\ProposalController@display ', '')?>" method="post"> ' +
+                            '<input name="_method" type="hidden" value="POST">' +
+                            '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
+                            '<input name="id" type="hidden" value="' + ID + '">' +
                             '<button class="btn btn-link myButton" type="submit">' +
                             '<i class="fa fa-eye"></i></button></form>';
                         var firstreportbutton = '';
                         if (full['first'])
-                            firstreportbutton = '<form action= "<?= action('
-                        Admin\ ProposalController @downloadfirstreport ', '
-                        ')?>" method="post"> ' +
-                        '<input name="_method" type="hidden" value="POST">' +
-                        '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
-                        '<input name="id" type="hidden" value="' + ID + '">' +
-                            '<button class="btn btn-link myButton" type="submit">' +
-                            '<i class="fas fa-italic "></i></button></form>';
+                            firstreportbutton = '<form action= "<?= action('Admin\ProposalController@downloadfirstreport ', '')?>" method="post"> ' +
+                                '<input name="_method" type="hidden" value="POST">' +
+                                '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
+                                '<input name="id" type="hidden" value="' + ID + '">' +
+                                '<button class="btn btn-link myButton" type="submit">' +
+                                '<i class="fas fa-italic "></i></button></form>';
 
                         var secondreportbutton = '';
                         if (full['second'])
-                            secondreportbutton = '<form action= "<?= action('
-                        Admin\ ProposalController @downloadsecondreport ', '
-                        ')?>" method="post"> ' +
-                        '<input name="_method" type="hidden" value="POST">' +
-                        '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
-                        '<input name="id" type="hidden" value="' + ID + '">' +
-                            '<button class="btn btn-link myButton" type="submit">' +
-                            '<i class="fas fa-italic"></i><i class="fas fa-italic"></i></button></form>';
+                            secondreportbutton = '<form action= "<?= action('Admin\ProposalController@downloadsecondreport ', '')?>" method="post"> ' +
+                                '<input name="_method" type="hidden" value="POST">' +
+                                '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
+                                '<input name="id" type="hidden" value="' + ID + '">' +
+                                '<button class="btn btn-link myButton" type="submit">' +
+                                '<i class="fas fa-italic"></i><i class="fas fa-italic"></i></button></form>';
 
                         return '<div style="margin:0px;padding:0px;">' + viewbutton +
                             firstreportbutton +

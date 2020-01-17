@@ -99,15 +99,13 @@
                 },
                 {
                     "render": function (data, type, full, meta) {
-                        editform = '<form action="<?= action('
-                        Admin\ RankingRuleController @edit ')?>" method="post">' +
+                        editform = '<form action="<?= action('Admin\RankingRuleController@edit')?>" method="post">' +
                             '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
                             '<input name="_method" type="hidden" value="POST">' +
                             '<input name="id" type="hidden" value="' + full.id + '">' +
                             '<button class="btn-link" type="submit">' +
                             '<i class="fa fa-pencil-alt"></i></button></form>';
-                        deleteform = '<form action="<?= action('
-                        Admin\ RankingRuleController @remove ')?>" method="post">' +
+                        deleteform = '<form action="<?= action('Admin\RankingRuleController@remove')?>" method="post">' +
                             '<input type="hidden" name="_token" value="{!! csrf_token() !!}">' +
                             '<input name="_method" type="hidden" value="POST">' +
                             '<input name="id" type="hidden" value="' + full.id + '">' +
