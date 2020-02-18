@@ -125,6 +125,9 @@
                                         <div class="panel-body">
                                             <canvas id="canvas" height="280" width="600"></canvas>
                                         </div>
+                                        <div id="datadump">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +165,7 @@
                                         if(chartObject) chartObject.destroy();
                                         return;
                                     }
-
+                                    $('#datadump').html('Computing...');
                                     $.ajax({
                                         url: '/viewer/statistics/y_result',
                                         type: 'POST',
@@ -172,6 +175,7 @@
                                         success: function (data) {
                                             proposals=Object.values(data);
 
+                                            $('#datadump').html('' + JSON.stringify(proposals));
                                             if(chartObject) chartObject.destroy();
                                             var ctx = document.getElementById("canvas").getContext('2d');
                                             chartObject = new Chart(ctx, {
@@ -223,6 +227,7 @@
                                             return;
                                         }
 
+                                        $('#datadump').html('Computing...');
                                         $.ajax({
                                             url: '/viewer/statistics/my_result',
                                             type: 'POST',
@@ -248,6 +253,7 @@
                                                 }
 
                                                 // console.log(alldata[j]);
+                                                $('#datadump').html('' + JSON.stringify(datasets));
                                                 if(chartObject) chartObject.destroy();
                                                 var ctxx = document.getElementById("canvas").getContext('2d');
                                                 chartObject = new Chart(ctxx, {
