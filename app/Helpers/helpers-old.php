@@ -333,24 +333,24 @@ function createperson($user_id, $role)
 function cleanString($text)
 {
     $utf8 = array(
-        '/[áàâãªä]/u' => 'a',
-        '/[ÁÀÂÃÄ]/u' => 'A',
-        '/[ÍÌÎÏ]/u' => 'I',
-        '/[íìîï]/u' => 'i',
-        '/[éèêë]/u' => 'e',
-        '/[ÉÈÊË]/u' => 'E',
-        '/[óòôõºö]/u' => 'o',
-        '/[ÓÒÔÕÖ]/u' => 'O',
-        '/[úùûü]/u' => 'u',
-        '/[ÚÙÛÜ]/u' => 'U',
-        '/ç/' => 'c',
-        '/Ç/' => 'C',
-        '/ñ/' => 'n',
-        '/Ñ/' => 'N',
-        '/–/' => '-', // UTF-8 hyphen to "normal" hyphen
-        '/[’‘‹›‚]/u' => ' ', // Literally a single quote
-        '/[“”«»„]/u' => ' ', // Double quote
-        '/ /' => ' ', // nonbreaking space (equiv. to 0x160)
+        '/[áàâãªä]/u'   =>   'a',
+        '/[ÁÀÂÃÄ]/u'    =>   'A',
+        '/[ÍÌÎÏ]/u'     =>   'I',
+        '/[íìîï]/u'     =>   'i',
+        '/[éèêë]/u'     =>   'e',
+        '/[ÉÈÊË]/u'     =>   'E',
+        '/[óòôõºö]/u'   =>   'o',
+        '/[ÓÒÔÕÖ]/u'    =>   'O',
+        '/[úùûü]/u'     =>   'u',
+        '/[ÚÙÛÜ]/u'     =>   'U',
+        '/ç/'           =>   'c',
+        '/Ç/'           =>   'C',
+        '/ñ/'           =>   'n',
+        '/Ñ/'           =>   'N',
+        '/–/'           =>   '-', // UTF-8 hyphen to "normal" hyphen
+        '/[’‘‹›‚]/u'    =>   ' ', // Literally a single quote
+        '/[“”«»„]/u'    =>   ' ', // Double quote
+        '/ /'           =>   ' ', // nonbreaking space (equiv. to 0x160)
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
@@ -372,7 +372,7 @@ function overallScore($rid)
         $weights = $scores->reduce(function ($carry, $item) {
             return $carry + $item->weight;
         });
-        return (int)($result / $weights);
+        return (int) ($result / $weights);
     } else return 0;
 }
 
@@ -401,17 +401,17 @@ function checkproposal($id)
         }
         $mindegreeid = $p->competition()->first()->min_level_deg_id;
         $maxdegreeid = $p->competition()->first()->max_level_deg_id;
-        $pidegrees = DegreePerson::where('person_id', '=', $pi->id)->get()->sortBy('degree_id');
-        if ($mindegreeid != 1) {
-            if (count($pidegrees) == 0)
+        $pidegrees = DegreePerson::where('person_id','=',$pi->id)->get()->sortBy('degree_id');
+        if($mindegreeid != 1) {
+            if(count($pidegrees) == 0)
                 array_push($messages, "PI does not have minimum degree requirement.");
             else {
-                if ($pidegrees[count($pidegrees) - 1]->degree_id < $mindegreeid)
+                if($pidegrees[count($pidegrees)-1]->degree_id < $mindegreeid)
                     array_push($messages, "PI does not have minimum degree requirement.");
             }
         }
         if ($maxdegreeid != 1) {
-            if (count($pidegrees) > 0) {
+            if(count($pidegrees) > 0) {
                 if ($pidegrees[0]->degree_id > $maxdegreeid)
                     array_push($messages, "PI does not have satisfy maximum degree requirement.");
             }
@@ -419,12 +419,12 @@ function checkproposal($id)
         $minage = $p->competition()->first()->min_age;
         $maxage = $p->competition()->first()->max_age;
         $from = new DateTime($pi->birthdate);
-        $to = new DateTime('today');
+        $to   = new DateTime('today');
         $age = $from->diff($to)->y;
-        if ($age < $minage) {
+        if($age < $minage) {
             array_push($messages, "PI must be at least " . $minage . " years old.");
         }
-        if ($age > $maxage) {
+        if($age > $maxage) {
             array_push($messages, "PI cannot be older than " . $maxage . " years old.");
         }
     }
@@ -552,40 +552,40 @@ function getPiData($pids)
             $publicationsansefdom[$p->id] = (0.0);
         } else {
             $from = new DateTime($pi->birthdate);
-            $to = new DateTime('today');
+            $to   = new DateTime('today');
             $age = $from->diff($to)->y;
-            $tenyearsago = (int)($to->format('Y')) - 10;
+            $tenyearsago = (int)($to->format('Y'))-10;
             $ages[$p->id] = $age;
             $sexes[$p->id] = ($pi->sex == 'female' ? 1.0 : 0.0);
-            $publications[$p->id] = Publication::where('person_id', '=', $pi->id)
-                ->where('year', '>=', $tenyearsago)
-                ->where('domestic', '=', '0')
-                ->where('ansef_supported', '=', '0')
-                ->count();
+            $publications[$p->id] = Publication::where('person_id','=',$pi->id)
+                                            ->where('year','>=', $tenyearsago)
+                                            ->where('domestic', '=', '0')
+                                            ->where('ansef_supported', '=', '0')
+                                            ->count();
             $publicationsansef[$p->id] = Publication::where('person_id', '=', $pi->id)
-                ->where('year', '>=', $tenyearsago)
-                ->where('domestic', '=', '0')
-                ->where('ansef_supported', '=', '1')
-                ->count();
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic', '=', '0')
+                                            ->where('ansef_supported','=','1')
+                                            ->count();
             $publicationsdom[$p->id] = Publication::where('person_id', '=', $pi->id)
-                ->where('year', '>=', $tenyearsago)
-                ->where('domestic', '=', '1')
-                ->where('ansef_supported', '=', '0')
-                ->count();
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic','=','1')
+                                            ->where('ansef_supported', '=', '0')
+                                            ->count();
             $publicationsansefdom[$p->id] = Publication::where('person_id', '=', $pi->id)
-                ->where('year', '>=', $tenyearsago)
-                ->where('domestic', '=', '1')
-                ->where('ansef_supported', '=', '1')
-                ->count();
-        }
+                                            ->where('year', '>=', $tenyearsago)
+                                            ->where('domestic', '=', '1')
+                                            ->where('ansef_supported', '=', '1')
+                                            ->count();
+       }
     }
     return ["ages" => $ages,
-        "sexes" => $sexes,
-        "publications" => $publications,
-        "publications_ansef" => $publicationsansef,
-        "publications_dom" => $publicationsdom,
-        "publications_ansef_dom" => $publicationsansefdom
-    ];
+            "sexes" => $sexes,
+            "publications" => $publications,
+            "publications_ansef" => $publicationsansef,
+            "publications_dom" => $publicationsdom,
+            "publications_ansef_dom" => $publicationsansefdom
+        ];
 }
 
 function getParticipantData($pids)
@@ -614,14 +614,14 @@ function getParticipantData($pids)
         foreach ($pps as $pp) {
             $person = Person::find($pp->person_id);
             $from = new DateTime($person->birthdate);
-            $to = new DateTime('today');
+            $to   = new DateTime('today');
             $age = $from->diff($to)->y;
             $ages += $age;
             $sexes += ($person->sex == 'female' ? 1.0 : 0.0);
             $count += 1;
             $maxdegree = DegreePerson::where('person_id', '=', $person->id)->max('degree_id');
             if ($maxdegree <= 3) $juniors++;
-            $tenyearsago = (int)($to->format('Y')) - 10;
+            $tenyearsago = (int) ($to->format('Y')) - 10;
             $pubs += Publication::where('person_id', '=', $pp->person_id)
                 ->where('year', '>=', $tenyearsago)
                 ->where('ansef_supported', '=', '0')
@@ -662,14 +662,14 @@ function getParticipantData($pids)
         $juniorcounts[$p->id] = $juniors;
     }
     return ["avgages" => $avgages,
-        "avgsexes" => $avgsexes,
-        "counts" => $counts,
-        "juniorcounts" => $juniorcounts,
-        "part_publications" => $publications,
-        "part_publications_ansef" => $publicationsansef,
-        "part_publications_dom" => $publicationsdom,
-        "part_publications_ansef_dom" => $publicationsansefdom
-    ];
+            "avgsexes" => $avgsexes,
+            "counts" => $counts,
+            "juniorcounts" => $juniorcounts,
+            "part_publications" => $publications,
+            "part_publications_ansef" => $publicationsansef,
+            "part_publications_dom" => $publicationsdom,
+            "part_publications_ansef_dom" => $publicationsansefdom
+            ];
 }
 
 function getCategoryData($pids)
@@ -803,306 +803,5 @@ function inbetween($val, $range)
 
 function statline($label, $data, $data2, $key)
 {
-    return '<b>' . $label . ':</b> max ' . round($data[$key]->max() * 10.0) / 10.0 . "/" . round($data2[$key]->max() * 10.0) / 10.0 . ', min ' . round($data[$key]->min() * 10.0) / 10.0 . "/" . round($data2[$key]->min() * 10.0) / 10.0 . ", avg " . round($data[$key]->avg() * 10.0) / 10.0 . "/" . round($data2[$key]->avg() * 10.0) / 10.0 . "<br>";
-}
-
-/*Statistics helper functions*/
-
-function getCategoryNameById($cat_id)
-{
-    $catname = Category::where('id', '=', $cat_id)->get()->first();
-    return $catname->abbreviation;
-}
-
-function getCompetitionNameById($comp_id)
-{
-    $comp_name = \App\Models\Competition::where('id', '=', $comp_id)->get()->first();
-    return $comp_name->title;
-}
-
-function proposalcount($proposals)
-{
-    if (!empty($proposals)) {
-        return count($proposals);
-    }
-}
-
-function avgscore($collection_in_one_bin)
-{
-    $result = 0.0;
-    foreach ($collection_in_one_bin as $c) {
-        $result += $c['overall_score'];
-    }
-    if(count($collection_in_one_bin) != 0) {
-        return $result / count($collection_in_one_bin);
-    }
-    return 0.0;
-}
-
-function maxoverallscore($collection_in_one_bin)
-{
-    $result = [];
-    if (!empty($collection_in_one_bin)){
-        foreach ($collection_in_one_bin as $c) {
-            array_push($result, $c['overall_score']);
-        }
-    return max($result);
-    }
-    else{
-        return false;
-    }
-}
-
-function minoverallscore($collection_in_one_bin)
-{
-    $result = [];
-    if (!empty($collection_in_one_bin)){
-        foreach ($collection_in_one_bin as $c) {
-            array_push($result, $c['overall_score']);
-        }
-        return min($result);
-    }
-    else{
-        return false;
-    }
-}
-
-function calcage($date){
-   if ($date == null) return 40;
-
-   $year  = explode('-',$date);
-   return (date("Y") - $year[0]);
-}
-
-function participantavgage($collection_in_one_bin)
-{
-    $ages = 0.0;
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        $age = 0.0;
-        foreach ($personsinoneproposal as $p) {
-                $person = Person::where('id', '=', $p->person_id)->get()->first();
-                $age += calcage($person->birthdate);
-        }
-
-       $age /= count($personsinoneproposal);
-
-       $ages += $age;
-    }
-
-	return $ages / count($collection_in_one_bin);
-}
-
-function participantmaxage($collection_in_one_bin)
-{
-    $ages = [];
-
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        foreach ($personsinoneproposal as $p) {
-            $person = Person::where('id', '=', $p->person_id)->get()->first();
-              array_push($ages, calcage($person->birthdate));
-        }
-
-    }
-
-    return max($ages);
-}
-
-function participantminage($collection_in_one_bin)
-{
-    $ages = [];
-
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        foreach ($personsinoneproposal as $p) {
-            $person = Person::where('id', '=', $p->person_id)->get()->first();
-            array_push($ages, calcage($person->birthdate));
-        }
-
-    }
-
-    return min($ages);
-}
-
-function piavgage($collection_in_one_bin)
-{
-    $age = 0.0;
-    $picount  = 0;
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        foreach ($personsinoneproposal as $p) {
-            if($p->subtype == "PI") {
-                $person = Person::where('id', '=', $p->person_id)->get()->first();
-                $age += calcage($person->birthdate);
-            }
-        }
-        $picount++;
-    }
-    if($picount > 0) return  $age /= $picount;
-    else return 40.0;
-}
-
-function pimaxage($collection_in_one_bin)
-{
-    $age = [];
-
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        foreach ($personsinoneproposal as $p) {
-            if($p->subtype == "PI") {
-                $person = Person::where('id', '=', $p->person_id)->get()->first();
-                array_push($age, calcage($person->birthdate));
-            }
-        }
-
-    }
-    return  max($age);
-}
-
-function piminage($collection_in_one_bin)
-{
-    $age = [];
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])->get();
-        foreach ($personsinoneproposal as $p) {
-            if($p->subtype == "PI") {
-                $person = Person::where('id', '=', $p->person_id)->get()->first();
-                array_push($age, calcage($person->birthdate));
-
-            }
-        }
-    }
-    return  min($age);
-}
-
-function averageparticipantsex($collection_in_one_bin)
-{
-    $total = 0.0;
-    $female = 0.0;
-    $male = 0.0;
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])
-                            ->whereIn("subtype", ["PI", "collaborator"])
-                            ->get();
-        foreach ($personsinoneproposal as $p) {
-            $person = Person::where('id', '=', $p->person_id)->get()->first();
-            $total += 1;
-            if($person->sex == "female"){
-                $female += 1;
-            }
-            else {
-                $male += 1;
-            }
-        }
-    }
-    $avgsex = $total > 0.0 ? $female/$total : 0.0;
-    return $avgsex;
-}
-
-function averagepisex($collection_in_one_bin)
-{
-    $total = 0.0;
-    $female = 0.0;
-    $male = 0.0;
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])
-            ->whereIn("subtype", ["PI"])
-            ->get();
-        foreach ($personsinoneproposal as $p) {
-            $person = Person::where('id', '=', $p->person_id)->get()->first();
-            $total += 1;
-            if ($person->sex == "female") {
-                $female += 1;
-            } else {
-                $male += 1;
-            }
-        }
-    }
-    $avgsex = $total > 0.0 ? $female / $total : 0.0;
-    return $avgsex;
-}
-
-function pipublicationavg($collection_in_one_bin)
-{
-    $pub_count  = 0;
-    $pi_count = count($collection_in_one_bin);
-    if($pi_count == 0) return 0.0;
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])
-            ->whereIn("subtype", ["PI"])
-            ->get();
-
-        foreach ($personsinoneproposal as $p) {
-            $pub_count += Publication::where('person_id', '=', $p->person_id)->where('ansef_supported',"=",'1')->count();
-        }
-
-    }
-    return  $pub_count/$pi_count;
-}
-
-function publicationyearavg($collection_in_one_bin)
-{
-    $publicationyears = [];
-    foreach ($collection_in_one_bin as $c) {
-        $personsinoneproposal = ProposalPerson::where("proposal_id", "=", $c['id'])
-            ->whereIn("subtype", ["PI", "collaborator"])
-            ->get();
-
-        foreach ($personsinoneproposal as $p) {
-            array_push($publicationyears, Publication::select('year')->where('person_id', '=', $p->person_id)->get()->toArray());
-        }
-    }
-
-    $years = array_flatten($publicationyears);
-
-    return  count($years) > 0 ? array_sum($years)/count($years) : 0.0;
-}
-
-function totalamountsoffunds($collection_in_one_bin)
-{
-    $total = 0.0;
-
-    foreach ($collection_in_one_bin as $c) {
-        $total +=  BudgetItem::where("proposal_id", "=", $c['id'])->sum('amount');
-    }
-    return  $total;
-}
-
-function computeBudgetCategory($collection_in_one_bin, $cat) {
-    $amounts = [];
-    foreach ($collection_in_one_bin as $c) {
-        $bud_items = BudgetItem::where("proposal_id", "=", $c['id'])->get();
-
-        foreach ($bud_items as $b) {
-            $budcat = BudgetCategory::where('id', '=', $b->budget_cat_id)->first();
-            // \Debugbar::info($budcat->name);
-            if ($budcat->name == $cat) {
-                array_push($amounts, $b->amount);
-            }
-        }
-    }
-
-    return $amounts;
-}
-
-function avgSalaries($collection_in_one_bin)
-{
-    $amounts = computeBudgetCategory($collection_in_one_bin, "Salary of principal investigator");
-    // $amounts2 = computeBudgetCategory($collection_in_one_bin, "Collaborator salary");
-    // $amounts = array_flatten(array_push($amounts1, $amounts2));
-    return  count($amounts) > 0 ? array_sum($amounts) / count($amounts) : 0.0;;
-}
-
-function avgTravel($collection_in_one_bin)
-{
-
-    $amounts = computeBudgetCategory($collection_in_one_bin, "Travel");
-    return  count($amounts) > 0 ? array_sum($amounts) / count($amounts) : 0.0;;
-}
-
-function avgEquipment($collection_in_one_bin)
-{
-    $amounts = computeBudgetCategory($collection_in_one_bin, "Equipment");
-    return  count($amounts) > 0 ? array_sum($amounts) / count($amounts) : 0.0;;
+    return '<b>' . $label . ':</b> max ' . round($data[$key]->max()*10.0)/10.0 . "/" . round($data2[$key]->max()*10.0)/10.0 . ', min ' . round($data[$key]->min()*10.0)/10.0 . "/" . round($data2[$key]->min()*10.0)/10.0 . ", avg " . round($data[$key]->avg()*10.0)/10.0 . "/" . round($data2[$key]->avg()*10.0)/10.0 . "<br>";
 }

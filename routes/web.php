@@ -277,6 +277,7 @@ Route::group(['middleware' => ['check-role:viewer|admin|superadmin']], function 
     Route::resource('/viewer/statistics', 'Viewer\StatisticsController');
     Route::post('/viewer/statistics/chart', 'Viewer\StatisticsController@chart');
     Route::post('/viewer/statistics/y_result', 'Viewer\StatisticsController@y_result');
+    Route::post('/viewer/statistics/my_result', 'Viewer\StatisticsController@my_result');
 
     Route::get('/viewer/show/{id}', 'Viewer\PersonController@show');
     Route::post('/viewer/getProposalByCompByID', 'Viewer\ProposalController@getProposalByCompByID');
@@ -291,4 +292,5 @@ Route::get('file-upload/download/{uuid}', 'Applicant\FileUploadController@downlo
 
 //base ajax
 
-Route::post('/gclfs', 'Base\AjaxController@getCompetitionsListForStatistics');
+Route::post('/gclfs', 'Base\AjaxController@getCategoriesListForStatistics');
+Route::post('/gclfsm', 'Base\AjaxController@getCategoriesListForMultipleStatistics');

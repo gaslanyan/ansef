@@ -139,7 +139,7 @@ class CompetitionController extends Controller
                     ]);
 
                     BudgetCategory::create([
-                        'name' => 'PI Salary',
+                        'name' => 'Salary of principal investigator',
                         'min' => 0,
                         'max' => 5000,
                         'weight' => 1,
@@ -163,7 +163,7 @@ class CompetitionController extends Controller
                         'competition_id' => $c->id
                     ]);
                     BudgetCategory::create([
-                        'name' => 'Material or equipment',
+                        'name' => 'Equipment',
                         'min' => 0,
                         'max' => 5000,
                         'weight' => 1,

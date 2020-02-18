@@ -34,6 +34,7 @@ class StatisticsController extends Controller
             //->orderBy('id', 'ASC')
             ->get()->toArray();
 
+
         return view('viewer.statistics.statistic', compact('result'));
     }
 
@@ -62,29 +63,83 @@ class StatisticsController extends Controller
     }
 
     public function y_result(Request $request)
-    {
-        $content = [];
-        //dd($request->value_x);
-        if ($request->type == 'competition') {
-            foreach ($request->value_x as $vx) {
-                //  $np_count = Proposal::select('id', 'competition_id')->where('competition_id' , '=',$np->id)->count();//->get()->toArray();
-                $query = DB::table('proposals')
-                    ->select(array('competitions.title', DB::raw('COUNT(proposals.id) as pid')))
-                    ->where('proposals.competition_id', '=', $vx)
-                    ->join('competitions', 'competitions.id', '=', 'proposals.competition_id')
-                    ->groupBy('competitions.title')
-                    //  ->order_by('proposals.id', 'desc')
-                    ->get()->toArray();
-                array_push($content, $query);
-            }
-            //$content['numberofproposals'] = $np_count;
-           // dd($content);
+    {  $bins = [];
+        $stat_functions = [
+            "proposalcount" => 'proposalcount',
+            "avg_score" => "avgscore",
+            'max_overall_score' =>"maxoverallscore",
+            'min_overall_score'=>"minoverallscore",
+            'participant_avg_age'=>"participantavgage",
+            'participant_max_age' =>"participantmaxage",
+            "participant_min_age" =>"participantminage",
+            "pi_avg_age"=>"piavgage",
+            "pi_max_age" => "pimaxage",
+            "pi_min_age" =>"piminage",
+            "average_participant_sex"=>"averageparticipantsex",
+            "average_pi_sex"=>"averagepisex",
+            "pi_publication_avg" => "pipublicationavg",
+            "pi_publication_year_avg" => "publicationyearavg",
+            "total_amounts_of_funds"=>"totalamountsoffunds",
+            'avg_salaries' => "avgSalaries",
+            'avg_travel' => "avgTravel",
+            'avg_equipment'=>'avgEquipment'];
 
+        $array_categories= $request->value_x;
+        foreach($array_categories as $cat) {
+            $filtered_props = Proposal::where('categories', 'REGEXP', $cat)->where('competition_id','=',$request->type)->get()->toArray();
+
+            $bins[getCategoryNameById($cat)] = $stat_functions[$request->value_y]($filtered_props);
+        }
+        return response()->json($bins);
+        echo json_encode($bins);
+//      exit;
+    }
+
+    public function my_result(Request $request)
+    {
+        $bins = [];
+        $stat_functions = [
+            "proposalcount" => 'proposalcount',
+            "avg_score" => "avgscore",
+            'max_overall_score' => "maxoverallscore",
+            'min_overall_score' => "minoverallscore",
+            'participant_avg_age' => "participantavgage",
+            'participant_max_age' => "participantmaxage",
+            "participant_min_age" => "participantminage",
+            "pi_avg_age" => "piavgage",
+            "pi_max_age" => "pimaxage",
+            "pi_min_age" => "piminage",
+            "average_participant_sex" => "averageparticipantsex",
+            "average_pi_sex" => "averagepisex",
+            "pi_publication_avg" => "pipublicationavg",
+            "pi_publication_year_avg" => "publicationyearavg",
+            "total_amounts_of_funds" => "totalamountsoffunds",
+            'avg_salaries' => "avgSalaries",
+            'avg_travel' => "avgTravel",
+            'avg_equipment' => 'avgEquipment'
+        ];
+
+        $array_categories = $request->value_cat;
+        $array_competitions = $request->value_mx;
+
+        foreach ($array_competitions as $competition) {
+            foreach ($array_categories as $cat) {
+                $filtered_props = Proposal::whereIn('state', $request->statistic_prop_state)
+                                            ->where('categories', 'REGEXP', $cat)
+                                            ->where('competition_id', '=', $competition)
+                                            ->get()->toArray();
+
+                $bins[getCompetitionNameById($competition)][getCategoryNameById($cat)] = $stat_functions[$request->value_my]($filtered_props);
+            }
         }
 
-        return response()->json($content);
-       echo json_encode($result);
-//        exit;
+        // \Debugbar::info("Hello: " . response()->json($bins));
+
+        return response()->json($bins);
+        echo json_encode($bins);
+//      exit;
     }
+
+
 
 }

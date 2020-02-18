@@ -12,6 +12,7 @@ use App\Models\Proposal;
 use App\Models\ScoreType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AjaxController extends Controller
 {
@@ -24,21 +25,73 @@ class AjaxController extends Controller
         }
     }
 
-    public function getCompetitionsListForStatistics(Request $request)
+    public function getCategoriesListForStatistics(Request $request)
     {
         $value = $request->value;
+        if($value == 0) exit();
+
         $content = [];
-        if ($value == 'competition') {
-            $content['comp'] = Competition::all();
-            foreach ($content['comp'] as $np) {
-                $np_count = Proposal::select('id', 'competition_id')->where('competition_id', '=', $np->id)->count(); //->get()->toArray();
-                $content['numberofproposals'] = $np_count;
+        $content['comp'] = Competition::where('id','=',$value)->get();
+        foreach ($content['comp'] as $comp) {
+            $categories = json_decode($comp->categories);
+            $cats = [];
+
+            foreach ($categories as $index => $category) {
+                $cat = Category::with('children')->where('abbreviation', $category)->get()->first();
+                $cats[$cat->id]['parent'] = $cat['title'];
+                $cats[$cat->id]['parentabb'] = $cat['abbreviation'];
+                $sub = $cat['children'];
+                foreach ($sub as $s) {
+                    $cats[$cat->id]['sub'][$s->id]['abbreviation'] = $s->abbreviation;
+                    $cats[$cat->id]['sub'][$s->id]['title'] = $s->title;
+                    $cats[$cat->id]['sub'][$s->id]['id'] = $s->id;
+                }
             }
-        } else if ($value == 'pi') {
-            $content['pi'] = Person::all();
         }
 
-        echo json_encode($content);
+        // Log::debug('value is ' . print_r($cats, true));
+
+        echo json_encode($cats);
+        exit();
+    }
+
+    public function getCategoriesListForMultipleStatistics(Request $request)
+    {
+        $value = $request->value;
+        if (count($value) == 0) exit();
+
+        $content = [];
+        $content['comp'] = Competition::whereIn('id', $value)->get();
+        $full_cat = [];
+        foreach ($content['comp'] as $comp) {
+            $categories = json_decode($comp->categories);
+            $cats = [];
+
+            foreach ($categories as $index => $category) {
+                $cat = Category::with('children')->where('abbreviation', $category)->get()->first();
+                $cats[$cat->id]['parent'] = $cat['title'];
+                $cats[$cat->id]['parentabb'] = $cat['abbreviation'];
+                // Log::debug('Cat:' . $cat['abbreviation']);
+            }
+
+            array_push($full_cat, $cats);
+        }
+        $result = array();
+
+        foreach ($full_cat as $key => $value) {
+            if (!is_array($value)) {
+                if (!in_array($value, $result))
+                    $result[$key] = $value;
+            }
+            else {
+                foreach ($value as $k => $v) {
+                    if (!in_array($v, $result))
+                       $result[$k] = $v;
+                }
+            }
+        }
+
+        echo json_encode($result);
         exit();
     }
 }
