@@ -238,6 +238,13 @@ $user_id = getUserID();
                         @endif
                 </ul>
             </li>
+            <li class="text-uppercase">
+                <a href="{{action('Viewer\StatisticsController@index')}}">
+                    <i class="fa fa-chart-bar"></i>
+                    <span>Statistics</span>
+                    </span>
+                </a>
+            </li>
         </ul>
         <div class="line"></div>
         @if(get_role_cookie() === "superadmin")

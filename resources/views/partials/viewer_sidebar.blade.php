@@ -63,8 +63,6 @@
                 <a href="{{action('Viewer\StatisticsController@index')}}">
                     <i class="fa fa-chart-bar"></i>
                     <span>Statistics</span>
-                    <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
             </li>

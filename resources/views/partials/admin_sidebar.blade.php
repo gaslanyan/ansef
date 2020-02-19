@@ -227,6 +227,13 @@ $user_id = getUserID();
                     <li><a href="{{action('Admin\TemplateController@create')}}"><i class="fa fa-circle-o"></i>Add
                             a message</a></li>
                         @endif
+            <li class="text-uppercase">
+                <a href="{{action('Viewer\StatisticsController@index')}}">
+                    <i class="fa fa-chart-bar"></i>
+                    <span>Statistics</span>
+                    </span>
+                </a>
+            </li>
                 </ul>
             </li>
             @endif
